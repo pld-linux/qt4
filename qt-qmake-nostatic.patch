@@ -1,3 +1,13 @@
+--- qt-copy/extensions/nsplugin/src/qnp.pro~	2003-03-03 17:44:27.000000000 +0100
++++ qt-copy/extensions/nsplugin/src/qnp.pro	2003-04-17 17:47:16.000000000 +0200
+@@ -1,6 +1,5 @@
+ TEMPLATE    	= lib
+-CONFIG -= dll 
+-CONFIG      	+= qt x11 release staticlib
++CONFIG      	+= qt x11 release
+ SOURCES		= qnp.cpp
+ unix:HEADERS += qnp.h
+ win32:HEADERS	= ../../../include/qnp.h
 --- qt-x11-free-3.1.1/tools/assistant/lib/lib.pro~	Thu Sep  5 13:56:11 2002
 +++ qt-x11-free-3.1.1/tools/assistant/lib/lib.pro	Wed Mar  5 14:28:50 2003
 @@ -5,9 +5,6 @@
@@ -10,8 +20,8 @@
  DEFINES		+= QT_INTERNAL_NETWORK
  include( ../../../src/qt_professional.pri )
  
---- qt-x11-free-3.1.2/tools/designer/designer/designer.pro~	Tue Jan 14 18:45:38 2003
-+++ qt-x11-free-3.1.2/tools/designer/designer/designer.pro	Thu Mar  6 22:09:13 2003
+--- qt-copy/tools/designer/designer/designer.pro~	2003-05-17 01:05:40.000000000 +0200
++++ qt-copy/tools/designer/designer/designer.pro	2003-05-17 01:12:28.000000000 +0200
 @@ -1,6 +1,5 @@
  TEMPLATE	= lib
 -CONFIG		+= qt warn_on staticlib qmake_cache
@@ -20,10 +30,10 @@
  !force_static:!win32:contains(QT_PRODUCT,qt-internal) {
     CONFIG          -= staticlib
     CONFIG          += dll 
-@@ -416,7 +415,7 @@
- 
- INCLUDEPATH	+= ../shared ../uilib
- win32:LIBS	+= $$QT_BUILD_TREE/lib/qui.lib $$QT_BUILD_TREE/lib/qassistantclient.lib
+@@ -426,7 +425,7 @@
+ 		LIBS	+= $$QT_BUILD_TREE/lib/libqui.a $$QT_BUILD_TREE/lib/libqassistantclient.a
+       } else :LIBS	+= $$QT_BUILD_TREE/lib/qui.lib $$QT_BUILD_TREE/lib/qassistantclient.lib 
+ }
 -unix:LIBS		+= -L$$QT_BUILD_TREE/lib -lqui $$QT_BUILD_TREE/lib/libqassistantclient.a
 +unix:LIBS		+= -L$$QT_BUILD_TREE/lib -lqui $$QT_BUILD_TREE/lib/libqassistantclient.so.1.0.0
  
