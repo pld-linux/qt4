@@ -46,7 +46,7 @@ License:	GPL/QPL
 Group:		X11/Libraries
 #Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-%{_snap}.tar.bz2
 Source0:	ftp://ftp.trolltech.com/qt/source/%{_name}-x11-preview-%{version}-tp1.tar.bz2
-# Source0-md5:	903cad618274ad84d7d13fd0027a6c3c
+# Xource0-md5:	903cad618274ad84d7d13fd0027a6c3c
 #Source1:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-patches-040531.tar.bz2
 #Source1-md5	2e38e44b6ef26bfb8a7f3b6900ee53c0
 Source2:	%{_name}config.desktop
@@ -63,6 +63,7 @@ Patch4:		%{name}-locale.patch
 Patch6:		%{name}-licence_check.patch
 Patch7:		%{name}-xcursor_version.patch
 Patch8:		%{name}-antialias.patch
+Patch9:		%{name}-hotfixes.patch
 URL:		http://www.trolltech.com/products/qt/
 Icon:		qt.xpm
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -458,6 +459,7 @@ graficznego - Qt Designer.
 %patch6 -p1 -b .niedakh
 %patch7 -p1 -b .niedakh
 %patch8 -p1 -b .niedakh
+%patch9 -p1
 
 #cat >> patches/DISABLED <<EOF
 #0005
