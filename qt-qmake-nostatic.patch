@@ -10,8 +10,8 @@
  DEFINES		+= QT_INTERNAL_NETWORK
  include( ../../../src/qt_professional.pri )
  
---- qt-x11-free-3.1.2/tools/designer/designer/designer.pro~	Tue Jan 14 18:45:38 2003
-+++ qt-x11-free-3.1.2/tools/designer/designer/designer.pro	Thu Mar  6 22:09:13 2003
+--- qt-copy/tools/designer/designer/designer.pro~	2003-06-23 18:59:53.000000000 +0200
++++ qt-copy/tools/designer/designer/designer.pro	2003-06-23 20:04:18.000000000 +0200
 @@ -1,6 +1,5 @@
  TEMPLATE	= lib
 -CONFIG		+= qt warn_on staticlib qmake_cache
@@ -20,15 +20,6 @@
  !force_static:!win32:contains(QT_PRODUCT,qt-internal) {
     CONFIG          -= staticlib
     CONFIG          += dll 
-@@ -416,7 +415,7 @@
- 
- INCLUDEPATH	+= ../shared ../uilib
- win32:LIBS	+= $$QT_BUILD_TREE/lib/qui.lib $$QT_BUILD_TREE/lib/qassistantclient.lib
--unix:LIBS		+= -L$$QT_BUILD_TREE/lib -lqui $$QT_BUILD_TREE/lib/libqassistantclient.a
-+unix:LIBS		+= -L$$QT_BUILD_TREE/lib -lqui $$QT_BUILD_TREE/lib/libqassistantclient.so.1.0.0
- 
- TRANSLATIONS	= designer_de.ts designer_fr.ts
- 
 --- qt-x11-free-3.1.1/tools/designer/editor/editor.pro~	Tue Nov 19 22:07:43 2002
 +++ qt-x11-free-3.1.1/tools/designer/editor/editor.pro	Wed Mar  5 14:23:47 2003
 @@ -1,6 +1,5 @@
@@ -39,14 +30,3 @@
  HEADERS		= editor.h  \
  		  parenmatcher.h  \
  		  completion.h \
---- qt-x11-free-3.1.2/tools/designer/plugins/cppeditor/cppeditor.pro~	Tue Jan 14 18:56:20 2003
-+++ qt-x11-free-3.1.2/tools/designer/plugins/cppeditor/cppeditor.pro	Fri Mar  7 07:58:38 2003
-@@ -13,7 +13,7 @@
- win32{
-     LIBS	+= $$QT_BUILD_TREE/lib/editor.lib
- } else {
--    LIBS	+= -L$$QT_BUILD_TREE/lib $$QT_BUILD_TREE/lib/libeditor.a
-+    LIBS	+= -L$$QT_BUILD_TREE/lib $$QT_BUILD_TREE/lib/libeditor.so.1.0.0
- }
- 
- target.path += $$plugins.path/designer
