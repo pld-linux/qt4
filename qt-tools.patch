@@ -1,13 +1,15 @@
---- qt-x11-free-3.0.0/tools/tools.pro.orig	Tue Aug 21 06:13:46 2001
-+++ qt-x11-free-3.0.0/tools/tools.pro	Thu Nov  1 18:32:26 2001
-@@ -5,6 +5,9 @@
- unix:SUBDIRS	= designer \
+--- qt-copy/tools/tools.pro.orig	Fri Sep  6 14:32:14 2002
++++ qt-copy/tools/tools.pro	Sat Sep 28 18:16:02 2002
+@@ -3,7 +3,11 @@
+ 		  designer \
  		  assistant \
- 		  linguist \
--		  qtconfig
-+		  qtconfig \
-+		  makeqpf \
-+		  mergetr \
-+		  msg2qm
+ 		  linguist
+-unix:SUBDIRS	+= qtconfig
++unix:SUBDIRS	+= qtconfig \
++                  makeqpf \
++                  mergetr \
++                  msg2qm
++
+ 
  CONFIG+=ordered
  REQUIRES=full-config nocrosscompiler
