@@ -1,46 +1,3 @@
-diff -ur qt-x11-free-3.0.5.orig/doc/html/designer-manual-8.html qt-x11-free-3.0.5/doc/html/designer-manual-8.html
---- qt-x11-free-3.0.5.orig/doc/html/designer-manual-8.html	Mon Jul  8 13:11:48 2002
-+++ qt-x11-free-3.0.5/doc/html/designer-manual-8.html	Wed Jul 31 10:48:59 2002
-@@ -87,7 +87,7 @@
- <ol type=1><li><p>Click <b>File|New</b> to invoke the <em>New File</em> dialog. Click the Dialog template then click <b>OK</b>.</p>
- <li><p>Click the <b>Text Label</b> toolbar button, then click near the top left of the form. Change the font Point Size property to 16 and change the <em>text</em> property to your or your company's name. Click the <b>Line</b> toolbar button, then click the form below the label; click Horizontal on the pop-up menu.</p>
- <li><p>Select the label and the line. (<b>Ctrl+Click</b> the form, then drag the rubber band so that it touches or includes the line and the label.) Press <b>Ctrl+L</b> to lay them out vertically.</p>
--<li><p>Click the <b>Save</b> toolbar button. In the <em>Save As</em> dialog, navigate to <em>Qt Designer</em>'s templates directory, e.g. (<tt>qt/tools/designer/templates</tt>. Type in the name 'Simple_Dialog.ui' and click <b>Save</b>.</p>
-+<li><p>Click the <b>Save</b> toolbar button. In the <em>Save As</em> dialog, navigate to <em>Qt Designer</em>'s templates directory, e.g. (<tt>/usr/X11R6/share/qt/designer/templates</tt>. Type in the name 'Simple_Dialog.ui' and click <b>Save</b>.</p>
- <li><p>Right click the form in the Forms list, then click Remove form from project.</p>
- </ol><p>Now that we have the simple template we are ready to use it. Click <b>File|New</b> to invoke the <em>New File</em> dialog. One of the templates that will appear is 'Simple Dialog'. Click the simple dialog, then click <b>OK</b>. A new form will appear with the same widgets and layout as the template. Add any other widgets and functionality. When you attempt to save the form you will be prompted for a new form name.</p>
- <h4><a name="2-2"></a>Base-class Templates</h4>
-diff -ur qt-x11-free-3.0.5.orig/src/kernel/qapplication.cpp qt-x11-free-3.0.5/src/kernel/qapplication.cpp
---- qt-x11-free-3.0.5.orig/src/kernel/qapplication.cpp	Mon Jul  8 12:27:12 2002
-+++ qt-x11-free-3.0.5/src/kernel/qapplication.cpp	Wed Jul 31 09:56:57 2002
-@@ -1406,15 +1406,8 @@
-     if ( !app_libpaths ) {
- 	app_libpaths = new QStringList;
- 
--	char *qtdir = getenv("QTDIR");
--	if ( qtdir && QFile::exists( QString(qtdir) + "/plugins" ) )
--	    app_libpaths->append( QString(qtdir) + "/plugins" );
- #if defined(QT_INSTALL_PLUGINS)
--	else if ( QFile::exists( QString(QT_INSTALL_PLUGINS) ) )
--	    app_libpaths->append( QString(QT_INSTALL_PLUGINS) );
--#elif defined(QT_INSTALL_PREFIX)
--	else if ( QFile::exists( QString(QT_INSTALL_PREFIX) + "/plugins" ) )
--	    app_libpaths->append( QString(QT_INSTALL_PREFIX) + "/plugins" );
-+	app_libpaths->append( QString(QT_INSTALL_PLUGINS) );
- #endif
-     }
-     return *app_libpaths;
-diff -ur qt-x11-free-3.0.5.orig/tools/designer/designer/designer.pro qt-x11-free-3.0.5/tools/designer/designer/designer.pro
---- qt-x11-free-3.0.5.orig/tools/designer/designer/designer.pro	Thu Apr 18 13:35:11 2002
-+++ qt-x11-free-3.0.5/tools/designer/designer/designer.pro	Wed Jul 31 10:49:39 2002
-@@ -50,6 +50,6 @@
- INSTALLS        += target
- 
- isEmpty(data.path):data.path=$$QT_PREFIX
--templates.path=$$data.path/templates
-+templates.path=$$data.path/designer/templates
- templates.files = ../templates/*
- INSTALLS += templates
 diff -ur qt-x11-free-3.0.5.orig/tools/designer/designer/newformimpl.cpp qt-x11-free-3.0.5/tools/designer/designer/newformimpl.cpp
 --- qt-x11-free-3.0.5.orig/tools/designer/designer/newformimpl.cpp	Wed Jun 19 17:25:56 2002
 +++ qt-x11-free-3.0.5/tools/designer/designer/newformimpl.cpp	Wed Jul 31 10:53:51 2002
@@ -53,15 +10,24 @@ diff -ur qt-x11-free-3.0.5.orig/tools/designer/designer/newformimpl.cpp qt-x11-f
  	    if ( QFile::exists( path )) {
  		templPath = path;
  		break;
-diff -ur qt-x11-free-3.0.5.orig/tools/qtconfig/mainwindow.cpp qt-x11-free-3.0.5/tools/qtconfig/mainwindow.cpp
---- qt-x11-free-3.0.5.orig/tools/qtconfig/mainwindow.cpp	Sat May 25 14:35:13 2002
-+++ qt-x11-free-3.0.5/tools/qtconfig/mainwindow.cpp	Wed Jul 31 10:54:33 2002
-@@ -636,7 +636,7 @@
- 	QStringList libpath = QApplication::libraryPaths();
- 	QString QTDIRpath = getenv("QTDIR");
- 	if ( ! QTDIRpath.isEmpty() ) {
--	    QTDIRpath += "/plugins";
-+	    QTDIRpath += "/lib/qt/plugins";
- 	    libpath.remove(QTDIRpath);
- 	}
- 	settings.writeEntry("/qt/libraryPath", libpath, ':');
+--- qt-copy/doc/html/designer-manual-9.html.orig	Fri Sep  6 14:29:34 2002
++++ qt-copy/doc/html/designer-manual-9.html	Sat Sep 28 16:53:26 2002
+@@ -87,7 +87,7 @@
+ <ol type=1><li><p>Click <b>File|New</b> to invoke the <em>New File</em> dialog. Click the Dialog template then click <b>OK</b>.</p>
+ <li><p>Click the <b>Text Label</b> toolbar button, then click near the top left of the form. Change the font Point Size property to 16 and change the <em>text</em> property to your or your company's name. Click the <b>Line</b> toolbar button, then click the form below the label; click Horizontal on the pop-up menu.</p>
+ <li><p>Select the label and the line. (<b>Ctrl+Click</b> the form, then drag the rubber band so that it touches or includes the line and the label.) Press <b>Ctrl+L</b> to lay them out vertically.</p>
+-<li><p>Click the <b>Save</b> toolbar button. In the <em>Save As</em> dialog, navigate to <em>Qt Designer</em>'s templates directory, e.g. (<tt>qt/tools/designer/templates</tt>. Type in the name 'Simple_Dialog.ui' and click <b>Save</b>.</p>
++<li><p>Click the <b>Save</b> toolbar button. In the <em>Save As</em> dialog, navigate to <em>Qt Designer</em>'s templates directory, e.g. (/usr/X11R6/share/qt/designer/templates)</tt>. Type in the name 'Simple_Dialog.ui' and click <b>Save</b>.</p>
+ <li><p>Right click the form in the Forms list, then click Remove form from project.</p>
+ </ol><p>Now that we have the simple template we are ready to use it. Click <b>File|New</b> to invoke the <em>New File</em> dialog. One of the templates that will appear is 'Simple Dialog'. Click the simple dialog, then click <b>OK</b>. A new form will appear with the same widgets and layout as the template. Add any other widgets and functionality. When you attempt to save the form you will be prompted for a new form name.</p>
+ <h4><a name="2-2"></a>Base-class Templates</h4>
+--- qt-copy/tools/designer/designer/designer.pro.orig	Fri Sep  6 14:32:18 2002
++++ qt-copy/tools/designer/designer/designer.pro	Sat Sep 28 16:32:59 2002
+@@ -59,6 +59,6 @@
+ INSTALLS += target
+ 
+ 
+-templates.path=$$data.path/templates
++templates.path=$$data.path/designer/templates
+ templates.files = ../templates/*
+ INSTALLS += templates
