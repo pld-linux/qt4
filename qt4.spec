@@ -215,8 +215,8 @@ Ten pakiet zawiera statyczn±, wielow±tkow±, linuksow± wersjê
 biblioteki Qt.
 
 %package doc
-Summary:	QT Documentation in HTML format
-Summary(pl):	Dokumentacja QT w formacie HTML
+Summary:	Qt Documentation in HTML format
+Summary(pl):	Dokumentacja Qt w formacie HTML
 Group:		X11/Development/Libraries
 Obsoletes:	qt-doc-html
 
@@ -227,8 +227,8 @@ Qt documentation in HTML format.
 Dokumentacja qt w formacie HTML.
 
 %package man
-Summary:	QT man pages
-Summary(pl):	QT - strony man
+Summary:	Qt man pages
+Summary(pl):	Qt - strony man
 Group:		X11/Development/Libraries
 Obsoletes:	qt-doc-man
 
@@ -409,33 +409,33 @@ Rozbudowany generator plików makefile. Potrafi tworzyæ pliki makefile
 na ka¿dej platformi na podstawie ³atwego w przygotowaniu pliku .pro.
 
 %package -n qtconfig
-Summary:	QT widgets configuration tool
-Summary(pl):	Narzêdzie do konfigurowania widgetów QT
+Summary:	Qt widgets configuration tool
+Summary(pl):	Narzêdzie do konfigurowania widgetów Qt
 Group:		X11/Applications
 Requires:	%{_name} = %{epoch}:%{version}-%{release}
 
 %description -n qtconfig
-A tool for configuring look and behavior of QT widgets.
+A tool for configuring look and behavior of Qt widgets.
 
 %description -n qtconfig -l pl
-Narzêdie do konfiguracji wygl±du i zachowania widgetów QT.
+Narzêdie do konfiguracji wygl±du i zachowania widgetów Qt.
 
 %package designer
-Summary:	IDE used for GUI designing with QT library
-Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki QT
+Summary:	IDE used for GUI designing with Qt library
+Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt
 Group:		X11/Applications
 Requires:	%{_name}-designer-libs = %{epoch}:%{version}-%{release}
 
 %description designer
-An advanced tool used for GUI designing with QT library.
+An advanced tool used for GUI designing with Qt library.
 
 %description designer -l pl
 Zaawansowane narzêdzie s³u¿±ce do projektowania interfejsu graficznego
-za pomoc± biblioteki QT.
+za pomoc± biblioteki Qt.
 
 %package designer-libs
-Summary:	Libraries IDE used for GUI designing with QT library
-Summary(pl):	Biblioteki do IDE s³u¿±cego do projektowania GUI za pomoc± biblioteki QT
+Summary:	Libraries IDE used for GUI designing with Qt library
+Summary(pl):	Biblioteki do IDE s³u¿±cego do projektowania GUI za pomoc± biblioteki Qt
 Group:		X11/Applications
 Requires:	%{_name} >= %{epoch}:%{version}-%{release}
 
