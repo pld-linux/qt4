@@ -1,25 +1,25 @@
---- qt-x11-free-3.1.1/tools/assistant/lib/lib.pro~	Thu Sep  5 13:56:11 2002
-+++ qt-x11-free-3.1.1/tools/assistant/lib/lib.pro	Wed Mar  5 14:28:50 2003
-@@ -5,9 +5,6 @@
+--- qt-copy-031221/tools/assistant/lib/lib.pro.orig	2003-12-21 03:05:30.000000000 +0100
++++ qt-copy-031221/tools/assistant/lib/lib.pro	2003-12-21 16:50:32.316918272 +0100
+@@ -3,8 +3,6 @@
+ VERSION		= 1.0
+ 
+ CONFIG		+= qt warn_on release
+-CONFIG		+= staticlib
+-CONFIG		-= dll
+ 
  SOURCES		= qassistantclient.cpp
  HEADERS         += $$QT_SOURCE_TREE/include/qassistantclient.h
- 
--CONFIG += staticlib
--CONFIG	-= dll
--
- DEFINES		+= QT_INTERNAL_NETWORK
- include( ../../../src/qt_professional.pri )
- 
---- qt-copy/tools/designer/designer/designer.pro~	2003-06-23 18:59:53.000000000 +0200
-+++ qt-copy/tools/designer/designer/designer.pro	2003-06-23 20:04:18.000000000 +0200
-@@ -1,6 +1,5 @@
+--- qt-copy-031221/tools/designer/designer/designer.pro.orig	2003-12-21 16:46:15.891900800 +0100
++++ qt-copy-031221/tools/designer/designer/designer.pro	2003-12-21 16:53:12.836515584 +0100
+@@ -1,7 +1,6 @@
  TEMPLATE	= lib
+ 
 -CONFIG		+= qt warn_on staticlib qmake_cache
 -CONFIG 		-= dll
 +CONFIG		+= qt warn_on qmake_cache
  !force_static:!win32:contains(QT_PRODUCT,qt-internal) {
     CONFIG          -= staticlib
-    CONFIG          += dll 
+    CONFIG          += dll
 --- qt-x11-free-3.1.1/tools/designer/editor/editor.pro~	Tue Nov 19 22:07:43 2002
 +++ qt-x11-free-3.1.1/tools/designer/editor/editor.pro	Wed Mar  5 14:23:47 2003
 @@ -1,6 +1,5 @@
