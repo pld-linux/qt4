@@ -320,7 +320,7 @@ Plugin de suporte a ODBC para Qt.
 %package plugin-psql
 Summary:	Database plugin for PostgreSQL Qt support
 Summary(pl):	Wtyczka PostgreSQL do Qt
-Summary(pt_BR):	Plugin de suporte a pgsql para Qt
+Summary(pt_BR):	Plugin de suporte a PostgreSQL para Qt
 Group:		X11/Libraries
 Requires:	%{_name} = %{epoch}:%{version}-%{release}
 Provides:	%{_name}-plugin-sql = %{epoch}:%{version}-%{release}
@@ -336,7 +336,7 @@ Ten pakiet zawiera wielow±tkow± wersjê wtyczki do Qt umo¿liwiaj±cej
 korzystanie z baz danych PostgreSQL poprzez klasy QSql.
 
 %description plugin-psql -l es
-Plugin de suporte a pgsql para Qt.
+Plugin de suporte a PostgreSQL para Qt.
 
 %package plugin-sqlite
 Summary:	Database plugin for SQLite Qt support
