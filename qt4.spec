@@ -23,7 +23,7 @@
 
 %undefine	with_dont_enable
 
-%ifnarch %{ix86} sparc sparcv9 ppc
+%ifnarch %{ix86} amd64 sparc sparcv9 alpha ppc
 %undefine	with_ibase
 %endif
 %define		_withsql	1
