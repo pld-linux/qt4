@@ -1,0 +1,35 @@
+--- qt-x11-free-3.1.2/src/codecs/qtextcodec.cpp.orig	2003-07-11 21:04:02.000000000 +0200
++++ qt-x11-free-3.1.2/src/codecs/qtextcodec.cpp	2003-07-11 21:07:31.000000000 +0200
+@@ -1546,7 +1546,15 @@
+ const char* QTextCodec::locale()
+ {
+     static QCString lang;
+-    lang = getenv( "LANG" );
++    lang = getenv( "LC_ALL" ); 
++    if ( lang.isEmpty() ) 
++	{
++		lang = getenv( "LC_MESSAGES" ); 
++	} 
++   if ( lang.isEmpty() ) 
++	{ 
++		lang = getenv( "LANG" ); 
++	} 
+ 
+ #if !defined( QWS ) && defined( Q_OS_MAC )
+     if ( !lang.isEmpty() )
+@@ -2667,11 +2675,13 @@
+ 	// Get the first nonempty value from $LC_ALL, $LC_CTYPE, and $LANG
+ 	// environment variables.
+ 	char * lang = qstrdup( getenv("LC_ALL") );
+-	if ( !lang || lang[0] == 0 || strcmp( lang, "C" ) == 0 ) {
++	if ( !lang || lang[0] == 0 ) 
++	{
+ 	    if ( lang ) delete [] lang;
+ 	    lang = qstrdup( getenv("LC_CTYPE") );
+ 	}
+-	if ( !lang || lang[0] == 0 || strcmp( lang, "C" ) == 0 ) {
++	if ( !lang || lang[0] == 0 ) 
++	{
+ 	    if ( lang ) delete [] lang;
+ 	    lang = qstrdup( getenv("LANG") );
+ 	}
