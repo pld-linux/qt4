@@ -65,3 +65,13 @@ diff -urN qt-x11-free-3.0.2-snapshot-20020222.orig/tools/qtconfig/mainwindow.cpp
  	    libpath.remove(QTDIRpath);
  	}
  	settings.writeEntry("/qt/libraryPath", libpath, ':');
+--- qt-x11-free-3.0.2-snapshot-20020222.orig/tools/designer/designer/designer.pro	Thu Feb 21 02:11:16 2002
++++ qt-x11-free-3.0.2-snapshot-20020222/tools/designer/designer/designer.pro	Thu Feb 28 18:55:18 2002
+@@ -50,6 +50,6 @@
+ INSTALLS        += target
+ 
+ isEmpty(data.path):data.path=$$QT_PREFIX
+-templates.path=$$data.path/templates
++templates.path=$$data.path/designer/templates
+ templates.files = ../templates/*
+ INSTALLS += templates
