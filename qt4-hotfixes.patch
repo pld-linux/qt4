@@ -1,0 +1,11 @@
+--- qt-x11-preview-4.0.0-tp1/src/gui/kernel/qsound_x11.cpp.orig	2004-07-08 11:14:45.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/kernel/qsound_x11.cpp	2004-07-19 01:47:56.140611656 +0200
+@@ -97,7 +97,7 @@
+ };
+ 
+ QAuServerNAS::QAuServerNAS(QObject* parent) :
+-    QAuServer(parent,"Network Audio System")
++    QAuServer(parent)
+ {
+     nas = AuOpenServer(NULL, 0, NULL, 0, NULL, NULL);
+     if (nas) {
