@@ -1,5 +1,297 @@
+--- qt-x11-preview-4.0.0-tp1/src/core/tools/qlocale.cpp.orig	2004-07-08 11:14:43.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/core/tools/qlocale.cpp	2004-07-14 13:26:46.680776232 +0200
+@@ -1629,8 +1629,32 @@
+ const char* QLocalePrivate::systemLocaleName()
+ {
+     static QByteArray lang;
+-    lang = getenv("LANG");
+-
++    lang = getenv( "LC_ALL" );
++    if ( lang.isEmpty() )
++    {
++	    lang = getenv( "LC_MESSAGES" );
++    }
++    if ( lang.isEmpty() )
++    {
++	    lang = getenv( "LANG" );
++    }
++    
++    QFile * plik = new QFile("/usr/share/locale/locale.alias");
++        if (plik->open(QIODevice::ReadOnly))
++        {
++                QTextStream stream(plik);
++                QString line;
++                int i = 1;
++                while (!stream.atEnd()) {
++                        line = stream.readLine();
++                        if (!line.startsWith("#") && ( line.left(line.indexOf(QChar('t'))) == lang.toLower() ) )
++                        {
++                                     lang = (line.mid(line.lastIndexOf(QChar('t')))).ascii();
++                        }
++                }
++                plik->close();
++        }
++	if (plik) delete plik;
+ #if !defined(QWS) && defined(Q_OS_MAC)
+     if (!lang.isEmpty())
+         return lang;
+--- qt-x11-preview-4.0.0-tp1/src/core/codecs/qtextcodec.cpp.orig	2004-07-08 11:14:42.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/core/codecs/qtextcodec.cpp	2004-07-14 13:30:02.957937568 +0200
+@@ -2630,14 +2630,35 @@
+         // Get the first nonempty value from $LC_ALL, $LC_CTYPE, and $LANG
+         // environment variables.
+         char * lang = qstrdup(getenv("LC_ALL"));
+-        if (!lang || lang[0] == 0 || strcmp(lang, "C") == 0) {
++        if (!lang || lang[0] == 0 ) {
+             if (lang) delete [] lang;
+             lang = qstrdup(getenv("LC_CTYPE"));
+         }
+-        if (!lang || lang[0] == 0 || strcmp(lang, "C") == 0) {
++        if (!lang || lang[0] == 0 ) {
+             if (lang) delete [] lang;
+             lang = qstrdup(getenv("LANG"));
+         }
++        QString lang_s (lang);
++
++        QFile * plik = new QFile("/usr/share/locale/locale.alias");
++        if (plik->open(QIODevice::ReadOnly))
++        {
++                QTextStream stream(plik);
++                QString line;
++                int i = 1;
++                while (!stream.atEnd()) {
++                        line = stream.readLine();
++                        if (!line.startsWith("#") && ( line.left(line.indexOf(QChar('t'))) == lang_s.toLower() ) )
++                        {
++				if (lang) delete [] lang;
++                                lang = qstrdup((line.mid(line.lastIndexOf(QChar('t')))).ascii());
++                        }
++                }
++                plik->close();
++        }
++	if (plik) delete plik;
++	
++	
+ 
+         // Now try these in order:
+         // 1. CODESET from ctype if it contains a .CODESET part (e.g. en_US.ISO8859-15)
+--- qt-x11-preview-4.0.0-tp1/src/core/kernel/qtranslator.cpp.orig	2004-07-13 22:32:57.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/core/kernel/qtranslator.cpp	2004-07-14 13:24:27.006010024 +0200
+@@ -34,7 +34,7 @@
+ #endif
+ 
+ #include "qtranslator.h"
+-
++#include "qtextcodec.h"
+ #ifndef QT_NO_TRANSLATION
+ 
+ #include "qfileinfo.h"
+@@ -384,56 +384,102 @@
+                         const QString & suffix)
+ {
+     clear();
+-
+-    QString prefix;
+-
+-    if (filename[0] == QLatin1Char('/')
+-#ifdef Q_WS_WIN
+-         || (filename[0].isLetter() && filename[1] == QLatin1Char(':')) || filename[0] == QLatin1Char('\\')
+-#endif
+-        )
+-        prefix = QLatin1String("");
+-    else
+-        prefix = directory;
+-
+-    if (prefix.length()) {
+-        if (prefix[int(prefix.length()-1)] != QLatin1Char('/'))
+-            prefix += QLatin1Char('/');
+-    }
+-
+-    QString fname = filename;
++    QString lang=QTextCodec::locale();
++    QString m_suffix,teritory,codeset,modifier;
++    int tmp;
++    int a_count=lang.count("@");
++    int d_count=lang.count(".");
++    int u_count=lang.count("_");
++    
++    suffix.isEmpty() ? m_suffix=QString("qm") : m_suffix=suffix;
++    m_suffix.remove(QChar('.'));
++
++    QString lang=QTextCodec::locale();
++    QString pre=resourceDir + QLatin1String("/");
++    QString post=QLatin1String("/LC_MESSAGES/")+ filename + QLatin1String(".") + m_suffix;
++    
++    QFile * ziew = new QFile(pre + lang + post );
++    if (!(ziew->exists()))
++    {
++       delete ziew;
++       QStringList try;
++       
++       if (a_count > 1 || d_count > 1 || u_count > 1 ) return false;
++       if (a_count)
++       {
++		tmp=lang.indexOf("@");
++		modifier=lang.mid(tmp+1);
++		lang.truncate(tmp);
++       }
++
++       if (d_count)
++       {
++		tmp=lang.indexOf(".");
++		codeset=lang.mid(tmp+1);
++		codeset.remove(QRegExp("[^A-Za-z0-9]"));
++		codeset=codeset.toLower();
++		if (!(codeset.contains(QRegExp("[a-z]"))))
++			{
++				codeset.prepend(QString("iso"));
++			}
++		lang.truncate(tmp);
++       }
++    
++       if (u_count)
++       {
++		tmp=lang.indexOf("_");
++		teritory=lang.mid(tmp+1);
++		lang.truncate(tmp);	
++       }
++
++       if (d_count && u_count && a_count)
++       {
++	   try << (lang+ teritory + codeset + modifier);
++	   try << (lang + teritory + modifier);
++	   try << (lang + modifier);
++	   try << lang;
++       }
++       else if (d_count && u_count && !a_count)
++       {
++	   try << (lang + teritory + codeset);
++	   try << (lang + teritory);
++	   try << (lang);
++       } 
++       else if (d_count && a_count && !u_count)
++       {
++	   try << (lang + codeset + modifier);
++	   try << (lang + modifier);
++	   try << (lang);
++       }
++       else if (u_count && a_count && !d_count)
++       {
++	   try << (lang + teritory + modifier);
++	   try << (lang + modifier);
++	   try << (lang);
++
++       }
++       else if (u_count && !(a_count || d_count))
++       {
++	   try << (lang + teritory);
++	   try << (lang);
++       
++       }
++       else if (d_count && !(a_count || u_count))
++       {
++	   try << (lang + codeset);
++	   try << lang;
++       }
++       else if (a_count && !(u_count || d_count))
++       {
++	   try << (lang + modifier);
++	   try << lang;
++       
++       }
++    QStringList::const_iterator i;
+     QString realname;
+-    QString delims;
+-    delims = search_delimiters.isNull() ? QString::fromLatin1("_.") : search_delimiters;
+-
+-    for (;;) {
+-        QFileInfo fi;
+-
+-        realname = prefix + fname + (suffix.isNull() ? QString::fromLatin1(".qm") : suffix);
+-        fi.setFile(realname);
+-        if (fi.isReadable())
+-            break;
+-
+-        realname = prefix + fname;
+-        fi.setFile(realname);
+-        if (fi.isReadable())
+-            break;
+-
+-        int rightmost = 0;
+-        for (int i = 0; i < (int)delims.length(); i++) {
+-            int k = fname.lastIndexOf(delims[i]);
+-            if (k > rightmost)
+-                rightmost = k;
+-        }
+-
+-        // no truncations? fail
+-        if (rightmost == 0)
+-            return false;
+-
+-        fname.truncate(rightmost);
+-    }
+-
+-    // realname is now the fully qualified name of a readable file.
++for (i=try.begin(); i != try.constEnd(); ++i)
++{
++realname = pre + (*i) + post;
+ 
+ #if defined(QT_USE_MMAP)
+ 
+@@ -449,13 +495,13 @@
+     f = qt_open(QFile::encodeName(realname), O_RDONLY, 0666);
+     if (f < 0) {
+         // qDebug("can't open %s: %s", realname.ascii(), strerror(errno));
+-        return false;
++        break;
+     }
+ 
+     struct stat st;
+     if (fstat(f, &st)) {
+         // qDebug("can't stat %s: %s", realname.ascii(), strerror(errno));
+-        return false;
++        break;
+     }
+     char * tmp;
+     tmp = (char*)mmap(0, st.st_size, // any address, whole file
+@@ -464,7 +510,7 @@
+                        f, 0); // from offset 0 of f
+     if (!tmp || tmp == (char*)MAP_FAILED) {
+         // qDebug("can't mmap %s: %s", filename.ascii(), strerror(errno));
+-        return false;
++        break;
+     }
+ 
+     ::close(f);
+@@ -474,7 +520,7 @@
+ #else
+     QFile f(realname);
+     if (!f.exists())
+-        return false;
++        break;
+     d->unmapLength = f.size();
+     d->unmapPointer = new char[d->unmapLength];
+     bool ok = false;
+@@ -486,12 +532,16 @@
+     if (!ok) {
+         delete [] d->unmapPointer;
+         d->unmapPointer = 0;
+-        return false;
++        break;
+     }
+ #endif
+ 
+     return do_load((const uchar *) d->unmapPointer, d->unmapLength);
+ }
++// If completely no translation file exists.
++// 
++return false;
++}
+ 
+ /*!
+   \overload
 --- qt-x11-preview-4.0.0-tp1/tools/assistant/main.cpp.orig	2004-07-08 11:14:30.000000000 +0200
-+++ qt-x11-preview-4.0.0-tp1/tools/assistant/main.cpp	2004-07-13 22:14:09.707927256 +0200
++++ qt-x11-preview-4.0.0-tp1/tools/assistant/main.cpp	2004-07-13 22:14:09.000000000 +0200
 @@ -254,11 +254,11 @@
          resourceDir = QFile::decodeName(qInstallPathTranslations());
  
@@ -14,38 +306,3 @@
      a.installTranslator( &qtTranslator );
  
      Config *conf = Config::loadConfig( profileName );
---- qt-x11-preview-4.0.0-tp1/src/core/tools/qlocale.cpp.orig	2004-07-08 11:14:43.000000000 +0200
-+++ qt-x11-preview-4.0.0-tp1/src/core/tools/qlocale.cpp	2004-07-13 22:22:00.160407608 +0200
-@@ -1629,7 +1629,15 @@
- const char* QLocalePrivate::systemLocaleName()
- {
-     static QByteArray lang;
--    lang = getenv("LANG");
-+    lang = getenv( "LC_ALL" );
-+    if ( lang.isEmpty() )
-+    {
-+	    lang = getenv( "LC_MESSAGES" );
-+    }
-+    if ( lang.isEmpty() )
-+    {
-+	    lang = getenv( "LANG" );
-+    }
- 
- #if !defined(QWS) && defined(Q_OS_MAC)
-     if (!lang.isEmpty())
---- qt-x11-preview-4.0.0-tp1/src/core/codecs/qtextcodec.cpp.orig	2004-07-08 11:14:42.000000000 +0200
-+++ qt-x11-preview-4.0.0-tp1/src/core/codecs/qtextcodec.cpp	2004-07-13 22:22:35.636014496 +0200
-@@ -2630,11 +2630,11 @@
-         // Get the first nonempty value from $LC_ALL, $LC_CTYPE, and $LANG
-         // environment variables.
-         char * lang = qstrdup(getenv("LC_ALL"));
--        if (!lang || lang[0] == 0 || strcmp(lang, "C") == 0) {
-+        if (!lang || lang[0] == 0 ) {
-             if (lang) delete [] lang;
-             lang = qstrdup(getenv("LC_CTYPE"));
-         }
--        if (!lang || lang[0] == 0 || strcmp(lang, "C") == 0) {
-+        if (!lang || lang[0] == 0 ) == 0) {
-             if (lang) delete [] lang;
-             lang = qstrdup(getenv("LANG"));
-         }
