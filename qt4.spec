@@ -53,18 +53,16 @@ Source2:	%{_name}config.desktop
 Source3:	designer.desktop
 Source4:	assistant.desktop
 Source5:	linguist.desktop
+%if %{with dont_enable}
 Patch0:		%{_name}-tools.patch
 Patch1:		%{_name}-FHS.patch
-Patch2:		%{_name}-qmake-nostatic.patch
 Patch3:		%{_name}-disable_tutorials.patch
-Patch4:		%{_name}-locale.patch
-Patch5:		%{_name}-make_use_of_locale.patch
-Patch6:		%{_name}-qmake-opt.patch
-Patch7:		%{_name}-xcursor_version.patch
-Patch8:		%{_name}-gcc34.patch
-# for troll only
-Patch9:		%{_name}-autodetect-pch.patch
-Patch10:	%{_name}-antialias.patch
+%endif
+Patch2:		%{name}-buildsystem.patch
+Patch4:		%{name}-locale.patch
+Patch6:		%{name}-licence_check.patch
+Patch7:		%{name}-xcursor_version.patch
+Patch8:		%{name}-antialias.patch
 URL:		http://www.trolltech.com/products/qt/
 Icon:		qt.xpm
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -450,17 +448,16 @@ graficznego - Qt Designer.
 %prep
 #setup -q -n %{_name}-copy-%{_snap}
 %setup -q -n %{_name}-x11-preview-%{version}-tp1
+%if %{with dont_enable}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
+%endif
+#patch2 -p1 -b .niedakh
+%patch4 -p1 -b .niedakh
+%patch6 -p1 -b .niedakh
+%patch7 -p1 -b .niedakh
+%patch8 -p1 -b .niedakh
 
 #cat >> patches/DISABLED <<EOF
 #0005
@@ -501,6 +498,7 @@ export QTDIR=`/bin/pwd`
 export YACC='byacc -d'
 export PATH=$QTDIR/bin:$PATH
 export LD_LIBRARY_PATH=$QTDIR/%{_lib}:$LD_LIBRARY_PATH
+export QMAKESPEC=$QTDIR/mkspecs/linux-g++
 
 if [ "%{_lib}" != "lib" ] ; then
 	ln -s lib "%{_lib}"
@@ -532,7 +530,6 @@ DEFAULTOPT=" \
 	-system-libpng \
 	-system-zlib \
 	-no-exceptions \
-	-ipv6 \
 	-I%{_includedir}/postgresql/server \
 	-I%{_includedir}/mysql \
 	%{!?with_cups:-no-cups} \
@@ -560,13 +557,13 @@ STATICOPT=" \
 ./configure \
 	$DEFAULTOPT \
 	$STATICOPT \
-	-thread \
 	<<_EOF_
+q
 yes
 _EOF_
 
 # Do not build tutorial and examples. Provide them as sources.
-%{__make} symlinks src-qmake src-moc sub-src
+%{__make} sub-qmake sub-src 
 
 # This will not remove previously compiled libraries.
 %{__make} clean
@@ -596,12 +593,12 @@ SHAREDOPT=" \
 ./configure \
 	$DEFAULTOPT \
 	$SHAREDOPT \
-	-thread \
 	-plugindir %{_libdir}/qt/plugins-mt \
 	<<_EOF_
+q
 yes
 _EOF_
-exit 1
+
 %if %{with dont_enable}
 %if %{without designer}
 grep -v designer tools/tools.pro > tools/tools.pro.1
@@ -611,22 +608,44 @@ mv tools/tools.pro{.1,}
 %endif
 %endif
 # Do not build tutorial and examples. Provide them as sources.
-#%%{__make} symlinks src-qmake src-moc sub-src sub-tools
-%{__make} sub-tools \
-	UIC="LD_PRELOAD=$QTDIR/%{_lib}/libqt-mt.so.3 $QTDIR/bin/uic -L $QTDIR/plugins"
+%{__make} sub-qmake 
+%{__make} -C src sub-moc
+$QTDIR/bin/moc src/gui/image/qmovie.cpp > src/gui/image/qmovie.moc
+$QTDIR/bin/moc src/gui/image/qpixmapcache.cpp > src/gui/image/qpixmapcache.moc
+$QTDIR/bin/moc src/gui/widgets/qdockwindow.cpp  > src/gui/widgets/qdockwindow.moc
+$QTDIR/bin/moc src/gui/widgets/qeffects.cpp  > src/gui/widgets/qeffects.moc
+$QTDIR/bin/moc src/gui/widgets/qmenu.cpp >  src/gui/widgets/qmenu.moc
+$QTDIR/bin/moc src/gui/widgets/qmenudata.cpp > src/gui/widgets/qmenudata.moc
+$QTDIR/bin/moc src/gui/widgets/qsplitter.cpp  > src/gui/widgets/qsplitter.moc
+$QTDIR/bin/moc src/gui/widgets/qworkspace.cpp  > src/gui/widgets/qworkspace.moc
+$QTDIR/bin/moc src/gui/dialogs/qcolordialog.cpp  > src/gui/dialogs/qcolordialog.moc
+$QTDIR/bin/moc src/gui/dialogs/qfontdialog.cpp  > src/gui/dialogs/qfontdialog.moc
+$QTDIR/bin/moc src/gui/dialogs/qprintdialog_unix.cpp  > src/gui/dialogs/qprintdialog_unix.moc
+$QTDIR/bin/moc src/opengl/qgl_x11.cpp  > src/opengl/qgl_x11.moc
+$QTDIR/bin/moc src/network/qftp.cpp  > src/network/qftp.moc
+$QTDIR/bin/moc src/compat/dialogs/q3filedialog.cpp > src/compat/dialogs/q3filedialog.moc
+$QTDIR/bin/moc src/compat/other/qnetworkprotocol.cpp > src/compat/other/qnetworkprotocol.moc
+$QTDIR/bin/moc src/compat/itemviews/qtable.cpp > src/compat/itemviews/qtable.moc
+$QTDIR/bin/moc src/compat/widgets/q3dockwindow.cpp > src/compat/widgets/q3dockwindow.moc
+$QTDIR/bin/moc src/compat/widgets/q3mainwindow.cpp  > src/compat/widgets/q3mainwindow.moc
+$QTDIR/bin/moc src/compat/widgets/qscrollview.cpp > src/compat/widgets/qscrollview.moc
+$QTDIR/bin/moc src/compat/widgets/q3datetimeedit.cpp > src/compat/widgets/q3datetimeedit.moc
+$QTDIR/bin/moc src/compat/widgets/q3toolbar.cpp > src/compat/widgets/q3toolbar.moc
+
+%{__make} sub-src sub-tools sub-demos
 
 %if %{with dont_enable}
 %if %{with designer}
 cd tools/designer/designer
-LD_PRELOAD=$QTDIR/%{_lib}/libqt-mt.so.3 lrelease designer_de.ts
-LD_PRELOAD=$QTDIR/%{_lib}/libqt-mt.so.3 lrelease designer_fr.ts
+lrelease designer_de.ts
+lrelease designer_fr.ts
 %endif
 cd $QTDIR/tools/assistant
-LD_PRELOAD=$QTDIR/%{_lib}/libqt-mt.so.3 lrelease assistant_de.ts
-LD_PRELOAD=$QTDIR/%{_lib}/libqt-mt.so.3 lrelease assistant_fr.ts
+lrelease assistant_de.ts
+lrelease assistant_fr.ts
 cd $QTDIR/tools/linguist/linguist
-LD_PRELOAD=$QTDIR/%{_lib}/libqt-mt.so.3 lrelease linguist_de.ts
-LD_PRELOAD=$QTDIR/%{_lib}/libqt-mt.so.3 lrelease linguist_fr.ts
+lrelease linguist_de.ts
+lrelease linguist_fr.ts
 cd $QTDIR
 %endif
 
