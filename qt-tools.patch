@@ -6,9 +6,9 @@
  		      linguist
 -    unix:SUBDIRS	+= qtconfig
 +    unix:SUBDIRS	+= qtconfig \
-+    			makeqpf \
 +			mergetr \
 +			msg2qm
++
  }
  
  CONFIG+=ordered
