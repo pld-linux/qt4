@@ -1,0 +1,27 @@
+--- qt-x11-preview-4.0.0-tp1/src/gui/text/qfontdatabase_x11.cpp.orig	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/text/qfontdatabase_x11.cpp	2004-07-14 14:13:10.948503200 +0200
+@@ -20,7 +20,7 @@
+ ****************************************************************************/
+ 
+ #include <qplatformdefs.h>
+-
++#include <qsettings.h>
+ #include <qdatetime.h>
+ #include <qpaintdevicemetrics.h>
+ #include <qpaintdevice.h>
+@@ -1183,10 +1183,11 @@
+         XftPatternAddMatrix(pattern, XFT_MATRIX, &matrix);
+     }
+ #  endif // XFT_MATRIX
+-
+-    if (request.styleStrategy & (QFont::PreferAntialias|QFont::NoAntialias)) {
+-        XftPatternAddBool(pattern, XFT_ANTIALIAS,
+-                          !(request.styleStrategy & QFont::NoAntialias));
++    QSettings prefs;
++    bool qt_use_antialiasing = prefs.readBoolEntry( "/qt/useXft", TRUE );
++    if ( !qt_use_antialiasing || request.styleStrategy & (QFont::PreferAntialias|QFont::NoAntialias)) {
++	    XftPatternAddBool(pattern, XFT_ANTIALIAS, qt_use_antialiasing &&
++			    !(request.styleStrategy & QFont::NoAntialias));
+     }
+ 
+     if (script != QFont::Unicode) {
