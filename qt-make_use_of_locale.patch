@@ -5,12 +5,12 @@
  
      QTranslator translator( 0 );
 -    translator.load( QString("assistant_") + QTextCodec::locale(), resourceDir );
-+    translator.load( QString("assistant"), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
++    translator.load( QString("assistant"), resourceDir + QString("/") + QString::fromLatin1(QTextCodec::locale()) + QString("/LC_MESSAGES") );
      a.installTranslator( &translator );
  
      QTranslator qtTranslator( 0 );
 -    qtTranslator.load( QString("qt_") + QTextCodec::locale(), resourceDir );
-+    qtTranslator.load( QString("qt"), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
++    qtTranslator.load( QString("qt"), resourceDir + QString("/") + QString::fromLatin1(QTextCodec::locale()) + QString("/LC_MESSAGES") );
      a.installTranslator( &qtTranslator );
  
      Config *conf = Config::loadConfig( profileName );
@@ -21,11 +21,11 @@
  
      QTranslator translator( 0 );
 -    translator.load( QString( "linguist_" ) + QTextCodec::locale(), "." );
-+    translator.load( QString( "linguist" ) + QTextCodec::locale(), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
++    translator.load( QString( "linguist" ), resourceDir + QString("/") + QString::fromLatin1(QTextCodec::locale()) + QString("/LC_MESSAGES") );
      app.installTranslator( &translator );
  
 +    QTranslator translator( 0 );
-+    translator.load( QString( "qt" ) + QTextCodec::locale(), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
++    translator.load( QString( "qt" ), resourceDir + QString("/") + QString::fromLatin1(QTextCodec::locale()) + QString("/LC_MESSAGES") );
 +    app.installTranslator( &translator );
 +		
 +
@@ -41,10 +41,10 @@
 +    QString resourceDir = qInstallPathTranslations();
 +    
 +    QTranslator translator( 0 );
-+    translator.load( QString("designer"), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
++    translator.load( QString("designer"), resourceDir + QString("/") + QString::fromLatin1(QTextCodec::locale()) + QString("/LC_MESSAGES") );
 +    a.installTranslator( &translator );
 +    QTranslator qtTranslator( 0 );
-+    qtTranslator.load( QString("qt"), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
++    qtTranslator.load( QString("qt"), resourceDir + QString("/") + QString::fromLatin1(QTextCodec::locale()) + QString("/LC_MESSAGES") );
 +    
      extern void qInitImages_designercore();
      qInitImages_designercore();
