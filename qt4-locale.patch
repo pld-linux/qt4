@@ -1,0 +1,51 @@
+--- qt-x11-preview-4.0.0-tp1/tools/assistant/main.cpp.orig	2004-07-08 11:14:30.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/tools/assistant/main.cpp	2004-07-13 22:14:09.707927256 +0200
+@@ -254,11 +254,11 @@
+         resourceDir = QFile::decodeName(qInstallPathTranslations());
+ 
+     QTranslator translator( 0 );
+-    translator.load( QLatin1String("assistant_") + QLatin1String(QTextCodec::locale()), resourceDir );
++    translator.load( QLatin1String("assistant"), resourceDir + QLatin1String("/") + QLatin1String(QTextCodec::locale()) + QLatin1String("/LC_MESSAGES") );
+     a.installTranslator( &translator );
+ 
+     QTranslator qtTranslator( 0 );
+-    qtTranslator.load( QLatin1String("qt_") + QLatin1String(QTextCodec::locale()), resourceDir );
++    qtTranslator.load( QLatin1String("qt"), resourceDir + QLatin1String("/") + QLatin1String(QTextCodec::locale()) + QLatin1String("/LC_MESSAGES") );
+     a.installTranslator( &qtTranslator );
+ 
+     Config *conf = Config::loadConfig( profileName );
+--- qt-x11-preview-4.0.0-tp1/src/core/tools/qlocale.cpp.orig	2004-07-08 11:14:43.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/core/tools/qlocale.cpp	2004-07-13 22:22:00.160407608 +0200
+@@ -1629,7 +1629,15 @@
+ const char* QLocalePrivate::systemLocaleName()
+ {
+     static QByteArray lang;
+-    lang = getenv("LANG");
++    lang = getenv( "LC_ALL" );
++    if ( lang.isEmpty() )
++    {
++	    lang = getenv( "LC_MESSAGES" );
++    }
++    if ( lang.isEmpty() )
++    {
++	    lang = getenv( "LANG" );
++    }
+ 
+ #if !defined(QWS) && defined(Q_OS_MAC)
+     if (!lang.isEmpty())
+--- qt-x11-preview-4.0.0-tp1/src/core/codecs/qtextcodec.cpp.orig	2004-07-08 11:14:42.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/core/codecs/qtextcodec.cpp	2004-07-13 22:22:35.636014496 +0200
+@@ -2630,11 +2630,11 @@
+         // Get the first nonempty value from $LC_ALL, $LC_CTYPE, and $LANG
+         // environment variables.
+         char * lang = qstrdup(getenv("LC_ALL"));
+-        if (!lang || lang[0] == 0 || strcmp(lang, "C") == 0) {
++        if (!lang || lang[0] == 0 ) {
+             if (lang) delete [] lang;
+             lang = qstrdup(getenv("LC_CTYPE"));
+         }
+-        if (!lang || lang[0] == 0 || strcmp(lang, "C") == 0) {
++        if (!lang || lang[0] == 0 ) == 0) {
+             if (lang) delete [] lang;
+             lang = qstrdup(getenv("LANG"));
+         }
