@@ -282,3 +282,40 @@
 +INCLUDEPATH+=$$QMAKE_INCDIR_QT/QtCore
 +INCLUDEPATH+=$$QMAKE_INCDIR_QT
 +
+--- qt-x11-preview-4.0.0-tp1/src/network/qsocket.cpp~	2004-07-08 11:14:37.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/network/qsocket.cpp	2004-07-14 20:47:22.492921920 +0200
+@@ -1408,4 +1408,4 @@
+     return d->socketEngine;
+ }
+ 
+-#include "moc_qsocket.cpp"
++/*#include "moc_qsocket.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/network/network.pro.orig	2004-07-14 21:13:06.217240152 +0200
++++ qt-x11-preview-4.0.0-tp1/src/network/network.pro	2004-07-14 21:13:41.024948576 +0200
+@@ -36,3 +36,7 @@
+ mac:INCLUDEPATH += ../3rdparty/dlcompat #qdns.cpp uses it (on Jaguar)
+ 
+ QMAKE_LIBS += $$QMAKE_LIBS_NETWORK
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/Qt
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/QtCore
++INCLUDEPATH+=$$QMAKE_INCDIR_QT
++
+--- qt-x11-preview-4.0.0-tp1/src/compat/compat.pro.orig	2004-07-14 21:15:08.047719104 +0200
++++ qt-x11-preview-4.0.0-tp1/src/compat/compat.pro	2004-07-14 21:15:17.467287112 +0200
+@@ -21,3 +21,7 @@
+ QMAKE_LIBS += $$QMAKE_LIBS_COMPAT
+ DEFINES -= QT_COMPAT_WARNINGS
+ DEFINES += QT_COMPAT
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/Qt
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/QtCore
++INCLUDEPATH+=$$QMAKE_INCDIR_QT
++
+--- qt-x11-preview-4.0.0-tp1/src/compat/widgets/q3groupbox.cpp~	2004-07-08 11:14:42.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/compat/widgets/q3groupbox.cpp	2004-07-14 20:57:57.884327744 +0200
+@@ -969,5 +969,5 @@
+ }
+ 
+ 
+-#include "moc_q3groupbox.cpp"
++/*#include "moc_q3groupbox.cpp"*/
+ 
