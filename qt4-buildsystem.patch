@@ -21,3 +21,264 @@
  	if [ "$PLATFORM_MAC" = "yes" ]; then
  	    echo "CARBON_LFLAGS +=-framework CoreServices" >>$mkfile
  	    EXTRA_LFLAGS="$EXTRA_LFLAGS \$(CARBON_LFLAGS)"
+--- qt-x11-preview-4.0.0-tp1/src/core/kernel/qtimer.cpp~	2004-07-08 11:14:43.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/core/kernel/qtimer.cpp	2004-07-14 18:52:17.880582544 +0200
+@@ -251,7 +251,7 @@
+     delete this;
+ }
+ 
+-#include "qtimer.moc"
++/*#include "qtimer.moc"*/
+ 
+ /*!
+     \reentrant
+--- qt-x11-preview-4.0.0-tp1/src/core/kernel/qprocess_unix.cpp~	2004-07-08 11:14:43.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/core/kernel/qprocess_unix.cpp	2004-07-14 19:12:02.433503128 +0200
+@@ -425,7 +425,7 @@
+ }
+ 
+ 
+-#include "qprocess_unix.moc"
++/*#include "qprocess_unix.moc"*/
+ 
+ 
+ /***********************************************************************
+--- qt-x11-preview-4.0.0-tp1/src/gui/text/qabstracttextdocumentlayout.cpp~	2004-07-08 11:14:43.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/text/qabstracttextdocumentlayout.cpp	2004-07-14 20:05:22.025091272 +0200
+@@ -300,5 +300,5 @@
+     return fmt.anchorName();
+ }
+ 
+-#include "moc_qabstracttextdocumentlayout.cpp"
++/*#include "moc_qabstracttextdocumentlayout.cpp"*/
+ 
+--- qt-x11-preview-4.0.0-tp1/src/gui/kernel/qwhatsthis.cpp~	2004-07-08 11:14:46.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/kernel/qwhatsthis.cpp	2004-07-14 19:36:43.353369088 +0200
+@@ -667,5 +667,5 @@
+     delete QWhatsThat::instance;
+ }
+ 
+-#include "qwhatsthis.moc"
++/*#include "qwhatsthis.moc"*/
+ #endif
+--- qt-x11-preview-4.0.0-tp1/src/gui/kernel/qwidget.cpp~	2004-07-08 11:14:46.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/kernel/qwidget.cpp	2004-07-14 19:38:43.058171192 +0200
+@@ -6468,4 +6468,4 @@
+ }
+ #endif
+ 
+-#include "moc_qwidget.cpp"
++/*#include "moc_qwidget.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/kernel/qactiongroup.cpp~	2004-07-08 11:14:46.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/kernel/qactiongroup.cpp	2004-07-14 19:24:53.819234672 +0200
+@@ -351,4 +351,4 @@
+     \sa QAction::activate()
+ */
+ 
+-#include "moc_qactiongroup.cpp"
++/*#include "moc_qactiongroup.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/kernel/qaction.cpp~	2004-07-08 11:14:45.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/kernel/qaction.cpp	2004-07-14 19:21:12.514878048 +0200
+@@ -829,5 +829,5 @@
+     \value Hover this will cause the QAction::hovered() signal to be emitted.
+ */
+ 
+-#include "moc_qaction.cpp"
++/*#include "moc_qaction.cpp"*/
+ 
+--- qt-x11-preview-4.0.0-tp1/src/gui/kernel/qtooltip.cpp~	2004-07-08 11:14:45.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/kernel/qtooltip.cpp	2004-07-14 19:34:35.061872360 +0200
+@@ -211,5 +211,5 @@
+     return QApplication::palette("QTipLabel");
+ }
+ 
+-#include "qtooltip.moc"
++/*#include "qtooltip.moc"*/
+ 
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qtoolbutton.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qtoolbutton.cpp	2004-07-14 20:37:15.310227720 +0200
+@@ -886,6 +886,6 @@
+     update();
+ }
+ 
+-#include "moc_qtoolbutton.cpp"
++/*#include "moc_qtoolbutton.cpp"*/
+ 
+ #endif
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qpushbutton.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qpushbutton.cpp	2004-07-14 20:35:34.713520744 +0200
+@@ -611,4 +611,4 @@
+ }
+ #endif
+ 
+-#include "moc_qpushbutton.cpp"
++/*#include "moc_qpushbutton.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qmenudata.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qmenudata.cpp	2004-07-14 20:34:49.324420936 +0200
+@@ -45,7 +45,7 @@
+         sig->activate(&value);
+     }
+ };
+-#include "qmenudata.moc"
++/*#include "qmenudata.moc"*/
+ 
+ QMenuItem::QMenuItem() : QAction((QWidget*)0)
+ {
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qworkspace.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qworkspace.cpp	2004-07-14 20:46:20.165397144 +0200
+@@ -2567,6 +2567,6 @@
+ }
+ #endif
+ 
+-#include "moc_qworkspace.cpp"
++/*#include "moc_qworkspace.cpp"*/
+ #include "qworkspace.moc"
+ #endif // QT_NO_WORKSPACE
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qtabbar.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qtabbar.cpp	2004-07-14 20:36:24.862896880 +0200
+@@ -773,4 +773,4 @@
+ }
+ 
+ 
+-#include "moc_qtabbar.cpp"
++/*#include "moc_qtabbar.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qdatetimeedit.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qdatetimeedit.cpp	2004-07-14 20:12:11.660817176 +0200
+@@ -1920,4 +1920,4 @@
+     }
+ }
+ 
+-#include "moc_qdatetimeedit.cpp"
++/*#include "moc_qdatetimeedit.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qlineedit.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qlineedit.cpp	2004-07-14 20:31:31.358516328 +0200
+@@ -2611,5 +2611,5 @@
+     emitCursorPositionChanged();
+ }
+ 
+-#include "moc_qlineedit.cpp"
++/*#include "moc_qlineedit.cpp"*/
+ #endif // QT_NO_LINEEDIT
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qgroupbox.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qgroupbox.cpp	2004-07-14 20:29:39.656497616 +0200
+@@ -619,6 +619,6 @@
+ }
+ #endif // QT_COMPAT
+ 
+-#include "moc_qgroupbox.cpp"
++/*#include "moc_qgroupbox.cpp"*/
+ 
+ #endif //QT_NO_GROUPBOX
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qtabwidget.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qtabwidget.cpp	2004-07-14 20:36:44.002987144 +0200
+@@ -883,5 +883,5 @@
+     style().drawPrimitive(QStyle::PE_TabBarBase, &opt, &p, this);
+ }
+ 
+-#include "moc_qtabwidget.cpp"
++/*#include "moc_qtabwidget.cpp"*/
+ #endif
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qabstractspinbox.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qabstractspinbox.cpp	2004-07-14 20:11:15.569344376 +0200
+@@ -1477,5 +1477,5 @@
+     return (a1 != 0 && a2 != 0) ? (a1 / a2) : 0.0;
+ }
+ 
+-#include "moc_qabstractspinbox.cpp"
++/*#include "moc_qabstractspinbox.cpp"*/
+ 
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qtoolbar.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qtoolbar.cpp	2004-07-14 20:37:04.991796360 +0200
+@@ -757,4 +757,4 @@
+     QFrame::resizeEvent(event);
+ }
+ 
+-#include "moc_qtoolbar.cpp"
++/*#include "moc_qtoolbar.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qcombobox.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qcombobox.cpp	2004-07-14 20:11:59.780623240 +0200
+@@ -1469,4 +1469,4 @@
+     setCurrentItem(newRow);
+ }
+ 
+-#include "moc_qcombobox.cpp"
++/*#include "moc_qcombobox.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qmenu.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qmenu.cpp	2004-07-14 20:32:28.433839560 +0200
+@@ -1998,4 +1998,4 @@
+ }
+ #endif // QT_COMPAT
+ 
+-#include "moc_qmenu.cpp"
++/*#include "moc_qmenu.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qtextedit.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qtextedit.cpp	2004-07-14 20:41:13.420029528 +0200
+@@ -2316,4 +2316,4 @@
+     }
+ }
+ 
+-#include "moc_qtextedit.cpp"
++/*#include "moc_qtextedit.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qviewport.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qviewport.cpp	2004-07-14 20:38:13.808334656 +0200
+@@ -648,4 +648,4 @@
+     return QSize(256, 192);
+ }
+ 
+-#include "moc_qviewport.cpp"
++/*#include "moc_qviewport.cpp"*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/widgets/qmenubar.cpp~	2004-07-08 11:14:44.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/widgets/qmenubar.cpp	2004-07-14 20:31:53.662125664 +0200
+@@ -1271,4 +1271,4 @@
+ #endif
+ 
+ 
+-#include <moc_qmenubar.cpp>
++/*#include <moc_qmenubar.cpp>*/
+--- qt-x11-preview-4.0.0-tp1/src/gui/gui.pro.orig	2004-07-14 19:18:16.177685376 +0200
++++ qt-x11-preview-4.0.0-tp1/src/gui/gui.pro	2004-07-14 20:00:53.989838824 +0200
+@@ -29,6 +29,9 @@
+ include(dialogs/dialogs.pri)
+ include(accessible/accessible.pri)
+ include(itemviews/itemviews.pri)
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/Qt
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/QtCore
++INCLUDEPATH+=$$QMAKE_INCDIR_QT
+ 
+ embedded: INCLUDEPATH *= $$QMAKE_INCDIR_QT/QtNetwork
+ # ##### this should go away eventually
+--- qt-x11-preview-4.0.0-tp1/src/opengl/opengl.pro.orig	2004-07-14 20:56:24.836473168 +0200
++++ qt-x11-preview-4.0.0-tp1/src/opengl/opengl.pro	2004-07-14 21:00:01.221577632 +0200
+@@ -27,8 +27,10 @@
+ }
+ win32:SOURCES += qgl_win.cpp
+ 
++QMAKE_LIBS +=-L/usr/X11R6/lib
+ QMAKE_LIBS += $$QMAKE_LIBS_OPENGL
+-
+-
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/Qt
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/QtCore
++INCLUDEPATH+=$$QMAKE_INCDIR_QT
+ 
+ 
+--- qt-x11-preview-4.0.0-tp1/src/sql/sql.pro.orig	2004-07-14 21:06:51.716172968 +0200
++++ qt-x11-preview-4.0.0-tp1/src/sql/sql.pro	2004-07-14 21:07:11.370185104 +0200
+@@ -15,4 +15,7 @@
+ include(kernel/kernel.pri)
+ include(drivers/drivers.pri)
+ include(gui/gui.pri)
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/Qt
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/QtCore
++INCLUDEPATH+=$$QMAKE_INCDIR_QT
+ 
+--- qt-x11-preview-4.0.0-tp1/src/xml/xml.pro.orig	2004-07-14 21:10:27.569358296 +0200
++++ qt-x11-preview-4.0.0-tp1/src/xml/xml.pro	2004-07-14 21:10:34.733269216 +0200
+@@ -14,3 +14,7 @@
+         QMAKE_CFLAGS_WARN_ON        += -w-use
+         QMAKE_CXXFLAGS_WARN_ON        += -w-use
+ }
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/Qt
++INCLUDEPATH+=$$QMAKE_INCDIR_QT/QtCore
++INCLUDEPATH+=$$QMAKE_INCDIR_QT
++
