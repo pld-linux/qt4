@@ -1,6 +1,6 @@
-diff -urN qt-x11-free-3.0.3/doc/html/designer-manual-8.html qt-x11-free-3.0.3.new/doc/html/designer-manual-8.html
---- qt-x11-free-3.0.3/doc/html/designer-manual-8.html	Mon Mar 18 11:31:46 2002
-+++ qt-x11-free-3.0.3.new/doc/html/designer-manual-8.html	Sun May  5 02:06:59 2002
+diff -urN qt-x11-free-3.0.4.orig/doc/html/designer-manual-8.html qt-x11-free-3.0.4/doc/html/designer-manual-8.html
+--- qt-x11-free-3.0.4.orig/doc/html/designer-manual-8.html	Fri Apr 26 10:33:15 2002
++++ qt-x11-free-3.0.4/doc/html/designer-manual-8.html	Sun May  5 14:37:17 2002
 @@ -87,7 +87,7 @@
  <ol type=1><li><p>Click <b>File|New</b> to invoke the <em>New File</em> dialog. Click the Dialog template then click <b>OK</b>.</p>
  <li><p>Click the <b>Text Label</b> toolbar button, then click near the top left of the form. Change the font Point Size property to 16 and change the <em>text</em> property to your or your company's name. Click the <b>Line</b> toolbar button, then click the form below the label; click Horizontal on the pop-up menu.</p>
@@ -10,10 +10,10 @@ diff -urN qt-x11-free-3.0.3/doc/html/designer-manual-8.html qt-x11-free-3.0.3.ne
  <li><p>Right click the form in the Forms list, then click Remove form from project.</p>
  </ol><p>Now that we have the simple template we are ready to use it. Click <b>File|New</b> to invoke the <em>New File</em> dialog. One of the templates that will appear is 'Simple Dialog'. Click the simple dialog, then click <b>OK</b>. A new form will appear with the same widgets and layout as the template. Add any other widgets and functionality. When you attempt to save the form you will be prompted for a new form name.</p>
  <h4><a name="2-2"></a>Base-class Templates</h4>
-diff -urN qt-x11-free-3.0.3/src/kernel/qapplication.cpp qt-x11-free-3.0.3.new/src/kernel/qapplication.cpp
---- qt-x11-free-3.0.3/src/kernel/qapplication.cpp	Mon Mar 18 10:46:11 2002
-+++ qt-x11-free-3.0.3.new/src/kernel/qapplication.cpp	Sun May  5 02:09:16 2002
-@@ -1460,16 +1460,10 @@
+diff -urN qt-x11-free-3.0.4.orig/src/kernel/qapplication.cpp qt-x11-free-3.0.4/src/kernel/qapplication.cpp
+--- qt-x11-free-3.0.4.orig/src/kernel/qapplication.cpp	Fri Apr 26 09:48:13 2002
++++ qt-x11-free-3.0.4/src/kernel/qapplication.cpp	Sun May  5 14:40:12 2002
+@@ -1494,16 +1494,8 @@
      if ( !app_libpaths ) {
  	app_libpaths = new QStringList;
  
@@ -28,14 +28,12 @@ diff -urN qt-x11-free-3.0.3/src/kernel/qapplication.cpp qt-x11-free-3.0.3.new/sr
 -	else if ( QFile::exists( QString(QT_INSTALL_PLUGINS) ) )
 -	    app_libpaths->append( QString(QT_INSTALL_PLUGINS) );
 +	app_libpaths->append( QString(QT_INSTALL_PLUGINS) );
-+#else
-+#error PLD/Linux requires QT configured with -plugindir for proper st/mt plugins separation
  #endif
      }
      return *app_libpaths;
-diff -urN qt-x11-free-3.0.3/tools/designer/designer/designer.pro qt-x11-free-3.0.3.new/tools/designer/designer/designer.pro
---- qt-x11-free-3.0.3/tools/designer/designer/designer.pro	Thu Feb 21 02:11:16 2002
-+++ qt-x11-free-3.0.3.new/tools/designer/designer/designer.pro	Sun May  5 02:06:59 2002
+diff -urN qt-x11-free-3.0.4.orig/tools/designer/designer/designer.pro qt-x11-free-3.0.4/tools/designer/designer/designer.pro
+--- qt-x11-free-3.0.4.orig/tools/designer/designer/designer.pro	Thu Apr 18 13:35:11 2002
++++ qt-x11-free-3.0.4/tools/designer/designer/designer.pro	Sun May  5 14:37:17 2002
 @@ -50,6 +50,6 @@
  INSTALLS        += target
  
@@ -44,9 +42,9 @@ diff -urN qt-x11-free-3.0.3/tools/designer/designer/designer.pro qt-x11-free-3.0
 +templates.path=$$data.path/designer/templates
  templates.files = ../templates/*
  INSTALLS += templates
-diff -urN qt-x11-free-3.0.3/tools/designer/designer/mainwindowactions.cpp qt-x11-free-3.0.3.new/tools/designer/designer/mainwindowactions.cpp
---- qt-x11-free-3.0.3/tools/designer/designer/mainwindowactions.cpp	Wed Jan 23 17:33:01 2002
-+++ qt-x11-free-3.0.3.new/tools/designer/designer/mainwindowactions.cpp	Sun May  5 02:06:59 2002
+diff -urN qt-x11-free-3.0.4.orig/tools/designer/designer/mainwindowactions.cpp qt-x11-free-3.0.4/tools/designer/designer/mainwindowactions.cpp
+--- qt-x11-free-3.0.4.orig/tools/designer/designer/mainwindowactions.cpp	Mon Mar 18 15:22:45 2002
++++ qt-x11-free-3.0.4/tools/designer/designer/mainwindowactions.cpp	Sun May  5 14:37:17 2002
 @@ -1307,7 +1307,7 @@
  	QMessageBox::information( this, tr( "Create Template" ), tr( "Couldn't create the template" ) );
  	return;
@@ -56,9 +54,9 @@ diff -urN qt-x11-free-3.0.3/tools/designer/designer/mainwindowactions.cpp qt-x11
      fn.append( ".ui" );
      QFile f( fn );
      if ( !f.open( IO_WriteOnly ) ) {
-diff -urN qt-x11-free-3.0.3/tools/designer/designer/newformimpl.cpp qt-x11-free-3.0.3.new/tools/designer/designer/newformimpl.cpp
---- qt-x11-free-3.0.3/tools/designer/designer/newformimpl.cpp	Thu Feb 21 02:11:16 2002
-+++ qt-x11-free-3.0.3.new/tools/designer/designer/newformimpl.cpp	Sun May  5 02:06:59 2002
+diff -urN qt-x11-free-3.0.4.orig/tools/designer/designer/newformimpl.cpp qt-x11-free-3.0.4/tools/designer/designer/newformimpl.cpp
+--- qt-x11-free-3.0.4.orig/tools/designer/designer/newformimpl.cpp	Thu Feb 21 02:11:16 2002
++++ qt-x11-free-3.0.4/tools/designer/designer/newformimpl.cpp	Sun May  5 14:37:17 2002
 @@ -284,7 +284,7 @@
  	templRoots << QT_INSTALL_DATA;
  #endif
@@ -68,10 +66,10 @@ diff -urN qt-x11-free-3.0.3/tools/designer/designer/newformimpl.cpp qt-x11-free-
  	    if ( QFile::exists( path )) {
  		templPath = path;
  		break;
-diff -urN qt-x11-free-3.0.3/tools/qtconfig/mainwindow.cpp qt-x11-free-3.0.3.new/tools/qtconfig/mainwindow.cpp
---- qt-x11-free-3.0.3/tools/qtconfig/mainwindow.cpp	Fri Jan 11 15:44:14 2002
-+++ qt-x11-free-3.0.3.new/tools/qtconfig/mainwindow.cpp	Sun May  5 02:06:59 2002
-@@ -628,7 +628,7 @@
+diff -urN qt-x11-free-3.0.4.orig/tools/qtconfig/mainwindow.cpp qt-x11-free-3.0.4/tools/qtconfig/mainwindow.cpp
+--- qt-x11-free-3.0.4.orig/tools/qtconfig/mainwindow.cpp	Fri Apr 26 07:09:27 2002
++++ qt-x11-free-3.0.4/tools/qtconfig/mainwindow.cpp	Sun May  5 14:37:17 2002
+@@ -636,7 +636,7 @@
  	QStringList libpath = QApplication::libraryPaths();
  	QString QTDIRpath = getenv("QTDIR");
  	if ( ! QTDIRpath.isEmpty() ) {
