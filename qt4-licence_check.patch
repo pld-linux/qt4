@@ -1,0 +1,12 @@
+--- qt-x11-preview-4.0.0-tp1/configure.orig	2004-07-08 11:12:52.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/configure	2004-07-14 14:30:22.297714288 +0200
+@@ -2413,7 +2413,7 @@
+ 	    acceptance=yes
+         else
+ 	    if [ "$FIRST_LOOP" = "yes" ]; then
+-		more $relpath/LICENSE.PREVIEW
++#		more $relpath/LICENSE.PREVIEW
+ 		FIRST_LOOP=no
+ 		echo
+             fi
+
