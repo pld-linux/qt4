@@ -1,0 +1,15 @@
+--- qt-copy-040205/tools/msg2qm/msg2qm.cpp.orig	2002-09-06 14:32:42.000000000 +0200
++++ qt-copy-040205/tools/msg2qm/msg2qm.cpp	2004-02-16 14:42:22.779392176 +0100
+@@ -179,10 +179,10 @@ void translate( const QString& filename,
+ 			QString charset = msgstr.mid( cpos, i-cpos );
+ 			codec = QTextCodec::codecForName( charset.ascii() );
+ 			if ( codec ) {
+-			    debug( "PO file character set: %s. Codec: %s",
++			    qDebug( "PO file character set: %s. Codec: %s",
+ 				   charset.ascii(), codec->name() );
+ 			} else {
+-			    debug( "No codec for %s", charset.ascii() );
++			    qDebug( "No codec for %s", charset.ascii() );
+ 			}
+ 		    }
+ 		    break;
