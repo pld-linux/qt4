@@ -18,7 +18,6 @@
 %bcond_without	sqlite		# don't build SQLite plugin
 %bcond_without	ibase		# build ibase (InterBase/Firebird) plugin
 %bcond_with	pch		# enable pch in qmake
-%bcond_with	pch_devel	# enable experimental boost (for developers only!)
 %bcond_with	dont_enable	# a bcond for missing features
 
 %undefine	with_dont_enable
@@ -29,7 +28,7 @@
 %define		_withsql	1
 %{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}
 
-%define		_snap		040422
+#define		_snap		040422
 %define		_ver		4.0.0
 %define		_packager	djurban
 %define		_name		qt
@@ -45,8 +44,8 @@ Epoch:		6
 License:	GPL/QPL
 Group:		X11/Libraries
 #Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-%{_snap}.tar.bz2
-Source0:	ftp://ftp.trolltech.com/qt/source/%{_name}-x11-preview-%{version}-tp1.tar.bz2
-# Xource0-md5:	903cad618274ad84d7d13fd0027a6c3c
+Source0:	ftp://ftp.trolltech.com/qt/source/%{_name}-x11-opensource-%{version}-b1.tar.bz2
+# Source0-md5:	4e7432f9bf5f3333429b490e33568573
 #Source1:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-patches-040531.tar.bz2
 #Source1-md5	2e38e44b6ef26bfb8a7f3b6900ee53c0
 Source2:	%{_name}config.desktop
@@ -448,18 +447,18 @@ graficznego - Qt Designer.
 
 %prep
 #setup -q -n %{_name}-copy-%{_snap}
-%setup -q -n %{_name}-x11-preview-%{version}-tp1
+%setup -q -n %{_name}-x11-opensource-%{version}-b1
 %if %{with dont_enable}
 %patch0 -p1
 %patch1 -p1
 %patch3 -p1
 %endif
 #patch2 -p1 -b .niedakh
-%patch4 -p1 -b .niedakh
-%patch6 -p1 -b .niedakh
-%patch7 -p1 -b .niedakh
-%patch8 -p1 -b .niedakh
-%patch9 -p1
+#patch4 -p1 -b .niedakh
+#patch6 -p1 -b .niedakh
+#patch7 -p1 -b .niedakh
+#patch8 -p1 -b .niedakh
+#patch9 -p1
 
 #cat >> patches/DISABLED <<EOF
 #0005
@@ -493,7 +492,6 @@ echo -e "QMAKE_CFLAGS_RELEASE\t=\t%{rpmcflags}" >> $plik
 echo -e "QMAKE_CXXFLAGS_RELEASE\t=\t%{rpmcflags}" >> $plik
 echo -e "QMAKE_CFLAGS_DEBUG\t=\t%{debugcflags}" >> $plik
 echo -e "QMAKE_CXXFLAGS_DEBUG\t=\t%{debugcflags}" >> $plik
-%{?with_pch:echo -e "DEFINES\t+=\tUSING_PCH" >> $plik}
 
 %build
 export QTDIR=`/bin/pwd`
@@ -537,6 +535,7 @@ DEFAULTOPT=" \
 	%{!?with_cups:-no-cups} \
 	%{?with_nas:-system-nas-sound} \
 	%{?with_nvidia:-dlopen-opengl} \
+	%{?with_pch:-pch} \
 	%{?debug:-debug} \
 	-xcursor"
 
@@ -725,15 +724,6 @@ cat >> $RPM_BUILD_ROOT%{_includedir}/qt/qconfig.h << EOF
 
 EOF
 
-%if %{with pch_devel}
-cd $RPM_BUILD_ROOT%{_includedir}/qt
-for h in qevent.h qglist.h qmap.h qobject.h qpixmap.h \
-	qptrlist.h qstring.h qstrlist.h qstringlist.h \
-	qvaluelist.h qwidget.h; do
-	%{__cxx} -s $h
-done
-cd -
-%endif
 %if %{with dont_enable}
 install -d $RPM_BUILD_ROOT%{_datadir}/locale/{ar,de,fr,ru,he,cs,sk}/LC_MESSAGES
 install translations/qt_ar.qm $RPM_BUILD_ROOT%{_datadir}/locale/ar/LC_MESSAGES/qt.qm
