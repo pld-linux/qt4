@@ -744,7 +744,6 @@ install translations/qt_iw.qm $RPM_BUILD_ROOT%{_datadir}/locale/he/LC_MESSAGES/q
 install translations/qt_cs.qm $RPM_BUILD_ROOT%{_datadir}/locale/cs/LC_MESSAGES/qt.qm
 install translations/qt_sk.qm $RPM_BUILD_ROOT%{_datadir}/locale/sk/LC_MESSAGES/qt.qm
 
-
 %if %{with designer}
 install tools/designer/designer/designer_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/designer.qm
 install tools/designer/designer/designer_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/designer.qm
@@ -762,7 +761,6 @@ install tools/linguist/qm2ts/qm2ts.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %endif
 
 rm -rf `find $RPM_BUILD_ROOT -name CVS`
-
 
 cd $RPM_BUILD_ROOT%{_examplesdir}/%{_name}/examples
 for i in `find ./ -name Makefile`;
@@ -782,7 +780,6 @@ do
 
 done
 
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -796,6 +793,7 @@ cat << EOF
  *  NOTE:                                              *
  *  With qt 4.0.0 the single threaded version was      *
  *  removed.                                           *
+ *                                                     *
  *******************************************************
 
 EOF
