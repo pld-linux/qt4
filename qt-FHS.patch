@@ -1,0 +1,19 @@
+diff -urN qt-x11-free-3.0.2.orig/src/kernel/qapplication.cpp qt-x11-free-3.0.2/src/kernel/qapplication.cpp
+--- qt-x11-free-3.0.2.orig/src/kernel/qapplication.cpp	Mon Feb 18 13:46:33 2002
++++ qt-x11-free-3.0.2/src/kernel/qapplication.cpp	Wed Feb 27 01:25:25 2002
+@@ -1440,11 +1440,11 @@
+ 	app_libpaths = new QStringList;
+ 
+ 	char *qtdir = getenv("QTDIR");
+-	if ( qtdir && QFile::exists( QString(qtdir) + "/plugins" ) )
+-	    app_libpaths->append( QString(qtdir) + "/plugins" );
++	if ( qtdir && QFile::exists( QString(qtdir) + "/lib/qt/plugins" ) )
++	    app_libpaths->append( QString(qtdir) + "/lib/qt/plugins" );
+ #ifdef QT_INSTALL_PREFIX
+-	else if ( QFile::exists( QString(QT_INSTALL_PREFIX) + "/plugins" ) )
+-	    app_libpaths->append( QString(QT_INSTALL_PREFIX) + "/plugins" );
++	else if ( QFile::exists( QString(QT_INSTALL_PREFIX) + "/lib/qt/plugins" ) )
++	    app_libpaths->append( QString(QT_INSTALL_PREFIX) + "/lib/qt/plugins" );
+ #endif // QT_INSTALL_PREFIX
+     }
+     return *app_libpaths;
