@@ -1,15 +1,14 @@
 #
-#TODO:
+# TODO:
 # - build system recheck (most make -C are to be changed)
 # - redo subpackages (qt-core,qt-xml,qt-network,qt-opengl, etc.)
 # - bconds for IBM db2, oracle and tds sql drivers
-# - fix %install
+# - fix install
 # - remove obsolete patches
 
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
 %bcond_with	nvidia		# prelink Qt/KDE and depend on NVIDIA binaries
-%bcond_without	single		# don't build single-threaded libraries
 %bcond_without	static_libs	# don't build static libraries
 %bcond_without	cups		# disable CUPS support
 %bcond_without	mysql		# don't build MySQL plugin
@@ -20,7 +19,10 @@
 %bcond_without	ibase		# build ibase (InterBase/Firebird) plugin
 %bcond_with	pch		# enable pch in qmake
 %bcond_with	pch_devel	# enable experimental boost (for developers only!)
-#
+%bcond_with	dont_enable	# a bcond for missing features
+
+%undefine	with_dont_enable
+
 %ifnarch %{ix86} sparc sparcv9 ppc
 %undefine	with_ibase
 %endif
@@ -37,17 +39,16 @@ Summary(es):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-#Version:	%{_ver}.%{_snap}
 Version:	%{_ver}
-Release:	1
+Release:	0.tp1.1
 Epoch:		6
 License:	GPL/QPL
 Group:		X11/Libraries
 #Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-%{_snap}.tar.bz2
-Source0:	ftp://ftp.trolltech.com/qt/source/%{_name}-x11-preview-%{version}.tar.bz2
+Source0:	ftp://ftp.trolltech.com/qt/source/%{_name}-x11-preview-%{version}-tp1.tar.bz2
 # Source0-md5:	903cad618274ad84d7d13fd0027a6c3c
 #Source1:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-patches-040531.tar.bz2
-#%Source1-md5:	2e38e44b6ef26bfb8a7f3b6900ee53c0
+#Source1-md5	2e38e44b6ef26bfb8a7f3b6900ee53c0
 Source2:	%{_name}config.desktop
 Source3:	designer.desktop
 Source4:	assistant.desktop
@@ -93,7 +94,7 @@ BuildRequires:	xft-devel
 BuildRequires:	xrender-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
-BuildRoot:	%{tmpdir}/%{_name}-%{version}-root-%(id -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
@@ -448,7 +449,7 @@ graficznego - Qt Designer.
 
 %prep
 #setup -q -n %{_name}-copy-%{_snap}
-%setup -q -n %{_name}-x11-preview-%{version} -a1
+%setup -q -n %{_name}-x11-preview-%{version}-tp1
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -600,8 +601,8 @@ SHAREDOPT=" \
 	<<_EOF_
 yes
 _EOF_
-
-%if %{nil}
+exit 1
+%if %{with dont_enable}
 %if %{without designer}
 grep -v designer tools/tools.pro > tools/tools.pro.1
 mv tools/tools.pro{.1,}
@@ -614,7 +615,7 @@ mv tools/tools.pro{.1,}
 %{__make} sub-tools \
 	UIC="LD_PRELOAD=$QTDIR/%{_lib}/libqt-mt.so.3 $QTDIR/bin/uic -L $QTDIR/plugins"
 
-%if %{nil}
+%if %{with dont_enable}
 %if %{with designer}
 cd tools/designer/designer
 LD_PRELOAD=$QTDIR/%{_lib}/libqt-mt.so.3 lrelease designer_de.ts
@@ -649,7 +650,7 @@ install -d \
 install bin/{findtr,qt20fix,qtrename140} \
 	$RPM_BUILD_ROOT%{_bindir}
 
-#tools/{msg2qm/msg2qm,mergetr/mergetr} 
+#tools/{msg2qm/msg2qm,mergetr/mergetr}
 #	$RPM_BUILD_ROOT%{_bindir}
 
 %if %{with static_libs}
@@ -659,7 +660,7 @@ install %{_lib}/libqt*.a		$RPM_BUILD_ROOT%{_libdir}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}
 
-%if %{nil}
+%if %{with dont_enable}
 %if %{with designer}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/designer.desktop
 %endif
@@ -712,7 +713,7 @@ for h in qevent.h qglist.h qmap.h qobject.h qpixmap.h \
 done
 cd -
 %endif
-%if %{nil}
+%if %{with dont_enable}
 install -d $RPM_BUILD_ROOT%{_datadir}/locale/{ar,de,fr,ru,he,cs,sk}/LC_MESSAGES
 install translations/qt_ar.qm $RPM_BUILD_ROOT%{_datadir}/locale/ar/LC_MESSAGES/qt.qm
 install translations/qt_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/qt.qm
@@ -732,7 +733,7 @@ install tools/designer/designer/designer_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale
 install tools/assistant/assistant_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/assistant.qm
 #install tools/assistant/assistant_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/assistant.qm
 
-%if %{nil}
+%if %{with dont_enable}
 install tools/linguist/linguist/linguist_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/linguist.qm
 install tools/linguist/linguist/linguist_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/linguist.qm
 
@@ -782,149 +783,3 @@ EOF
 
 %post	designer-libs -p /sbin/ldconfig
 %postun	designer-libs -p /sbin/ldconfig
-
-%files
-%defattr(644,root,root,755)
-%doc FAQ LICENSE.* README* changes*
-%dir %{_sysconfdir}/qt
-%attr(755,root,root) %{_libdir}/libqassistantclient.so.*.*.*
-%attr(755,root,root) %{_libdir}/libqt-mt.so.*.*.*
-%dir %{_libdir}/%{_name}
-%dir %{_libdir}/%{_name}/plugins-mt
-%dir %{_libdir}/%{_name}/plugins-mt/crypto
-%dir %{_libdir}/%{_name}/plugins-mt/imageformats
-%attr(755,root,root) %{_libdir}/%{_name}/plugins-mt/imageformats/*.so
-%dir %{_libdir}/%{_name}/plugins-mt/network
-%{?_withsql:%dir %{_libdir}/%{_name}/plugins-mt/sqldrivers}
-%dir %{_libdir}/%{_name}/plugins-mt/styles
-%attr(755,root,root) %{_libdir}/%{_name}/plugins-mt/styles/*.so
-%dir %{_datadir}/qt
-%lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt.qm
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt.qm
-%lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt.qm
-%lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt.qm
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt.qm
-
-%files devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/moc
-%attr(755,root,root) %{_bindir}/qt20fix
-#%attr(755,root,root) %{_bindir}/qt32castcompat
-%attr(755,root,root) %{_bindir}/qtrename140
-%attr(755,root,root) %{_bindir}/uic
-%{_includedir}/qt
-%{_libdir}/libqassistantclient.so
-%{_libdir}/libqt-mt.so
-%{_mandir}/man1/moc*
-%{_mandir}/man1/uic*
-%{_pkgconfigdir}/qt-mt.pc
-
-%files -n qmake
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qmake
-%{_datadir}/qt/mkspecs
-
-%if %{with static_libs}
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/libqt-mt.a
-%endif
-
-%files doc
-%defattr(644,root,root,755)
-%{_docdir}/%{_name}-doc
-
-%files examples
-%defattr(644,root,root,755)
-%{_examplesdir}/%{_name}
-
-%files man
-%defattr(644,root,root,755)
-%{_mandir}/man3/*
-
-%if %{with mysql}
-%files plugin-mysql
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{_name}/plugins-mt/sqldrivers/lib*mysql.so
-%endif
-
-%if %{with pgsql}
-%files plugin-psql
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{_name}/plugins-mt/sqldrivers/lib*psql.so
-%endif
-
-%if %{with odbc}
-%files plugin-odbc
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{_name}/plugins-mt/sqldrivers/lib*odbc.so
-%endif
-
-%if %{with sqlite}
-%files plugin-sqlite
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{_name}/plugins-mt/sqldrivers/lib*sqlite.so
-%endif
-
-%if %{with ibase}
-%files plugin-ibase
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{_name}/plugins-mt/sqldrivers/lib*ibase.so
-%endif
-
-
-%if %{nil}
-%if %{with designer}
-%files designer-libs
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdesignercore.so.*.*.*
-%attr(755,root,root) %{_libdir}/libeditor.so.*.*.*
-%attr(755,root,root) %{_libdir}/libqui.so.*.*.*
-%attr(755,root,root) %{_libdir}/libdesignercore.so
-%attr(755,root,root) %{_libdir}/libeditor.so
-%attr(755,root,root) %{_libdir}/libqui.so
-
-%files designer
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/designer
-%{_desktopdir}/designer.desktop
-%dir %{_libdir}/%{_name}/plugins-?t/designer
-%attr(755,root,root) %{_libdir}/%{_name}/plugins-?t/designer/*.so
-%{_datadir}/qt/designer
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/designer.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/designer.qm
-%endif
-%endif
-
-%files assistant
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/assistant
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/assistant.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/assistant.qm
-%{_desktopdir}/assistant.desktop
-
-%if %{nil}
-%files linguist
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/linguist
-%attr(755,root,root) %{_bindir}/findtr
-%attr(755,root,root) %{_bindir}/lrelease
-%attr(755,root,root) %{_bindir}/lupdate
-%attr(755,root,root) %{_bindir}/mergetr
-%attr(755,root,root) %{_bindir}/qm2ts
-%attr(755,root,root) %{_bindir}/msg2qm
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/linguist.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/linguist.qm
-%{_desktopdir}/linguist.desktop
-%{_datadir}/qt/phrasebooks
-%{_mandir}/man1/l*
-%{_mandir}/man1/*qm*
-%endif
-
-%files -n qtconfig
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qtconfig
-%{_desktopdir}/qtconfig.desktop
-%{_pixmapsdir}/qtconfig.png
