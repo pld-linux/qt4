@@ -5,47 +5,65 @@
  
      QTranslator translator( 0 );
 -    translator.load( QString("assistant_") + QTextCodec::locale(), resourceDir );
-+    translator.load( QString("assistant"), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
++    translator.load( QString("assistant"), resourceDir + QString("/") + QString::fromLatin1(QTextCodec::locale()) + QString("/LC_MESSAGES") );
      a.installTranslator( &translator );
  
      QTranslator qtTranslator( 0 );
 -    qtTranslator.load( QString("qt_") + QTextCodec::locale(), resourceDir );
-+    qtTranslator.load( QString("qt"), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
++    qtTranslator.load( QString("qt"), resourceDir + QString("/") + QString::fromLatin1(QTextCodec::locale()) + QString("/LC_MESSAGES") );
      a.installTranslator( &qtTranslator );
  
      Config *conf = Config::loadConfig( profileName );
---- qt-x11-free-3.2.0/tools/linguist/linguist/main.cpp.orig	2003-08-09 14:02:15.000000000 +0200
-+++ qt-x11-free-3.2.0/tools/linguist/linguist/main.cpp	2003-08-09 14:26:55.000000000 +0200
-@@ -42,9 +42,14 @@
+--- qt-x11-free-3.2.0/tools/designer/app/main.cpp.orig	2003-08-12 20:00:11.821715736 +0200
++++ qt-x11-free-3.2.0/tools/designer/app/main.cpp	2003-08-12 19:59:12.017807312 +0200
+@@ -41,6 +41,7 @@
+ #include <qsettings.h>
+ #include <qsplashscreen.h>
+ #include <qdir.h>
++#include <qtextcodec.h>
  
- 
-     QTranslator translator( 0 );
--    translator.load( QString( "linguist_" ) + QTextCodec::locale(), "." );
-+    translator.load( QString( "linguist" ) + QTextCodec::locale(), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
-     app.installTranslator( &translator );
- 
-+    QTranslator translator( 0 );
-+    translator.load( QString( "qt" ) + QTextCodec::locale(), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
-+    app.installTranslator( &translator );
-+		
-+
-     bool showSplash = TRUE;
- 
-     QString keybase("/Qt Linguist/3.1/");
---- qt-x11-free-3.2.0/tools/designer/app/main.cpp.orig	2003-05-21 09:13:12.000000000 +0200
-+++ qt-x11-free-3.2.0/tools/designer/app/main.cpp	2003-08-12 09:36:06.090099208 +0200
-@@ -179,6 +179,14 @@
+ #include <stdlib.h>
+ #include <signal.h>
+@@ -179,6 +180,14 @@
  	signal( SIGTERM, exitHandler );
      }
  
 +    QString resourceDir = qInstallPathTranslations();
 +    
 +    QTranslator translator( 0 );
-+    translator.load( QString("designer"), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
++    translator.load( QString("designer"), resourceDir + QString("/") + QString(QTextCodec::locale()) + QString("/LC_MESSAGES") );
 +    a.installTranslator( &translator );
 +    QTranslator qtTranslator( 0 );
-+    qtTranslator.load( QString("qt"), resourceDir + QString("/") + QTextCodec::locale() + QString("/LC_MESSAGES") );
++    qtTranslator.load( QString("qt"), resourceDir + QString("/") + QString(QTextCodec::locale()) + QString("/LC_MESSAGES") );
 +    
      extern void qInitImages_designercore();
      qInitImages_designercore();
  
+--- qt-x11-free-3.2.0/tools/linguist/linguist/main.cpp.orig	2003-05-13 09:08:55.000000000 +0200
++++ qt-x11-free-3.2.0/tools/linguist/linguist/main.cpp	2003-08-12 20:10:04.402629744 +0200
+@@ -34,6 +34,7 @@
+ #include <qtranslator.h>
+ #include <qsettings.h>
+ #include <qsplashscreen.h>
++#include <qtextcodec.h>
+ 
+ int main( int argc, char **argv )
+ {
+@@ -41,10 +42,16 @@
+     QApplication::setOverrideCursor( Qt::waitCursor );
+ 
+ 
++    QString resourceDir = qInstallPathTranslations();
+     QTranslator translator( 0 );
+-    translator.load( QString( "linguist_" ) + QTextCodec::locale(), "." );
++    translator.load( QString( "linguist" ), resourceDir + QString("/") + QString(QTextCodec::locale()) + QString("/LC_MESSAGES") );
+     app.installTranslator( &translator );
+ 
++    QTranslator qttranslator( 0 );
++    qttranslator.load( QString( "qt" ), resourceDir + QString("/") + QString(QTextCodec::locale()) + QString("/LC_MESSAGES") );
++    app.installTranslator( &qttranslator );
++		
++
+     bool showSplash = TRUE;
+ 
+     QString keybase("/Qt Linguist/3.1/");

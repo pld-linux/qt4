@@ -21,13 +21,14 @@ diff -ur qt-x11-free-3.0.5.orig/tools/designer/designer/newformimpl.cpp qt-x11-f
  <li><p>Right click the form in the Forms list, then click Remove form from project.</p>
  </ol><p>Now that we have the simple template we are ready to use it. Click <b>File|New</b> to invoke the <em>New File</em> dialog. One of the templates that will appear is 'Simple Dialog'. Click the simple dialog, then click <b>OK</b>. A new form will appear with the same widgets and layout as the template. Add any other widgets and functionality. When you attempt to save the form you will be prompted for a new form name.</p>
  <h4><a name="2-2"></a>Base-class Templates</h4>
---- qt-copy/tools/designer/designer/designer.pro.orig	Thu Oct 24 19:17:21 2002
-+++ qt-copy/tools/designer/designer/designer.pro	Thu Oct 24 20:36:22 2002
-@@ -414,6 +414,6 @@
- 
+--- qt-copy/tools/designer/designer/designer.pro~	2003-06-23 18:59:53.000000000 +0200
++++ qt-copy/tools/designer/designer/designer.pro	2003-06-23 20:23:44.000000000 +0200
+@@ -427,7 +427,7 @@
  target.path=$$libs.path
  INSTALLS += target
+ 
 -templates.path=$$data.path/templates
 +templates.path=$$data.path/designer/templates
  templates.files = ../templates/*
  INSTALLS += templates
+ 
