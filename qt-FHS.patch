@@ -1,7 +1,19 @@
-diff -urN qt-x11-free-3.0.2.orig/src/kernel/qapplication.cpp qt-x11-free-3.0.2/src/kernel/qapplication.cpp
---- qt-x11-free-3.0.2.orig/src/kernel/qapplication.cpp	Mon Feb 18 13:46:33 2002
-+++ qt-x11-free-3.0.2/src/kernel/qapplication.cpp	Wed Feb 27 01:25:25 2002
-@@ -1440,11 +1440,11 @@
+diff -urN qt-x11-free-3.0.2-snapshot-20020222.orig/doc/html/designer-manual-8.html qt-x11-free-3.0.2-snapshot-20020222/doc/html/designer-manual-8.html
+--- qt-x11-free-3.0.2-snapshot-20020222.orig/doc/html/designer-manual-8.html	Fri Feb 22 01:39:22 2002
++++ qt-x11-free-3.0.2-snapshot-20020222/doc/html/designer-manual-8.html	Thu Feb 28 00:28:03 2002
+@@ -87,7 +87,7 @@
+ <ol type=1><li><p>Click <b>File|New</b> to invoke the <em>New File</em> dialog. Click the Dialog template then click <b>OK</b>.</p>
+ <li><p>Click the <b>Text Label</b> toolbar button, then click near the top left of the form. Change the font Point Size property to 16 and change the <em>text</em> property to your or your company's name. Click the <b>Line</b> toolbar button, then click the form below the label; click Horizontal on the pop-up menu.</p>
+ <li><p>Select the label and the line. (<b>Ctrl+Click</b> the form, then drag the rubber band so that it touches or includes the line and the label.) Press <b>Ctrl+L</b> to lay them out vertically.</p>
+-<li><p>Click the <b>Save</b> toolbar button. In the <em>Save As</em> dialog, navigate to <em>Qt Designer</em>'s templates directory, e.g. (<tt>qt/tools/designer/templates</tt>. Type in the name 'Simple_Dialog.ui' and click <b>Save</b>.</p>
++<li><p>Click the <b>Save</b> toolbar button. In the <em>Save As</em> dialog, navigate to <em>Qt Designer</em>'s templates directory, e.g. (<tt>/usr/X11R6/share/qt/designer/templates</tt>. Type in the name 'Simple_Dialog.ui' and click <b>Save</b>.</p>
+ <li><p>Right click the form in the Forms list, then click Remove form from project.</p>
+ </ol><p>Now that we have the simple template we are ready to use it. Click <b>File|New</b> to invoke the <em>New File</em> dialog. One of the templates that will appear is 'Simple Dialog'. Click the simple dialog, then click <b>OK</b>. A new form will appear with the same widgets and layout as the template. Add any other widgets and functionality. When you attempt to save the form you will be prompted for a new form name.</p>
+ <h4><a name="2-2"></a>Base-class Templates</h4>
+diff -urN qt-x11-free-3.0.2-snapshot-20020222.orig/src/kernel/qapplication.cpp qt-x11-free-3.0.2-snapshot-20020222/src/kernel/qapplication.cpp
+--- qt-x11-free-3.0.2-snapshot-20020222.orig/src/kernel/qapplication.cpp	Fri Feb 22 01:13:11 2002
++++ qt-x11-free-3.0.2-snapshot-20020222/src/kernel/qapplication.cpp	Thu Feb 28 00:36:07 2002
+@@ -1454,11 +1454,11 @@
  	app_libpaths = new QStringList;
  
  	char *qtdir = getenv("QTDIR");
@@ -15,5 +27,41 @@ diff -urN qt-x11-free-3.0.2.orig/src/kernel/qapplication.cpp qt-x11-free-3.0.2/s
 +	else if ( QFile::exists( QString(QT_INSTALL_PREFIX) + "/lib/qt/plugins" ) )
 +	    app_libpaths->append( QString(QT_INSTALL_PREFIX) + "/lib/qt/plugins" );
  #endif // QT_INSTALL_PREFIX
+ #ifdef QT_INSTALL_PLUGINS
+ 	else if( QFile::exists( QString(QT_INSTALL_PLUGINS) )
+diff -urN qt-x11-free-3.0.2-snapshot-20020222.orig/tools/designer/designer/mainwindowactions.cpp qt-x11-free-3.0.2-snapshot-20020222/tools/designer/designer/mainwindowactions.cpp
+--- qt-x11-free-3.0.2-snapshot-20020222.orig/tools/designer/designer/mainwindowactions.cpp	Wed Jan 23 17:33:01 2002
++++ qt-x11-free-3.0.2-snapshot-20020222/tools/designer/designer/mainwindowactions.cpp	Thu Feb 28 00:28:58 2002
+@@ -1307,7 +1307,7 @@
+ 	QMessageBox::information( this, tr( "Create Template" ), tr( "Couldn't create the template" ) );
+ 	return;
      }
-     return *app_libpaths;
+-    fn.prepend( QString( getenv( "QTDIR" ) ) + "/tools/designer/templates/" );
++    fn.prepend( QString( getenv( "QTDIR" ) ) + "share/qt/designer/templates/" );
+     fn.append( ".ui" );
+     QFile f( fn );
+     if ( !f.open( IO_WriteOnly ) ) {
+diff -urN qt-x11-free-3.0.2-snapshot-20020222.orig/tools/designer/designer/newformimpl.cpp qt-x11-free-3.0.2-snapshot-20020222/tools/designer/designer/newformimpl.cpp
+--- qt-x11-free-3.0.2-snapshot-20020222.orig/tools/designer/designer/newformimpl.cpp	Thu Feb 21 02:11:16 2002
++++ qt-x11-free-3.0.2-snapshot-20020222/tools/designer/designer/newformimpl.cpp	Thu Feb 28 00:29:47 2002
+@@ -284,7 +284,7 @@
+ 	templRoots << QT_INSTALL_DATA;
+ #endif
+ 	for ( QStringList::Iterator it = templRoots.begin(); it != templRoots.end(); ++it ) {
+-	    QString path = (*it) + "/tools/designer/templates";
++	    QString path = (*it) + "/share/qt/designer/templates";
+ 	    if ( QFile::exists( path )) {
+ 		templPath = path;
+ 		break;
+diff -urN qt-x11-free-3.0.2-snapshot-20020222.orig/tools/qtconfig/mainwindow.cpp qt-x11-free-3.0.2-snapshot-20020222/tools/qtconfig/mainwindow.cpp
+--- qt-x11-free-3.0.2-snapshot-20020222.orig/tools/qtconfig/mainwindow.cpp	Fri Jan 11 15:44:14 2002
++++ qt-x11-free-3.0.2-snapshot-20020222/tools/qtconfig/mainwindow.cpp	Thu Feb 28 00:34:47 2002
+@@ -628,7 +628,7 @@
+ 	QStringList libpath = QApplication::libraryPaths();
+ 	QString QTDIRpath = getenv("QTDIR");
+ 	if ( ! QTDIRpath.isEmpty() ) {
+-	    QTDIRpath += "/plugins";
++	    QTDIRpath += "/lib/qt/plugins";
+ 	    libpath.remove(QTDIRpath);
+ 	}
+ 	settings.writeEntry("/qt/libraryPath", libpath, ':');
