@@ -1,0 +1,11 @@
+--- qt-x11-free-3.0.5/configure.orig	Thu Aug 29 21:41:47 2002
++++ qt-x11-free-3.0.5/configure	Thu Aug 29 22:17:58 2002
+@@ -1755,6 +1755,8 @@
+ 	if [ "$CFG_DEBUG" = "yes" ]; then
+           grep "QMAKE_CFLAGS_DEBUG[^_A-Z0-9]" $QMAKESPEC/qmake.conf >> $mkfile
+ 	  EXTRA_CFLAGS="$EXTRA_CFLAGS \$(QMAKE_CFLAGS_DEBUG)"
++	elif [ -n "$OPTFLAGS" ]; then
++	  EXTRA_CFLAGS="$EXTRA_CFLAGS $OPTFLAGS"
+         fi
+ 	if [ "$MAC_PLATFORM" = "yes" ]; then
+ 	  echo "CARBON_LFLAGS +=-framework Carbon" >> $mkfile
