@@ -1,40 +1,3 @@
---- qt-x11-preview-4.0.0-tp1/src/core/tools/qlocale.cpp.orig	2004-07-08 11:14:43.000000000 +0200
-+++ qt-x11-preview-4.0.0-tp1/src/core/tools/qlocale.cpp	2004-07-14 13:26:46.680776232 +0200
-@@ -1629,8 +1629,32 @@
- const char* QLocalePrivate::systemLocaleName()
- {
-     static QByteArray lang;
--    lang = getenv("LANG");
--
-+    lang = getenv( "LC_ALL" );
-+    if ( lang.isEmpty() )
-+    {
-+	    lang = getenv( "LC_MESSAGES" );
-+    }
-+    if ( lang.isEmpty() )
-+    {
-+	    lang = getenv( "LANG" );
-+    }
-+    
-+    QFile * plik = new QFile("/usr/share/locale/locale.alias");
-+        if (plik->open(QIODevice::ReadOnly))
-+        {
-+                QTextStream stream(plik);
-+                QString line;
-+                int i = 1;
-+                while (!stream.atEnd()) {
-+                        line = stream.readLine();
-+                        if (!line.startsWith("#") && ( line.left(line.indexOf(QChar('t'))) == lang.toLower() ) )
-+                        {
-+                                     lang = (line.mid(line.lastIndexOf(QChar('t')))).ascii();
-+                        }
-+                }
-+                plik->close();
-+        }
-+	if (plik) delete plik;
- #if !defined(QWS) && defined(Q_OS_MAC)
-     if (!lang.isEmpty())
-         return lang;
 --- qt-x11-preview-4.0.0-tp1/src/core/codecs/qtextcodec.cpp.orig	2004-07-08 11:14:42.000000000 +0200
 +++ qt-x11-preview-4.0.0-tp1/src/core/codecs/qtextcodec.cpp	2004-07-14 13:30:02.957937568 +0200
 @@ -2630,14 +2630,35 @@
@@ -306,3 +269,4 @@
      a.installTranslator( &qtTranslator );
  
      Config *conf = Config::loadConfig( profileName );
+
