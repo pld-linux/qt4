@@ -1,0 +1,23 @@
+--- qt-x11-preview-4.0.0-tp1/tools/assistant/lib/lib.pro.orig	2004-07-08 11:14:37.000000000 +0200
++++ qt-x11-preview-4.0.0-tp1/tools/assistant/lib/lib.pro	2004-07-13 21:53:19.671961608 +0200
+@@ -3,8 +3,6 @@
+ VERSION                = 1.0
+ 
+ CONFIG                += qt warn_on release
+-CONFIG                += staticlib
+-CONFIG                -= dll
+ 
+ HEADERS         = qassistantclient.h
+ SOURCES         = qassistantclient.cpp
+--- qt-x11-free-3.1.1/configure.orig	Fri Nov 29 15:26:24 2002
++++ qt-x11-free-3.1.1/configure	Fri Feb 14 09:59:20 2003
+@@ -2185,6 +2185,9 @@
+             grep "QMAKE_CFLAGS_DEBUG[^_A-Z0-9]" $QMAKESPEC/qmake.conf >>$mkfile
+ 	    EXTRA_CFLAGS="$EXTRA_CFLAGS \$(QMAKE_CFLAGS_DEBUG)"
+         fi
++	if [ -n "$OPTFLAGS" ]; then
++	    EXTRA_CFLAGS="$EXTRA_CFLAGS $OPTFLAGS"
++	fi
+ 	if [ "$PLATFORM_MAC" = "yes" ]; then
+ 	    echo "CARBON_LFLAGS +=-framework CoreServices" >>$mkfile
+ 	    EXTRA_LFLAGS="$EXTRA_LFLAGS \$(CARBON_LFLAGS)"
