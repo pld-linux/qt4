@@ -22,7 +22,7 @@
 
 %undefine	with_dont_enable
 
-%ifnarch %{ix86} amd64 sparc sparcv9 alpha ppc
+%ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
 %endif
 %define		_withsql	1
@@ -85,6 +85,7 @@ BuildRequires:	libungif-devel
 BuildRequires:	perl-base
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
+BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
 %{?with_odbc:BuildRequires:	unixODBC-devel}
 %{?with_sqlite:BuildRequires:	sqlite-devel}
@@ -93,10 +94,10 @@ BuildRequires:	xft-devel
 BuildRequires:	xrender-devel
 BuildRequires:	zlib-devel
 Requires:	OpenGL
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 
