@@ -1,57 +1,45 @@
---- qt-x11-preview-4.0.0-tp1/src/core/codecs/qtextcodec.cpp.orig	2004-07-08 11:14:42.000000000 +0200
-+++ qt-x11-preview-4.0.0-tp1/src/core/codecs/qtextcodec.cpp	2004-07-14 13:30:02.957937568 +0200
-@@ -2630,14 +2630,35 @@
-         // Get the first nonempty value from $LC_ALL, $LC_CTYPE, and $LANG
-         // environment variables.
-         char * lang = qstrdup(getenv("LC_ALL"));
--        if (!lang || lang[0] == 0 || strcmp(lang, "C") == 0) {
-+        if (!lang || lang[0] == 0 ) {
-             if (lang) delete [] lang;
-             lang = qstrdup(getenv("LC_CTYPE"));
+--- qt-copy/src/corelib/codecs/qtextcodec.cpp.orig	2005-05-13 16:34:37.000000000 +0200
++++ qt-copy/src/corelib/codecs/qtextcodec.cpp	2005-05-13 19:55:18.876291072 +0200
+@@ -359,6 +359,26 @@
+             lang = qstrdup(qgetenv("LANG"));
          }
--        if (!lang || lang[0] == 0 || strcmp(lang, "C") == 0) {
-+        if (!lang || lang[0] == 0 ) {
-             if (lang) delete [] lang;
-             lang = qstrdup(getenv("LANG"));
-         }
-+        QString lang_s (lang);
-+
-+        QFile * plik = new QFile("/usr/share/locale/locale.alias");
-+        if (plik->open(QIODevice::ReadOnly))
-+        {
-+                QTextStream stream(plik);
-+                QString line;
-+                int i = 1;
-+                while (!stream.atEnd()) {
-+                        line = stream.readLine();
-+                        if (!line.startsWith("#") && ( line.left(line.indexOf(QChar('t'))) == lang_s.toLower() ) )
-+                        {
-+				if (lang) delete [] lang;
-+                                lang = qstrdup((line.mid(line.lastIndexOf(QChar('t')))).ascii());
-+                        }
-+                }
-+                plik->close();
-+        }
-+	if (plik) delete plik;
-+	
-+	
  
++         QString lang_s (lang);
++
++         QFile * plik = new QFile("/usr/share/locale/locale.alias");
++         if (plik->open(QIODevice::ReadOnly))
++         {
++                 QTextStream stream(plik);
++                 QString line;
++                 while (!stream.atEnd()) {
++                         line = stream.readLine();
++                         if (!line.startsWith("#") && ( line.left(line.indexOf(QChar('t'))) == lang_s.toLower() ) )
++                         {
++                               if (lang) delete [] lang;
++                                lang = qstrdup((line.mid(line.lastIndexOf(QChar('t')))).ascii());
++                         }
++                }
++	        plik->close();
++         }
++        if (plik) delete plik;
++					
++
          // Now try these in order:
          // 1. CODESET from ctype if it contains a .CODESET part (e.g. en_US.ISO8859-15)
---- qt-x11-preview-4.0.0-tp1/tools/assistant/main.cpp.orig	2004-07-08 11:14:30.000000000 +0200
-+++ qt-x11-preview-4.0.0-tp1/tools/assistant/main.cpp	2004-07-13 22:14:09.000000000 +0200
-@@ -254,11 +254,11 @@
-         resourceDir = QFile::decodeName(qInstallPathTranslations());
+         // 2. CODESET from lang if it contains a .CODESET part
+--- qt-copy/tools/assistant/main.cpp.orig	2005-05-13 16:39:06.000000000 +0200
++++ qt-copy/tools/assistant/main.cpp	2005-05-13 19:58:41.956418200 +0200
+@@ -272,11 +272,11 @@
+         resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
  
      QTranslator translator( 0 );
--    translator.load( QLatin1String("assistant_") + QLatin1String(QTextCodec::locale()), resourceDir );
+-    translator.load( QLatin1String("assistant_") + QLocale::system().name().toLower(), resourceDir );
 +    translator.load( QLatin1String("assistant"), resourceDir + QLatin1String("/") + QLatin1String(QTextCodec::locale()) + QLatin1String("/LC_MESSAGES") );
      a.installTranslator( &translator );
  
      QTranslator qtTranslator( 0 );
--    qtTranslator.load( QLatin1String("qt_") + QLatin1String(QTextCodec::locale()), resourceDir );
+-    qtTranslator.load( QLatin1String("qt_") + QLocale::system().name().toLower(), resourceDir );
 +    qtTranslator.load( QLatin1String("qt"), resourceDir + QLatin1String("/") + QLatin1String(QTextCodec::locale()) + QLatin1String("/LC_MESSAGES") );
      a.installTranslator( &qtTranslator );
  
      Config *conf = Config::loadConfig( profileName );
-
