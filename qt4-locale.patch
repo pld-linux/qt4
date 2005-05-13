@@ -1,32 +1,3 @@
---- qt-copy/src/corelib/codecs/qtextcodec.cpp.orig	2005-05-13 16:34:37.000000000 +0200
-+++ qt-copy/src/corelib/codecs/qtextcodec.cpp	2005-05-13 19:55:18.876291072 +0200
-@@ -359,6 +359,26 @@
-             lang = qstrdup(qgetenv("LANG"));
-         }
- 
-+         QString lang_s (lang);
-+
-+         QFile * plik = new QFile("/usr/share/locale/locale.alias");
-+         if (plik->open(QIODevice::ReadOnly))
-+         {
-+                 QTextStream stream(plik);
-+                 QString line;
-+                 while (!stream.atEnd()) {
-+                         line = stream.readLine();
-+                         if (!line.startsWith("#") && ( line.left(line.indexOf(QChar('t'))) == lang_s.toLower() ) )
-+                         {
-+                               if (lang) delete [] lang;
-+                                lang = qstrdup((line.mid(line.lastIndexOf(QChar('t')))).ascii());
-+                         }
-+                }
-+	        plik->close();
-+         }
-+        if (plik) delete plik;
-+					
-+
-         // Now try these in order:
-         // 1. CODESET from ctype if it contains a .CODESET part (e.g. en_US.ISO8859-15)
-         // 2. CODESET from lang if it contains a .CODESET part
 --- qt-copy/tools/assistant/main.cpp.orig	2005-05-13 16:39:06.000000000 +0200
 +++ qt-copy/tools/assistant/main.cpp	2005-05-13 19:58:41.956418200 +0200
 @@ -272,11 +272,11 @@
@@ -43,3 +14,42 @@
      a.installTranslator( &qtTranslator );
  
      Config *conf = Config::loadConfig( profileName );
+--- qt-copy/src/corelib/codecs/qtextcodec.cpp.niedakh	2005-05-13 16:34:37.000000000 +0200
++++ qt-copy/src/corelib/codecs/qtextcodec.cpp	2005-05-13 22:31:48.036921696 +0200
+@@ -63,6 +63,9 @@
+ #include <langinfo.h>
+ #endif
+ 
++#include <qfile.h>
++#include <qtextstream.h>
++
+ 
+ #ifndef QT_NO_COMPONENT
+ Q_GLOBAL_STATIC_WITH_ARGS(QFactoryLoader, loader,
+@@ -359,6 +362,26 @@
+             lang = qstrdup(qgetenv("LANG"));
+         }
+ 
++         QString lang_s (lang);
++
++         QFile * plik = new QFile("/usr/share/locale/locale.alias");
++         if (plik->open(QIODevice::ReadOnly))
++         {
++                 QTextStream stream(plik);
++                 QString line;
++                 while (!stream.atEnd()) {
++                         line = stream.readLine();
++                         if (!line.startsWith("#") && ( line.left(line.indexOf(QChar('t'))) == lang_s.toLower() ) )
++                         {
++                               if (lang) delete [] lang;
++                                lang = qstrdup((line.mid(line.lastIndexOf(QChar('t')))).toLatin1());
++                         }
++                }
++	        plik->close();
++         }
++        if (plik) delete plik;
++					
++
+         // Now try these in order:
+         // 1. CODESET from ctype if it contains a .CODESET part (e.g. en_US.ISO8859-15)
+         // 2. CODESET from lang if it contains a .CODESET part
