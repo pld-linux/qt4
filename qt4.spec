@@ -15,7 +15,8 @@
 %bcond_without	odbc		# don't build unixODBC plugin
 %bcond_without	pgsql		# don't build PostgreSQL plugin
 %bcond_without	designer	# don't build designer (it takes long)
-%bcond_without	sqlite		# don't build SQLite plugin
+%bcond_without	sqlite3		# don't build SQLite3 plugin
+%bcond_without	sqlite		# don't build SQLite2 plugin
 %bcond_without	ibase		# build ibase (InterBase/Firebird) plugin
 %bcond_with	pch		# enable pch in qmake
 %bcond_with	dont_enable	# a bcond for missing features
@@ -26,9 +27,9 @@
 %undefine	with_ibase
 %endif
 %define		_withsql	1
-%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}
+%{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-#define		_snap		040422
+%define		_snap		050513
 %define		_ver		4.0.0
 %define		_packager	djurban
 %define		_name		qt
@@ -39,13 +40,13 @@ Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	%{_ver}
-Release:	0.tp1.1
+Release:	1.%{_snap}.0.1
 Epoch:		6
 License:	GPL/QPL
 Group:		X11/Libraries
-#Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-%{_snap}.tar.bz2
+Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-%{_snap}.tar
 #Source0:	ftp://ftp.trolltech.com/qt/source/%{_name}-x11-opensource-%{version}-b1.tar.bz2
-Source0:	http://wftp.tu-chemnitz.de/pub/Qt/source//%{_name}-x11-opensource-%{version}-b1.tar.bz2
+#Source0:	http://wftp.tu-chemnitz.de/pub/Qt/source//%{_name}-x11-opensource-%{version}-b1.tar.bz2
 # Source0-md5:	4e7432f9bf5f3333429b490e33568573
 #Source1:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-patches-040531.tar.bz2
 #Source1-md5	2e38e44b6ef26bfb8a7f3b6900ee53c0
@@ -53,20 +54,19 @@ Source2:	%{_name}config.desktop
 Source3:	designer.desktop
 Source4:	assistant.desktop
 Source5:	linguist.desktop
+Patch0:		%{name}-tools.patch
 %if %{with dont_enable}
-Patch0:		%{_name}-tools.patch
 Patch1:		%{_name}-FHS.patch
 Patch3:		%{_name}-disable_tutorials.patch
 %endif
 Patch2:		%{name}-buildsystem.patch
 Patch4:		%{name}-locale.patch
-Patch6:		%{name}-licence_check.patch
-Patch7:		%{name}-xcursor_version.patch
 Patch8:		%{name}-antialias.patch
-Patch9:		%{name}-hotfixes.patch
+#Patch9:		%{name}-hotfixes.patch
 URL:		http://www.trolltech.com/products/qt/
 Icon:		qt.xpm
 %{?with_ibase:BuildRequires:	Firebird-devel}
+%{?with_sqlite3:BuildRequires:	sqlite3-devel}
 BuildRequires:	OpenGL-devel
 %{?with_nvidia:BuildRequires:	XFree86-driver-nvidia-devel < 1.0.4620}
 # incompatible with bison
@@ -85,7 +85,8 @@ BuildRequires:	libungif-devel
 BuildRequires:	perl-base
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
-BuildRequires:	rpmbuild(macros) >= 1.213
+# uncomment this in rel. 1 - no time to upgrade rpm
+#BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
 %{?with_odbc:BuildRequires:	unixODBC-devel}
 %{?with_sqlite:BuildRequires:	sqlite-devel}
@@ -140,6 +141,10 @@ wykorzystaniem Netscape LiveConnect.
 
 Ten pakiet zawiera wspó³dzielon±, wielow±tkow±, linuksow± wersjê
 biblioteki Qt, wtyczki ze stylami oraz pliki t³umaczeñ Qt.
+
+
+
+
 
 %description -l pt_BR
 Contém as bibliotecas compartilhadas necessárias para rodar aplicações
@@ -447,19 +452,71 @@ Libraries used by the Qt GUI Designer.
 Biblioteki wykorzystywane przez narzêdzie projektowania interfejsu
 graficznego - Qt Designer.
 
+
+# NEW PACKAGES (More informative descriptions are in TODO)
+%package QtCore
+Summary:	Core classes used by other modules
+Group:		X11/Development/Libraries
+
+%description QtCore
+Core classes used by other modules.
+
+%package QtGui
+Summary:	Graphical User Interface components
+Group:		X11/Development/Libraries
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
+
+%description QtGui
+Graphical User Interface components.
+
+%package QtNetwork
+Summary:	Classes for network programming
+Group:		X11/Development/Libraries
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
+
+%description QtNetwork
+Classes for network programming.
+
+%package QtSql
+Summary:	Classes for database integration using SQL
+Group:		X11/Development/Libraries
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
+
+%description QtSql
+Classes for database integration using SQL.
+
+%package QtOpenGL
+Summary:	OpenGL support classes
+Group:		X11/Development/Libraries
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
+
+%description QtOpenGL
+OpenGL support classes.
+
+%package QtXml
+Summary:	Classes for handling XML
+Group:		X11/Development/Libraries
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
+
+%description QtXml
+Classes for handling XML.
+
+
+
+
+
 %prep
 #setup -q -n %{_name}-copy-%{_snap}
-%setup -q -n %{_name}-x11-opensource-%{version}-b1
-%if %{with dont_enable}
+%setup -q -n %{_name}-copy
 %patch0 -p1
+%if %{with dont_enable}
 %patch1 -p1
 %patch3 -p1
 %endif
-#patch2 -p1 -b .niedakh
-#patch4 -p1 -b .niedakh
-#patch6 -p1 -b .niedakh
+%patch2 -p1 -b .niedakh
+%patch4 -p1 -b .niedakh
 #patch7 -p1 -b .niedakh
-#patch8 -p1 -b .niedakh
+%patch8 -p1 -b .niedakh
 #patch9 -p1
 
 #cat >> patches/DISABLED <<EOF
@@ -499,7 +556,12 @@ echo -e "QMAKE_CXXFLAGS_DEBUG\t=\t%{debugcflags}" >> $plik
 export QTDIR=`/bin/pwd`
 export YACC='byacc -d'
 export PATH=$QTDIR/bin:$PATH
+if test -n "$LD_LIBRARY_PATH"; then
 export LD_LIBRARY_PATH=$QTDIR/%{_lib}:$LD_LIBRARY_PATH
+else
+export LD_LIBRARY_PATH=$QTDIR/lib
+fi
+
 export QMAKESPEC=$QTDIR/mkspecs/linux-g++
 
 if [ "%{_lib}" != "lib" ] ; then
@@ -517,6 +579,7 @@ export OPTFLAGS="%{rpmcflags}"
 
 DEFAULTOPT=" \
 	-DQT_CLEAN_NAMESPACE \
+	-DQT_COMPAT \
 	-verbose \
 	-prefix %{_prefix} \
 	-libdir %{_libdir} \
@@ -526,9 +589,9 @@ DEFAULTOPT=" \
 	-sysconfdir %{_sysconfdir}/qt \
 	-translationdir %{_datadir}/locale/ \
 	-fast \
+	-pch \
 	-qt-gif \
 	-system-libjpeg \
-	-system-libmng \
 	-system-libpng \
 	-system-zlib \
 	-no-exceptions \
@@ -547,13 +610,11 @@ DEFAULTOPT=" \
 
 %if %{with static_libs}
 STATICOPT=" \
-	-qt-imgfmt-jpeg \
-	-qt-imgfmt-mng \
-	-qt-imgfmt-png \
 	%{?with_mysql:-qt-sql-mysql} \
 	%{?with_odbc:-qt-sql-odbc} \
 	%{?with_pgsql:-qt-sql-psql} \
-	%{?with_sqlite:-qt-sql-sqlite} \
+	%{?with_sqlite3:-qt-sql-sqlite} \
+	%{?with_sqlite:-qt-sql-sqlite2} \
 	%{?with_ibase:-qt-sql-ibase} \
 	-static"
 
@@ -561,7 +622,6 @@ STATICOPT=" \
 	$DEFAULTOPT \
 	$STATICOPT \
 	<<_EOF_
-q
 yes
 _EOF_
 
@@ -577,30 +637,21 @@ _EOF_
 ##################################
 
 SHAREDOPT=" \
-	-plugin-imgfmt-jpeg \
-	-plugin-imgfmt-mng \
-	-plugin-imgfmt-png \
 	%{?with_mysql:-plugin-sql-mysql} \
 	%{?with_odbc:-plugin-sql-odbc} \
 	%{?with_pgsql:-plugin-sql-psql} \
-	%{?with_sqlite:-plugin-sql-sqlite} \
-	%{?with_ibase:-plugin-sql-ibase} \
-	-plugin-style-cde \
-	-plugin-style-compact \
-	-plugin-style-motif \
-	-plugin-style-motifplus \
-	-plugin-style-platinum \
-	-plugin-style-sgi \
-	-plugin-style-windows"
-
+	%{?with_sqlite3:-plugin-sql-sqlite} \
+	%{?with_sqlite:-plugin-sql-sqlite2} \
+	%{?with_ibase:-plugin-sql-ibase}"
+%if 0
 ./configure \
 	$DEFAULTOPT \
 	$SHAREDOPT \
-	-plugindir %{_libdir}/qt/plugins-mt \
+	-plugindir %{_libdir}/qt4/plugins \
 	<<_EOF_
-q
 yes
 _EOF_
+%endif
 
 %if %{with dont_enable}
 %if %{without designer}
@@ -611,8 +662,9 @@ mv tools/tools.pro{.1,}
 %endif
 %endif
 # Do not build tutorial and examples. Provide them as sources.
-%{__make} sub-qmake 
-%{__make} -C src sub-moc
+%{__make} sub-src-all-ordered sub-tools-all-ordered sub-demos-all-ordered 
+
+%if 0
 $QTDIR/bin/moc src/gui/image/qmovie.cpp > src/gui/image/qmovie.moc
 $QTDIR/bin/moc src/gui/image/qpixmapcache.cpp > src/gui/image/qpixmapcache.moc
 $QTDIR/bin/moc src/gui/widgets/qdockwindow.cpp > src/gui/widgets/qdockwindow.moc
@@ -634,8 +686,9 @@ $QTDIR/bin/moc src/compat/widgets/q3mainwindow.cpp > src/compat/widgets/q3mainwi
 $QTDIR/bin/moc src/compat/widgets/qscrollview.cpp > src/compat/widgets/qscrollview.moc
 $QTDIR/bin/moc src/compat/widgets/q3datetimeedit.cpp > src/compat/widgets/q3datetimeedit.moc
 $QTDIR/bin/moc src/compat/widgets/q3toolbar.cpp > src/compat/widgets/q3toolbar.moc
+%endif
 
-%{__make} sub-src sub-tools sub-demos
+#%{__make} sub-src sub-tools sub-demos
 
 %if %{with dont_enable}
 %if %{with designer}
