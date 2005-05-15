@@ -45,7 +45,7 @@ Release:	1.%{_snap}.0.1
 Epoch:		6
 License:	GPL/QPL
 Group:		X11/Libraries
-Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-%{_snap}.tar
+Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-%{_snap}.tar.bz2
 #Source0:	ftp://ftp.trolltech.com/qt/source/%{_name}-x11-opensource-%{version}-b1.tar.bz2
 #Source0:	http://wftp.tu-chemnitz.de/pub/Qt/source//%{_name}-x11-opensource-%{version}-b1.tar.bz2
 # Source0-md5:	4e7432f9bf5f3333429b490e33568573
