@@ -48,7 +48,7 @@ Group:		X11/Libraries
 Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-%{_snap}.tar.bz2
 #Source0:	ftp://ftp.trolltech.com/qt/source/%{_name}-x11-opensource-%{version}-b1.tar.bz2
 #Source0:	http://wftp.tu-chemnitz.de/pub/Qt/source//%{_name}-x11-opensource-%{version}-b1.tar.bz2
-# Source0-md5:	4e7432f9bf5f3333429b490e33568573
+# Source0-md5:	df41290b627b28dc00991bf1e0f7a440
 #Source1:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-patches-040531.tar.bz2
 #Source1-md5	2e38e44b6ef26bfb8a7f3b6900ee53c0
 Source2:	%{_name}config.desktop
