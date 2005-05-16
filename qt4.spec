@@ -300,15 +300,15 @@ Group:  X11/Development/Libraries
 Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
 Requires:       QtSql >= %{epoch}:%{version}-%{release}
 
-%description -n QtSql-psql
+%description -n QtSql-pgsql
 This package contains a plugin for accessing
 PostgreSQL database via the QSql classes.
 
-%description -n QtSql-psql -l pl
+%description -n QtSql-pgsql -l pl
 Ten pakiet zawiera wtyczki do Qt umo¿liwiaj±ce
 korzystanie z baz danych PostgreSQL poprzez klasy QSql.
 
-%description -n QtSql-psql -l es
+%description -n QtSql-pgsql -l es
 Plugin de suporte a PostgreSQL para Qt.
 
 %package -n QtSql-sqlite
