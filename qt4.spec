@@ -93,7 +93,7 @@ Obsoletes:	qt-utils
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
-%define         _noautostrip    '.*_debug\.so*'
+%define         _noautostrip    '.*_debug\\.so*'
 
 %description
 Qt is a complete C++ application development framework, which includes
@@ -845,11 +845,11 @@ EOF
 %post	-n Qt3Support	-p /sbin/ldconfig
 %postun	-n Qt3Support	-p /sbin/ldconfig
 
-%post	-n assistant	-p /sbin/ldconfig
-%postun	-n assistant	-p /sbin/ldconfig
+%post	assistant	-p /sbin/ldconfig
+%postun	assistant	-p /sbin/ldconfig
 
-%post	-n designer-libs	-p /sbin/ldconfig
-%postun	-n designer-libs	-p /sbin/ldconfig
+%post	designer-libs	-p /sbin/ldconfig
+%postun	designer-libs	-p /sbin/ldconfig
 
 %files -n QtCore
 %defattr(644,root,root,755)
