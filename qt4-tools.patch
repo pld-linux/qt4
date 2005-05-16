@@ -6,7 +6,7 @@
  			porting \
 -			designer
 +			designer \
-+			qfvb
++			qvfb
      unix:SUBDIRS        += qtconfig
  }
  
