@@ -1,16 +1,12 @@
+# TODO: 
+#	* better descriptions
 #
-# TODO:
-# - build system recheck (most make -C are to be changed)
-# - redo subpackages (qt-core,qt-xml,qt-network,qt-opengl, etc.)
-# - bconds for IBM db2, oracle and tds sql drivers
-# - fix install
-# - remove obsolete patches
-
 %define         _noautostrip    '.*_debug\.so*'
+
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
-%bcond_with	nvidia		# prelink Qt/KDE and depend on NVIDIA binaries
-%bcond_without	static_libs	# don't build static libraries
+# static libs disabled for now 
+%bcond_with	static_libs	# don't build static libraries
 %bcond_without	cups		# disable CUPS support
 %bcond_without	mysql		# don't build MySQL plugin
 %bcond_without	odbc		# don't build unixODBC plugin
@@ -20,8 +16,9 @@
 %bcond_without	sqlite		# don't build SQLite2 plugin
 %bcond_without	ibase		# build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# enable pch in qmake
-%bcond_with	dont_enable	# a bcond for missing features
 
+
+%bcond_with	dont_enable	# blocks translations, they are not yeat available
 %undefine	with_dont_enable
 
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
@@ -42,11 +39,9 @@ Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	%{_ver}
 Release:	1.%{_snap}.0.1
-Epoch:		6
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-%{_snap}.tar.bz2
-#Source0:	ftp://ftp.trolltech.com/qt/source/%{_name}-x11-opensource-%{version}-b1.tar.bz2
 #Source0:	http://wftp.tu-chemnitz.de/pub/Qt/source//%{_name}-x11-opensource-%{version}-b1.tar.bz2
 # Source0-md5:	df41290b627b28dc00991bf1e0f7a440
 #Source1:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-patches-040531.tar.bz2
@@ -58,18 +53,17 @@ Source5:	linguist.desktop
 Patch0:		%{name}-tools.patch
 %if %{with dont_enable}
 Patch1:		%{_name}-FHS.patch
+# no tutorials exist
 Patch3:		%{_name}-disable_tutorials.patch
 %endif
 Patch2:		%{name}-buildsystem.patch
 Patch4:		%{name}-locale.patch
 Patch8:		%{name}-antialias.patch
-#Patch9:		%{name}-hotfixes.patch
 URL:		http://www.trolltech.com/products/qt/
 Icon:		qt.xpm
 %{?with_ibase:BuildRequires:	Firebird-devel}
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
 BuildRequires:	OpenGL-devel
-%{?with_nvidia:BuildRequires:	XFree86-driver-nvidia-devel < 1.0.4620}
 # incompatible with bison
 BuildRequires:	byacc
 %{?with_cups:BuildRequires:	cups-devel}
@@ -118,9 +112,6 @@ the APIs for file-handling, networking, process-handling, threading,
 database access, etc. Qt now also has Motif migration oraz Netscape
 LiveConnect plugin.
 
-This package contains the shared, multi-threaded, linux version of the
-Qt library, the style plugins and translation files for Qt.
-
 %description -l es
 Contiene las bibliotecas compartidas necesarias para ejecutar
 aplicaciones Qt, bien como los archivos README.
@@ -140,236 +131,346 @@ procesów, w±tków, baz danych itp. Umo¿liwia tak¿e ³atwe przenoszenie
 na Qt aplikacji korzystaj±cych z Motif oraz pisanie wtyczek z
 wykorzystaniem Netscape LiveConnect.
 
-Ten pakiet zawiera wspó³dzielon±, wielow±tkow±, linuksow± wersjê
-biblioteki Qt, wtyczki ze stylami oraz pliki t³umaczeñ Qt.
+#
+##
+#### Libraries
+##
+#
 
-
-
-
-
-%description -l pt_BR
-Contém as bibliotecas compartilhadas necessárias para rodar aplicações
-Qt, bem como os arquivos README.
-
-%package devel
-Summary:	Development files for the Qt GUI toolkit
-Summary(es):	Archivos de inclusión necesaria para compilar aplicaciones Qt
-Summary(pl):	Pliki nag³ówkowe, przyk³ady i dokumentacja do biblioteki
-Summary(pt_BR):	Arquivos de inclusão necessária para compilar aplicações Qt
+#
+### QtCore
+#
+%package -n QtCore
+Summary:	Core classes used by other modules
 Group:		X11/Development/Libraries
-Requires:	OpenGL-devel
-Requires:	freetype-devel
-Requires:	libjpeg-devel
-Requires:	libmng-devel
-Requires:	libpng-devel
-Requires:	libstdc++-devel
-Requires:	%{_name} = %{epoch}:%{version}-%{release}
-Conflicts:	qt2-devel
 
-%description devel
-This package contains the Qt development tools: the metaobjects
-compiler (moc) and the user interface compiler (uic); Qt include
-files, pkgconfig helpers and tools for preserving compatibility
-between versions of Qt.
+%description -n QtCore
+Core classes used by other modules.
 
-
-%description devel -l pl
-Ten pakiet zawiera narzêdzia programistyczne Qt: kompilator
-metaobiektów (moc), kompilator interfejsu u¿ytkownika (uic); pliki
-nag³ówkowe, wsparcie dla pkgconfig oraz narzêdzia u³atwiaj±ce
-zachowanie kompatybilno¶ci niezale¿nie od wersji Qt.
-
-
-%package static
-Summary:	Qt static library
-Summary(pl):	Biblioteka statyczna Qt
+%package -n QtCore-devel
+Summary:	Core classes used by other modules
 Group:		X11/Development/Libraries
-Requires:	%{_name}-devel = %{epoch}:%{version}-%{release}
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
 
-%description static
-Qt is a complete C++ application development framework, which includes
-a class library and tools for multiplatform development and
-internationalization. Using Qt, a single source code tree can build
-applications that run natively on different platforms (Windows,
-Unix/Linux, Mac OS X, embedded Linux).
+%description -n QtCore-devel
+Core classes used by other modules.
 
-Qt has a rich set of standard widgets, and lets you write custom
-controls. It encapsulates four different platform-specific APIs, and
-the APIs for file-handling, networking, process-handling, threading,
-database access, etc. Qt now also has Motif migration oraz Netscape
-LiveConnect plugin.
+#
+### QtGui
+#
 
-This package contains the static, multi-threaded, linux version of the
-Qt library.
-
-
-%description static -l pl
-Qt oferuje kompletny system do tworzenia i rozwijania aplikacji w
-jêzyku C++, w którego sk³ad wchodzi biblioteka z klasami oraz
-wieloplatformowymi narzêdziami do rozwijania i t³umaczenia aplikacji.
-Z pomoc± Qt jeden kod ¼ród³owy mo¿e byæ natywnie uruchamiany na
-ró¿nych platformach (Windows, Unix/Linux, Mac OS X).
-
-Qt ma bogaty zbiór standardowych elementów interfejsu graficznego, ale
-pozwala równie¿ na pisanie w³asnych elementów. £±czy w sposób
-niewidoczny dla programisty interfejsy programowania ró¿nych systemów,
-tworz±c w ten sposób jeden interfejs dla obs³ugi plików, sieci,
-procesów, w±tków, baz danych itp. Umo¿liwia tak¿e ³atwe przenoszenie
-na Qt aplikacji korzystaj±cych z Motif oraz pisanie wtyczek z
-wykorzystaniem Netscape LiveConnect.
-
-Ten pakiet zawiera statyczn±, wielow±tkow±, linuksow± wersjê
-biblioteki Qt.
-
-%package doc
-Summary:	Qt Documentation in HTML format
-Summary(pl):	Dokumentacja Qt w formacie HTML
+%package -n QtGui
+Summary:	Graphical User Interface components
 Group:		X11/Development/Libraries
-Obsoletes:	qt-doc-html
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
 
-%description doc
-Qt documentation in HTML format.
+%description -n QtGui
+Graphical User Interface components.
 
-%description doc -l pl
-Dokumentacja qt w formacie HTML.
-
-%package man
-Summary:	Qt man pages
-Summary(pl):	Qt - strony man
+%package -n QtGui-devel
+Summary:	Graphical User Interface components
 Group:		X11/Development/Libraries
-Obsoletes:	qt-doc-man
+Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
 
-%description man
-Qt documentation in man pages format.
+%description -n QtGui-devel
+Graphical User Interface components.
 
-%description man -l pl
-Dokumentacja qt w formacie stron man.
+#
+### QtNetwork
+#
 
-%package examples
-Summary:	Example programs bundled with Qt
-Summary(pl):	Æwiczenia i przyk³ady do Qt
-Summary(pt_BR):	Programas exemplo desenvolvidos com o Qt
+%package -n QtNetwork
+Summary:	Classes for network programming
 Group:		X11/Development/Libraries
-Requires:	%{_name}-devel = %{epoch}:%{version}-%{release}
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
 
-%description examples
-Example programs bundled with Qt version.
+%description -n QtNetwork
+Classes for network programming.
 
-%description examples -l pl
-Æwiczenia/przyk³ady do³±czone do Qt.
+%package -n QtNetwork-devel
+Summary:	Classes for network programming
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
 
-%description examples -l pt_BR
-Programas exemplo para o Qt versão.
+%description -n QtNetwork-devel
+Classes for network programming.
 
-# <end main library desc>
+#
+### QtOpenGl
+#
 
-# <start multithreaded plugins desc>
+%package -n QtOpenGL
+Summary:	OpenGL support classes
+Group:		X11/Development/Libraries
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
 
-%package plugin-ibase
+%description -n QtOpenGL
+OpenGL support classes.
+
+%package -n QtOpenGL-devel
+Summary:	OpenGL support classes
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
+
+%description -n QtOpenGL-devel
+OpenGL support classes.
+
+#
+### QtSql
+#
+
+%package -n QtSql
+Summary:	Classes for database integration using SQL
+Group:		X11/Development/Libraries
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
+
+%description -n QtSql
+Classes for database integration using SQL.
+
+%package -n QtSql-devel
+Summary:	Classes for database integration using SQL
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
+
+%description -n QtSql-devel
+Classes for database integration using SQL.
+
+%package -n QtSql-ibase
 Summary:	Database plugin for InterBase/Firebird Qt support
 Summary(pl):	Wtyczka InterBase/Firebird do Qt
 Summary(pt_BR):	Plugin de suporte a InterBase/Firebird para Qt
-Group:		X11/Libraries
-Requires:	%{_name} = %{epoch}:%{version}-%{release}
-Provides:	%{_name}-plugin-sql = %{epoch}:%{version}-%{release}
+Group:  X11/Development/Libraries
+Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:       QtSql >= %{epoch}:%{version}-%{release}
 
-%description plugin-ibase
-This package contains a multi-thread enabled plugin for accessing
+%description -n QtSql-ibase
+This package contains a plugin for accessing
 Interbase/Firebird database via the QSql classes.
 
-%description plugin-ibase -l pl
-Ten pakiet zawiera wielow±tkow± wersjê wtyczki do Qt umo¿liwiaj±cej
+%description -n QtSql-ibase -l pl
+Ten pakiet zawiera wtyczki do Qt umo¿liwiaj±ce
 korzystanie z baz danych Interbase/Firebird poprzez klasy QSql.
 
-%description plugin-ibase -l pt_BR
+%description -n QtSql-ibase -l pt_BR
 Plugin de suporte a InterBase/Firebird para Qt.
 
-%package plugin-mysql
+%package -n QtSql-mysql
 Summary:	Database plugin for MySQL Qt support
 Summary(pl):	Wtyczka MySQL do Qt
 Summary(pt_BR):	Plugin de suporte a MySQL para Qt
-Group:		X11/Libraries
-Requires:	%{_name} = %{epoch}:%{version}-%{release}
-Provides:	%{_name}-plugin-sql = %{epoch}:%{version}-%{release}
-Obsoletes:	qt-plugins-mysql
+Group:  X11/Development/Libraries
+Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:       QtSql >= %{epoch}:%{version}-%{release}
 
-%description plugin-mysql
-This package contains a multi-thread enabled plugin for accessing
+%description -n QtSql-mysql
+This package contains a plugin for accessing
 MySQL database via the QSql classes.
 
-%description plugin-mysql -l pl
-Ten pakiet zawiera wielow±tkow± wersjê wtyczki do Qt umo¿liwiaj±cej
+%description -n QtSql-mysql -l pl
+Ten pakiet zawiera wtyczki do Qt umo¿liwiaj±ce
 korzystanie z baz danych MySQL poprzez klasy QSql.
 
-%description plugin-mysql -l pt_BR
+%description -n QtSql-mysql -l pt_BR
 Plugin de suporte a MySQL para Qt.
 
-%package plugin-odbc
+%package -n QtSql-odbc
 Summary:	Database plugin for ODBC Qt support
 Summary(pl):	Wtyczka ODBC do Qt
 Summary(pt_BR):	Plugin de suporte a ODBC para Qt
-Group:		X11/Libraries
-Requires:	%{_name} = %{epoch}:%{version}-%{release}
-Provides:	%{_name}-plugin-sql = %{epoch}:%{version}-%{release}
-Obsoletes:	qt-plugins-odbc
+Group:  X11/Development/Libraries
+Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:       QtSql >= %{epoch}:%{version}-%{release}
 
-%description plugin-odbc
-This package contains a multi-thread enabled plugin for accessing
+%description -n QtSql-odbc
+This package contains a plugin for accessing
 unixODBC services via the QSql classes.
 
-%description plugin-odbc -l pl
-Ten pakiet zawiera wielow±tkow± wersjê wtyczki do Qt umo¿liwiaj±cej
+%description -n QtSql-odbc -l pl
+Ten pakiet zawiera wtyczki do Qt umo¿liwiaj±ce
 korzystanie z us³ug unixODBC poprzez klasy QSql.
 
-%description plugin-odbc -l pt_BR
+%description -n QtSql-odbc -l pt_BR
 Plugin de suporte a ODBC para Qt.
 
-%package plugin-psql
+%package -n QtSql-pgsql
 Summary:	Database plugin for PostgreSQL Qt support
 Summary(pl):	Wtyczka PostgreSQL do Qt
 Summary(pt_BR):	Plugin de suporte a PostgreSQL para Qt
-Group:		X11/Libraries
-Requires:	%{_name} = %{epoch}:%{version}-%{release}
-Provides:	%{_name}-plugin-sql = %{epoch}:%{version}-%{release}
-Obsoletes:	qt-plugins-psql
+Group:  X11/Development/Libraries
+Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:       QtSql >= %{epoch}:%{version}-%{release}
 
-%description plugin-psql
-This package contains a multi-thread enabled plugin for accessing
+%description -n QtSql-psql
+This package contains a plugin for accessing
 PostgreSQL database via the QSql classes.
 
-
-%description plugin-psql -l pl
-Ten pakiet zawiera wielow±tkow± wersjê wtyczki do Qt umo¿liwiaj±cej
+%description -n QtSql-psql -l pl
+Ten pakiet zawiera wtyczki do Qt umo¿liwiaj±ce
 korzystanie z baz danych PostgreSQL poprzez klasy QSql.
 
-%description plugin-psql -l es
+%description -n QtSql-psql -l es
 Plugin de suporte a PostgreSQL para Qt.
 
-%package plugin-sqlite
+%package -n QtSql-sqlite
+Summary:        QtSql sqlite plugin
 Summary:	Database plugin for SQLite Qt support
 Summary(pl):	Wtyczka SQLite do Qt
 Summary(pt_BR):	Plugin de suporte a SQLite para Qt
-Group:		X11/Libraries
-Requires:	%{_name} = %{epoch}:%{version}-%{release}
-Provides:	%{_name}-plugin-sql = %{epoch}:%{version}-%{release}
+Group:  X11/Development/Libraries
+Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:       QtSql >= %{epoch}:%{version}-%{release}
 
-%description plugin-sqlite
-This package contains a multi-thread enabled plugin for using the
+%description -n QtSql-sqlite
+This package contains a plugin for using the
 SQLite library (which allows to acces virtually any SQL database) via
 the QSql classes.
 
-%description plugin-sqlite -l pl
-Ten pakiet zawiera wielow±tkow± wersjê wtyczki do Qt umo¿liwiaj±cej
-korzystanie z baz danych PostgreSQL poprzez klasy QSql.
+%description -n QtSql-sqlite -l pl
+Ten pakiet zawiera wtyczki do Qt umo¿liwiaj±ce
+korzystanie z baz danych SQLite poprzez klasy QSql.
 
-%description plugin-sqlite -l pt_BR
-Plugin de suporte a SQLite para Qt. # <end multithreaded plugins desc>
+%description -n QtSql-sqlite -l pt_BR
+Plugin de suporte a SQLite para Qt. 
+
+%package -n QtSql-sqlite3
+Summary:	Database plugin for SQLite3 Qt support
+Summary(pl):	Wtyczka SQLite3 do Qt
+Summary(pt_BR):	Plugin de suporte a SQLite3 para Qt
+Group:  X11/Development/Libraries
+Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:       QtSql >= %{epoch}:%{version}-%{release}
+
+%description -n QtSql-sqlite3
+This package contains a plugin for using the
+SQLite3 library (which allows to acces virtually any SQL database) via
+the QSql classes.
+
+%description -n QtSql-sqlite3 -l pl
+Ten pakiet zawiera wtyczki do Qt umo¿liwiaj±ce
+korzystanie z baz danych SQLite3 poprzez klasy QSql.
+
+%description -n QtSql-sqlite3 -l pt_BR
+Plugin de suporte a SQLite3 para Qt. 
+
+
+#
+### QXml
+#
+
+%package -n QtXml
+Summary:	Classes for handling XML
+Group:		X11/Development/Libraries
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
+
+%description -n QtXml
+Classes for handling XML.
+
+%package -n QtXml-devel
+Summary:	Classes for handling XML
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
+
+%description -n QtXml-devel
+Classes for handling XML.
+
+#
+### Qt3Support
+#
+
+%package -n Qt3Support
+Summary:	Qt3 compat library
+Group:		X11/Development/Libraries
+Requires:	QtCore >= %{epoch}:%{version}-%{release}
+
+%description -n Qt3Support
+Qt3 compat library.
+
+%package -n Qt3Support-devel
+Summary:	Qt3 compat library
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
+
+%description -n Qt3Support-devel
+Qt3 compat library.
+
+#
+##
+#### Tools
+##
+#
+
+#
+### Assistant
+#
+
+%package assistant
+Summary:	Qt documentation browser
+Summary(pl):	Przegl±darka dokumentacji Qt
+Group:		X11/Development/Tools
+Requires:	%{name}-doc
+
+%description assistant
+Qt Assistant is a tool for browsing on-line documentation with
+indexing, bookmarks and full-text search.
+
+%description assistant -l pl
+Qt Assistant to narzêdzie do przegl±dania dokumentacji z mo¿liwo¶ci±
+indeksowania, dodawania zak³adek i pe³notekstowego wyszukiwania.
+
+#
+### Buildtools (moc,rcc,uic,qt3to4)
+#
+
+%package buildtools
+Summary:        Build tools for Qt4
+Group:		X11/Development/Libraries
+Requires:       QtCore >= %{epoch}:%{version}-%{release}
+Requires:       QtXml >= %{epoch}:%{version}-%{release}
+
+%description buildtools
+This package includes the Qt resource compiler (rcc), meta objects 
+compiler (moc), user interface compiler (uic) and qt3to4 include 
+names converter.
+
+
+#
+### Designer
+#
+
+%package designer
+Summary:	IDE used for GUI designing with Qt library
+Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt
+Group:		X11/Applications
+Requires:	%{name}-designer-libs = %{epoch}:%{version}-%{release}
+
+%description designer
+An advanced tool used for GUI designing with Qt library.
+
+%description designer -l pl
+Zaawansowane narzêdzie s³u¿±ce do projektowania interfejsu graficznego
+za pomoc± biblioteki Qt.
+
+%package designer-libs
+Summary:	Libraries IDE used for GUI designing with Qt library
+Summary(pl):	Biblioteki do IDE s³u¿±cego do projektowania GUI za pomoc± biblioteki Qt
+Group:		X11/Applications
+
+%description designer-libs
+Libraries used by the Qt GUI Designer.
+
+%description designer-libs -l pl
+Biblioteki wykorzystywane przez narzêdzie projektowania interfejsu
+graficznego - Qt Designer.
+
+
+#
+### Linguist
+#
 
 %package linguist
 Summary:	Translation helper for Qt
 Summary(pl):	Aplikacja u³atwiaj±ca t³umaczenie aplikacji oparty o Qt
 Group:		X11/Development/Tools
-Conflicts:	%{_name}-devel < 6:3.3.2-3
 
 %description linguist
 This program provides an interface that shortens and helps systematize
@@ -386,26 +487,14 @@ przeznaczone do t³umaczenia i przedstawia w ³atwym w obs³udze oknie.
 Gdy jeden z nich jest ju¿ przet³umaczony, automatycznie przechodzi do
 nastêpnego, a¿ wszystkie bêd± przet³umaczone.
 
-%package assistant
-Summary:	Qt documentation browser
-Summary(pl):	Przegl±darka dokumentacji Qt
-Group:		X11/Development/Tools
-Requires:	%{_name}-doc
-Conflicts:	%{_name}-devel < 6:3.3.2-3
-
-%description assistant
-Qt Assistant is a tool for browsing on-line documentation with
-indexing, bookmarks and full-text search.
-
-%description assistant -l pl
-Qt Assistant to narzêdzie do przegl±dania dokumentacji z mo¿liwo¶ci±
-indeksowania, dodawania zak³adek i pe³notekstowego wyszukiwania.
+#
+###  Qmake
+#
 
 %package -n qmake
 Summary:	Qt makefile generator
 Summary(pl):	Generator plików makefile dla aplikacji Qt
 Group:		X11/Development/Tools
-Conflicts:	%{_name}-devel < 6:3.3.2-3
 
 %description -n qmake
 A powerful makefile generator. It can create makefiles on any platform
@@ -415,11 +504,14 @@ from a simple .pro definitions file.
 Rozbudowany generator plików makefile. Potrafi tworzyæ pliki makefile
 na ka¿dej platformi na podstawie ³atwego w przygotowaniu pliku .pro.
 
+#
+###  Qtconfig
+#
+
 %package -n qtconfig
 Summary:	Qt widgets configuration tool
 Summary(pl):	Narzêdzie do konfigurowania widgetów Qt
 Group:		X11/Applications
-Requires:	%{_name} = %{epoch}:%{version}-%{release}
 
 %description -n qtconfig
 A tool for configuring look and behavior of Qt widgets.
@@ -427,208 +519,28 @@ A tool for configuring look and behavior of Qt widgets.
 %description -n qtconfig -l pl
 Narzêdie do konfiguracji wygl±du i zachowania widgetów Qt.
 
-%package designer
-Summary:	IDE used for GUI designing with Qt library
-Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt
-Group:		X11/Applications
-Requires:	%{_name}-designer-libs = %{epoch}:%{version}-%{release}
-
-%description designer
-An advanced tool used for GUI designing with Qt library.
-
-%description designer -l pl
-Zaawansowane narzêdzie s³u¿±ce do projektowania interfejsu graficznego
-za pomoc± biblioteki Qt.
-
-%package designer-libs
-Summary:	Libraries IDE used for GUI designing with Qt library
-Summary(pl):	Biblioteki do IDE s³u¿±cego do projektowania GUI za pomoc± biblioteki Qt
-Group:		X11/Applications
-Requires:	%{_name} >= %{epoch}:%{version}-%{release}
-
-%description designer-libs
-Libraries used by the Qt GUI Designer.
-
-%description designer-libs -l pl
-Biblioteki wykorzystywane przez narzêdzie projektowania interfejsu
-graficznego - Qt Designer.
-
-# NEW PACKAGES (More informative descriptions are in TODO)
-%package -n QtCore
-Summary:	Core classes used by other modules
-Group:		X11/Development/Libraries
-
-%description -n QtCore
-Core classes used by other modules.
-
-
-%package -n Qt3Support
-Summary:	Graphical User Interface components
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
-
-%description -n Qt3Support
-Graphical User Interface components.
-
-%package -n QtGui
-Summary:	Graphical User Interface components
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
-
-%description -n QtGui
-Graphical User Interface components.
-
-%package -n QtNetwork
-Summary:	Classes for network programming
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
-
-%description -n QtNetwork
-Classes for network programming.
-
-%package -n QtSql
-Summary:	Classes for database integration using SQL
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
-
-%description -n QtSql
-Classes for database integration using SQL.
-
-%package -n QtOpenGL
-Summary:	OpenGL support classes
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
-
-%description -n QtOpenGL
-OpenGL support classes.
-
-%package -n QtXml
-Summary:	Classes for handling XML
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
-
-%description -n QtXml
-Classes for handling XML.
-
-%package -n QtCore-devel
-Summary:	Core classes used by other modules
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
-
-%description -n QtCore-devel
-Core classes used by other modules.
-
-%package -n QtGui-devel
-Summary:	Graphical User Interface components
-Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
-
-%description -n QtGui-devel
-Graphical User Interface components.
-
-%package -n QtNetwork-devel
-Summary:	Classes for network programming
-Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
-
-%description -n QtNetwork-devel
-Classes for network programming.
-
-%package -n QtSql-devel
-Summary:	Classes for database integration using SQL
-Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
-
-%description -n QtSql-devel
-Classes for database integration using SQL.
-
-%package -n QtOpenGL-devel
-Summary:	OpenGL support classes
-Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
-
-%description -n QtOpenGL-devel
-OpenGL support classes.
-
-%package -n QtXml-devel
-Summary:	Classes for handling XML
-Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
-
-%description -n QtXml-devel
-Classes for handling XML.
-
-%package -n Qt3Support-devel
-Summary:	Graphical User Interface components
-Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
-
-%description -n Qt3Support-devel
-Graphical User Interface components.
-
-%package -n QtSql-plugin-ibase
-Summary:        QtSql ibase plugin
-Group:  X11/Development/Libraries
-Requires:       QtSql >= %{epoch}:%{version}-%{release}
-
-%description -n QtSql-plugin-ibase
-QtSql ibase plugin.
-
-%package -n QtSql-plugin-mysql
-Summary:        QtSql mysql plugin
-Group:  X11/Development/Libraries
-Requires:       QtSql >= %{epoch}:%{version}-%{release}
-
-%description -n QtSql-plugin-mysql
-QtSql mysql plugin.
-
-%package -n QtSql-plugin-odbc
-Summary:        QtSql odbc plugin
-Group:  X11/Development/Libraries
-Requires:       QtSql >= %{epoch}:%{version}-%{release}
-
-%description -n QtSql-plugin-odbc
-QtSql odbc plugin.
-
-%package -n QtSql-plugin-pgsql
-Summary:        QtSql pgsql plugin
-Group:  X11/Development/Libraries
-Requires:       QtSql >= %{epoch}:%{version}-%{release}
-
-%description -n QtSql-plugin-pgsql
-QtSql pgsql plugin.
-
-%package -n QtSql-plugin-sqlite
-Summary:        QtSql sqlite plugin
-Group:  X11/Development/Libraries
-Requires:       QtSql >= %{epoch}:%{version}-%{release}
-
-%description -n QtSql-plugin-sqlite
-QtSql sqlite plugin.
-
-%package -n QtSql-plugin-sqlite3
-Summary:        QtSql sqlite3 plugin
-Group:  X11/Development/Libraries
-Requires:       QtSql >= %{epoch}:%{version}-%{release}
-
-%description -n QtSql-plugin-sqlite3
-QtSql sqlite2 plugin.
+#
+###  Qvfb
+#
 
 %package -n qvfb
-Summary:        Qt Virtual framebuffer to run Qt/Embedded applications in XWindow
-Group:  X11/Development/Libraries
+Summary:        Qt Virtual framebuffer
+Group:		X11/Development/Libraries
 
 %description -n qvfb
-Qt Virtual framebuffer to run Qt/Embedded applications in XWindow.
+Qt Virtual framebuffer alllows you to run Qt/Embedded applications 
+in XWindow.
 
-%package buildtools
-Summary:        Build tools for Qt4
-Group:  X11/Development/Libraries
-Requires:       QtCore >= %{epoch}:%{version}-%{release}
-Requires:       QtXml >= %{epoch}:%{version}-%{release}
 
-%description buildtools
-This package includes the Qt resource compiler (rcc), meta objects compiler (moc), user interface compiler (uic) and qt3to4 include names converter.
+#
+##
+#### Extras
+##
+#
+
+#
+### Demos
+#
 
 %package demos
 Summary:        Demos of new qt4 features
@@ -638,6 +550,59 @@ Requires:       QtXml >= %{epoch}:%{version}-%{release}
 
 %description demos
 Demos are spiders that fly.
+
+#
+### Docs
+#
+
+%package doc
+Summary:	Qt Documentation in HTML format
+Summary(pl):	Dokumentacja Qt w formacie HTML
+Group:		X11/Development/Libraries
+
+%description doc
+Qt documentation in HTML format.
+
+%description doc -l pl
+Dokumentacja qt w formacie HTML.
+
+#
+### Man pages - not available in this release
+#
+
+%package man
+Summary:	Qt man pages
+Summary(pl):	Qt - strony man
+Group:		X11/Development/Libraries
+
+%description man
+Qt documentation in man pages format.
+
+%description man -l pl
+Dokumentacja qt w formacie stron man.
+
+#
+### Examples (not compiled)
+#
+
+%package examples
+Summary:	Example programs bundled with Qt
+Summary(pl):	Æwiczenia i przyk³ady do Qt
+Summary(pt_BR):	Programas exemplo desenvolvidos com o Qt
+Group:		X11/Development/Libraries
+# no it does not , we cant be sure the user wants to compile them right?
+# he might just want to take a look, anwyay no single devel package now
+#Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
+
+%description examples
+Example programs bundled with Qt version.
+
+%description examples -l pl
+Æwiczenia/przyk³ady do³±czone do Qt.
+
+%description examples -l pt_BR
+Programas exemplo para o Qt versão.
+
 
 %prep
 #setup -q -n %{_name}-copy-%{_snap}
@@ -651,7 +616,6 @@ Demos are spiders that fly.
 %patch4 -p1 -b .niedakh
 #patch7 -p1 -b .niedakh
 %patch8 -p1 -b .niedakh
-#patch9 -p1
 
 #cat >> patches/DISABLED <<EOF
 #0005
@@ -736,7 +700,13 @@ DEFAULTOPT=" \
 	%{?with_nvidia:-dlopen-opengl} \
 	%{?with_pch:-pch} \
 	%{?debug:-debug} \
-	-xcursor"
+	-xcursor \
+	-xshape \
+	-xrender \
+	-fontconfig \
+	-xkb \
+	-sm \
+	-nis"
 
 ##################################
 #      STATIC MULTI-THREAD       #
@@ -967,7 +937,6 @@ cd -
 # we will be only packaging modularized qt no need to package the same headers twice
 rm -rf $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
 
-
 #cd $RPM_BUILD_ROOT%{_includedir}/Qt
 #rm -rf *.h
 #mkdir arch
@@ -978,6 +947,11 @@ rm -rf $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
 #done
 #cd -
 
+#
+# #
+# # # Installing demos
+# #
+#
 install demos/arthur/{affine/affine,deform/deform,gradients/gradients,pathstroke/pathstroke} \
 	demos/{downloadwidget/downloadwidget,interview/interview,mainwindow/mainwindow} \
 	demos/{textedit/textedit,sqlbrowser/sqlbrowser,spreadsheet/spreadsheet,scrollarea/scrollarea} \
@@ -996,7 +970,8 @@ cat << EOF
  *                                                     *
  *  NOTE:                                              *
  *  With qt 4.0.0 the single threaded version was      *
- *  removed.                                           *
+ *  removed. Also the library is modular now so be     *
+ *  sure to check that you have every module you need. *
  *                                                     *
  *******************************************************
 
@@ -1004,20 +979,190 @@ EOF
 
 %postun -n QtCore	-p /sbin/ldconfig
 
+%post -n QtGui -p /sbin/ldconfig
+%postun -n QtGui -p /sbin/ldconfig
+%post -n QtNetwork -p /sbin/ldconfig
+%postun -n QtNetwork -p /sbin/ldconfig
+%post -n QtOpenGL -p /sbin/ldconfig
+%postun -n QtOpenGL -p /sbin/ldconfig
+%post -n QtSql -p /sbin/ldconfig
+%postun -n QtSql -p /sbin/ldconfig
+%post -n QtXml -p /sbin/ldconfig
+%postun -n QtXml -p /sbin/ldconfig
+%post -n Qt3Support -p /sbin/ldconfig
+%postun -n Qt3Support -p /sbin/ldconfig
+
+
+%post   assistant -p /sbin/ldconfig
+%postun assistant -p /sbin/ldconfig
 %post	designer-libs -p /sbin/ldconfig
 %postun	designer-libs -p /sbin/ldconfig
 
-%files buildtools
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/rcc
-%attr(755,root,root) %{_bindir}/moc
-%attr(755,root,root) %{_bindir}/qt3to4
-%attr(755,root,root) %{_bindir}/uic
-%{_datadir}/qt4/q3porting.xml
+#
+##
+#### Libraries
+##
+#
 
-%files -n qvfb
+#
+### QtCore
+#
+%files -n QtCore
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qvfb
+%dir %{_sysconfdir}/qt
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/qt/qt.conf
+%{_libdir}/libQtCore*.so.*
+%dir %{_libdir}/qt4/plugins
+%dir %{_libdir}/qt4/plugins/codecs
+%dir %{_libdir}/qt4/plugins/imageformats
+%dir %{_libdir}/qt4/plugins/sqldrivers
+%dir %{_libdir}/qt4/plugins/crypto
+%dir %{_libdir}/qt4/plugins/network
+%dir %{_datadir}/qt4
+
+%files -n QtCore-devel
+%defattr(644,root,root,755)
+%dir %{_includedir}/qt4
+%{_libdir}/libQtCore*.so
+%{_libdir}/libQtCore*.la
+%{_includedir}/qt4/QtCore
+%{_pkgconfigdir}/QtCore*.pc
+
+#
+### QtGui
+#
+
+%files -n QtGui
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtGui*.so.*
+%{_libdir}/qt4/plugins/codecs/*
+%{_libdir}/qt4/plugins/imageformats/*
+
+%files -n QtGui-devel
+%defattr(644,root,root,755)
+%{_libdir}/libQtGui*.so
+%{_libdir}/libQtGui*.la
+%{_includedir}/qt4/QtGui
+%{_pkgconfigdir}/QtGui*.pc
+
+#
+### QtNetwork
+#
+
+%files -n QtNetwork
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtNetwork*.so.*
+
+%files -n QtNetwork-devel
+%defattr(644,root,root,755)
+%{_libdir}/libQtNetwork*.la
+%{_libdir}/libQtNetwork*.so
+%{_includedir}/qt4/QtNetwork
+%{_pkgconfigdir}/QtNetwork*.pc
+
+#
+### QtOpenGL
+#
+
+%files -n QtOpenGL
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtOpenGL*.so.*
+
+%files -n QtOpenGL-devel
+%defattr(644,root,root,755)
+%{_libdir}/libQtOpenGL*.so
+%{_libdir}/libQtOpenGL*.la
+%{_includedir}/qt4/QtOpenGL
+%{_pkgconfigdir}/QtOpenGL*.pc
+
+#
+### QtSql
+#
+
+%files -n QtSql
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtSql*.so.*
+
+%files -n QtSql-devel
+%defattr(644,root,root,755)
+%{_libdir}/libQtSql*.so
+%{_libdir}/libQtSql*.la
+%{_includedir}/qt4/QtSql
+%{_pkgconfigdir}/QtSql*.pc
+
+%if %{with mysql}
+%files -n QtSql-mysql
+%defattr(644,root,root,755)
+%attr(755,root,root)  %{_libdir}/qt4/plugins/sqldrivers/libqsqlmysql*.so
+%endif
+
+%if %{with pgsql}
+%files -n QtSql-pgsql
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlpsql*.so
+%endif
+
+%if %{with sqlite}
+%files -n QtSql-sqlite
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlite2*.so
+%endif
+
+%if %{with sqlite3}
+%files -n QtSql-sqlite3
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlite*.so
+%endif
+
+%if %{with ibase}
+%files -n QtSql-ibase
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlibase*.so
+%endif
+
+%if %{with odbc}
+%files -n QtSql-odbc
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlodbc*.so
+%endif
+
+#
+### QtXml
+#
+
+%files -n QtXml
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtXml*.so.*
+
+%files -n QtXml-devel
+%defattr(644,root,root,755)
+%{_libdir}/libQtXml*.so
+%{_libdir}/libQtXml*.la
+%{_includedir}/qt4/QtXml
+%{_pkgconfigdir}/QtXml*.pc
+
+#
+### Qt3Support
+#
+
+%files -n Qt3Support
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/uic3
+%attr(755,root,root) %{_libdir}/libQt3Support*.so.*
+
+%files -n Qt3Support-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQt3Support*.so
+%{_libdir}/libQt3Support*.la
+%{_includedir}/qt4/Qt3Support
+%{_pkgconfigdir}/Qt3Support*.pc
+
+#
+##
+#### Tools
+##
+#
+
 
 %files assistant
 %defattr(644,root,root,755)
@@ -1027,6 +1172,30 @@ EOF
 #%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/assistant.qm
 %{_desktopdir}/assistant.desktop
 %{_pixmapsdir}/assistant.png
+
+%files buildtools
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/rcc
+%attr(755,root,root) %{_bindir}/moc
+%attr(755,root,root) %{_bindir}/qt3to4
+%attr(755,root,root) %{_bindir}/uic
+%{_datadir}/qt4/q3porting.xml
+
+
+%if %{with designer}
+%files designer-libs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*.*
+
+%files designer
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/designer
+#%dir %{_libdir}/%{name}/plugins-?t/designer
+#%lang(de) %{_datadir}/locale/de/LC_MESSAGES/designer.qm
+#%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/designer.qm
+%{_desktopdir}/designer.desktop
+%{_pixmapsdir}/designer.png
+%endif
 
 %files linguist
 %defattr(644,root,root,755)
@@ -1049,61 +1218,25 @@ EOF
 %attr(755,root,root) %{_bindir}/qmake
 %{_datadir}/qt4/mkspecs
 
-%files -n Qt3Support
+%files -n qtconfig
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/uic3
-%attr(755,root,root) %{_libdir}/libQt3Support*.so.*
+%attr(755,root,root) %{_bindir}/qtconfig
+%{_desktopdir}/qtconfig.desktop
+%{_pixmapsdir}/qtconfig.png
 
-%files -n Qt3Support-devel
+%files -n qvfb
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQt3Support*.so
-%{_libdir}/libQt3Support*.la
-%{_includedir}/qt4/Qt3Support
-%{_pkgconfigdir}/Qt3Support*.pc
+%attr(755,root,root) %{_bindir}/qvfb
 
-%files -n QtCore
-%defattr(644,root,root,755)
-%dir %{_sysconfdir}/qt
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/qt/qt.conf
-%{_libdir}/libQtCore*.so.*
-%dir %{_libdir}/qt4/plugins
-%dir %{_libdir}/qt4/plugins/codecs
-%dir %{_libdir}/qt4/plugins/imageformats
-%dir %{_libdir}/qt4/plugins/sqldrivers
-%dir %{_libdir}/qt4/plugins/crypto
-%dir %{_libdir}/qt4/plugins/network
-%dir %{_datadir}/qt4
+#
+##
+#### Extras
+##
+#
 
-%files -n QtCore-devel
-%defattr(644,root,root,755)
-%dir %{_includedir}/qt4
-%{_libdir}/libQtCore*.so
-%{_libdir}/libQtCore*.la
-%{_includedir}/qt4/QtCore
-%{_pkgconfigdir}/QtCore*.pc
-
-%files -n QtXml
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtXml*.so.*
-
-%files -n QtXml-devel
-%defattr(644,root,root,755)
-%{_libdir}/libQtXml*.so
-%{_libdir}/libQtXml*.la
-%{_includedir}/qt4/QtXml
-%{_pkgconfigdir}/QtXml*.pc
-
-%files -n QtNetwork
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtNetwork*.so.*
-
-%files -n QtNetwork-devel
-%defattr(644,root,root,755)
-%{_libdir}/libQtNetwork*.la
-%{_libdir}/libQtNetwork*.so
-%{_includedir}/qt4/QtNetwork
-%{_pkgconfigdir}/QtNetwork*.pc
-
+#
+### Demos
+#
 %files demos
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/affine
@@ -1120,103 +1253,17 @@ EOF
 %attr(755,root,root) %{_bindir}/sqlbrowser
 %attr(755,root,root) %{_bindir}/textedit
 
-%if %{with mysql}
-%files -n QtSql-plugin-mysql
-%defattr(644,root,root,755)
-%attr(755,root,root)  %{_libdir}/qt4/plugins/sqldrivers/libqsqlmysql*.so
-%endif
-
-%if %{with pgsql}
-%files -n QtSql-plugin-pgsql
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlpsql*.so
-%endif
-
-%if %{with sqlite}
-%files -n QtSql-plugin-sqlite
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlite2*.so
-%endif
-
-%if %{with sqlite3}
-%files -n QtSql-plugin-sqlite3
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlite*.so
-%endif
-
-%if %{with ibase}
-%files -n QtSql-plugin-ibase
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlibase*.so
-%endif
-
-%if %{with odbc}
-%files -n QtSql-plugin-odbc
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlodbc*.so
-%endif
-
-%files -n QtSql
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtSql*.so.*
-
-%files -n QtSql-devel
-%defattr(644,root,root,755)
-%{_libdir}/libQtSql*.so
-%{_libdir}/libQtSql*.la
-%{_includedir}/qt4/QtSql
-%{_pkgconfigdir}/QtSql*.pc
-
-%files -n QtOpenGL
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtOpenGL*.so.*
-
-%files -n QtOpenGL-devel
-%defattr(644,root,root,755)
-%{_libdir}/libQtOpenGL*.so
-%{_libdir}/libQtOpenGL*.la
-%{_includedir}/qt4/QtOpenGL
-%{_pkgconfigdir}/QtOpenGL*.pc
-
-%files -n QtGui
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtGui*.so.*
-%{_libdir}/qt4/plugins/codecs/*
-%{_libdir}/qt4/plugins/imageformats/*
-
-%files -n QtGui-devel
-%defattr(644,root,root,755)
-%{_libdir}/libQtGui*.so
-%{_libdir}/libQtGui*.la
-%{_includedir}/qt4/QtGui
-%{_pkgconfigdir}/QtGui*.pc
-
-%files examples
-%defattr(644,root,root,755)
-%{_examplesdir}/qt4
-
+#
+### Doc
+#
 %files doc
 %defattr(644,root,root,755)
 %{_docdir}/%{name}-doc
 
-%files -n qtconfig
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qtconfig
-%{_desktopdir}/qtconfig.desktop
-%{_pixmapsdir}/qtconfig.png
 
-
-%if %{with designer}
-%files designer-libs
+#
+### Examples
+#
+%files examples
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*.*
-
-%files designer
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/designer
-#%dir %{_libdir}/%{name}/plugins-?t/designer
-#%lang(de) %{_datadir}/locale/de/LC_MESSAGES/designer.qm
-#%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/designer.qm
-%{_desktopdir}/designer.desktop
-%{_pixmapsdir}/designer.png
-%endif
+%{_examplesdir}/qt4
