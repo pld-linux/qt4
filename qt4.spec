@@ -546,7 +546,7 @@ cat $plik \
 mv $plik.1 $plik
 echo >> $plik
 echo -e "QMAKE_CFLAGS_RELEASE\t=\t%{rpmcflags}" >> $plik
-echo -e "QMAKE_CXXFLAGS_RELEASE\t=\t%{rpmcflags}" >> $plik
+echo -e "QMAKE_CXXFLAGS_RELEASE\t=\t%{rpmcxxflags}" >> $plik
 echo -e "QMAKE_CFLAGS_DEBUG\t=\t%{debugcflags}" >> $plik
 echo -e "QMAKE_CXXFLAGS_DEBUG\t=\t%{debugcflags}" >> $plik
 
@@ -858,10 +858,10 @@ EOF
 %attr(755,root,root) %{_libdir}/libQtCore*.so.*
 %dir %{_libdir}/qt4/plugins
 %dir %{_libdir}/qt4/plugins/codecs
-%dir %{_libdir}/qt4/plugins/imageformats
-%dir %{_libdir}/qt4/plugins/sqldrivers
 %dir %{_libdir}/qt4/plugins/crypto
+%dir %{_libdir}/qt4/plugins/imageformats
 %dir %{_libdir}/qt4/plugins/network
+%dir %{_libdir}/qt4/plugins/sqldrivers
 %dir %{_datadir}/qt4
 
 %files -n QtCore-devel
