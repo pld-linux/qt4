@@ -571,6 +571,9 @@ export OPTFLAGS="%{rpmcflags}"
 
 #%{__make} -f Makefile.cvs
 
+BuildLib() {
+# $1 - aditional params
+
 ##################################
 # DEFAULT OPTIONS FOR ALL BUILDS #
 ##################################
@@ -608,12 +611,23 @@ DEFAULTOPT=" \
 	-sm \
 	-nis"
 
+./configure \
+	$DEFAULTOPT \
+	$1 \
+	<<_EOF_
+yes
+_EOF_
+
+%{__make} sub-src-all-ordered
+
+}
+
 ##################################
 #      STATIC MULTI-THREAD       #
 ##################################
 
 %if %{with static_libs}
-STATICOPT=" \
+OPT=" \
 	%{?with_mysql:-qt-sql-mysql} \
 	%{?with_odbc:-qt-sql-odbc} \
 	%{?with_pgsql:-qt-sql-psql} \
@@ -621,18 +635,7 @@ STATICOPT=" \
 	%{?with_sqlite:-qt-sql-sqlite2} \
 	%{?with_ibase:-qt-sql-ibase} \
 	-static"
-
-./configure \
-	$DEFAULTOPT \
-	$STATICOPT \
-	<<_EOF_
-yes
-_EOF_
-
-# Do not build tutorial and examples. Provide them as sources.
-%{__make} sub-qmake sub-src
-
-# This will not remove previously compiled libraries.
+BuildLib $OPT
 %{__make} clean
 %endif
 
@@ -640,40 +643,24 @@ _EOF_
 #      SHARED MULTI-THREAD       #
 ##################################
 
-SHAREDOPT=" \
+OPT=" \
 	%{?with_mysql:-plugin-sql-mysql} \
 	%{?with_odbc:-plugin-sql-odbc} \
 	%{?with_pgsql:-plugin-sql-psql} \
 	%{?with_sqlite3:-plugin-sql-sqlite} \
 	%{?with_sqlite:-plugin-sql-sqlite2} \
 	%{?with_ibase:-plugin-sql-ibase}"
+BuildLib $OPT
 
-./configure \
-	$DEFAULTOPT \
-	$SHAREDOPT \
-	-plugindir %{_libdir}/qt4/plugins \
-	<<_EOF_
-yes
-_EOF_
 
-%if 0
-%if %{with dont_enable}
-%if %{without designer}
-grep -v designer tools/tools.pro > tools/tools.pro.1
-mv tools/tools.pro{.1,}
-%{__make} -C tools/designer/uic \
-	UIC="LD_PRELOAD=$QTDIR/%{_lib}/libqt-mt.so.3 $QTDIR/bin/uic -L $QTDIR/plugins"
-%endif
-%endif
-
-# Do not build tutorial and examples. Provide them as sources.
-%{__make} sub-src-all-ordered
-
+# regenerate missing file
 cd tools/qtconfig
 $QTDIR/bin/uic previewwidgetbase.ui -o ui_previewwidgetbase.h
 cd -
+
+# build shared tools and demos
 %{__make} sub-tools-all-ordered sub-demos-all-ordered
-%endif
+
 %if %{with dont_enable}
 %if %{with designer}
 cd tools/designer/designer
@@ -736,7 +723,7 @@ $RPM_BUILD_ROOT%{_pixmapsdir}/designer.png
 %endif
 
 %if %{with static_libs}
-install %{_lib}/libqt*.a $RPM_BUILD_ROOT%{_libdir}
+install %{_lib}/*Qt*.a $RPM_BUILD_ROOT%{_libdir}
 %endif
 
 %if %{with designer}
