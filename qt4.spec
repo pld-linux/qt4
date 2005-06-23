@@ -2,7 +2,7 @@
 # TODO:
 #	- better descriptions
 #	- more cleanups
-#	- better solution for *.prl files
+#	- check if translations are avilable
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -17,7 +17,7 @@
 %bcond_without	sqlite		# don't build SQLite2 plugin
 %bcond_without	ibase		# build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# enable pch in qmake
-%bcond_with	dont_enable	# blocks translations, they are not yeat available
+%bcond_with	dont_enable	# blocks translations, they are not yet available
 
 %undefine	with_dont_enable
 
@@ -38,7 +38,7 @@ Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	%{_ver}
 #Release:	1.%{_snap}.0.1
-Release:	0.rc1.0.2
+Release:	0.rc1.0.3
 License:	GPL/QPL
 Group:		X11/Libraries
 #Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/qt-copy-%{_snap}.tar.bz2
@@ -770,34 +770,62 @@ ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
 # Prepare some files list
-echo "%defattr(644,root,root,755)" > examples.files
-DIR=$RPM_BUILD_ROOT%{_examplesdir}/qt4
-echo "%%dir %%{_examplesdir}/qt4" >> examples.files
-for f in `find $DIR -printf "%%P "`
-do
-	echo $f
-	if [ -d "$DIR/$f" ]; then
-		echo "%%dir %%{_examplesdir}/qt4/$f" >> examples.files
-	elif [ -x "$DIR/$f" ] ; then
-		echo "%%attr(755,root,root) %%{_examplesdir}/qt4/$f" >> examples.files
+ifecho () {
+	RESULT=`echo $RPM_BUILD_ROOT$2 2>/dev/null`
+	[ "$RESULT" == "" ] && return
+	r=`echo $RESULT | awk '{ print $1 }'`
+
+	if [ -d "$r" ]; then
+		echo "%%dir $2" >> $1.files
+	elif [ -x "$r" ] ; then
+		echo "%%attr(755,root,root) $2" >> $1.files
+	elif [ -f "$r" ]; then
+		echo "$2" >> $1.files
 	else
-		echo "%%{_examplesdir}/qt4/$f" >> examples.files
+		echo "Error generation devel files list!"
+		echo "$r: no such file or direcotry!"
+		exit 1
 	fi
+}
+
+mkdevfl () {
+	MODULE=$1; shift
+	echo "%%defattr(644,root,root,755)" > $MODULE-devel.files
+	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.so"
+	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.la" 
+	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.prl"
+	ifecho $MODULE-devel "%{_pkgconfigdir}/$MODULE*.pc"
+	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "`
+	do
+		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE/$f
+		ifecho $MODULE-devel %{_includedir}/qt4/Qt/$f
+	done
+	for f in $@; do ifecho $MODULE-devel $f; done
+}
+
+mkdevfl QtCore 	%{_includedir}/qt4 %{_includedir}/qt4/Qt \
+	%{_libdir}/libQtAssistantClient{.prl,_debug.prl} \
+	%{_libdir}/libQtDesigner{.prl,_debug.prl,Components{.prl,_debug.prl}}
+mkdevfl QtGui
+mkdevfl QtNetwork
+mkdevfl QtOpenGL
+mkdevfl QtSql
+mkdevfl QtXml
+mkdevfl Qt3Support
+
+echo "%defattr(644,root,root,755)" > examples.files
+ifecho examples %{_examplesdir}/qt4
+for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4 -printf "%%P "`
+do
+	ifecho examples %{_examplesdir}/qt4/$f
 done
 
 echo "%defattr(644,root,root,755)" > demos.files
-DIR=$RPM_BUILD_ROOT%{_examplesdir}/qt4-demos
-echo "%%dir %%{_examplesdir}/qt4-demos" >> demos.files
-echo "%%attr(755,root,root) %%{_bindir}/qtdemo" >> demos.files
-for f in `find $DIR -printf "%%P "`
+ifecho demos "%{_examplesdir}/qt4-demos"
+ifecho demos "%{_bindir}/qtdemo" >> demos.files
+for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`
 do
-	if [ -d "$DIR/$f" ]; then
-		echo "%%dir %%{_examplesdir}/qt4-demos/$f" >> demos.files
-	elif [ -x "$DIR/$f" ] ; then
-		echo "%%attr(755,root,root) %%{_examplesdir}/qt4-demos/$f" >> demos.files
-	else
-		echo "%%{_examplesdir}/qt4-demos/$f" >> demos.files
-	fi
+	ifecho demos %{_examplesdir}/qt4-demos/$f
 done
 
 %clean
@@ -853,64 +881,23 @@ EOF
 %dir %{_libdir}/qt4/plugins/sqldrivers
 %dir %{_datadir}/qt4
 
-%files -n QtCore-devel
-%defattr(644,root,root,755)
-%dir %{_includedir}/qt4
-%attr(755,root,root) %{_libdir}/libQtCore*.so
-%{_libdir}/libQtCore*.la
-%{_libdir}/libQtCore*.prl
-%{_includedir}/qt4/QtCore
-%{_pkgconfigdir}/QtCore*.pc
-
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui*.so.*
 %{_libdir}/qt4/plugins/codecs/*
 %{_libdir}/qt4/plugins/imageformats/*
 
-%files -n QtGui-devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtGui*.so
-%{_libdir}/libQtGui*.la
-%{_libdir}/libQtGui*.prl
-%{_includedir}/qt4/QtGui
-%{_pkgconfigdir}/QtGui*.pc
-
 %files -n QtNetwork
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtNetwork*.so.*
-
-%files -n QtNetwork-devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtNetwork*.so
-%{_libdir}/libQtNetwork*.la
-%{_libdir}/libQtNetwork*.prl
-%{_includedir}/qt4/QtNetwork
-%{_pkgconfigdir}/QtNetwork*.pc
 
 %files -n QtOpenGL
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtOpenGL*.so.*
 
-%files -n QtOpenGL-devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtOpenGL*.so
-%{_libdir}/libQtOpenGL*.la
-%{_libdir}/libQtOpenGL*.prl
-%{_includedir}/qt4/QtOpenGL
-%{_pkgconfigdir}/QtOpenGL*.pc
-
 %files -n QtSql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSql*.so.*
-
-%files -n QtSql-devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtSql*.so
-%{_libdir}/libQtSql*.la
-%{_libdir}/libQtSql*.prl
-%{_includedir}/qt4/QtSql
-%{_pkgconfigdir}/QtSql*.pc
 
 %if %{with mysql}
 %files -n QtSql-mysql
@@ -952,26 +939,11 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtXml*.so.*
 
-%files -n QtXml-devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtXml*.so
-%{_libdir}/libQtXml*.la
-%{_libdir}/libQtXml*.prl
-%{_includedir}/qt4/QtXml
-%{_pkgconfigdir}/QtXml*.pc
 
 %files -n Qt3Support
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/uic3
 %attr(755,root,root) %{_libdir}/libQt3Support*.so.*
-
-%files -n Qt3Support-devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQt3Support*.so
-%{_libdir}/libQt3Support*.la
-%{_libdir}/libQt3Support*.prl
-%{_includedir}/qt4/Qt3Support
-%{_pkgconfigdir}/Qt3Support*.pc
 
 %files assistant
 %defattr(644,root,root,755)
@@ -1040,6 +1012,14 @@ EOF
 %files doc
 %defattr(644,root,root,755)
 %{_docdir}/%{name}-doc
+
+%files -n QtCore-devel -f QtCore-devel.files
+%files -n QtGui-devel -f QtGui-devel.files
+%files -n QtNetwork-devel -f QtNetwork-devel.files
+%files -n QtOpenGL-devel -f QtOpenGL-devel.files
+%files -n QtSql-devel -f QtSql-devel.files
+%files -n QtXml-devel -f QtXml-devel.files
+%files -n Qt3Support-devel -f Qt3Support-devel.files
 
 %files demos -f demos.files
 %files examples -f examples.files
