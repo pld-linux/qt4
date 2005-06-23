@@ -1,6 +1,8 @@
 #
 # TODO:
-#		- better descriptions
+#	- better descriptions
+#	- more cleanups
+#	- better solution for *.prl files
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -36,7 +38,7 @@ Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	%{_ver}
 #Release:	1.%{_snap}.0.1
-Release:	0.rc1.0.1
+Release:	0.rc1.0.2
 License:	GPL/QPL
 Group:		X11/Libraries
 #Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/qt-copy-%{_snap}.tar.bz2
@@ -58,6 +60,7 @@ Patch3:		qt-disable_tutorials.patch
 Patch2:		%{name}-buildsystem.patch
 Patch4:		%{name}-locale.patch
 Patch8:		%{name}-antialias.patch
+Patch9:		%{name}rc1-build.patch
 URL:		http://www.trolltech.com/products/qt/
 Icon:		qt.xpm
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -517,6 +520,7 @@ Programas exemplo para o Qt versão.
 %patch2 -p1 -b .niedakh
 %patch4 -p1 -b .niedakh
 %patch8 -p1 -b .niedakh
+%patch9 -p1
 
 #cat >> patches/DISABLED <<EOF
 #0005
@@ -552,25 +556,25 @@ echo -e "QMAKE_CFLAGS_DEBUG\t=\t%{debugcflags}" >> $plik
 echo -e "QMAKE_CXXFLAGS_DEBUG\t=\t%{debugcflags}" >> $plik
 
 %build
-export QTDIR=`/bin/pwd`
-export YACC='byacc -d'
-export PATH=$QTDIR/bin:$PATH
-if test -n "$LD_LIBRARY_PATH"; then
-export LD_LIBRARY_PATH=$QTDIR/%{_lib}:$LD_LIBRARY_PATH
-else
-export LD_LIBRARY_PATH=$QTDIR/lib
-fi
+QTDIR=`/bin/pwd`
 
-export QMAKESPEC=$QTDIR/mkspecs/linux-g++
+if test -n "$LD_LIBRARY_PATH"; then
+    LD_LIBRARY_PATH=$QTDIR/%{_lib}:$LD_LIBRARY_PATH
+else
+    LD_LIBRARY_PATH=$QTDIR/lib
+fi
 
 if [ "%{_lib}" != "lib" ] ; then
 	ln -s lib "%{_lib}"
 fi
 
 # pass OPTFLAGS to build qmake itself with optimization
-export OPTFLAGS="%{rpmcflags}"
+OPTFLAGS="%{rpmcflags}"
+PATH=$QTDIR/bin:$PATH
+QMAKESPEC=$QTDIR/mkspecs/linux-g++
+YACC='byacc -d'
 
-#%{__make} -f Makefile.cvs
+export QTDIR YACC PATH LD_LIBRARY_PATH QMAKESPEC OPTFLAGS
 
 BuildLib() {
 # $1 - aditional params
@@ -584,12 +588,16 @@ DEFAULTOPT=" \
 	-DQT_COMPAT \
 	-verbose \
 	-prefix %{_prefix} \
-	-libdir %{_libdir} \
-	-headerdir %{_includedir}/qt \
-	-datadir %{_datadir}/qt \
 	-docdir %{_docdir}/%{name}-doc \
-	-sysconfdir %{_sysconfdir}/qt \
+	-headerdir %{_includedir}/qt4 \
+	-libdir %{_libdir} \
+	-bindir %{_bindir} \
+	-plugindir %{_libdir}/qt4/plugins \
+	-datadir %{_datadir}/qt4 \
 	-translationdir %{_datadir}/locale/ \
+	-sysconfdir %{_sysconfdir}/qt4 \
+	-examplesdir %{_examplesdir}/qt4 \
+	-demosdir %{_examplesdir}/qt4-demos \
 	-fast \
 	-%{!?with_pch:no-}pch \
 	-qt-gif \
@@ -653,14 +661,24 @@ OPT=" \
 	%{?with_ibase:-plugin-sql-ibase}"
 BuildLib $OPT
 
+%{__make} \
+	sub-tools-all-ordered \
+	sub-demos-all-ordered \
+	sub-examples-all-ordered
 
-# regenerate missing file
-cd tools/qtconfig
-$QTDIR/bin/uic previewwidgetbase.ui -o ui_previewwidgetbase.h
-cd -
-
-# build shared tools and demos
-%{__make} sub-tools-all-ordered sub-demos-all-ordered
+#
+# TODO: 
+#	Check for "with" conditions befor build
+# OR
+#	Find out why and fix the reason of building only mysql sqldriver
+#	(it is not installed either)
+#
+for dir in src/plugins/sqldrivers/{ibase,odbc,psql,sqlite,sqlite2}
+do
+	cd $dir
+	%{__make}
+	cd -
+done
 
 %if %{with dont_enable}
 %if %{with designer}
@@ -679,32 +697,19 @@ cd $QTDIR
 
 %install
 rm -rf $RPM_BUILD_ROOT
+QTDIR=`/bin/pwd`
 
-export QTDIR=`/bin/pwd`
+export QTDIR
 
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
 install -d \
-	$RPM_BUILD_ROOT%{_sysconfdir}/qt \
-	$RPM_BUILD_ROOT%{_libdir}/qt4/plugins/{crypto,network} \
-	$RPM_BUILD_ROOT%{_examplesdir}/%{name}/lib \
-	$RPM_BUILD_ROOT%{_mandir}/man{1,3} \
-	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
-
-install bin/findtr \
-	tools/qvfb/qvfb \
-	$RPM_BUILD_ROOT%{_bindir}
-
-mv -f $RPM_BUILD_ROOT{%{_prefix}/qt.conf,%{_sysconfdir}/qt}
-
-# we fix qmakespecs. from now QMAKE_INCDIR_QT becomes %{_includedir}/qt4
-perl -pi -e "
-	s|(QMAKE_INCDIR_QT\\s*=\\s*\\\$\\(QTDIR\\)/include)|\$1/qt4|
-	" $RPM_BUILD_ROOT/%{_datadir}/qt4/mkspecs/linux-g++/qmake.conf
-
-#tools/{msg2qm/msg2qm,mergetr/mergetr}
-#	$RPM_BUILD_ROOT%{_bindir}
+	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}} \
+	$RPM_BUILD_ROOT%{_libdir}/qt4/plugins/{crypto,network}
+	
+install plugins/sqldrivers/* $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/sqldrivers
+install bin/findtr tools/qvfb/qvfb $RPM_BUILD_ROOT%{_bindir}
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}
@@ -715,12 +720,12 @@ install tools/qtconfig/images/appicon.png \
 install tools/linguist/linguist/images/appicon.png \
 	$RPM_BUILD_ROOT%{_pixmapsdir}/linguist.png
 
-install tools/assistant/images/appicon.png \
+install tools/assistant/images/assistant.png \
 	$RPM_BUILD_ROOT%{_pixmapsdir}/assistant.png
 
 %if %{with designer}
 install tools/designer/src/designer/images/designer.png \
-$RPM_BUILD_ROOT%{_pixmapsdir}/designer.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/designer.png
 %endif
 
 %if %{with static_libs}
@@ -730,14 +735,7 @@ install %{_lib}/*Qt*.a $RPM_BUILD_ROOT%{_libdir}
 %if %{with designer}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/designer.desktop
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
-install bin/uic $RPM_BUILD_ROOT%{_bindir}
 %endif
-
-install tools/linguist/{qm2ts,lrelease,lupdate}/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
-
-# not yet available
-#install doc/man/man1/*.1	$RPM_BUILD_ROOT%{_mandir}/man1
-#install doc/man/man3/*.3qt	$RPM_BUILD_ROOT%{_mandir}/man3
 
 %if %{with dont_enable}
 install -d $RPM_BUILD_ROOT%{_datadir}/locale/{ar,de,fr,ru,he,cs,sk}/LC_MESSAGES
@@ -761,42 +759,46 @@ install tools/linguist/linguist/linguist_de.qm $RPM_BUILD_ROOT%{_datadir}/locale
 install tools/linguist/linguist/linguist_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/linguist.qm
 %endif
 
-cp -dpR examples $RPM_BUILD_ROOT%{_examplesdir}/%{name}
-mv $RPM_BUILD_ROOT{%{_libdir}/*.prl,%{_examplesdir}/%{name}/lib}
-
-for i in `find $RPM_BUILD_ROOT -name \*.svn`
+cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
+for f in ../Qt{3Support,Core,Gui,Network,OpenGL,Sql,Xml}/*
 do
-	rm -rf "$i";
+	if [ ! -d $f ]; then
+		ln -sf $f `basename $f`
+	fi
 done
-
-cd $RPM_BUILD_ROOT%{_examplesdir}/%{name}
-for i in `find ./ -name Makefile`;
-do
-
-%{__sed} -i -e "s,$RPM_BUILD_DIR,%{_prefix},g" $i
-%{__sed} -i -e "s,examples,src/examples/qt4/examples,g" $i
-
-done
+ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
-# we will be only packaging modularized qt no need to package the same headers twice
-rm -rf $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
+# Prepare some files list
+echo "%defattr(644,root,root,755)" > examples.files
+DIR=$RPM_BUILD_ROOT%{_examplesdir}/qt4
+echo "%%dir %%{_examplesdir}/qt4" >> examples.files
+for f in `find $DIR -printf "%%P "`
+do
+	echo $f
+	if [ -d "$DIR/$f" ]; then
+		echo "%%dir %%{_examplesdir}/qt4/$f" >> examples.files
+	elif [ -x "$DIR/$f" ] ; then
+		echo "%%attr(755,root,root) %%{_examplesdir}/qt4/$f" >> examples.files
+	else
+		echo "%%{_examplesdir}/qt4/$f" >> examples.files
+	fi
+done
 
-#cd $RPM_BUILD_ROOT%{_includedir}/Qt
-#rm -rf *.h
-#mkdir arch
-#for i in `find \`find ../  -maxdepth 1 -type d | egrep -v -w 'Qt|./'\` -name \*.h|cut -c 4-`;
-#do
-#y=`echo $i|cut -d '/' -f2-`;
-#ln -s $y ../$i;
-#done
-#cd -
-
-install demos/arthur/{affine/affine,deform/deform,gradients/gradients,pathstroke/pathstroke} \
-	demos/{downloadwidget/downloadwidget,interview/interview,mainwindow/mainwindow} \
-	demos/{textedit/textedit,sqlbrowser/sqlbrowser,spreadsheet/spreadsheet,scrollarea/scrollarea} \
-	demos/{plasmatable/plasmatable,pimelim/pimelim} \
-	$RPM_BUILD_ROOT%{_bindir}
+echo "%defattr(644,root,root,755)" > demos.files
+DIR=$RPM_BUILD_ROOT%{_examplesdir}/qt4-demos
+echo "%%dir %%{_examplesdir}/qt4-demos" >> demos.files
+echo "%%attr(755,root,root) %%{_bindir}/qtdemo" >> demos.files
+for f in `find $DIR -printf "%%P "`
+do
+	if [ -d "$DIR/$f" ]; then
+		echo "%%dir %%{_examplesdir}/qt4-demos/$f" >> demos.files
+	elif [ -x "$DIR/$f" ] ; then
+		echo "%%attr(755,root,root) %%{_examplesdir}/qt4-demos/$f" >> demos.files
+	else
+		echo "%%{_examplesdir}/qt4-demos/$f" >> demos.files
+	fi
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -841,8 +843,7 @@ EOF
 
 %files -n QtCore
 %defattr(644,root,root,755)
-%dir %{_sysconfdir}/qt
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/qt/qt.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) 
 %attr(755,root,root) %{_libdir}/libQtCore*.so.*
 %dir %{_libdir}/qt4/plugins
 %dir %{_libdir}/qt4/plugins/codecs
@@ -857,6 +858,7 @@ EOF
 %dir %{_includedir}/qt4
 %attr(755,root,root) %{_libdir}/libQtCore*.so
 %{_libdir}/libQtCore*.la
+%{_libdir}/libQtCore*.prl
 %{_includedir}/qt4/QtCore
 %{_pkgconfigdir}/QtCore*.pc
 
@@ -870,6 +872,7 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui*.so
 %{_libdir}/libQtGui*.la
+%{_libdir}/libQtGui*.prl
 %{_includedir}/qt4/QtGui
 %{_pkgconfigdir}/QtGui*.pc
 
@@ -879,8 +882,9 @@ EOF
 
 %files -n QtNetwork-devel
 %defattr(644,root,root,755)
-%{_libdir}/libQtNetwork*.la
 %attr(755,root,root) %{_libdir}/libQtNetwork*.so
+%{_libdir}/libQtNetwork*.la
+%{_libdir}/libQtNetwork*.prl
 %{_includedir}/qt4/QtNetwork
 %{_pkgconfigdir}/QtNetwork*.pc
 
@@ -892,6 +896,7 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtOpenGL*.so
 %{_libdir}/libQtOpenGL*.la
+%{_libdir}/libQtOpenGL*.prl
 %{_includedir}/qt4/QtOpenGL
 %{_pkgconfigdir}/QtOpenGL*.pc
 
@@ -903,6 +908,7 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSql*.so
 %{_libdir}/libQtSql*.la
+%{_libdir}/libQtSql*.prl
 %{_includedir}/qt4/QtSql
 %{_pkgconfigdir}/QtSql*.pc
 
@@ -950,6 +956,7 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtXml*.so
 %{_libdir}/libQtXml*.la
+%{_libdir}/libQtXml*.prl
 %{_includedir}/qt4/QtXml
 %{_pkgconfigdir}/QtXml*.pc
 
@@ -962,6 +969,7 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt3Support*.so
 %{_libdir}/libQt3Support*.la
+%{_libdir}/libQt3Support*.prl
 %{_includedir}/qt4/Qt3Support
 %{_pkgconfigdir}/Qt3Support*.pc
 
@@ -986,6 +994,7 @@ EOF
 %files designer-libs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*.*
+%attr(755,root,root) %{_libdir}/qt4/plugins/designer/*.so
 
 %files designer
 %defattr(644,root,root,755)
@@ -1006,9 +1015,9 @@ EOF
 %attr(755,root,root) %{_bindir}/qm2ts
 #%lang(de) %{_datadir}/locale/de/LC_MESSAGES/linguist.qm
 #%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/linguist.qm
-%{_mandir}/man1/qm2ts.1*
-%{_mandir}/man1/lupdate*.1*
-%{_mandir}/man1/lrelease*.1*
+#%{_mandir}/man1/qm2ts.1*
+#%{_mandir}/man1/lupdate*.1*
+#%{_mandir}/man1/lrelease*.1*
 %{_datadir}/qt4/phrasebooks
 %{_desktopdir}/linguist.desktop
 %{_pixmapsdir}/linguist.png
@@ -1028,26 +1037,9 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qvfb
 
-%files demos
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/affine
-%attr(755,root,root) %{_bindir}/deform
-%attr(755,root,root) %{_bindir}/downloadwidget
-%attr(755,root,root) %{_bindir}/gradients
-%attr(755,root,root) %{_bindir}/interview
-%attr(755,root,root) %{_bindir}/mainwindow
-%attr(755,root,root) %{_bindir}/pathstroke
-%attr(755,root,root) %{_bindir}/pimelim
-%attr(755,root,root) %{_bindir}/plasmatable
-%attr(755,root,root) %{_bindir}/scrollarea
-%attr(755,root,root) %{_bindir}/spreadsheet
-%attr(755,root,root) %{_bindir}/sqlbrowser
-%attr(755,root,root) %{_bindir}/textedit
-
 %files doc
 %defattr(644,root,root,755)
 %{_docdir}/%{name}-doc
 
-%files examples
-%defattr(644,root,root,755)
-%{_examplesdir}/qt4
+%files demos -f demos.files
+%files examples -f examples.files
