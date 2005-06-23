@@ -1,0 +1,12 @@
+diff -Nur qt-x11-opensource-desktop-4.0.0-rc1.orig/examples/tools/qtdemo/qtdemo.pro qt-x11-opensource-desktop-4.0.0-rc1.chng/examples/tools/qtdemo/qtdemo.pro
+--- qt-x11-opensource-desktop-4.0.0-rc1.orig/examples/tools/qtdemo/qtdemo.pro	2005-06-06 16:35:14.000000000 +0200
++++ qt-x11-opensource-desktop-4.0.0-rc1.chng/examples/tools/qtdemo/qtdemo.pro	2005-06-22 15:38:45.000000000 +0200
+@@ -3,7 +3,7 @@
+ HEADERS       = displayshape.h \
+                 displaywidget.h \
+                 launcher.h
+-QT            += xml
++QT            += xml network
+ RESOURCES     = qtdemo.qrc
+ SOURCES       = displayshape.cpp \
+                 displaywidget.cpp \
