@@ -771,8 +771,7 @@ cd -
 
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
 do
-	sed s:-L$RPM_BUILD_DIR/qt-x11-opensource-desktop-%{version}-rc1/lib::g $f > $f.tmp
-	mv $f.tmp $f
+	sed -i -e s:-L$RPM_BUILD_DIR/qt-x11-opensource-desktop-%{version}-rc1/lib::g $f
 done
 
 # Prepare some files list
