@@ -769,6 +769,12 @@ done
 ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
+for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
+do
+	sed s:-L$RPM_BUILD_DIR/qt-x11-opensource-desktop-%{version}-rc1/lib::g $f > $f.tmp
+	mv $f.tmp $f
+done
+
 # Prepare some files list
 ifecho () {
 	RESULT=`echo $RPM_BUILD_ROOT$2 2>/dev/null`
