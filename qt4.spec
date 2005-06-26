@@ -134,90 +134,135 @@ wykorzystaniem Netscape LiveConnect.
 
 %package -n QtCore
 Summary:	Core classes used by other modules
-Group:		X11/Development/Libraries
+Summary(pl):	Podstawowe klasy u¿ywane przez inne modu³y
+Group:		X11/Libraries
 
 %description -n QtCore
 Core classes used by other modules.
 
+%description -n QtCore -l pl
+Podstawowe klasy u¿ywane przez inne modu³y.
+
 %package -n QtCore-devel
-Summary:	Core classes used by other modules
+Summary:	Core classes used by other modules - development files
+Summary(pl):	Podstawowe klasy u¿ywane przez inne modu³y - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
+Requires:	QtCore = %{epoch}:%{version}-%{release}
 
 %description -n QtCore-devel
-Core classes used by other modules.
+Core classes used by other modules - development files.
+
+%description -n QtCore-devel -l pl
+Podstawowe klasy u¿ywane przez inne modu³y - pliki programistyczne.
 
 %package -n QtGui
 Summary:	Graphical User Interface components
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
+Summary(pl):	Komponenty graficznego interfejsu u¿ytkownika
+Group:		X11/Libraries
+Requires:	QtCore = %{epoch}:%{version}-%{release}
 
 %description -n QtGui
 Graphical User Interface components.
 
+%description -n QtGui -l pl
+Komponenty graficznego interfejsu u¿ytkownika.
+
 %package -n QtGui-devel
-Summary:	Graphical User Interface components
+Summary:	Graphical User Interface components - development files
+Summary(pl):	Komponenty graficznego interfejsu u¿ytkownika - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+Requires:	QtGui = %{epoch}:%{version}-%{release}
 
 %description -n QtGui-devel
-Graphical User Interface components.
+Graphical User Interface components - development files.
+
+%description -n QtGui-devel -l pl
+Komponenty graficznego interfejsu u¿ytkownika - pliki programistyczne.
 
 %package -n QtNetwork
 Summary:	Classes for network programming
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
+Summary(pl):	Klasy do programowania sieciowego
+Group:		X11/Libraries
+Requires:	QtCore = %{epoch}:%{version}-%{release}
 
 %description -n QtNetwork
 Classes for network programming.
 
+%description -n QtNetwork -l pl
+Klasy do programowania sieciowego.
+
 %package -n QtNetwork-devel
-Summary:	Classes for network programming
+Summary:	Classes for network programming - development files
+Summary(pl):	Klasy do programowania sieciowego - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+Requires:	QtNetwork = %{epoch}:%{version}-%{release}
 
 %description -n QtNetwork-devel
-Classes for network programming.
+Classes for network programming - development files.
+
+%description -n QtNetwork-devel -l pl
+Klasy do programowania sieciowego - pliki programistyczne.
 
 %package -n QtOpenGL
 Summary:	OpenGL support classes
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
+Summary(pl):	Klasy wspomagaj±ce OpenGL
+Group:		X11/Libraries
+Requires:	QtCore = %{epoch}:%{version}-%{release}
 
 %description -n QtOpenGL
 OpenGL support classes.
 
+%description -n QtOpenGL -l pl
+Klasy wspomagaj±ce OpenGL.
+
 %package -n QtOpenGL-devel
-Summary:	OpenGL support classes
+Summary:	OpenGL support classes - development files
+Summary(pl):	Klasy wspomagaj±ce OpenGL - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+Requires:	QtOpenGL = %{epoch}:%{version}-%{release}
 
 %description -n QtOpenGL-devel
-OpenGL support classes.
+OpenGL support classes - development files.
+
+%description -n QtOpenGL-devel -l pl
+Klasy wspomagaj±ce OpenGL - pliki programistyczne.
 
 %package -n QtSql
 Summary:	Classes for database integration using SQL
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
+Summary(pl):	Klasy do integracji z bazami danych przy u¿yciu SQL
+Group:		X11/Libraries
+Requires:	QtCore = %{epoch}:%{version}-%{release}
 
 %description -n QtSql
 Classes for database integration using SQL.
 
+%description -n QtSql -l pl
+Klasy do integracji z bazami danych przy u¿yciu SQL.
+
 %package -n QtSql-devel
-Summary:	Classes for database integration using SQL
+Summary:	Classes for database integration using SQL - development files
+Summary(pl):	Klasy do integracji z bazami danych przy u¿yciu SQL - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+Requires:	QtSql = %{epoch}:%{version}-%{release}
 
 %description -n QtSql-devel
-Classes for database integration using SQL.
+Classes for database integration using SQL - development files.
+
+%description -n QtSql-devel -l pl
+Klasy do integracji z bazami danych przy u¿yciu SQL - pliki
+programistyczne.
 
 %package -n QtSql-ibase
 Summary:	Database plugin for InterBase/Firebird Qt support
 Summary(pl):	Wtyczka InterBase/Firebird do Qt
 Summary(pt_BR):	Plugin de suporte a InterBase/Firebird para Qt
-Group:		X11/Development/Libraries
+Group:		X11/Libraries
+Requires:	QtSql = %{epoch}:%{version}-%{release}
 Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
-Requires:	QtSql >= %{epoch}:%{version}-%{release}
 
 %description -n QtSql-ibase
 This package contains a plugin for accessing Interbase/Firebird
@@ -234,9 +279,9 @@ Plugin de suporte a InterBase/Firebird para Qt.
 Summary:	Database plugin for MySQL Qt support
 Summary(pl):	Wtyczka MySQL do Qt
 Summary(pt_BR):	Plugin de suporte a MySQL para Qt
-Group:		X11/Development/Libraries
+Group:		X11/Libraries
+Requires:	QtSql = %{epoch}:%{version}-%{release}
 Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
-Requires:	QtSql >= %{epoch}:%{version}-%{release}
 
 %description -n QtSql-mysql
 This package contains a plugin for accessing MySQL database via the
@@ -253,9 +298,9 @@ Plugin de suporte a MySQL para Qt.
 Summary:	Database plugin for ODBC Qt support
 Summary(pl):	Wtyczka ODBC do Qt
 Summary(pt_BR):	Plugin de suporte a ODBC para Qt
-Group:		X11/Development/Libraries
+Group:		X11/Libraries
+Requires:	QtSql = %{epoch}:%{version}-%{release}
 Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
-Requires:	QtSql >= %{epoch}:%{version}-%{release}
 
 %description -n QtSql-odbc
 This package contains a plugin for accessing unixODBC services via the
@@ -272,9 +317,9 @@ Plugin de suporte a ODBC para Qt.
 Summary:	Database plugin for PostgreSQL Qt support
 Summary(pl):	Wtyczka PostgreSQL do Qt
 Summary(pt_BR):	Plugin de suporte a PostgreSQL para Qt
-Group:		X11/Development/Libraries
+Group:		X11/Libraries
+Requires:	QtSql = %{epoch}:%{version}-%{release}
 Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
-Requires:	QtSql >= %{epoch}:%{version}-%{release}
 
 %description -n QtSql-pgsql
 This package contains a plugin for accessing PostgreSQL database via
@@ -288,32 +333,31 @@ danych PostgreSQL poprzez klasy QSql.
 Plugin de suporte a PostgreSQL para Qt.
 
 %package -n QtSql-sqlite
-Summary:	QtSql sqlite plugin
-Summary:	Database plugin for SQLite Qt support
-Summary(pl):	Wtyczka SQLite do Qt
-Summary(pt_BR):	Plugin de suporte a SQLite para Qt
-Group:		X11/Development/Libraries
+Summary:	Database plugin for SQLite 2.x Qt support
+Summary(pl):	Wtyczka SQLite 2.x do Qt
+Summary(pt_BR):	Plugin de suporte a SQLite 2.x para Qt
+Group:		X11/Libraries
+Requires:	QtSql = %{epoch}:%{version}-%{release}
 Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
-Requires:	QtSql >= %{epoch}:%{version}-%{release}
 
 %description -n QtSql-sqlite
-This package contains a plugin for using the SQLite library (which
+This package contains a plugin for using the SQLite 2.x library (which
 allows to acces virtually any SQL database) via the QSql classes.
 
 %description -n QtSql-sqlite -l pl
 Ten pakiet zawiera wtyczki do Qt umo¿liwiaj±ce korzystanie z baz
-danych SQLite poprzez klasy QSql.
+danych SQLite 2.x poprzez klasy QSql.
 
 %description -n QtSql-sqlite -l pt_BR
-Plugin de suporte a SQLite para Qt.
+Plugin de suporte a SQLite 2.x para Qt.
 
 %package -n QtSql-sqlite3
 Summary:	Database plugin for SQLite3 Qt support
 Summary(pl):	Wtyczka SQLite3 do Qt
 Summary(pt_BR):	Plugin de suporte a SQLite3 para Qt
-Group:		X11/Development/Libraries
+Group:		X11/Libraries
 Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
-Requires:	QtSql >= %{epoch}:%{version}-%{release}
+Requires:	QtSql = %{epoch}:%{version}-%{release}
 
 %description -n QtSql-sqlite3
 This package contains a plugin for using the SQLite3 library (which
@@ -328,35 +372,53 @@ Plugin de suporte a SQLite3 para Qt.
 
 %package -n QtXml
 Summary:	Classes for handling XML
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
+Summary(pl):	Klasy do obs³ugi XML-a
+Group:		X11/Libraries
+Requires:	QtCore = %{epoch}:%{version}-%{release}
 
 %description -n QtXml
 Classes for handling XML.
 
+%description -n QtXml -l pl
+Klasy do obs³ugi XML-a.
+
 %package -n QtXml-devel
-Summary:	Classes for handling XML
+Summary:	Classes for handling XML - development files
+Summary(pl):	Klasy do obs³ugi XML-a - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+Requires:	QtXml = %{epoch}:%{version}-%{release}
 
 %description -n QtXml-devel
-Classes for handling XML.
+Classes for handling XML - development files.
+
+%description -n QtXml-devel -l pl
+Klasy do obs³ugi XML-a - pliki programistyczne.
 
 %package -n Qt3Support
-Summary:	Qt3 compat library
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
+Summary:	Qt3 compatibility library
+Summary(pl):	Biblioteka kompatybilno¶ci z Qt3
+Group:		X11/Libraries
+Requires:	QtCore = %{epoch}:%{version}-%{release}
 
 %description -n Qt3Support
-Qt3 compat library.
+Qt3 compatibility library.
+
+%description -n Qt3Support -l pl
+Biblioteka kompatybilno¶ci z Qt3.
 
 %package -n Qt3Support-devel
-Summary:	Qt3 compat library
+Summary:	Qt3 compatibility library - development files
+Summary(pl):	Biblioteka kompatybilno¶ci z Qt3 - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel >= %{epoch}:%{version}-%{release}
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+Requires:	Qt3Support = %{epoch}:%{version}-%{release}
 
 %description -n Qt3Support-devel
-Qt3 compat library.
+Qt3 compatibility library - development files.
+
+%description -n Qt3Support-devel -l pl
+Biblioteka kompatybilno¶ci z Qt3 - pliki programistyczne.
 
 %package assistant
 Summary:	Qt documentation browser
@@ -374,14 +436,20 @@ indeksowania, dodawania zak³adek i pe³notekstowego wyszukiwania.
 
 %package build
 Summary:	Build tools for Qt4
-Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
-Requires:	QtXml >= %{epoch}:%{version}-%{release}
+Summary(pl):	Narzêdzia do budowania dla Qt4
+Group:		X11/Development/Tools
+Requires:	QtCore = %{epoch}:%{version}-%{release}
+Requires:	QtXml = %{epoch}:%{version}-%{release}
 
 %description build
 This package includes the Qt resource compiler (rcc), meta objects
 compiler (moc), user interface compiler (uic) and qt3to4 include names
 converter.
+
+%description build -l pl
+Ten pakiet zawiera komilator zasobów Qt (rcc), kompilator metaobiektów
+(moc), kompilator interfejsów u¿ytkownika (uic) oraz konwerter nazw
+plików nag³ówkowych qt3to4.
 
 %package designer
 Summary:	IDE used for GUI designing with Qt library
@@ -454,20 +522,29 @@ Narzêdie do konfiguracji wygl±du i zachowania widgetów Qt.
 
 %package -n qvfb
 Summary:	Qt Virtual framebuffer
+Summary(pl):	Wirtualny framebuffer dla Qt
 Group:		X11/Development/Libraries
 
 %description -n qvfb
-Qt Virtual framebuffer alllows you to run Qt/Embedded applications in
-XWindow.
+Qt Virtual framebuffer allows you to run Qt/Embedded applications in
+X window.
+
+%description -n qvfb -l pl
+Qt Virtual framebuffer pozwala na uruchamianie aplikacji Qt/Embedded
+w okienku X.
 
 %package demos
-Summary:	Demos of new qt4 features
+Summary:	Demos of new Qt4 features
+Summary(pl):	Programy demonstruj±ce nowe mo¿liwo¶ci Qt4
 Group:		X11/Development/Libraries
-Requires:	QtCore >= %{epoch}:%{version}-%{release}
-Requires:	QtXml >= %{epoch}:%{version}-%{release}
+Requires:	QtCore = %{epoch}:%{version}-%{release}
+Requires:	QtXml = %{epoch}:%{version}-%{release}
 
 %description demos
 Demos are spiders that fly.
+
+%description demos -l pl
+Dema to lataj±ce paj±ki.
 
 %package doc
 Summary:	Qt Documentation in HTML format
@@ -489,7 +566,7 @@ Group:		X11/Development/Libraries
 Qt documentation in man pages format.
 
 %description man -l pl
-Dokumentacja qt w formacie stron man.
+Dokumentacja Qt w formacie stron man.
 
 %package examples
 Summary:	Example programs bundled with Qt
