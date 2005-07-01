@@ -27,8 +27,6 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-#define		_snap		050513
-%define		_ver		4.0.0
 %define		_packager	djurban
 
 Summary:	The Qt GUI application framework
@@ -36,17 +34,13 @@ Summary(es):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	%{_ver}
+Version:	4.0.0
 #Release:	1.%{_snap}.0.1
-Release:	0.rc1.0.3
+Release:	0.1
 License:	GPL/QPL
 Group:		X11/Libraries
-#Source0:	http://ep09.pld-linux.org/~%{_packager}/kde/qt-copy-%{_snap}.tar.bz2
-#Source0:	http://wftp.tu-chemnitz.de/pub/Qt/source//%{_name}-x11-opensource-%{version}-b1.tar.bz2
-Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-desktop-%{version}-rc1.tar.bz2
-# Source0-md5:	f7f48c9f7de7fd93a414e45ef691ebea
-#Source1:	http://ep09.pld-linux.org/~%{_packager}/kde/%{_name}-copy-patches-040531.tar.bz2
-#Source1-md5	2e38e44b6ef26bfb8a7f3b6900ee53c0
+Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-desktop-%{version}.tar.bz2
+# Source0-md5:	a6183269fab293282daf2da9ac940577
 Source2:	qtconfig.desktop
 Source3:	designer.desktop
 Source4:	assistant.desktop
@@ -588,7 +582,7 @@ Programas exemplo para o Qt versão.
 
 %prep
 #setup -q -n %{_name}-copy-%{_snap}
-%setup -q -n qt-x11-opensource-desktop-%{version}-rc1
+%setup -q -n qt-x11-opensource-desktop-%{version}
 %patch0 -p1
 %if %{with dont_enable}
 %patch1 -p1
@@ -848,7 +842,7 @@ cd -
 
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
 do
-	sed -i -e s:-L$RPM_BUILD_DIR/qt-x11-opensource-desktop-%{version}-rc1/lib::g $f
+	sed -i -e s:-L$RPM_BUILD_DIR/qt-x11-opensource-desktop-%{version}/lib::g $f
 done
 
 # Prepare some files list
