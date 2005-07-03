@@ -36,7 +36,7 @@ Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.0.0
 #Release:	1.%{_snap}.0.1
-Release:	0.1
+Release:	0.2
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-desktop-%{version}.tar.bz2
@@ -458,6 +458,19 @@ An advanced tool used for GUI designing with Qt library.
 Zaawansowane narzêdzie s³u¿±ce do projektowania interfejsu graficznego
 za pomoc± biblioteki Qt.
 
+%package -n QtDesigner-devel
+Summary:	IDE used for GUI designing with Qt library - development files
+Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-designer-libs = %{epoch}:%{version}-%{release}
+
+%description -n QtDesigner-devel
+IDE used for GUI designing with Qt library - development files
+
+%description -n QtDesigner-devel -l pl
+IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - pliki programistyczne
+
 %package designer-libs
 Summary:	Libraries IDE used for GUI designing with Qt library
 Summary(pl):	Biblioteki do IDE s³u¿±cego do projektowania GUI za pomoc± biblioteki Qt
@@ -831,7 +844,7 @@ install tools/linguist/linguist/linguist_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-for f in ../Qt{3Support,Core,Gui,Network,OpenGL,Sql,Xml}/*
+for f in ../Qt{3Support,Core,Gui,Network,OpenGL,Sql,Xml,Designer}/*
 do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
@@ -860,7 +873,7 @@ ifecho () {
 	else
 		echo "Error generation devel files list!"
 		echo "$r: no such file or direcotry!"
-		exit 1
+		return 1
 	fi
 }
 
@@ -880,14 +893,14 @@ mkdevfl () {
 }
 
 mkdevfl QtCore 	%{_includedir}/qt4 %{_includedir}/qt4/Qt \
-	%{_libdir}/libQtAssistantClient{.prl,_debug.prl} \
-	%{_libdir}/libQtDesigner{.prl,_debug.prl,Components{.prl,_debug.prl}}
+	%{_libdir}/libQtAssistantClient{.prl,_debug.prl}
 mkdevfl QtGui
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
 mkdevfl QtSql
 mkdevfl QtXml
 mkdevfl Qt3Support
+mkdevfl QtDesigner || /bin/true # there is no libQtDesigner.la file :/
 
 echo "%defattr(644,root,root,755)" > examples.files
 ifecho examples %{_examplesdir}/qt4
@@ -1090,6 +1103,7 @@ EOF
 %{_docdir}/%{name}-doc
 
 %files -n QtCore-devel -f QtCore-devel.files
+%files -n QtDesigner-devel -f QtDesigner-devel.files
 %files -n QtGui-devel -f QtGui-devel.files
 %files -n QtNetwork-devel -f QtNetwork-devel.files
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
