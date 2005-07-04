@@ -18,6 +18,8 @@
 %bcond_without	ibase		# build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# enable pch in qmake
 %bcond_with	dont_enable	# blocks translations, they are not yet available
+%bcond_without	demos		# do not build & install demos
+%bcond_without	examples	# do not build & install examples
 
 %undefine	with_dont_enable
 
@@ -27,20 +29,20 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-%define		_packager	djurban
+%define		_ver		4.0.0
+%define		_snap		050704
 
 Summary:	The Qt GUI application framework
 Summary(es):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.0.0
-#Release:	1.%{_snap}.0.1
-Release:	0.2
+Version:	%{_ver}.%{_snap}
+Release:	1
 License:	GPL/QPL
 Group:		X11/Libraries
-Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-desktop-%{version}.tar.bz2
-# Source0-md5:	a6183269fab293282daf2da9ac940577
+Source0:	http://ftp.pld-linux.org/software/kde/qt-copy-%{version}.tar.bz2
+##% Source0-md5:	20ad0c23d8c78889565efbd934e52c96
 Source2:	qtconfig.desktop
 Source3:	designer.desktop
 Source4:	assistant.desktop
@@ -594,8 +596,7 @@ Example programs bundled with Qt version.
 Programas exemplo para o Qt versão.
 
 %prep
-#setup -q -n %{_name}-copy-%{_snap}
-%setup -q -n qt-x11-opensource-desktop-%{version}
+%setup -q -n qt-copy-%{version}
 %patch0 -p1
 %if %{with dont_enable}
 %patch1 -p1
@@ -613,7 +614,7 @@ Programas exemplo para o Qt versão.
 #0043
 #0047
 #EOF
-#./apply_patches
+./apply_patches
 
 # change QMAKE_CFLAGS_RELEASE to build
 # properly optimized libs
@@ -747,8 +748,8 @@ BuildLib $OPT
 
 %{__make} \
 	sub-tools-all-ordered \
-	sub-demos-all-ordered \
-	sub-examples-all-ordered
+	%{?with_demos:sub-demos-all-ordered} \
+	%{?with_examples:sub-examples-all-ordered}
 
 #
 # TODO: 
@@ -781,9 +782,7 @@ cd $QTDIR
 
 %install
 rm -rf $RPM_BUILD_ROOT
-QTDIR=`/bin/pwd`
-
-export QTDIR
+export QTDIR=`/bin/pwd`
 
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
@@ -853,9 +852,8 @@ done
 ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
-for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
-do
-	sed -i -e s:-L$RPM_BUILD_DIR/qt-x11-opensource-desktop-%{version}/lib::g $f
+for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
+	sed -i -e s:-L`pwd`/lib::g $f
 done
 
 # Prepare some files list
@@ -902,13 +900,16 @@ mkdevfl QtXml
 mkdevfl Qt3Support
 mkdevfl QtDesigner || /bin/true # there is no libQtDesigner.la file :/
 
+%if %{with examples}
 echo "%defattr(644,root,root,755)" > examples.files
 ifecho examples %{_examplesdir}/qt4
 for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4 -printf "%%P "`
 do
 	ifecho examples %{_examplesdir}/qt4/$f
 done
+%endif
 
+%if %{with demos}
 echo "%defattr(644,root,root,755)" > demos.files
 ifecho demos "%{_examplesdir}/qt4-demos"
 ifecho demos "%{_bindir}/qtdemo" >> demos.files
@@ -916,6 +917,7 @@ for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`
 do
 	ifecho demos %{_examplesdir}/qt4-demos/$f
 done
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -1111,5 +1113,5 @@ EOF
 %files -n QtXml-devel -f QtXml-devel.files
 %files -n Qt3Support-devel -f Qt3Support-devel.files
 
-%files demos -f demos.files
-%files examples -f examples.files
+%{?with_demos:%files demos -f demos.files}
+%{?with_examples:%files examples -f examples.files}
