@@ -853,9 +853,8 @@ done
 ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
-for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
-do
-	sed -i -e s:-L$RPM_BUILD_DIR/qt-x11-opensource-desktop-%{version}/lib::g $f
+for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
+	sed -i -e s:-L`pwd`/lib::g $f
 done
 
 # Prepare some files list
