@@ -466,10 +466,11 @@ Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 Requires:	%{name}-designer-libs = %{epoch}:%{version}-%{release}
 
 %description -n QtDesigner-devel
-IDE used for GUI designing with Qt library - development files
+IDE used for GUI designing with Qt library - development files.
 
 %description -n QtDesigner-devel -l pl
-IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - pliki programistyczne
+IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - pliki
+programistyczne.
 
 %package designer-libs
 Summary:	Libraries IDE used for GUI designing with Qt library
