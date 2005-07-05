@@ -1084,7 +1084,9 @@ EOF
 %defattr(644,root,root,755)
 %{_docdir}/%{name}-doc
 
+%if %{with examples}
 %files examples
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qtdemo
 %{_examplesdir}/*
+%endif
