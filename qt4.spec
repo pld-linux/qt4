@@ -18,7 +18,6 @@
 %bcond_without	ibase		# build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# enable pch in qmake
 %bcond_with	dont_enable	# blocks translations, they are not yet available
-%bcond_without	demos		# do not build & install demos
 %bcond_without	examples	# do not build & install examples
 
 %undefine	with_dont_enable
@@ -127,6 +126,24 @@ tworz±c w ten sposób jeden interfejs dla obs³ugi plików, sieci,
 procesów, w±tków, baz danych itp. Umo¿liwia tak¿e ³atwe przenoszenie
 na Qt aplikacji korzystaj±cych z Motif oraz pisanie wtyczek z
 wykorzystaniem Netscape LiveConnect.
+
+%package devel
+Summary:	development files
+Summary(pl):	pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtCore = %{epoch}:%{version}-%{release}
+Requires:	QtGui = %{epoch}:%{version}-%{release}
+Requires:	QtNetwork = %{epoch}:%{version}-%{release}
+Requires:	QtOpenGL = %{epoch}:%{version}-%{release}
+Requires:	Qt3Support = %{epoch}:%{version}-%{release}
+Requires:	QtXml = %{epoch}:%{version}-%{release}
+Requires:	%{name}-designer-libs = %{epoch}:%{version}-%{release}
+
+%description devel
+development files.
+
+%description devel -l pl
+pliki programistyczne.
 
 %package -n QtCore
 Summary:	Core classes used by other modules
@@ -748,7 +765,7 @@ BuildLib $OPT
 
 %{__make} \
 	sub-tools-all-ordered \
-	%{?with_demos:sub-demos-all-ordered} \
+	%{?with_examples:sub-demos-all-ordered} \
 	%{?with_examples:sub-examples-all-ordered}
 
 #
@@ -758,12 +775,12 @@ BuildLib $OPT
 #	Find out why and fix the reason of building only mysql sqldriver
 #	(it is not installed either)
 #
-for dir in src/plugins/sqldrivers/{ibase,odbc,psql,sqlite,sqlite2}
-do
-	cd $dir
-	%{__make}
-	cd -
-done
+#for dir in src/plugins/sqldrivers/{ibase,odbc,psql,sqlite,sqlite2}
+#do
+#	cd $dir
+#	%{__make}
+#	cd -
+#done
 
 %if %{with dont_enable}
 %if %{with designer}
@@ -842,82 +859,28 @@ install tools/linguist/linguist/linguist_de.qm $RPM_BUILD_ROOT%{_datadir}/locale
 install tools/linguist/linguist/linguist_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/linguist.qm
 %endif
 
-cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-for f in ../Qt{3Support,Core,Gui,Network,OpenGL,Sql,Xml,Designer}/*
-do
-	if [ ! -d $f ]; then
-		ln -sf $f `basename $f`
-	fi
-done
-ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
+#cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
+#for f in ../Qt{3Support,Core,Gui,Network,OpenGL,Sql,Xml,Designer}/*
+#do
+#	if [ ! -d $f ]; then
+#		ln -sf $f `basename $f`
+#	fi
+#done
+#ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
+#cd -
+
+# Install precompiled headers
+PCHDIR="$RPM_BUILD_ROOT%{_includedir}/qt4/Qt/private"
+install -d $PCHDIR
+cd include/Qt/private
+for h in *.h; do
+	install `cat $h|sed -e 's/#include //' -e 's/"//g'` $PCHDIR
+done	
 cd -
 
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 	sed -i -e s:-L`pwd`/lib::g $f
 done
-
-# Prepare some files list
-ifecho () {
-	RESULT=`echo $RPM_BUILD_ROOT$2 2>/dev/null`
-	[ "$RESULT" == "" ] && return
-	r=`echo $RESULT | awk '{ print $1 }'`
-
-	if [ -d "$r" ]; then
-		echo "%%dir $2" >> $1.files
-	elif [ -x "$r" ] ; then
-		echo "%%attr(755,root,root) $2" >> $1.files
-	elif [ -f "$r" ]; then
-		echo "$2" >> $1.files
-	else
-		echo "Error generation devel files list!"
-		echo "$r: no such file or direcotry!"
-		return 1
-	fi
-}
-
-mkdevfl () {
-	MODULE=$1; shift
-	echo "%%defattr(644,root,root,755)" > $MODULE-devel.files
-	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.so"
-	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.la" 
-	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.prl"
-	ifecho $MODULE-devel "%{_pkgconfigdir}/$MODULE*.pc"
-	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "`
-	do
-		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE/$f
-		ifecho $MODULE-devel %{_includedir}/qt4/Qt/$f
-	done
-	for f in $@; do ifecho $MODULE-devel $f; done
-}
-
-mkdevfl QtCore 	%{_includedir}/qt4 %{_includedir}/qt4/Qt \
-	%{_libdir}/libQtAssistantClient{.prl,_debug.prl}
-mkdevfl QtGui
-mkdevfl QtNetwork
-mkdevfl QtOpenGL
-mkdevfl QtSql
-mkdevfl QtXml
-mkdevfl Qt3Support
-mkdevfl QtDesigner || /bin/true # there is no libQtDesigner.la file :/
-
-%if %{with examples}
-echo "%defattr(644,root,root,755)" > examples.files
-ifecho examples %{_examplesdir}/qt4
-for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4 -printf "%%P "`
-do
-	ifecho examples %{_examplesdir}/qt4/$f
-done
-%endif
-
-%if %{with demos}
-echo "%defattr(644,root,root,755)" > demos.files
-ifecho demos "%{_examplesdir}/qt4-demos"
-ifecho demos "%{_bindir}/qtdemo" >> demos.files
-for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`
-do
-	ifecho demos %{_examplesdir}/qt4-demos/$f
-done
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -960,6 +923,15 @@ EOF
 %post	designer-libs	-p /sbin/ldconfig
 %postun	designer-libs	-p /sbin/ldconfig
 
+%files devel
+%defattr(644,root,root,755)
+%{_includedir}/qt4/Qt
+%{_includedir}/qt4/Qt[!S]*
+%{_libdir}/libQt[!S]*.la
+%{_libdir}/libQt[!S]*.prl
+%{_libdir}/libQt[!S]*.so
+%{_pkgconfigdir}/Qt[!S]*.pc
+
 %files -n QtCore
 %defattr(644,root,root,755)
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) 
@@ -989,6 +961,14 @@ EOF
 %files -n QtSql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSql*.so.*
+
+%files -n QtSql-devel
+%defattr(644,root,root,755)
+%{_includedir}/qt4/QtSql
+%{_libdir}/libQtSql*.la
+%{_libdir}/libQtSql*.prl
+%{_libdir}/libQtSql*.so
+%{_pkgconfigdir}/QtSql*.pc
 
 %if %{with mysql}
 %files -n QtSql-mysql
@@ -1030,7 +1010,6 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtXml*.so.*
 
-
 %files -n Qt3Support
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/uic3
@@ -1056,7 +1035,8 @@ EOF
 %if %{with designer}
 %files designer-libs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQtDesigner*.so.*
+%dir %{_libdir}/qt4/plugins/designer
 %attr(755,root,root) %{_libdir}/qt4/plugins/designer/*.so
 
 %files designer
@@ -1104,14 +1084,7 @@ EOF
 %defattr(644,root,root,755)
 %{_docdir}/%{name}-doc
 
-%files -n QtCore-devel -f QtCore-devel.files
-%files -n QtDesigner-devel -f QtDesigner-devel.files
-%files -n QtGui-devel -f QtGui-devel.files
-%files -n QtNetwork-devel -f QtNetwork-devel.files
-%files -n QtOpenGL-devel -f QtOpenGL-devel.files
-%files -n QtSql-devel -f QtSql-devel.files
-%files -n QtXml-devel -f QtXml-devel.files
-%files -n Qt3Support-devel -f Qt3Support-devel.files
-
-%{?with_demos:%files demos -f demos.files}
-%{?with_examples:%files examples -f examples.files}
+%files examples
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/qtdemo
+%{_examplesdir}/*
