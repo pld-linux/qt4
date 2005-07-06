@@ -126,12 +126,12 @@ wykorzystaniem Netscape LiveConnect.
 Summary:	development files
 Summary(pl):	pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore = %{epoch}:%{version}-%{release}
-Requires:	QtGui = %{epoch}:%{version}-%{release}
-Requires:	QtNetwork = %{epoch}:%{version}-%{release}
-Requires:	QtOpenGL = %{epoch}:%{version}-%{release}
-Requires:	Qt3Support = %{epoch}:%{version}-%{release}
-Requires:	QtXml = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtCore = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtGui = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtNetwork = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtOpenGL = %{epoch}:%{version}-%{release}
+Requires:	%{name}-Qt3Support = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtXml = %{epoch}:%{version}-%{release}
 Requires:	%{name}-designer-libs = %{epoch}:%{version}-%{release}
 
 %description devel
@@ -144,7 +144,7 @@ pliki programistyczne.
 Summary:	Qt3 compatibility library
 Summary(pl):	Biblioteka kompatybilno¶ci z Qt3
 Group:		X11/Libraries
-Requires:	QtCore = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtCore = %{epoch}:%{version}-%{release}
 
 %description Qt3Support
 Qt3 compatibility library.
@@ -167,7 +167,7 @@ Podstawowe klasy u¿ywane przez inne modu³y.
 Summary:	Graphical User Interface components
 Summary(pl):	Komponenty graficznego interfejsu u¿ytkownika
 Group:		X11/Libraries
-Requires:	QtCore = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtCore = %{epoch}:%{version}-%{release}
 
 %description QtGui
 Graphical User Interface components.
@@ -179,7 +179,7 @@ Komponenty graficznego interfejsu u¿ytkownika.
 Summary:	Classes for network programming
 Summary(pl):	Klasy do programowania sieciowego
 Group:		X11/Libraries
-Requires:	QtCore = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtCore = %{epoch}:%{version}-%{release}
 
 %description QtNetwork
 Classes for network programming.
@@ -191,7 +191,7 @@ Klasy do programowania sieciowego.
 Summary:	OpenGL support classes
 Summary(pl):	Klasy wspomagaj±ce OpenGL
 Group:		X11/Libraries
-Requires:	QtCore = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtCore = %{epoch}:%{version}-%{release}
 
 %description QtOpenGL
 OpenGL support classes.
@@ -203,7 +203,7 @@ Klasy wspomagaj±ce OpenGL.
 Summary:	Classes for database integration using SQL
 Summary(pl):	Klasy do integracji z bazami danych przy u¿yciu SQL
 Group:		X11/Libraries
-Requires:	QtCore = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtCore = %{epoch}:%{version}-%{release}
 
 %description QtSql
 Classes for database integration using SQL.
@@ -215,8 +215,8 @@ Klasy do integracji z bazami danych przy u¿yciu SQL.
 Summary:	Classes for database integration using SQL - development files
 Summary(pl):	Klasy do integracji z bazami danych przy u¿yciu SQL - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
-Requires:	QtSql = %{epoch}:%{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtSql = %{epoch}:%{version}-%{release}
 
 %description QtSql-devel
 Classes for database integration using SQL - development files.
@@ -230,8 +230,8 @@ Summary:	Database plugin for InterBase/Firebird Qt support
 Summary(pl):	Wtyczka InterBase/Firebird do Qt
 Summary(pt_BR):	Plugin de suporte a InterBase/Firebird para Qt
 Group:		X11/Libraries
-Requires:	QtSql = %{epoch}:%{version}-%{release}
-Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtSql = %{epoch}:%{version}-%{release}
+Provides:	%{name}-QtSql-backend = %{epoch}:%{version}-%{release}
 
 %description QtSql-ibase
 This package contains a plugin for accessing Interbase/Firebird
@@ -249,8 +249,8 @@ Summary:	Database plugin for MySQL Qt support
 Summary(pl):	Wtyczka MySQL do Qt
 Summary(pt_BR):	Plugin de suporte a MySQL para Qt
 Group:		X11/Libraries
-Requires:	QtSql = %{epoch}:%{version}-%{release}
-Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtSql = %{epoch}:%{version}-%{release}
+Provides:	%{name}-QtSql-backend = %{epoch}:%{version}-%{release}
 
 %description QtSql-mysql
 This package contains a plugin for accessing MySQL database via the
@@ -268,8 +268,8 @@ Summary:	Database plugin for ODBC Qt support
 Summary(pl):	Wtyczka ODBC do Qt
 Summary(pt_BR):	Plugin de suporte a ODBC para Qt
 Group:		X11/Libraries
-Requires:	QtSql = %{epoch}:%{version}-%{release}
-Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtSql = %{epoch}:%{version}-%{release}
+Provides:	%{name}-QtSql-backend = %{epoch}:%{version}-%{release}
 
 %description QtSql-odbc
 This package contains a plugin for accessing unixODBC services via the
@@ -287,8 +287,8 @@ Summary:	Database plugin for PostgreSQL Qt support
 Summary(pl):	Wtyczka PostgreSQL do Qt
 Summary(pt_BR):	Plugin de suporte a PostgreSQL para Qt
 Group:		X11/Libraries
-Requires:	QtSql = %{epoch}:%{version}-%{release}
-Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtSql = %{epoch}:%{version}-%{release}
+Provides:	%{name}-QtSql-backend = %{epoch}:%{version}-%{release}
 
 %description QtSql-pgsql
 This package contains a plugin for accessing PostgreSQL database via
@@ -306,8 +306,8 @@ Summary:	Database plugin for SQLite 2.x Qt support
 Summary(pl):	Wtyczka SQLite 2.x do Qt
 Summary(pt_BR):	Plugin de suporte a SQLite 2.x para Qt
 Group:		X11/Libraries
-Requires:	QtSql = %{epoch}:%{version}-%{release}
-Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtSql = %{epoch}:%{version}-%{release}
+Provides:	%{name}-QtSql-backend = %{epoch}:%{version}-%{release}
 
 %description QtSql-sqlite
 This package contains a plugin for using the SQLite 2.x library (which
@@ -325,8 +325,8 @@ Summary:	Database plugin for SQLite3 Qt support
 Summary(pl):	Wtyczka SQLite3 do Qt
 Summary(pt_BR):	Plugin de suporte a SQLite3 para Qt
 Group:		X11/Libraries
-Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
-Requires:	QtSql = %{epoch}:%{version}-%{release}
+Provides:	%{name}-QtSql-backend = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtSql = %{epoch}:%{version}-%{release}
 
 %description QtSql-sqlite3
 This package contains a plugin for using the SQLite3 library (which
@@ -343,7 +343,7 @@ Plugin de suporte a SQLite3 para Qt.
 Summary:	Classes for handling XML
 Summary(pl):	Klasy do obs³ugi XML-a
 Group:		X11/Libraries
-Requires:	QtCore = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtCore = %{epoch}:%{version}-%{release}
 
 %description QtXml
 Classes for handling XML.
@@ -369,8 +369,8 @@ indeksowania, dodawania zak³adek i pe³notekstowego wyszukiwania.
 Summary:	Build tools for Qt4
 Summary(pl):	Narzêdzia do budowania dla Qt4
 Group:		X11/Development/Tools
-Requires:	QtCore = %{epoch}:%{version}-%{release}
-Requires:	QtXml = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtCore = %{epoch}:%{version}-%{release}
+Requires:	%{name}-QtXml = %{epoch}:%{version}-%{release}
 
 %description build
 This package includes the Qt resource compiler (rcc), meta objects
