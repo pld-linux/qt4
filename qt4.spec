@@ -739,8 +739,7 @@ install tools/linguist/linguist/linguist_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
 
 #cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-#for f in ../Qt{3Support,Core,Gui,Network,OpenGL,Sql,Xml,Designer}/*
-#do
+#for f in ../Qt{3Support,Core,Gui,Network,OpenGL,Sql,Xml,Designer}/*; do
 #	if [ ! -d $f ]; then
 #		ln -sf $f `basename $f`
 #	fi
@@ -757,6 +756,10 @@ for h in *.h; do
 done	
 cd -
 
+# Missing file
+install include/QtDesigner/QtDesigner \
+	$RPM_BUILD_ROOT%{_includedir}/qt4/QtDesigner
+
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 	sed -i -e s:-L`pwd`/lib::g $f
 done
@@ -767,18 +770,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	Qt3Support	-p /sbin/ldconfig
 %postun	Qt3Support	-p /sbin/ldconfig
 
-%post	QtCore
-/sbin/ldconfig
-cat << EOF
- *******************************************************
- *                                                     *
- *  NOTE:                                              *
- *  With qt 4.0.0 the single threaded version was      *
- *  removed. Also the library is modular now so be     *
- *  sure to check that you have every module you need. *
- *                                                     *
- *******************************************************
-EOF
+%post	QtCore	-p /sbin/ldconfig
 %postun	QtCore	-p /sbin/ldconfig
 
 %post	QtGui	-p /sbin/ldconfig
