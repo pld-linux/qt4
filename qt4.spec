@@ -855,7 +855,9 @@ ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
+	MODULE=`echo $f | basename $f | cut -d. -f1`
 	sed -i -e s:-L`pwd`/lib::g $f
+	sed -i -e s:-I\${includedir}:-I\${includedir}\ -I\${includedir}/$MODULE: $f
 done
 
 # Prepare some files list
