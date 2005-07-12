@@ -36,7 +36,7 @@ Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.0.0
 #Release:	1.%{_snap}.0.1
-Release:	0.2
+Release:	0.3
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-desktop-%{version}.tar.bz2
@@ -855,9 +855,21 @@ ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
-	MODULE=`echo $f | basename $f | cut -d. -f1`
+	HAVEDEBUG=`echo $f | grep _debug | wc -l`
+	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
+	MODULE2=`echo $MODULE | tr a-z A-Z | sed s:QT::`
+	DEFS="-D_REENTRANT"
+
+	if [ "$MODULE2" == "3SUPPORT" ]; then
+	    DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
+	else
+	    DEFS="$DEFS -DQT_"$MODULE2"_LIB"
+	fi	
+	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
+	
 	sed -i -e s:-L`pwd`/lib::g $f
-	sed -i -e s:-I\${includedir}:-I\${includedir}\ -I\${includedir}/$MODULE: $f
+	sed -i -e "s:-I\${includedir}:-I\${includedir}\ -I\${includedir}/$MODULE -I%{_datadir}/qt4/mkspec/default:" $f
+	sed -i -e "s:-DQT_SHARED:-DQT_SHARED $DEFS:" $f
 done
 
 # Prepare some files list
