@@ -55,6 +55,7 @@ Patch2:		%{name}-buildsystem.patch
 Patch4:		%{name}-locale.patch
 Patch8:		%{name}-antialias.patch
 Patch9:		%{name}rc1-build.patch
+Patch10:	%{name}-support-cflags-with-commas.patch
 URL:		http://www.trolltech.com/products/qt/
 Icon:		qt.xpm
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -606,6 +607,7 @@ Programas exemplo para o Qt versão.
 %patch4 -p1 -b .niedakh
 %patch8 -p1 -b .niedakh
 %patch9 -p1
+%patch10 -p1
 
 #cat >> patches/DISABLED <<EOF
 #0005
