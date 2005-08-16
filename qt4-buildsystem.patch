@@ -13,20 +13,6 @@
              echo "export MACOSX_DEPLOYMENT_TARGET = 10.2" >>$mkfile
              echo "CARBON_LFLAGS +=-framework CoreServices -framework CoreFoundation" >>$mkfile
 
---- qt-copy/tools/assistant/lib/lib.pro.orig	2005-05-13 16:39:04.000000000 +0200
-+++ qt-copy/tools/assistant/lib/lib.pro	2005-05-13 20:21:32.014137768 +0200
-@@ -4,9 +4,9 @@
- VERSION                = 1.0
- 
- CONFIG                += qt warn_on
--CONFIG                += staticlib debug_and_release 
-+CONFIG                += dll debug_and_release 
- mac:unix:CONFIG       += explicitlib
--CONFIG                -= dll
-+
- 
- HEADERS         = qassistantclient.h
- SOURCES         = qassistantclient.cpp
 --- qt-copy/src/plugins/sqldrivers/sqldrivers.pro.orig	2005-05-15 21:26:42.000000000 +0200
 +++ qt-copy/src/plugins/sqldrivers/sqldrivers.pro	2005-05-15 21:26:59.000000000 +0200
 @@ -8,3 +8,4 @@
