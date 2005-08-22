@@ -27,20 +27,18 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-%define		_packager	djurban
-
 Summary:	The Qt GUI application framework
 Summary(es):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.0.0
+Version:	4.0.1
 #Release:	1.%{_snap}.0.1
-Release:	0.3
+Release:	0.1
 License:	GPL/QPL
 Group:		X11/Libraries
-Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-desktop-%{version}.tar.bz2
-# Source0-md5:	a6183269fab293282daf2da9ac940577
+Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
+# Source0-md5:	2db4a4d797d37d0605b776420327503a
 Source2:	qtconfig.desktop
 Source3:	designer.desktop
 Source4:	assistant.desktop
@@ -597,15 +595,15 @@ Programas exemplo para o Qt versão.
 
 %prep
 #setup -q -n %{_name}-copy-%{_snap}
-%setup -q -n qt-x11-opensource-desktop-%{version}
+%setup -q -n qt-x11-opensource-src-%{version}
 %patch0 -p1
 %if %{with dont_enable}
 %patch1 -p1
 %patch3 -p1
 %endif
-%patch2 -p1 -b .niedakh
-%patch4 -p1 -b .niedakh
-%patch8 -p1 -b .niedakh
+%patch2 -p1
+%patch4 -p1
+%patch8 -p1
 %patch9 -p1
 %patch10 -p1
 
