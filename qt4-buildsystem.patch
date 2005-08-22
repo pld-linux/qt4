@@ -15,15 +15,14 @@
 
 --- qt-copy/tools/assistant/lib/lib.pro.orig	2005-05-13 16:39:04.000000000 +0200
 +++ qt-copy/tools/assistant/lib/lib.pro	2005-05-13 20:21:32.014137768 +0200
-@@ -4,9 +4,9 @@
+@@ -4,9 +4,8 @@
  VERSION                = 1.0
  
  CONFIG                += qt warn_on
--CONFIG                += staticlib debug_and_release 
-+CONFIG                += dll debug_and_release 
+-CONFIG                += staticlib debug_and_release
++CONFIG                += dll debug_and_release
  mac:unix:CONFIG       += explicitlib
 -CONFIG                -= dll
-+
  
  HEADERS         = qassistantclient.h
  SOURCES         = qassistantclient.cpp
