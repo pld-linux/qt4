@@ -971,6 +971,7 @@ EOF
 %defattr(644,root,root,755)
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) 
 %attr(755,root,root) %{_libdir}/libQtCore*.so.*
+%dir %{_libdir}/qt4
 %dir %{_libdir}/qt4/plugins
 %dir %{_libdir}/qt4/plugins/codecs
 %dir %{_libdir}/qt4/plugins/crypto
