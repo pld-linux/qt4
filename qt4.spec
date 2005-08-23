@@ -34,7 +34,7 @@ Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.0.1
 #Release:	1.%{_snap}.0.1
-Release:	0.1
+Release:	1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -751,19 +751,12 @@ BuildLib $OPT
 	sub-demos-all-ordered \
 	sub-examples-all-ordered
 
-#
-# TODO: 
-#	Check for "with" conditions befor build
-# OR
-#	Find out why and fix the reason of building only mysql sqldriver
-#	(it is not installed either)
-#
-for dir in src/plugins/sqldrivers/{ibase,odbc,psql,sqlite,sqlite2}
-do
-	cd $dir
-	%{__make}
-	cd -
-done
+%{?with_ibase:		%{__make} -C src/plugins/sqldrivers/ibase}
+#{?with_mysql:		#{__make} -C src/plugins/sqldrivers/mysql}
+%{?with_odbc:		%{__make} -C src/plugins/sqldrivers/odbc}
+%{?with_pgsql:		%{__make} -C src/plugins/sqldrivers/psql}
+%{?with_sqlite:		%{__make} -C src/plugins/sqldrivers/sqlite2}
+%{?with_sqlite3:	%{__make} -C src/plugins/sqldrivers/sqlite}
 
 %if %{with dont_enable}
 %if %{with designer}
@@ -782,6 +775,7 @@ cd $QTDIR
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_pkgconfigdir}
 QTDIR=`/bin/pwd`
 
 export QTDIR
@@ -854,6 +848,7 @@ done
 ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
+mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 	HAVEDEBUG=`echo $f | grep _debug | wc -l`
 	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
