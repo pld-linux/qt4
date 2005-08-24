@@ -752,7 +752,7 @@ BuildLib $OPT
 	sub-examples-all-ordered
 
 %{?with_ibase:		%{__make} -C src/plugins/sqldrivers/ibase}
-#{?with_mysql:		#{__make} -C src/plugins/sqldrivers/mysql}
+%{?with_mysql:		%{__make} -C src/plugins/sqldrivers/mysql}
 %{?with_odbc:		%{__make} -C src/plugins/sqldrivers/odbc}
 %{?with_pgsql:		%{__make} -C src/plugins/sqldrivers/psql}
 %{?with_sqlite:		%{__make} -C src/plugins/sqldrivers/sqlite2}
