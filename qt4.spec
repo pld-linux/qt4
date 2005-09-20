@@ -440,7 +440,7 @@ compiler (moc), user interface compiler (uic) and qt3to4 include names
 converter.
 
 %description build -l pl
-Ten pakiet zawiera komilator zasobów Qt (rcc), kompilator metaobiektów
+Ten pakiet zawiera kompilator zasobów Qt (rcc), kompilator metaobiektów
 (moc), kompilator interfejsów u¿ytkownika (uic) oraz konwerter nazw
 plików nag³ówkowych qt3to4.
 
@@ -692,10 +692,8 @@ DEFAULTOPT=" \
 	-no-exceptions \
 	-I%{_includedir}/postgresql/server \
 	-I%{_includedir}/mysql \
-	%{!?with_cups:-no-cups} \
+	%{?with_cups:-cups} \
 	%{?with_nas:-system-nas-sound} \
-	%{?with_nvidia:-dlopen-opengl} \
-	%{?with_pch:-pch} \
 	%{?debug:-debug} \
 	-xcursor \
 	-xshape \
