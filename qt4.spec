@@ -1063,6 +1063,7 @@ EOF
 %files designer-libs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*.*
+%dir %{_libdir}/qt4/plugins/designer
 %attr(755,root,root) %{_libdir}/qt4/plugins/designer/*.so
 
 %files designer
