@@ -7,7 +7,7 @@
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
 # static libs disabled for now
-%bcond_with	static_libs	# don't build static libraries
+%bcond_with	static_libs	# build static libraries
 %bcond_without	cups		# disable CUPS support
 %bcond_without	mysql		# don't build MySQL plugin
 %bcond_without	odbc		# don't build unixODBC plugin
@@ -15,8 +15,8 @@
 %bcond_without	designer	# don't build designer (it takes long)
 %bcond_without	sqlite3		# don't build SQLite3 plugin
 %bcond_without	sqlite		# don't build SQLite2 plugin
-%bcond_without	ibase		# build ibase (InterBase/Firebird) plugin
-%bcond_without	pch		# enable pch in qmake
+%bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
+%bcond_without	pch		# disable pch in qmake
 %bcond_with	dont_enable	# blocks translations, they are not yet available
 
 %undefine	with_dont_enable
