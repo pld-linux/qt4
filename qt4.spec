@@ -670,7 +670,6 @@ BuildLib() {
 
 DEFAULTOPT=" \
 	-DQT_CLEAN_NAMESPACE \
-	-DQT_COMPAT \
 	-verbose \
 	-prefix %{_prefix} \
 	-docdir %{_docdir}/%{name}-doc \
@@ -1018,6 +1017,7 @@ EOF
 %files -n QtSql-sqlite3
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlite*.so
+%exclude %{_libdir}/qt4/plugins/sqldrivers/libqsqlite2*.so
 %endif
 
 %if %{with ibase}
