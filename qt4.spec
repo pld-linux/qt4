@@ -34,7 +34,7 @@ Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.0.1
 #Release:	1.%{_snap}.0.1
-Release:	1
+Release:	1.1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -650,7 +650,7 @@ else
 fi
 
 if [ "%{_lib}" != "lib" ] ; then
-	ln -s lib "%{_lib}"
+	ln -sf lib "%{_lib}"
 fi
 
 # pass OPTFLAGS to build qmake itself with optimization
@@ -675,6 +675,7 @@ DEFAULTOPT=" \
 	-docdir %{_docdir}/%{name}-doc \
 	-headerdir %{_includedir}/qt4 \
 	-libdir %{_libdir} \
+	-L%{_libdir} \
 	-bindir %{_bindir} \
 	-plugindir %{_libdir}/qt4/plugins \
 	-datadir %{_datadir}/qt4 \
