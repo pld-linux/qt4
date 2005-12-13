@@ -57,8 +57,8 @@ Patch10:	%{name}-support-cflags-with-commas.patch
 URL:		http://www.trolltech.com/products/qt/
 Icon:		qt.xpm
 %{?with_ibase:BuildRequires:	Firebird-devel}
-%{?with_sqlite3:BuildRequires:	sqlite3-devel}
 BuildRequires:	OpenGL-devel
+%{?with_sqlite3:BuildRequires:	sqlite3-devel}
 # incompatible with bison
 BuildRequires:	byacc
 %{?with_cups:BuildRequires:	cups-devel}
@@ -78,8 +78,8 @@ BuildRequires:	perl-base
 # uncomment this in rel. 1 - no time to upgrade rpm
 #BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
-%{?with_odbc:BuildRequires:	unixODBC-devel}
 %{?with_sqlite:BuildRequires:	sqlite-devel}
+%{?with_odbc:BuildRequires:	unixODBC-devel}
 BuildRequires:	xcursor-devel
 BuildRequires:	xft-devel
 BuildRequires:	xrender-devel
@@ -404,8 +404,8 @@ Biblioteka kompatybilno¶ci z Qt3.
 Summary:	Qt3 compatibility library - development files
 Summary(pl):	Biblioteka kompatybilno¶ci z Qt3 - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 Requires:	Qt3Support = %{epoch}:%{version}-%{release}
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 
 %description -n Qt3Support-devel
 Qt3 compatibility library - development files.
@@ -440,9 +440,9 @@ compiler (moc), user interface compiler (uic) and qt3to4 include names
 converter.
 
 %description build -l pl
-Ten pakiet zawiera kompilator zasobów Qt (rcc), kompilator metaobiektów
-(moc), kompilator interfejsów u¿ytkownika (uic) oraz konwerter nazw
-plików nag³ówkowych qt3to4.
+Ten pakiet zawiera kompilator zasobów Qt (rcc), kompilator
+metaobiektów (moc), kompilator interfejsów u¿ytkownika (uic) oraz
+konwerter nazw plików nag³ówkowych qt3to4.
 
 %package designer
 Summary:	IDE used for GUI designing with Qt library
@@ -461,8 +461,8 @@ za pomoc± biblioteki Qt.
 Summary:	IDE used for GUI designing with Qt library - development files
 Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 Requires:	%{name}-designer-libs = %{epoch}:%{version}-%{release}
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 
 %description -n QtDesigner-devel
 IDE used for GUI designing with Qt library - development files.
@@ -533,12 +533,12 @@ Summary(pl):	Wirtualny framebuffer dla Qt
 Group:		X11/Development/Libraries
 
 %description -n qvfb
-Qt Virtual framebuffer allows you to run Qt/Embedded applications in
-X window.
+Qt Virtual framebuffer allows you to run Qt/Embedded applications in X
+window.
 
 %description -n qvfb -l pl
-Qt Virtual framebuffer pozwala na uruchamianie aplikacji Qt/Embedded
-w okienku X.
+Qt Virtual framebuffer pozwala na uruchamianie aplikacji Qt/Embedded w
+okienku X.
 
 %package demos
 Summary:	Demos of new Qt4 features
@@ -784,7 +784,7 @@ export QTDIR
 install -d \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}} \
 	$RPM_BUILD_ROOT%{_libdir}/qt4/plugins/{crypto,network}
-	
+
 install plugins/sqldrivers/* $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/sqldrivers
 install bin/findtr tools/qvfb/qvfb $RPM_BUILD_ROOT%{_bindir}
 
@@ -857,9 +857,9 @@ for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 	    DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
 	else
 	    DEFS="$DEFS -DQT_"$MODULE2"_LIB"
-	fi	
+	fi
 	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
-	
+
 	sed -i -e s:-L`pwd`/lib::g $f
 	sed -i -e "s:-I\${includedir}:-I\${includedir}\ -I\${includedir}/$MODULE -I%{_datadir}/qt4/mkspec/default:" $f
 	sed -i -e "s:-DQT_SHARED:-DQT_SHARED $DEFS:" $f
@@ -888,7 +888,7 @@ mkdevfl () {
 	MODULE=$1; shift
 	echo "%%defattr(644,root,root,755)" > $MODULE-devel.files
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.so"
-	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.la" 
+	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.la"
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.prl"
 	ifecho $MODULE-devel "%{_pkgconfigdir}/$MODULE*.pc"
 	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "`
