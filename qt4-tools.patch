@@ -1,12 +1,11 @@
 --- qt-copy/tools/tools.pro.orig	2005-05-13 16:39:18.000000000 +0200
 +++ qt-copy/tools/tools.pro	2005-05-13 20:02:31.761482520 +0200
-@@ -5,7 +5,8 @@
-     SUBDIRS		= assistant/lib \
+@@ -7,7 +7,7 @@
  			assistant \
  			linguist \
--			porting
-+			porting \
-+			qvfb
+ 			porting \
+-                        qtestlib
++                        qtestlib qvfb
      !contains(QT_EDITION, Console):SUBDIRS += designer
-     unix:SUBDIRS        += qtconfig
- }
+     unix:!embedded:SUBDIRS        += qtconfig
+     win32:!contains(QT_EDITION, OpenSource|Console):SUBDIRS       += activeqt
