@@ -147,7 +147,6 @@ Core classes used by other modules - development files.
 %description -n QtCore-devel -l pl
 Podstawowe klasy u¿ywane przez inne modu³y - pliki programistyczne.
 
-%if %{with static_libs}
 %package -n QtCore-static
 Summary:	Core classes used by other modules - static libraries
 Summary(pl):	Podstawowe klasy u¿ywane przez inne modu³y - biblioteki statyczne
@@ -159,7 +158,6 @@ Core classes used by other modules - static libraries.
 
 %description -n QtCore-static -l pl
 Podstawowe klasy u¿ywane przez inne modu³y - biblioteki statyczne.
-%endif
 
 %package -n QtGui
 Summary:	Graphical User Interface components
@@ -186,7 +184,6 @@ Graphical User Interface components - development files.
 %description -n QtGui-devel -l pl
 Komponenty graficznego interfejsu u¿ytkownika - pliki programistyczne.
 
-%if %{with static_libs}
 %package -n QtGui-static
 Summary:	Graphical User Interface components - static libraries
 Summary(pl):	Komponenty graficznego interfejsu u¿ytkownika - biblioteki statyczne
@@ -198,7 +195,6 @@ Graphical User Interface components - static libraries.
 
 %description -n QtGui-static -l pl
 Komponenty graficznego interfejsu u¿ytkownika - biblioteki statyczne.
-%endif
 
 %package -n QtNetwork
 Summary:	Classes for network programming
@@ -225,7 +221,6 @@ Classes for network programming - development files.
 %description -n QtNetwork-devel -l pl
 Klasy do programowania sieciowego - pliki programistyczne.
 
-%if %{with static_libs}
 %package -n QtNetwork-static
 Summary:	Classes for network programming - static libraries
 Summary(pl):	Klasy do programowania sieciowego - biblioteki statyczne
@@ -237,7 +232,6 @@ Classes for network programming - static libraries.
 
 %description -n QtNetwork-static -l pl
 Klasy do programowania sieciowego - biblioteki statyczne.
-%endif
 
 %package -n QtOpenGL
 Summary:	OpenGL support classes
@@ -264,7 +258,6 @@ OpenGL support classes - development files.
 %description -n QtOpenGL-devel -l pl
 Klasy wspomagaj±ce OpenGL - pliki programistyczne.
 
-%if %{with static_libs}
 %package -n QtOpenGL-static
 Summary:	OpenGL support classes - static libraries
 Summary(pl):	Klasy wspomagaj±ce OpenGL - biblioteki statyczne
@@ -276,7 +269,6 @@ OpenGL support classes - static libraries.
 
 %description -n QtOpenGL-devel -l pl
 Klasy wspomagaj±ce OpenGL - biblioteki statyczne.
-%endif
 
 %package -n QtSql
 Summary:	Classes for database integration using SQL
@@ -304,7 +296,6 @@ Classes for database integration using SQL - development files.
 Klasy do integracji z bazami danych przy u¿yciu SQL - pliki
 programistyczne.
 
-%if %{with static_libs}
 %package -n QtSql-static
 Summary:	Classes for database integration using SQL - static libraries
 Summary(pl):	Klasy do integracji z bazami danych przy u¿yciu SQL - biblioteki statyczne
@@ -317,7 +308,6 @@ Classes for database integration using SQL - static libraries.
 %description -n QtSql-static -l pl
 Klasy do integracji z bazami danych przy u¿yciu SQL - biblioteki statyczne.
 programistyczne.
-%endif
 
 %package -n QtSvg
 Summary:	SVG support.
@@ -344,7 +334,6 @@ SVG support - development files.
 %description -n QtSvg-devel -l pl
 Wsparcie dla SVG - pliki programistyczne.
 
-%if %{with static_libs}
 %package -n QtSvg-static
 Summary:	SVG support - static libraries.
 Summary(pl):	Wsparcie dla SVG - biblioteki statyczne.
@@ -356,7 +345,6 @@ SVG support - static libraries.
 
 %description -n QtSvg-static -l pl
 Wsparcie dla SVG - biblioteki statyczne.
-%endif
 
 %package -n QtSql-ibase
 Summary:	Database plugin for InterBase/Firebird Qt support
@@ -514,7 +502,6 @@ Classes for handling XML - development files.
 %description -n QtXml-devel -l pl
 Klasy do obs³ugi XML-a - pliki programistyczne.
 
-%if %{with static_libs}
 %package -n QtXml-static
 Summary:	Classes for handling XML - static libraries
 Summary(pl):	Klasy do obs³ugi XML-a - biblioteki statyczne
@@ -526,7 +513,6 @@ Classes for handling XML - static libraries.
 
 %description -n QtXml-static -l pl
 Klasy do obs³ugi XML-a - biblioteki statyczne.
-%endif
 
 %package -n Qt3Support
 Summary:	Qt3 compatibility library
@@ -553,7 +539,6 @@ Qt3 compatibility library - development files.
 %description -n Qt3Support-devel -l pl
 Biblioteka kompatybilno¶ci z Qt3 - pliki programistyczne.
 
-%if %{with static_libs}
 %package -n Qt3Support-static
 Summary:	Qt3 compatibility library - static libraries
 Summary(pl):	Biblioteka kompatybilno¶ci z Qt3 - biblioteki statyczne
@@ -565,7 +550,6 @@ Qt3 compatibility library - static libraries.
 
 %description -n Qt3Support-static -l pl
 Biblioteka kompatybilno¶ci z Qt3 - biblioteki statyczne.
-%endif
 
 %package assistant
 Summary:	Qt documentation browser
@@ -625,7 +609,6 @@ IDE used for GUI designing with Qt library - development files.
 IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - pliki
 programistyczne.
 
-%if %{with static_libs}
 %package -n QtDesigner-static
 Summary:	IDE used for GUI designing with Qt library - static libraries
 Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - biblioteki statyczne
@@ -637,7 +620,6 @@ IDE used for GUI designing with Qt library - static libraries.
 
 %description -n QtDesigner-static -l pl
 IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - biblioteki statyczne.
-%endif
 
 %package designer-libs
 Summary:	Libraries IDE used for GUI designing with Qt library
