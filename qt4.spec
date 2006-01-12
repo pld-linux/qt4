@@ -54,6 +54,7 @@ Patch8:		%{name}-antialias.patch
 Patch10:	%{name}-support-cflags-with-commas.patch
 URL:		http://www.trolltech.com/products/qt/
 Icon:		qt.xpm
+BuildConflicts:	QtCore
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
@@ -82,11 +83,10 @@ BuildRequires:	xcursor-devel
 BuildRequires:	xft-devel
 BuildRequires:	xrender-devel
 BuildRequires:	zlib-devel
-BuildConflicts:	QtCore
 Requires:	OpenGL
-Conflicts:	kdelibs <= 8:3.2-0.030602.1
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
+Conflicts:	kdelibs <= 8:3.2-0.030602.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
@@ -306,11 +306,11 @@ Requires:	QtSql-devel = %{epoch}:%{version}-%{release}
 Classes for database integration using SQL - static libraries.
 
 %description -n QtSql-static -l pl
-Klasy do integracji z bazami danych przy u¿yciu SQL - biblioteki statyczne.
-programistyczne.
+Klasy do integracji z bazami danych przy u¿yciu SQL - biblioteki
+statyczne. programistyczne.
 
 %package -n QtSvg
-Summary:	SVG support.
+Summary:	SVG support
 Summary(pl):	Wsparcie dla SVG.
 Group:		X11/Libraries
 Requires:	QtCore = %{epoch}:%{version}-%{release}
@@ -322,7 +322,7 @@ SVG support.
 Wsparcie dla SVG.
 
 %package -n QtSvg-devel
-Summary:	SVG support - development files.
+Summary:	SVG support - development files
 Summary(pl):	Wsparcie dla SVG - pliki programistyczne.
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
@@ -335,7 +335,7 @@ SVG support - development files.
 Wsparcie dla SVG - pliki programistyczne.
 
 %package -n QtSvg-static
-Summary:	SVG support - static libraries.
+Summary:	SVG support - static libraries
 Summary(pl):	Wsparcie dla SVG - biblioteki statyczne.
 Group:		X11/Development/Libraries
 Requires:	QtSvg-devel = %{epoch}:%{version}-%{release}
@@ -446,8 +446,8 @@ Summary:	Database plugin for SQLite3 Qt support
 Summary(pl):	Wtyczka SQLite3 do Qt
 Summary(pt_BR):	Plugin de suporte a SQLite3 para Qt
 Group:		X11/Libraries
-Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
 Requires:	QtSql = %{epoch}:%{version}-%{release}
+Provides:	QtSql-backend = %{epoch}:%{version}-%{release}
 
 %description -n QtSql-sqlite3
 This package contains a plugin for using the SQLite3 library (which
@@ -461,7 +461,7 @@ danych SQLite3 poprzez klasy QSql.
 Plugin de suporte a SQLite3 para Qt.
 
 %package -n QtTest
-Summary:	Test framework.
+Summary:	Test framework
 Group:		X11/Libraries
 Requires:	QtCore = %{epoch}:%{version}-%{release}
 
@@ -469,7 +469,7 @@ Requires:	QtCore = %{epoch}:%{version}-%{release}
 Test framework.
 
 %package -n QtTest-devel
-Summary:	Test framework - development files.
+Summary:	Test framework - development files
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 Requires:	QtTest = %{epoch}:%{version}-%{release}
@@ -619,7 +619,8 @@ Requires:	QtDesigner-devel = %{epoch}:%{version}-%{release}
 IDE used for GUI designing with Qt library - static libraries.
 
 %description -n QtDesigner-static -l pl
-IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - biblioteki statyczne.
+IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - biblioteki
+statyczne.
 
 %package designer-libs
 Summary:	Libraries IDE used for GUI designing with Qt library
@@ -1092,7 +1093,7 @@ EOF
 
 %files -n QtCore
 %defattr(644,root,root,755)
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) 
+#%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size)
 %attr(755,root,root) %{_libdir}/libQtCore*.so.*
 %dir %{_libdir}/qt4
 %dir %{_libdir}/qt4/plugins
