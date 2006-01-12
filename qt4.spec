@@ -7,7 +7,7 @@
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
 # static libs disabled for now
-%bcond_with	static_libs	# build static libraries
+%bcond_without	static_libs	# build static libraries
 %bcond_without	cups		# disable CUPS support
 %bcond_without	mysql		# don't build MySQL plugin
 %bcond_without	odbc		# don't build unixODBC plugin
@@ -32,13 +32,12 @@ Summary(es):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.0.1
-#Release:	1.%{_snap}.0.1
-Release:	1.1
+Version:	4.1.0
+Release:	1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	2db4a4d797d37d0605b776420327503a
+# Source0-md5:	0e3982a54f56b6420d3062b20524410a
 Source2:	qtconfig.desktop
 Source3:	designer.desktop
 Source4:	assistant.desktop
@@ -52,7 +51,6 @@ Patch3:		qt-disable_tutorials.patch
 Patch2:		%{name}-buildsystem.patch
 Patch4:		%{name}-locale.patch
 Patch8:		%{name}-antialias.patch
-Patch9:		%{name}rc1-build.patch
 Patch10:	%{name}-support-cflags-with-commas.patch
 URL:		http://www.trolltech.com/products/qt/
 Icon:		qt.xpm
@@ -84,6 +82,7 @@ BuildRequires:	xcursor-devel
 BuildRequires:	xft-devel
 BuildRequires:	xrender-devel
 BuildRequires:	zlib-devel
+BuildConflicts:	QtCore
 Requires:	OpenGL
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
 Obsoletes:	qt-extensions
@@ -148,6 +147,20 @@ Core classes used by other modules - development files.
 %description -n QtCore-devel -l pl
 Podstawowe klasy u¿ywane przez inne modu³y - pliki programistyczne.
 
+%if %{with static_libs}
+%package -n QtCore-static
+Summary:	Core classes used by other modules - static libraries
+Summary(pl):	Podstawowe klasy u¿ywane przez inne modu³y - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+
+%description -n QtCore-static
+Core classes used by other modules - static libraries.
+
+%description -n QtCore-static -l pl
+Podstawowe klasy u¿ywane przez inne modu³y - biblioteki statyczne.
+%endif
+
 %package -n QtGui
 Summary:	Graphical User Interface components
 Summary(pl):	Komponenty graficznego interfejsu u¿ytkownika
@@ -172,6 +185,20 @@ Graphical User Interface components - development files.
 
 %description -n QtGui-devel -l pl
 Komponenty graficznego interfejsu u¿ytkownika - pliki programistyczne.
+
+%if %{with static_libs}
+%package -n QtGui-static
+Summary:	Graphical User Interface components - static libraries
+Summary(pl):	Komponenty graficznego interfejsu u¿ytkownika - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtGui-devel = %{epoch}:%{version}-%{release}
+
+%description -n QtGui-static
+Graphical User Interface components - static libraries.
+
+%description -n QtGui-static -l pl
+Komponenty graficznego interfejsu u¿ytkownika - biblioteki statyczne.
+%endif
 
 %package -n QtNetwork
 Summary:	Classes for network programming
@@ -198,6 +225,20 @@ Classes for network programming - development files.
 %description -n QtNetwork-devel -l pl
 Klasy do programowania sieciowego - pliki programistyczne.
 
+%if %{with static_libs}
+%package -n QtNetwork-static
+Summary:	Classes for network programming - static libraries
+Summary(pl):	Klasy do programowania sieciowego - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtNetwork-devel = %{epoch}:%{version}-%{release}
+
+%description -n QtNetwork-static
+Classes for network programming - static libraries.
+
+%description -n QtNetwork-static -l pl
+Klasy do programowania sieciowego - biblioteki statyczne.
+%endif
+
 %package -n QtOpenGL
 Summary:	OpenGL support classes
 Summary(pl):	Klasy wspomagaj±ce OpenGL
@@ -222,6 +263,20 @@ OpenGL support classes - development files.
 
 %description -n QtOpenGL-devel -l pl
 Klasy wspomagaj±ce OpenGL - pliki programistyczne.
+
+%if %{with static_libs}
+%package -n QtOpenGL-static
+Summary:	OpenGL support classes - static libraries
+Summary(pl):	Klasy wspomagaj±ce OpenGL - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtOpenGL-devel = %{epoch}:%{version}-%{release}
+
+%description -n QtOpenGL-static
+OpenGL support classes - static libraries.
+
+%description -n QtOpenGL-devel -l pl
+Klasy wspomagaj±ce OpenGL - biblioteki statyczne.
+%endif
 
 %package -n QtSql
 Summary:	Classes for database integration using SQL
@@ -248,6 +303,60 @@ Classes for database integration using SQL - development files.
 %description -n QtSql-devel -l pl
 Klasy do integracji z bazami danych przy u¿yciu SQL - pliki
 programistyczne.
+
+%if %{with static_libs}
+%package -n QtSql-static
+Summary:	Classes for database integration using SQL - static libraries
+Summary(pl):	Klasy do integracji z bazami danych przy u¿yciu SQL - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtSql-devel = %{epoch}:%{version}-%{release}
+
+%description -n QtSql-static
+Classes for database integration using SQL - static libraries.
+
+%description -n QtSql-static -l pl
+Klasy do integracji z bazami danych przy u¿yciu SQL - biblioteki statyczne.
+programistyczne.
+%endif
+
+%package -n QtSvg
+Summary:	SVG support.
+Summary(pl):	Wsparcie dla SVG.
+Group:		X11/Libraries
+Requires:	QtCore = %{epoch}:%{version}-%{release}
+
+%description -n QtSvg
+SVG support.
+
+%description -n QtSvg -l pl
+Wsparcie dla SVG.
+
+%package -n QtSvg-devel
+Summary:	SVG support - development files.
+Summary(pl):	Wsparcie dla SVG - pliki programistyczne.
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+Requires:	QtSvg = %{epoch}:%{version}-%{release}
+
+%description -n QtSvg-devel
+SVG support - development files.
+
+%description -n QtSvg-devel -l pl
+Wsparcie dla SVG - pliki programistyczne.
+
+%if %{with static_libs}
+%package -n QtSvg-static
+Summary:	SVG support - static libraries.
+Summary(pl):	Wsparcie dla SVG - biblioteki statyczne.
+Group:		X11/Development/Libraries
+Requires:	QtSvg-devel = %{epoch}:%{version}-%{release}
+
+%description -n QtSvg-static
+SVG support - static libraries.
+
+%description -n QtSvg-static -l pl
+Wsparcie dla SVG - biblioteki statyczne.
+%endif
 
 %package -n QtSql-ibase
 Summary:	Database plugin for InterBase/Firebird Qt support
@@ -363,6 +472,23 @@ danych SQLite3 poprzez klasy QSql.
 %description -n QtSql-sqlite3 -l pt_BR
 Plugin de suporte a SQLite3 para Qt.
 
+%package -n QtTest
+Summary:	Test framework.
+Group:		X11/Libraries
+Requires:	QtCore = %{epoch}:%{version}-%{release}
+
+%description -n QtTest
+Test framework.
+
+%package -n QtTest-devel
+Summary:	Test framework - development files.
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+Requires:	QtTest = %{epoch}:%{version}-%{release}
+
+%description -n QtTest-devel
+Test framework - development files.
+
 %package -n QtXml
 Summary:	Classes for handling XML
 Summary(pl):	Klasy do obs³ugi XML-a
@@ -388,6 +514,20 @@ Classes for handling XML - development files.
 %description -n QtXml-devel -l pl
 Klasy do obs³ugi XML-a - pliki programistyczne.
 
+%if %{with static_libs}
+%package -n QtXml-static
+Summary:	Classes for handling XML - static libraries
+Summary(pl):	Klasy do obs³ugi XML-a - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtXml-devel = %{epoch}:%{version}-%{release}
+
+%description -n QtXml-static
+Classes for handling XML - static libraries.
+
+%description -n QtXml-static -l pl
+Klasy do obs³ugi XML-a - biblioteki statyczne.
+%endif
+
 %package -n Qt3Support
 Summary:	Qt3 compatibility library
 Summary(pl):	Biblioteka kompatybilno¶ci z Qt3
@@ -412,6 +552,20 @@ Qt3 compatibility library - development files.
 
 %description -n Qt3Support-devel -l pl
 Biblioteka kompatybilno¶ci z Qt3 - pliki programistyczne.
+
+%if %{with static_libs}
+%package -n Qt3Support-static
+Summary:	Qt3 compatibility library - static libraries
+Summary(pl):	Biblioteka kompatybilno¶ci z Qt3 - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	Qt3Support-devel = %{epoch}:%{version}-%{release}
+
+%description -n Qt3Support-static
+Qt3 compatibility library - static libraries.
+
+%description -n Qt3Support-static -l pl
+Biblioteka kompatybilno¶ci z Qt3 - biblioteki statyczne.
+%endif
 
 %package assistant
 Summary:	Qt documentation browser
@@ -470,6 +624,20 @@ IDE used for GUI designing with Qt library - development files.
 %description -n QtDesigner-devel -l pl
 IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - pliki
 programistyczne.
+
+%if %{with static_libs}
+%package -n QtDesigner-static
+Summary:	IDE used for GUI designing with Qt library - static libraries
+Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtDesigner-devel = %{epoch}:%{version}-%{release}
+
+%description -n QtDesigner-static
+IDE used for GUI designing with Qt library - static libraries.
+
+%description -n QtDesigner-static -l pl
+IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - biblioteki statyczne.
+%endif
 
 %package designer-libs
 Summary:	Libraries IDE used for GUI designing with Qt library
@@ -594,7 +762,6 @@ Example programs bundled with Qt version.
 Programas exemplo para o Qt versão.
 
 %prep
-#setup -q -n %{_name}-copy-%{_snap}
 %setup -q -n qt-x11-opensource-src-%{version}
 %patch0 -p1
 %if %{with dont_enable}
@@ -604,17 +771,7 @@ Programas exemplo para o Qt versão.
 %patch2 -p1
 %patch4 -p1
 %patch8 -p1
-%patch9 -p1
 %patch10 -p1
-
-#cat >> patches/DISABLED <<EOF
-#0005
-#0039
-#0042
-#0043
-#0047
-#EOF
-#./apply_patches
 
 # change QMAKE_CFLAGS_RELEASE to build
 # properly optimized libs
@@ -661,14 +818,11 @@ YACC='byacc -d'
 
 export QTDIR YACC PATH LD_LIBRARY_PATH QMAKESPEC OPTFLAGS
 
-BuildLib() {
-# $1 - aditional params
-
 ##################################
 # DEFAULT OPTIONS FOR ALL BUILDS #
 ##################################
 
-DEFAULTOPT=" \
+COMMONOPT=" \
 	-DQT_CLEAN_NAMESPACE \
 	-verbose \
 	-prefix %{_prefix} \
@@ -703,17 +857,6 @@ DEFAULTOPT=" \
 	-sm \
 	-nis"
 
-./configure \
-	$DEFAULTOPT \
-	$1 \
-	<<_EOF_
-yes
-_EOF_
-
-%{__make} sub-src-all-ordered
-
-}
-
 ##################################
 #      STATIC MULTI-THREAD       #
 ##################################
@@ -727,8 +870,14 @@ OPT=" \
 	%{?with_sqlite:-qt-sql-sqlite2} \
 	%{?with_ibase:-qt-sql-ibase} \
 	-static"
-BuildLib $OPT
-%{__make} clean
+
+echo "yes" | ./configure $COMMONOPT $OPT
+
+cd src
+%{__make}
+cd ..
+mkdir staticlib
+cp -a lib/*.a staticlib
 %endif
 
 ##################################
@@ -742,8 +891,10 @@ OPT=" \
 	%{?with_sqlite3:-plugin-sql-sqlite} \
 	%{?with_sqlite:-plugin-sql-sqlite2} \
 	%{?with_ibase:-plugin-sql-ibase}"
-BuildLib $OPT
 
+echo "yes" | ./configure $COMMONOPT $OPT
+
+%{__make}
 %{__make} \
 	sub-tools-all-ordered \
 	sub-demos-all-ordered \
@@ -806,7 +957,7 @@ install tools/designer/src/designer/images/designer.png \
 %endif
 
 %if %{with static_libs}
-install %{_lib}/*Qt*.a $RPM_BUILD_ROOT%{_libdir}
+install staticlib/*.a $RPM_BUILD_ROOT%{_libdir}
 %endif
 
 %if %{with designer}
@@ -837,7 +988,7 @@ install tools/linguist/linguist/linguist_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-for f in ../Qt{3Support,Core,Gui,Network,OpenGL,Sql,Xml,Designer}/*
+for f in ../Qt{3Support,Core,Gui,Network,OpenGL,Sql,Svg,Test,Xml,Designer}/*
 do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
@@ -847,23 +998,6 @@ ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
 mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
-for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
-	HAVEDEBUG=`echo $f | grep _debug | wc -l`
-	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
-	MODULE2=`echo $MODULE | tr a-z A-Z | sed s:QT::`
-	DEFS="-D_REENTRANT"
-
-	if [ "$MODULE2" == "3SUPPORT" ]; then
-	    DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
-	else
-	    DEFS="$DEFS -DQT_"$MODULE2"_LIB"
-	fi
-	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
-
-	sed -i -e s:-L`pwd`/lib::g $f
-	sed -i -e "s:-I\${includedir}:-I\${includedir}\ -I\${includedir}/$MODULE -I%{_datadir}/qt4/mkspec/default:" $f
-	sed -i -e "s:-DQT_SHARED:-DQT_SHARED $DEFS:" $f
-done
 
 # Prepare some files list
 ifecho () {
@@ -905,6 +1039,8 @@ mkdevfl QtGui
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
 mkdevfl QtSql
+mkdevfl QtSvg
+mkdevfl QtTest
 mkdevfl QtXml
 mkdevfl Qt3Support
 mkdevfl QtDesigner || /bin/true # there is no libQtDesigner.la file :/
@@ -918,7 +1054,8 @@ done
 
 echo "%defattr(644,root,root,755)" > demos.files
 ifecho demos "%{_examplesdir}/qt4-demos"
-ifecho demos "%{_bindir}/qtdemo" >> demos.files
+ifecho demos "%{_bindir}/qtdemo"
+ifecho demos "%{_libdir}/qt4/plugins/arthurplugin/libarthurplugin.so"
 for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`
 do
 	ifecho demos %{_examplesdir}/qt4-demos/$f
@@ -953,6 +1090,12 @@ EOF
 %post	-n QtSql	-p /sbin/ldconfig
 %postun	-n QtSql	-p /sbin/ldconfig
 
+%post	-n QtSvg	-p /sbin/ldconfig
+%postun	-n QtSvg	-p /sbin/ldconfig
+
+%post	-n QtTest	-p /sbin/ldconfig
+%postun	-n QtTest	-p /sbin/ldconfig
+
 %post	-n QtXml	-p /sbin/ldconfig
 %postun	-n QtXml	-p /sbin/ldconfig
 
@@ -971,16 +1114,19 @@ EOF
 %attr(755,root,root) %{_libdir}/libQtCore*.so.*
 %dir %{_libdir}/qt4
 %dir %{_libdir}/qt4/plugins
+%dir %{_libdir}/qt4/plugins/accessible
 %dir %{_libdir}/qt4/plugins/codecs
 %dir %{_libdir}/qt4/plugins/crypto
 %dir %{_libdir}/qt4/plugins/imageformats
 %dir %{_libdir}/qt4/plugins/network
 %dir %{_libdir}/qt4/plugins/sqldrivers
 %dir %{_datadir}/qt4
+%{_datadir}/locale/qt_*.qm
 
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui*.so.*
+%{_libdir}/qt4/plugins/accessible/*
 %{_libdir}/qt4/plugins/codecs/*
 %{_libdir}/qt4/plugins/imageformats/*
 
@@ -995,6 +1141,10 @@ EOF
 %files -n QtSql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSql*.so.*
+
+%files -n QtSvg
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtSvg*.so.*
 
 %if %{with mysql}
 %files -n QtSql-mysql
@@ -1033,10 +1183,13 @@ EOF
 %attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlodbc*.so
 %endif
 
+%files -n QtTest
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtTest*.so.*
+
 %files -n QtXml
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtXml*.so.*
-
 
 %files -n Qt3Support
 %defattr(644,root,root,755)
@@ -1118,8 +1271,45 @@ EOF
 %files -n QtNetwork-devel -f QtNetwork-devel.files
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
 %files -n QtSql-devel -f QtSql-devel.files
+%files -n QtSvg-devel -f QtSvg-devel.files
+%files -n QtTest-devel -f QtTest-devel.files
 %files -n QtXml-devel -f QtXml-devel.files
 %files -n Qt3Support-devel -f Qt3Support-devel.files
+
+%if %{with static_libs}
+%files -n QtCore-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtCore*.a
+
+%files -n QtGui-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtGui*.a
+
+%files -n QtNetwork-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtNetwork*.a
+
+%files -n QtOpenGL-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtOpenGL*.a
+
+%files -n QtSql-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtSql*.a
+
+%files -n QtSvg-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtSvg*.a
+
+%files -n QtXml-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtXml*.a
+
+%files -n Qt3Support-static
+%defattr(644,root,root,755)
+%{_libdir}/libQt3Support*.a
+
+%endif
 
 %files demos -f demos.files
 %files examples -f examples.files
