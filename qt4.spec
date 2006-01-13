@@ -2,7 +2,7 @@
 # TODO:
 #	- better descriptions
 #	- more cleanups
-#	- check if translations are avilable
+#	- check if translations are available
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -309,43 +309,6 @@ Classes for database integration using SQL - static libraries.
 Klasy do integracji z bazami danych przy u¿yciu SQL - biblioteki
 statyczne. programistyczne.
 
-%package -n QtSvg
-Summary:	SVG support
-Summary(pl):	Wsparcie dla SVG.
-Group:		X11/Libraries
-Requires:	QtCore = %{epoch}:%{version}-%{release}
-
-%description -n QtSvg
-SVG support.
-
-%description -n QtSvg -l pl
-Wsparcie dla SVG.
-
-%package -n QtSvg-devel
-Summary:	SVG support - development files
-Summary(pl):	Wsparcie dla SVG - pliki programistyczne.
-Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
-Requires:	QtSvg = %{epoch}:%{version}-%{release}
-
-%description -n QtSvg-devel
-SVG support - development files.
-
-%description -n QtSvg-devel -l pl
-Wsparcie dla SVG - pliki programistyczne.
-
-%package -n QtSvg-static
-Summary:	SVG support - static libraries
-Summary(pl):	Wsparcie dla SVG - biblioteki statyczne.
-Group:		X11/Development/Libraries
-Requires:	QtSvg-devel = %{epoch}:%{version}-%{release}
-
-%description -n QtSvg-static
-SVG support - static libraries.
-
-%description -n QtSvg-static -l pl
-Wsparcie dla SVG - biblioteki statyczne.
-
 %package -n QtSql-ibase
 Summary:	Database plugin for InterBase/Firebird Qt support
 Summary(pl):	Wtyczka InterBase/Firebird do Qt
@@ -460,22 +423,67 @@ danych SQLite3 poprzez klasy QSql.
 %description -n QtSql-sqlite3 -l pt_BR
 Plugin de suporte a SQLite3 para Qt.
 
+%package -n QtSvg
+Summary:	SVG support
+Summary(pl):	Wsparcie dla SVG
+Group:		X11/Libraries
+Requires:	QtCore = %{epoch}:%{version}-%{release}
+
+%description -n QtSvg
+SVG support.
+
+%description -n QtSvg -l pl
+Wsparcie dla SVG.
+
+%package -n QtSvg-devel
+Summary:	SVG support - development files
+Summary(pl):	Wsparcie dla SVG - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
+Requires:	QtSvg = %{epoch}:%{version}-%{release}
+
+%description -n QtSvg-devel
+SVG support - development files.
+
+%description -n QtSvg-devel -l pl
+Wsparcie dla SVG - pliki programistyczne.
+
+%package -n QtSvg-static
+Summary:	SVG support - static libraries
+Summary(pl):	Wsparcie dla SVG - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtSvg-devel = %{epoch}:%{version}-%{release}
+
+%description -n QtSvg-static
+SVG support - static libraries.
+
+%description -n QtSvg-static -l pl
+Wsparcie dla SVG - biblioteki statyczne.
+
 %package -n QtTest
 Summary:	Test framework
+Summary(pl):	Szkielet testów
 Group:		X11/Libraries
 Requires:	QtCore = %{epoch}:%{version}-%{release}
 
 %description -n QtTest
 Test framework.
 
+%description -n QtTest -l pl
+Szkielet testów.
+
 %package -n QtTest-devel
 Summary:	Test framework - development files
+Summary(pl):	Szkielet testów - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 Requires:	QtTest = %{epoch}:%{version}-%{release}
 
 %description -n QtTest-devel
 Test framework - development files.
+
+%description -n QtTest-devel -l pl
+Szkielet testów - pliki programistyczne.
 
 %package -n QtXml
 Summary:	Classes for handling XML
@@ -1125,10 +1133,6 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSql*.so.*
 
-%files -n QtSvg
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtSvg*.so.*
-
 %if %{with mysql}
 %files -n QtSql-mysql
 %defattr(644,root,root,755)
@@ -1165,6 +1169,10 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlodbc*.so
 %endif
+
+%files -n QtSvg
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtSvg*.so.*
 
 %files -n QtTest
 %defattr(644,root,root,755)
