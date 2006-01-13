@@ -54,7 +54,6 @@ Patch8:		%{name}-antialias.patch
 Patch10:	%{name}-support-cflags-with-commas.patch
 URL:		http://www.trolltech.com/products/qt/
 Icon:		qt.xpm
-BuildConflicts:	QtCore
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
@@ -83,6 +82,7 @@ BuildRequires:	xcursor-devel
 BuildRequires:	xft-devel
 BuildRequires:	xrender-devel
 BuildRequires:	zlib-devel
+BuildConflicts:	QtCore
 Requires:	OpenGL
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
