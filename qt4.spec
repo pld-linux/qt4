@@ -99,6 +99,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define         _noautostrip    '.*_debug\\.so*'
 
+%define		specflags	-fno-strict-aliasing
+
 %description
 Qt is a complete C++ application development framework, which includes
 a class library and tools for multiplatform development and
