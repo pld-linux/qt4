@@ -6,7 +6,6 @@
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
-# static libs disabled for now
 %bcond_without	static_libs	# build static libraries
 %bcond_without	cups		# disable CUPS support
 %bcond_without	mysql		# don't build MySQL plugin
@@ -17,6 +16,7 @@
 %bcond_without	sqlite		# don't build SQLite2 plugin
 %bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# disable pch in qmake
+%bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	dont_enable	# blocks translations, they are not yet available
 
 %undefine	with_dont_enable
@@ -24,6 +24,11 @@
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
 %endif
+
+%ifarch pentium3 pentium4 %{x8664}
+%define		with_sse	1
+%endif
+
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
@@ -50,6 +55,8 @@ Patch3:		qt-disable_tutorials.patch
 %endif
 Patch2:		%{name}-buildsystem.patch
 Patch4:		%{name}-locale.patch
+Patch5:		%{name}-debug-and-release.patch
+Patch6:		%{name}-sse.patch
 Patch8:		%{name}-antialias.patch
 Patch10:	%{name}-support-cflags-with-commas.patch
 URL:		http://www.trolltech.com/products/qt/
@@ -761,6 +768,8 @@ Programas exemplo para o Qt versão.
 %endif
 %patch2 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 %patch8 -p1
 %patch10 -p1
 
@@ -830,6 +839,7 @@ COMMONOPT=" \
 	-demosdir %{_examplesdir}/qt4-demos \
 	-fast \
 	-%{!?with_pch:no-}pch \
+	-%{!?with_sse:no-}sse \
 	-qt-gif \
 	-system-libjpeg \
 	-system-libpng \
@@ -840,6 +850,8 @@ COMMONOPT=" \
 	%{?with_cups:-cups} \
 	%{?with_nas:-system-nas-sound} \
 	%{?debug:-debug} \
+	-release \
+	-no-qt3support \
 	-xcursor \
 	-xshape \
 	-xrender \
