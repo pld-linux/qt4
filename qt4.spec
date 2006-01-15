@@ -1039,7 +1039,7 @@ mkdevfl () {
 }
 
 mkdevfl QtCore 	%{_includedir}/qt4 %{_includedir}/qt4/Qt \
-	%{_libdir}/libQtAssistantClient{.prl,_debug.prl}
+	%{_libdir}/libQtAssistantClient.prl
 mkdevfl QtGui
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
