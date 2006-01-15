@@ -851,7 +851,7 @@ COMMONOPT=" \
 	%{?with_nas:-system-nas-sound} \
 	%{?debug:-debug} \
 	-release \
-	-no-qt3support \
+	-qt3support \
 	-xcursor \
 	-xshape \
 	-xrender \
