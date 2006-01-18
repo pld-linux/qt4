@@ -1003,6 +1003,21 @@ ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
 mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
+for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
+	HAVEDEBUG=`echo $f | grep _debug | wc -l`
+	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
+	MODULE2=`echo $MODULE | tr a-z A-Z | sed s:QT::`
+	DEFS="-D_REENTRANT"
+
+	if [ "$MODULE2" == "3SUPPORT" ]; then
+	    DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
+	else
+	    DEFS="$DEFS -DQT_"$MODULE2"_LIB"
+	fi
+	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
+
+	sed -i -e "s:-DQT_SHARED:-DQT_SHARED $DEFS:" $f
+done
 
 # Prepare some files list
 ifecho () {
