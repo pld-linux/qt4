@@ -60,7 +60,6 @@ Patch6:		%{name}-sse.patch
 Patch8:		%{name}-antialias.patch
 Patch10:	%{name}-support-cflags-with-commas.patch
 URL:		http://www.trolltech.com/products/qt/
-Icon:		qt.xpm
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
