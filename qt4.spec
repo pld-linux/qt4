@@ -880,8 +880,10 @@ echo "yes" | ./configure $COMMONOPT $OPT
 cd src
 %{__make}
 cd ..
-mkdir staticlib
-cp -a lib/*.a staticlib
+if [ ! -d staticlib ]; then
+	mkdir staticlib
+	cp -a lib/*.a staticlib
+fi
 %endif
 
 ##################################
