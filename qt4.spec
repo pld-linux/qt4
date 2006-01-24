@@ -67,11 +67,11 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	byacc
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	flex
-BuildRequires:	freetype-devel >= 2.0.0
+BuildRequires:	freetype-devel >= 1:2.0.0
 %{?with_pch:BuildRequires:	gcc >= 5:3.4.0}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
-BuildRequires:	libpng-devel >= 1.0.8
+BuildRequires:	libpng-devel >= 2:1.0.8
 BuildRequires:	libstdc++-devel
 BuildRequires:	libungif-devel
 %{?with_mysql:BuildRequires:	mysql-devel}
@@ -263,9 +263,9 @@ Klasy wspomagaj±ce OpenGL.
 Summary:	OpenGL support classes - development files
 Summary(pl):	Klasy wspomagaj±ce OpenGL - pliki programistyczne
 Group:		X11/Development/Libraries
+Requires:	OpenGL-devel
 Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 Requires:	QtOpenGL = %{epoch}:%{version}-%{release}
-Requires:	OpenGL-devel
 
 %description -n QtOpenGL-devel
 OpenGL support classes - development files.
