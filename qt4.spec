@@ -148,6 +148,8 @@ Summary:	Core classes used by other modules - development files
 Summary(pl):	Podstawowe klasy u¿ywane przez inne modu³y - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore = %{epoch}:%{version}-%{release}
+Requires:	libstdc++-devel
+Requires:	zlib-devel
 
 %description -n QtCore-devel
 Core classes used by other modules - development files.
@@ -185,6 +187,10 @@ Summary(pl):	Komponenty graficznego interfejsu u¿ytkownika - pliki programistycz
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 Requires:	QtGui = %{epoch}:%{version}-%{release}
+Requires:	freetype-devel >= 2.0.0
+Requires:	libpng-devel >= 1.0.8
+Requires:	xcursor-devel
+Requires:	xrender-devel
 
 %description -n QtGui-devel
 Graphical User Interface components - development files.
@@ -259,6 +265,7 @@ Summary(pl):	Klasy wspomagaj±ce OpenGL - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 Requires:	QtOpenGL = %{epoch}:%{version}-%{release}
+Requires:	OpenGL-devel
 
 %description -n QtOpenGL-devel
 OpenGL support classes - development files.
@@ -670,16 +677,16 @@ przeznaczone do t³umaczenia i przedstawia w ³atwym w obs³udze oknie.
 Gdy jeden z nich jest ju¿ przet³umaczony, automatycznie przechodzi do
 nastêpnego, a¿ wszystkie bêd± przet³umaczone.
 
-%package -n qmake
+%package -n qt4-qmake
 Summary:	Qt makefile generator
 Summary(pl):	Generator plików makefile dla aplikacji Qt
 Group:		X11/Development/Tools
 
-%description -n qmake
+%description -n qt4-qmake
 A powerful makefile generator. It can create makefiles on any platform
 from a simple .pro definitions file.
 
-%description -n qmake -l pl
+%description -n qt4-qmake -l pl
 Rozbudowany generator plików makefile. Potrafi tworzyæ pliki makefile
 na ka¿dej platformi na podstawie ³atwego w przygotowaniu pliku .pro.
 
@@ -779,6 +786,10 @@ Programas exemplo para o Qt versão.
 plik="mkspecs/linux-g++/qmake.conf"
 
 perl -pi -e "
+	s|QMAKE_CC.*=.*gcc|QMAKE_CC = %{__cc}|;
+	s|QMAKE_CXX.*=.*g\+\+|QMAKE_CXX = %{__cxx}|;
+	s|QMAKE_LINK.*=.*g\+\+|QMAKE_LINK = %{__cxx}|;
+	s|QMAKE_LINK_SHLIB.*=.*g\+\+|QMAKE_LINK_SHLIB = %{__cxx}|;
 	s|/usr/X11R6/lib|/usr/X11R6/%{_lib}|;
 	s|/usr/lib|%{_libdir}|;
 	s|\\(QTDIR\\)/lib|\\(QTDIR\\)/%{_lib}|;
@@ -1017,7 +1028,8 @@ for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 	fi
 	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
 
-	sed -i -e "s:-DQT_SHARED:-DQT_SHARED $DEFS:" $f
+	sed -i -e "s:-DQT_SHARED:-DQT_SHARED $DEFS:" \
+	    -e "s,-L$QTDIR/%{_lib},,g" $f
 done
 
 # Prepare some files list
@@ -1046,6 +1058,9 @@ mkdevfl () {
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.la"
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.prl"
 	ifecho $MODULE-devel "%{_pkgconfigdir}/$MODULE*.pc"
+	if [ -d "$RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE" ]; then
+		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE
+	fi
 	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "`
 	do
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE/$f
@@ -1267,7 +1282,7 @@ EOF
 %{_desktopdir}/linguist.desktop
 %{_pixmapsdir}/linguist.png
 
-%files -n qmake
+%files -n qt4-qmake
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qmake
 %{_datadir}/qt4/mkspecs
