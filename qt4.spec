@@ -187,8 +187,8 @@ Summary(pl):	Komponenty graficznego interfejsu u¿ytkownika - pliki programistycz
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{epoch}:%{version}-%{release}
 Requires:	QtGui = %{epoch}:%{version}-%{release}
-Requires:	freetype-devel >= 2.0.0
-Requires:	libpng-devel >= 1.0.8
+Requires:	freetype-devel >= 1:2.0.0
+Requires:	libpng-devel >= 2:1.0.8
 Requires:	xcursor-devel
 Requires:	xrender-devel
 
