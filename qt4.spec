@@ -1,6 +1,6 @@
 #
 # TODO:
-#	- kill -L/inside/builddir from *.la 
+#	- kill -L/inside/builddir from *.la and *.pc
 #	- better descriptions
 #	- more cleanups
 #	- check if translations are available
