@@ -582,26 +582,28 @@ Summary(pl):	Biblioteka kliencka Qt Assistant
 Group:		X11/Development/Libraries
 
 %description -n QtAssistant
-This library is enabling using Qt Assistant as an application's help tool.
+This library is enabling using Qt Assistant as an application's help
+tool.
 
 %description -n QtAssistant -l pl
-Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie pomocy
-w aplikacjach.
+Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie
+pomocy w aplikacjach.
 
 %package -n QtAssistant-devel
 Summary:	Qt Assistant client library - development files
 Summary(pl):	Biblioteka kliencka Qt Assistant - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	%{name}-assistant-libs = %{version}-%{release}
+Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
 
 %description -n QtAssistant-devel
-This library is enabling using Qt Assistant as an application's help tool
+This library is enabling using Qt Assistant as an application's help
+tool
 - development files.
 
 %description -n QtAssistant-devel -l pl
-Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie pomocy
-w aplikacjach - pliki programistyczne.
+Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie
+pomocy w aplikacjach - pliki programistyczne.
 
 %package -n QtAssistant-static
 Summary:	Static Qt Assistant client library
@@ -610,12 +612,13 @@ Group:		X11/Development/Libraries
 Requires:	QtAssistant-devel = %{version}-%{release}
 
 %description -n QtAssistant-static
-This library is enabling using Qt Assistant as an application's help tool
+This library is enabling using Qt Assistant as an application's help
+tool
 - static library.
 
 %description -n QtAssistant-static -l pl
-Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie pomocy
-w aplikacjach - biblioteka statyczna.
+Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie
+pomocy w aplikacjach - biblioteka statyczna.
 
 %package assistant
 Summary:	Qt documentation browser
