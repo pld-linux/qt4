@@ -598,8 +598,7 @@ Requires:	QtNetwork-devel = %{version}-%{release}
 
 %description -n QtAssistant-devel
 This library is enabling using Qt Assistant as an application's help
-tool
-- development files.
+tool - development files.
 
 %description -n QtAssistant-devel -l pl
 Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie
@@ -613,8 +612,7 @@ Requires:	QtAssistant-devel = %{version}-%{release}
 
 %description -n QtAssistant-static
 This library is enabling using Qt Assistant as an application's help
-tool
-- static library.
+tool - static library.
 
 %description -n QtAssistant-static -l pl
 Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie
