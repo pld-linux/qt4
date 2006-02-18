@@ -49,18 +49,19 @@ Source3:	designer.desktop
 Source4:	assistant.desktop
 Source5:	linguist.desktop
 Patch0:		%{name}-tools.patch
-%if %{with dont_enable}
-Patch1:		qt-FHS.patch
-# no tutorials exist
-Patch3:		qt-disable_tutorials.patch
-%endif
+Patch1:		%{name}-alpha.patch
 Patch2:		%{name}-buildsystem.patch
-Patch4:		%{name}-locale.patch
-Patch5:		%{name}-debug-and-release.patch
-Patch6:		%{name}-sse.patch
-Patch8:		%{name}-antialias.patch
-Patch10:	%{name}-support-cflags-with-commas.patch
-Patch11:	%{name}-build-lib-static.patch
+Patch3:		%{name}-locale.patch
+Patch4:		%{name}-debug-and-release.patch
+Patch5:		%{name}-sse.patch
+Patch6:		%{name}-antialias.patch
+Patch7:		%{name}-support-cflags-with-commas.patch
+Patch8:		%{name}-build-lib-static.patch
+%if %{with dont_enable}
+Patch9:		qt-FHS.patch
+# no tutorials exist
+Patch10:	qt-disable_tutorials.patch
+%endif
 URL:		http://www.trolltech.com/products/qt/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-devel
@@ -811,17 +812,18 @@ Programas exemplo para o Qt versão.
 %prep
 %setup -q -n qt-x11-opensource-src-%{version}
 %patch0 -p1
-%if %{with dont_enable}
 %patch1 -p1
-%patch3 -p1
-%endif
 %patch2 -p1
+%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 %patch8 -p1
+%if %{with dont_enable}
+%patch9 -p1
 %patch10 -p1
-%patch11 -p1
+%endif
 
 # change QMAKE_CFLAGS_RELEASE to build
 # properly optimized libs
