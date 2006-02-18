@@ -66,7 +66,7 @@ Patch10:	qt-disable_tutorials.patch
 %endif
 URL:		http://www.trolltech.com/products/qt/
 %{?with_ibase:BuildRequires:	Firebird-devel}
-BuildRequires:	OpenGL-devel
+BuildRequires:	OpenGL-GLU-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
 # incompatible with bison
 %{?with_cups:BuildRequires:	cups-devel}
@@ -87,11 +87,14 @@ BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
-BuildRequires:	xcursor-devel
-BuildRequires:	xft-devel
-BuildRequires:	xrender-devel
+BuildRequires:	xorg-lib-libSM-devel
+BuildRequires:	xorg-lib-libXcursor-devel
+BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXi-devel
+BuildRequires:	xorg-lib-libXinerama-devel
+BuildRequires:	xorg-lib-libXrandr-devel
+BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	zlib-devel
-Requires:	OpenGL
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
@@ -195,6 +198,13 @@ Requires:	QtGui = %{version}-%{release}
 Requires:	freetype-devel >= 1:2.0.0
 Requires:	fontconfig-devel
 Requires:	libpng-devel >= 2:1.0.8
+Requires:	xorg-lib-libSM-devel
+Requires:	xorg-lib-libXcursor-devel
+Requires:	xorg-lib-libXext-devel
+Requires:	xorg-lib-libXi-devel
+Requires:	xorg-lib-libXinerama-devel
+Requires:	xorg-lib-libXrandr-devel
+Requires:	xorg-lib-libXrender-devel
 Requires:	xcursor-devel
 Requires:	xrender-devel
 
@@ -269,7 +279,7 @@ Klasy wspomagaj±ce OpenGL.
 Summary:	OpenGL support classes - development files
 Summary(pl):	Klasy wspomagaj±ce OpenGL - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	OpenGL-devel
+Requires:	OpenGL-GLU-devel
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtOpenGL = %{version}-%{release}
 
@@ -827,6 +837,8 @@ Programas exemplo para o Qt versão.
 %patch9 -p1
 %patch10 -p1
 %endif
+
+sed -i -e 's,usr/X11R6/,usr/,' mkspecs/linux-g*/qmake.conf
 
 # change QMAKE_CFLAGS_RELEASE to build
 # properly optimized libs
