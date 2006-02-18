@@ -70,6 +70,7 @@ BuildRequires:	OpenGL-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
 # incompatible with bison
 %{?with_cups:BuildRequires:	cups-devel}
+BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
 %{?with_pch:BuildRequires:	gcc >= 5:3.4.0}
 BuildRequires:	libjpeg-devel
@@ -90,7 +91,6 @@ BuildRequires:	xcursor-devel
 BuildRequires:	xft-devel
 BuildRequires:	xrender-devel
 BuildRequires:	zlib-devel
-BuildConflicts:	QtCore
 Requires:	OpenGL
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
@@ -193,6 +193,7 @@ Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
 Requires:	freetype-devel >= 1:2.0.0
+Requires:	fontconfig-devel
 Requires:	libpng-devel >= 2:1.0.8
 Requires:	xcursor-devel
 Requires:	xrender-devel
@@ -831,9 +832,9 @@ Programas exemplo para o Qt versão.
 # properly optimized libs
 
 if [ "%{_lib}" != "lib" ] ; then
-	plik="mkspecs/linux-g++-64/qmake.conf"
+	cfgf="mkspecs/linux-g++-64/qmake.conf"
 else
-	plik="mkspecs/linux-g++/qmake.conf"
+	cfgf="mkspecs/linux-g++/qmake.conf"
 fi
 
 perl -pi -e "
@@ -842,21 +843,21 @@ perl -pi -e "
 	s|QMAKE_LINK.*=.*g\+\+|QMAKE_LINK = %{__cxx}|;
 	s|QMAKE_LINK_SHLIB.*=.*g\+\+|QMAKE_LINK_SHLIB = %{__cxx}|;
 	s|QMAKE_INCDIR_QT.*|QMAKE_INCDIR_QT\t\t= %{_includedir}/qt4|;
-	" $plik
+	" $cfgf
 
-cat $plik \
+cat $cfgf \
 	|grep -v QMAKE_CFLAGS_RELEASE \
 	|grep -v QMAKE_CXXFLAGS_RELEASE \
 	|grep -v QMAKE_CFLAGS_DEBUG \
 	|grep -v QMAKE_CXXFLAGS_DEBUG \
-	> $plik.1
+	> $cfgf.1
 
-mv $plik.1 $plik
-echo >> $plik
-echo -e "QMAKE_CFLAGS_RELEASE\t= %{rpmcflags}" >> $plik
-echo -e "QMAKE_CXXFLAGS_RELEASE\t= %{rpmcxxflags}" >> $plik
-echo -e "QMAKE_CFLAGS_DEBUG\t= %{debugcflags}" >> $plik
-echo -e "QMAKE_CXXFLAGS_DEBUG\t= %{debugcflags}" >> $plik
+mv $cfgf.1 $cfgf
+echo >> $cfgf
+echo -e "QMAKE_CFLAGS_RELEASE\t= %{rpmcflags}" >> $cfgf
+echo -e "QMAKE_CXXFLAGS_RELEASE\t= %{rpmcxxflags}" >> $cfgf
+echo -e "QMAKE_CFLAGS_DEBUG\t= %{debugcflags}" >> $cfgf
+echo -e "QMAKE_CXXFLAGS_DEBUG\t= %{debugcflags}" >> $cfgf
 
 %build
 # pass OPTFLAGS to build qmake itself with optimization
@@ -897,13 +898,14 @@ COMMONOPT=" \
 	%{?debug:-debug} \
 	%{!?debug:-release} \
 	-qt3support \
-	-xcursor \
-	-xshape \
-	-xrender \
 	-fontconfig \
-	-xkb \
+	-nis \
 	-sm \
-	-nis"
+	-tablet \
+	-xcursor \
+	-xkb \
+	-xrender \
+	-xshape"
 
 ##################################
 #      STATIC MULTI-THREAD       #
