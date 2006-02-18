@@ -1,6 +1,8 @@
 #
 # TODO:
 #	- QtUiTools to subpackage
+#         (headers in %{_includedir}/qt4/QtUiTools, but (static-only) lib is not installed)
+#       - qt4-designer-libs vs QtDesigner-{devel,static} naming inconsistency 
 #	- better descriptions
 #	- more cleanups
 #	- check if translations are available
