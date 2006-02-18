@@ -720,6 +720,7 @@ nastêpnego, a¿ wszystkie bêd± przet³umaczone.
 Summary:	Qt makefile generator
 Summary(pl):	Generator plików makefile dla aplikacji Qt
 Group:		X11/Development/Tools
+Obsoletes:	qmake
 
 %description qmake
 A powerful makefile generator. It can create makefiles on any platform
@@ -733,6 +734,7 @@ na ka¿dej platformi na podstawie ³atwego w przygotowaniu pliku .pro.
 Summary:	Qt widgets configuration tool
 Summary(pl):	Narzêdzie do konfigurowania widgetów Qt
 Group:		X11/Applications
+Obsoletes:	qtconfig
 
 %description qtconfig
 A tool for configuring look and behavior of Qt widgets.
