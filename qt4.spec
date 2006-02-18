@@ -1172,7 +1172,7 @@ EOF
 
 %files -n QtCore
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtCore*.so.*
+%attr(755,root,root) %{_libdir}/libQtCore.so.*.*
 %dir %{_libdir}/qt4
 %dir %{_libdir}/qt4/plugins
 %dir %{_libdir}/qt4/plugins/accessible
@@ -1191,22 +1191,22 @@ EOF
 
 %files -n QtGui
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtGui*.so.*
+%attr(755,root,root) %{_libdir}/libQtGui.so.*.*
 %{_libdir}/qt4/plugins/accessible/*
 %{_libdir}/qt4/plugins/codecs/*
 %{_libdir}/qt4/plugins/imageformats/*
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtNetwork*.so.*
+%attr(755,root,root) %{_libdir}/libQtNetwork.so.*.*
 
 %files -n QtOpenGL
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtOpenGL*.so.*
+%attr(755,root,root) %{_libdir}/libQtOpenGL.so.*.*
 
 %files -n QtSql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtSql*.so.*
+%attr(755,root,root) %{_libdir}/libQtSql.so.*.*
 
 %if %{with mysql}
 %files -n QtSql-mysql
@@ -1247,24 +1247,24 @@ EOF
 
 %files -n QtSvg
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtSvg*.so.*
+%attr(755,root,root) %{_libdir}/libQtSvg.so.*.*
 
 %files -n QtTest
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtTest*.so.*
+%attr(755,root,root) %{_libdir}/libQtTest.so.*.*
 
 %files -n QtXml
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtXml*.so.*
+%attr(755,root,root) %{_libdir}/libQtXml.so.*.*
 
 %files -n Qt3Support
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/uic3
-%attr(755,root,root) %{_libdir}/libQt3Support*.so.*
+%attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
 
 %files -n QtAssistant
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtAssistantClient*.so.*
+%attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
 
 %files assistant
 %defattr(644,root,root,755)
@@ -1290,7 +1290,7 @@ EOF
 
 %files designer-libs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*.*
+%attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*
 %dir %{_libdir}/qt4/plugins/designer
 %attr(755,root,root) %{_libdir}/qt4/plugins/designer/*.so
 %endif
