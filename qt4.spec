@@ -582,11 +582,10 @@ Summary(pl):	Biblioteka kliencka Qt Assistant
 Group:		X11/Development/Libraries
 
 %description -n QtAssistant
-This library is enabling using Qt Assistant as an application's help
-tool.
+This library allows to use Qt Assistant as an application's help tool.
 
 %description -n QtAssistant -l pl
-Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie
+Ta biblioteka umo¿liwia wykorzystanie Qt Assistanta jako narzêdzie
 pomocy w aplikacjach.
 
 %package -n QtAssistant-devel
@@ -597,12 +596,10 @@ Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
 
 %description -n QtAssistant-devel
-This library is enabling using Qt Assistant as an application's help
-tool - development files.
+Development files for Qt Assistant client library.
 
 %description -n QtAssistant-devel -l pl
-Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie
-pomocy w aplikacjach - pliki programistyczne.
+Pliki programistyczne biblioteki klienckiej Qt Assistant.
 
 %package -n QtAssistant-static
 Summary:	Static Qt Assistant client library
@@ -611,12 +608,10 @@ Group:		X11/Development/Libraries
 Requires:	QtAssistant-devel = %{version}-%{release}
 
 %description -n QtAssistant-static
-This library is enabling using Qt Assistant as an application's help
-tool - static library.
+Static Qt Assistant client library.
 
 %description -n QtAssistant-static -l pl
-Ta biblioteka umo¿liwia wykorzystanie Qt Assistant jako narzêdzie
-pomocy w aplikacjach - biblioteka statyczna.
+Statyczna biblioteka kliencka Qt Assistant.
 
 %package assistant
 Summary:	Qt documentation browser
