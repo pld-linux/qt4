@@ -2,7 +2,7 @@
 # TODO:
 #	- QtUiTools to subpackage
 #         (headers in %{_includedir}/qt4/QtUiTools, but (static-only) lib is not installed)
-#       - qt4-designer-libs vs QtDesigner-{devel,static} naming inconsistency 
+#       - qt4-designer-libs vs QtDesigner-{devel,static} naming inconsistency
 #	- better descriptions
 #	- more cleanups
 #	- check if translations are available
@@ -80,7 +80,6 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	libungif-devel
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_nas:BuildRequires:	nas-devel}
-BuildRequires:	perl-base
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	rpmbuild(macros) >= 1.213
@@ -101,7 +100,7 @@ Conflicts:	kdelibs <= 8:3.2-0.030602.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
-%define         _noautostrip    '.*_debug\\.so*'
+%define		_noautostrip    '.*_debug\\.so*'
 
 %define		specflags	-fno-strict-aliasing
 
@@ -195,8 +194,8 @@ Summary(pl):	Komponenty graficznego interfejsu u¿ytkownika - pliki programistycz
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
-Requires:	freetype-devel >= 1:2.0.0
 Requires:	fontconfig-devel
+Requires:	freetype-devel >= 1:2.0.0
 Requires:	libpng-devel >= 2:1.0.8
 Requires:	xorg-lib-libSM-devel
 Requires:	xorg-lib-libXcursor-devel
@@ -847,19 +846,19 @@ else
 	cfgf="mkspecs/linux-g++/qmake.conf"
 fi
 
-perl -pi -e "
+sed -i -e '
 	s|QMAKE_CC.*=.*gcc|QMAKE_CC = %{__cc}|;
-	s|QMAKE_CXX.*=.*g\+\+|QMAKE_CXX = %{__cxx}|;
-	s|QMAKE_LINK.*=.*g\+\+|QMAKE_LINK = %{__cxx}|;
-	s|QMAKE_LINK_SHLIB.*=.*g\+\+|QMAKE_LINK_SHLIB = %{__cxx}|;
-	s|QMAKE_INCDIR_QT.*|QMAKE_INCDIR_QT\t\t= %{_includedir}/qt4|;
-	" $cfgf
+	s|QMAKE_CXX.*=.*g++|QMAKE_CXX = %{__cxx}|;
+	s|QMAKE_LINK.*=.*g++|QMAKE_LINK = %{__cxx}|;
+	s|QMAKE_LINK_SHLIB.*=.*g++|QMAKE_LINK_SHLIB = %{__cxx}|;
+	s|QMAKE_INCDIR_QT.*|QMAKE_INCDIR_QT = %{_includedir}/qt4|;
+	' $cfgf
 
 cat $cfgf \
-	|grep -v QMAKE_CFLAGS_RELEASE \
-	|grep -v QMAKE_CXXFLAGS_RELEASE \
-	|grep -v QMAKE_CFLAGS_DEBUG \
-	|grep -v QMAKE_CXXFLAGS_DEBUG \
+	| grep -v QMAKE_CFLAGS_RELEASE \
+	| grep -v QMAKE_CXXFLAGS_RELEASE \
+	| grep -v QMAKE_CFLAGS_DEBUG \
+	| grep -v QMAKE_CXXFLAGS_DEBUG \
 	> $cfgf.1
 
 mv $cfgf.1 $cfgf
