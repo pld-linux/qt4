@@ -205,8 +205,6 @@ Requires:	xorg-lib-libXi-devel
 Requires:	xorg-lib-libXinerama-devel
 Requires:	xorg-lib-libXrandr-devel
 Requires:	xorg-lib-libXrender-devel
-Requires:	xcursor-devel
-Requires:	xrender-devel
 
 %description -n QtGui-devel
 Graphical User Interface components - development files.
