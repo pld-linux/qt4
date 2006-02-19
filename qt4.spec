@@ -1,8 +1,8 @@
 #
 # TODO:
 #	- QtUiTools to subpackage
-#         (headers in %{_includedir}/qt4/QtUiTools, but (static-only) lib is not installed)
-#       - qt4-designer-libs vs QtDesigner-{devel,static} naming inconsistency
+#	  (headers in %{_includedir}/qt4/QtUiTools, but (static-only) lib is not installed)
+#	- qt4-designer-libs vs QtDesigner-{devel,static} naming inconsistency
 #	- better descriptions
 #	- more cleanups
 #	- check if translations are available
@@ -100,7 +100,7 @@ Conflicts:	kdelibs <= 8:3.2-0.030602.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
-%define		_noautostrip    '.*_debug\\.so*'
+%define		_noautostrip	'.*_debug\\.so*'
 
 %define		specflags	-fno-strict-aliasing
 
@@ -1058,9 +1058,9 @@ for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 	DEFS="-D_REENTRANT"
 
 	if [ "$MODULE2" == "3SUPPORT" ]; then
-	    DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
+		DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
 	else
-	    DEFS="$DEFS -DQT_"$MODULE2"_LIB"
+		DEFS="$DEFS -DQT_"$MODULE2"_LIB"
 	fi
 	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
 
@@ -1222,7 +1222,7 @@ EOF
 %if %{with mysql}
 %files -n QtSql-mysql
 %defattr(644,root,root,755)
-%attr(755,root,root)  %{_libdir}/qt4/plugins/sqldrivers/libqsqlmysql*.so
+%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlmysql*.so
 %endif
 
 %if %{with pgsql}
