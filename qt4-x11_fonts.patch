@@ -1,0 +1,20 @@
+--- qt-x11-opensource-src-4.1.0/src/gui/text/qfontdatabase_x11.cpp.old	2006-02-18 20:23:36.000000000 +0100
++++ qt-x11-opensource-src-4.1.0/src/gui/text/qfontdatabase_x11.cpp	2006-02-19 03:37:14.000000000 +0100
+@@ -1120,7 +1120,7 @@
+     };
+     const FcDefaultFont defaults[] = {
+         { "Serif", "serif", false },
+-        { "Sans Serif", "sans-serif", false },
++        { "Sans", "sans-serif", false },
+         { "Monospace", "monospace", true },
+         { 0, 0, false }
+     };
+@@ -1149,6 +1149,8 @@
+             style->smoothScalable = true;
+             QtFontSize *size = style->pixelSize(SMOOTH_SCALABLE, true);
+             QtFontEncoding *enc = size->encodingID(-1, 0, 0, 0, 0, true);
++            if (f->qtname == "Monospace")
++                family->fixedPitch = TRUE;
+             enc->pitch = (f->fixed ? 'm' : 'p');
+         }
+         ++f;
