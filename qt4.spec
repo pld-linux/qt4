@@ -1,11 +1,7 @@
 #
 # TODO:
-#	- QtUiTools to subpackage
-#         (headers in %{_includedir}/qt4/QtUiTools, but (static-only) lib is not installed)
-#       - qt4-designer-libs vs QtDesigner-{devel,static} naming inconsistency 
 #	- better descriptions
 #	- more cleanups
-#	- check if translations are available
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -14,15 +10,11 @@
 %bcond_without	mysql		# don't build MySQL plugin
 %bcond_without	odbc		# don't build unixODBC plugin
 %bcond_without	pgsql		# don't build PostgreSQL plugin
-%bcond_without	designer	# don't build designer (it takes long)
 %bcond_without	sqlite3		# don't build SQLite3 plugin
 %bcond_without	sqlite		# don't build SQLite2 plugin
 %bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# disable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
-%bcond_with	dont_enable	# blocks translations, they are not yet available
-
-%undefine	with_dont_enable
 
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
@@ -41,29 +33,25 @@ Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.1.0
-Release:	1.9
+Release:	1.95
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
 # Source0-md5:	0e3982a54f56b6420d3062b20524410a
-Source2:	qtconfig.desktop
-Source3:	designer.desktop
-Source4:	assistant.desktop
-Source5:	linguist.desktop
+Source2:	%{name}-qtconfig.desktop
+Source3:	%{name}-designer.desktop
+Source4:	%{name}-assistant.desktop
+Source5:	%{name}-linguist.desktop
 Patch0:		%{name}-tools.patch
 Patch1:		%{name}-alpha.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
 Patch4:		%{name}-debug-and-release.patch
 Patch5:		%{name}-sse.patch
-Patch6:		%{name}-antialias.patch
+Patch6: 	%{name}-antialias.patch
 Patch7:		%{name}-support-cflags-with-commas.patch
 Patch8:		%{name}-build-lib-static.patch
-%if %{with dont_enable}
-Patch9:		qt-FHS.patch
-# no tutorials exist
-Patch10:	qt-disable_tutorials.patch
-%endif
+Patch9:		%{name}-x11_fonts.patch
 URL:		http://www.trolltech.com/products/qt/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-devel
@@ -80,7 +68,6 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	libungif-devel
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_nas:BuildRequires:	nas-devel}
-BuildRequires:	perl-base
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	rpmbuild(macros) >= 1.213
@@ -98,9 +85,11 @@ Conflicts:	kdelibs <= 8:3.2-0.030602.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
-%define         _noautostrip    '.*_debug\\.so*'
+%define		_noautostrip	'.*_debug\\.so*'
 
 %define		specflags	-fno-strict-aliasing
+
+%define		_qtdir		%{_libdir}/qt4
 
 %description
 Qt is a complete C++ application development framework, which includes
@@ -192,8 +181,8 @@ Summary(pl):	Komponenty graficznego interfejsu u¿ytkownika - pliki programistycz
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
-Requires:	freetype-devel >= 1:2.0.0
 Requires:	fontconfig-devel
+Requires:	freetype-devel >= 1:2.0.0
 Requires:	libpng-devel >= 2:1.0.8
 Requires:	xcursor-devel
 Requires:	xrender-devel
@@ -617,6 +606,69 @@ Static Qt Assistant client library.
 %description -n QtAssistant-static -l pl
 Statyczna biblioteka kliencka Qt Assistant.
 
+%package -n QtDesigner
+Summary:	Classes for extending Qt Designer
+Summary(pl):	Klasy do rozbudowy Qt Designer
+Group:		X11/Development/Libraries
+
+%description -n QtDesigner
+This module provides classes that allow you to create your own custom
+widget plugins for Qt Designer, and classes that enable you to access
+Qt Designer's components.
+
+%description -n QtDesigner -l pl
+Ten modu³ dostarcza klasy, które pozwalaj± tworzyæ w³asne wtyczki dla
+Qt Designer oraz klasy, które umo¿liwiaj± dostêp do jego komponentów.
+
+%package -n QtDesigner-devel
+Summary:	Classes for extending Qt Designer - development files
+Summary(pl):	Klasy do rozbudowy Qt Designer - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtDesigner = %{version}-%{release}
+
+%description -n QtDesigner-devel
+Classes for extending Qt Designer - development files.
+
+%description -n QtDesigner-devel -l pl
+Klasy do rozbudowy Qt Designer - pliki programistyczne.
+
+%package -n QtDesigner-static
+Summary:	Classes for extending Qt Designer - static libraries
+Summary(pl):	Klasy do rozbudowy Qt Designer - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtDesigner-devel = %{version}-%{release}
+
+%description -n QtDesigner-static
+Classes for extending Qt Designer - static libraries.
+
+%description -n QtDesigner-static -l pl
+Klasy do rozbudowy Qt Designer - biblioteki statyczne.
+
+%package -n QtUiTools
+Summary:	Classes for handling Qt Designer forms in applications
+Group:		X11/Development/Libraries
+
+%description -n QtUiTools
+The QtUiTools module provides classes to handle forms created with Qt
+Designer.
+
+%package -n QtUiTools-devel
+Summary:	Classes for handling Qt Designer forms in applications - development files
+Group:		X11/Development/Libraries
+
+%description -n QtUiTools-devel
+Classes for handling Qt Designer forms in applications - development
+files.
+
+%package -n QtUiTools-static
+Summary:	Classes for handling Qt Designer forms in applications - static libraries
+Group:		X11/Development/Libraries
+
+%description -n QtUiTools-static
+Classes for handling Qt Designer forms in applications - static
+libraries.
+
 %package assistant
 Summary:	Qt documentation browser
 Summary(pl):	Przegl±darka dokumentacji Qt
@@ -652,7 +704,6 @@ konwerter nazw plików nag³ówkowych qt3to4.
 Summary:	IDE used for GUI designing with Qt library
 Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt
 Group:		X11/Applications
-Requires:	%{name}-designer-libs = %{version}-%{release}
 
 %description designer
 An advanced tool used for GUI designing with Qt library.
@@ -660,45 +711,6 @@ An advanced tool used for GUI designing with Qt library.
 %description designer -l pl
 Zaawansowane narzêdzie s³u¿±ce do projektowania interfejsu graficznego
 za pomoc± biblioteki Qt.
-
-%package designer-libs
-Summary:	Libraries IDE used for GUI designing with Qt library
-Summary(pl):	Biblioteki do IDE s³u¿±cego do projektowania GUI za pomoc± biblioteki Qt
-Group:		X11/Applications
-
-%description designer-libs
-Libraries used by the Qt GUI Designer.
-
-%description designer-libs -l pl
-Biblioteki wykorzystywane przez narzêdzie projektowania interfejsu
-graficznego - Qt Designer.
-
-%package -n QtDesigner-devel
-Summary:	IDE used for GUI designing with Qt library - development files
-Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - pliki programistyczne
-Group:		X11/Development/Libraries
-Requires:	%{name}-designer-libs = %{version}-%{release}
-Requires:	QtCore-devel = %{version}-%{release}
-
-%description -n QtDesigner-devel
-IDE used for GUI designing with Qt library - development files.
-
-%description -n QtDesigner-devel -l pl
-IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - pliki
-programistyczne.
-
-%package -n QtDesigner-static
-Summary:	IDE used for GUI designing with Qt library - static libraries
-Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - biblioteki statyczne
-Group:		X11/Development/Libraries
-Requires:	QtDesigner-devel = %{version}-%{release}
-
-%description -n QtDesigner-static
-IDE used for GUI designing with Qt library - static libraries.
-
-%description -n QtDesigner-static -l pl
-IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt - biblioteki
-statyczne.
 
 %package linguist
 Summary:	Translation helper for Qt
@@ -724,7 +736,6 @@ nastêpnego, a¿ wszystkie bêd± przet³umaczone.
 Summary:	Qt makefile generator
 Summary(pl):	Generator plików makefile dla aplikacji Qt
 Group:		X11/Development/Tools
-Obsoletes:	qmake
 
 %description qmake
 A powerful makefile generator. It can create makefiles on any platform
@@ -738,7 +749,6 @@ na ka¿dej platformi na podstawie ³atwego w przygotowaniu pliku .pro.
 Summary:	Qt widgets configuration tool
 Summary(pl):	Narzêdzie do konfigurowania widgetów Qt
 Group:		X11/Applications
-Obsoletes:	qtconfig
 
 %description qtconfig
 A tool for configuring look and behavior of Qt widgets.
@@ -783,17 +793,6 @@ Qt documentation in HTML format.
 %description doc -l pl
 Dokumentacja qt w formacie HTML.
 
-%package man
-Summary:	Qt man pages
-Summary(pl):	Qt - strony man
-Group:		X11/Development/Libraries
-
-%description man
-Qt documentation in man pages format.
-
-%description man -l pl
-Dokumentacja Qt w formacie stron man.
-
 %package examples
 Summary:	Example programs bundled with Qt
 Summary(pl):	Æwiczenia i przyk³ady do Qt
@@ -823,10 +822,7 @@ Programas exemplo para o Qt versão.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%if %{with dont_enable}
 %patch9 -p1
-%patch10 -p1
-%endif
 
 # change QMAKE_CFLAGS_RELEASE to build
 # properly optimized libs
@@ -837,19 +833,19 @@ else
 	cfgf="mkspecs/linux-g++/qmake.conf"
 fi
 
-perl -pi -e "
+sed -i -e '
 	s|QMAKE_CC.*=.*gcc|QMAKE_CC = %{__cc}|;
-	s|QMAKE_CXX.*=.*g\+\+|QMAKE_CXX = %{__cxx}|;
-	s|QMAKE_LINK.*=.*g\+\+|QMAKE_LINK = %{__cxx}|;
-	s|QMAKE_LINK_SHLIB.*=.*g\+\+|QMAKE_LINK_SHLIB = %{__cxx}|;
-	s|QMAKE_INCDIR_QT.*|QMAKE_INCDIR_QT\t\t= %{_includedir}/qt4|;
-	" $cfgf
+	s|QMAKE_CXX.*=.*g++|QMAKE_CXX = %{__cxx}|;
+	s|QMAKE_LINK.*=.*g++|QMAKE_LINK = %{__cxx}|;
+	s|QMAKE_LINK_SHLIB.*=.*g++|QMAKE_LINK_SHLIB = %{__cxx}|;
+	s|QMAKE_INCDIR_QT.*|QMAKE_INCDIR_QT = %{_includedir}/qt4|;
+	' $cfgf
 
 cat $cfgf \
-	|grep -v QMAKE_CFLAGS_RELEASE \
-	|grep -v QMAKE_CXXFLAGS_RELEASE \
-	|grep -v QMAKE_CFLAGS_DEBUG \
-	|grep -v QMAKE_CXXFLAGS_DEBUG \
+	| grep -v QMAKE_CFLAGS_RELEASE \
+	| grep -v QMAKE_CXXFLAGS_RELEASE \
+	| grep -v QMAKE_CFLAGS_DEBUG \
+	| grep -v QMAKE_CXXFLAGS_DEBUG \
 	> $cfgf.1
 
 mv $cfgf.1 $cfgf
@@ -871,13 +867,13 @@ export PATH=$PWD/bin:$PATH
 COMMONOPT=" \
 	-DQT_CLEAN_NAMESPACE \
 	-verbose \
-	-prefix %{_prefix} \
+	-prefix %{_qtdir} \
+	-bindir %{_qtdir}/bin \
 	-docdir %{_docdir}/%{name}-doc \
 	-headerdir %{_includedir}/qt4 \
 	-libdir %{_libdir} \
 	-L%{_libdir} \
-	-bindir %{_bindir} \
-	-plugindir %{_libdir}/qt4/plugins \
+	-plugindir %{_qtdir}/plugins \
 	-datadir %{_datadir}/qt4 \
 	-translationdir %{_datadir}/locale/ \
 	-sysconfdir %{_sysconfdir}/qt4 \
@@ -925,7 +921,7 @@ echo "yes" | ./configure $COMMONOPT $OPT
 
 %{__make} -C src
 %{__make} -C tools/assistant/lib
-%{__make} -C tools/designer/src/lib
+%{__make} -C tools/designer
 if [ ! -d staticlib ]; then
 	mkdir staticlib
 	cp -a lib/*.a staticlib
@@ -948,63 +944,48 @@ OPT=" \
 echo "yes" | ./configure $COMMONOPT $OPT
 
 %{__make}
-%{__make} \
-	sub-tools-all-ordered \
-	sub-demos-all-ordered \
-	sub-examples-all-ordered
-
-%if %{with dont_enable}
-%if %{with designer}
-cd tools/designer/designer
-lrelease designer_de.ts
-lrelease designer_fr.ts
-cd -
-%endif
-cd tools/assistant
-lrelease assistant_de.ts
-lrelease assistant_fr.ts
-cd -
-cd tools/linguist/linguist
-lrelease linguist_de.ts
-lrelease linguist_fr.ts
-cd -
-%endif
-
-# kill -L/inside/builddir from *.la and *.pc (bug #77152)
-%{__sed} -i -e "s,-L$PWD/lib,,g" lib/*.{la,pc,prl}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_pkgconfigdir}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_desktopdir},%{_pixmapsdir},%{_pkgconfigdir}}
+install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
-install -d \
-	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}} \
-	$RPM_BUILD_ROOT%{_libdir}/qt4/plugins/{crypto,network}
+# kill -L/inside/builddir from *.la and *.pc (bug #77152)
+%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,pc,prl}
 
-install plugins/sqldrivers/* $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/sqldrivers
-install bin/findtr tools/qvfb/qvfb $RPM_BUILD_ROOT%{_bindir}
+install plugins/sqldrivers/* $RPM_BUILD_ROOT%{_qtdir}/plugins/sqldrivers
+
+# install tools
+install bin/findtr $RPM_BUILD_ROOT%{_qtdir}/bin
+install tools/qvfb/qvfb $RPM_BUILD_ROOT%{_bindir}
+
+cd $RPM_BUILD_ROOT%{_bindir}
+ln -sf ../%{_lib}/qt4/bin/assistant qt4-assistant
+ln -sf ../%{_lib}/qt4/bin/designer qt4-designer
+ln -sf ../%{_lib}/qt4/bin/linguist qt4-linguist
+ln -sf ../%{_lib}/qt4/bin/qmake qt4-qmake
+ln -sf ../%{_lib}/qt4/bin/qtconfig qt4-qtconfig
+cd -
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
 
 install tools/qtconfig/images/appicon.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/qtconfig.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-qtconfig.png
 
 install tools/linguist/linguist/images/appicon.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/linguist.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-linguist.png
 
 install tools/assistant/images/assistant.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/assistant.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-assistant.png
 
-%if %{with designer}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}
 install tools/designer/src/designer/images/designer.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/designer.png
-%endif
+	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-designer.png
 
 %if %{with static_libs}
 install staticlib/*.a $RPM_BUILD_ROOT%{_libdir}
@@ -1019,20 +1000,8 @@ install translations/qt_ru.qm $RPM_BUILD_ROOT%{_datadir}/locale/ru/LC_MESSAGES/q
 install translations/qt_sk.qm $RPM_BUILD_ROOT%{_datadir}/locale/sk/LC_MESSAGES/qt.qm
 install tools/assistant/assistant_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/assistant.qm
 
-%if %{with dont_enable}
-%if %{with designer}
-install tools/designer/designer/designer_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/designer.qm
-install tools/designer/designer/designer_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/designer.qm
-%endif
-
-install tools/assistant/assistant_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/assistant.qm
-
-install tools/linguist/linguist/linguist_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/linguist.qm
-install tools/linguist/linguist/linguist_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/linguist.qm
-%endif
-
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-for f in ../Qt{3Support,Assistant,Core,Designer,Gui,Network,OpenGL,Sql,Svg,Test,Xml}/*
+for f in ../Qt{3Support,Assistant,Core,Designer,Gui,Network,OpenGL,Sql,Svg,Test,UiTools,Xml}/*
 do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
@@ -1040,6 +1009,10 @@ do
 done
 ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
+
+# Ship doc & qmake stuff
+ln -s ../../..%{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
+ln -s ../../..%{_datadir}/qt4/mkspecs $RPM_BUILD_ROOT%{_qtdir}/mkspecs
 
 mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
@@ -1049,9 +1022,9 @@ for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 	DEFS="-D_REENTRANT"
 
 	if [ "$MODULE2" == "3SUPPORT" ]; then
-	    DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
+		DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
 	else
-	    DEFS="$DEFS -DQT_"$MODULE2"_LIB"
+		DEFS="$DEFS -DQT_"$MODULE2"_LIB"
 	fi
 	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
 
@@ -1108,6 +1081,7 @@ mkdevfl Qt3Support
 # without *.la *.pc etc.
 mkdevfl QtAssistant || /bin/true
 mkdevfl QtDesigner || /bin/true
+mkdevfl QtUiTools || /bin/true
 
 echo "%defattr(644,root,root,755)" > examples.files
 ifecho examples %{_examplesdir}/qt4
@@ -1118,8 +1092,8 @@ done
 
 echo "%defattr(644,root,root,755)" > demos.files
 ifecho demos "%{_examplesdir}/qt4-demos"
-ifecho demos "%{_bindir}/qtdemo"
-ifecho demos "%{_libdir}/qt4/plugins/arthurplugin/libarthurplugin.so"
+ifecho demos "%{_qtdir}/bin/qtdemo"
+ifecho demos "%{_qtdir}/plugins/arthurplugin/libarthurplugin.so"
 for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`
 do
 	ifecho demos %{_examplesdir}/qt4-demos/$f
@@ -1169,20 +1143,24 @@ EOF
 %post	-n QtAssistant	-p /sbin/ldconfig
 %postun	-n QtAssistant	-p /sbin/ldconfig
 
-%post	designer-libs	-p /sbin/ldconfig
-%postun	designer-libs	-p /sbin/ldconfig
+%post	-n QtDesigner	-p /sbin/ldconfig
+%postun	-n QtDesigner	-p /sbin/ldconfig
+
+%post	-n QtUiTools	-p /sbin/ldconfig
+%postun	-n QtUiTools	-p /sbin/ldconfig
 
 %files -n QtCore
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCore.so.*.*
-%dir %{_libdir}/qt4
-%dir %{_libdir}/qt4/plugins
-%dir %{_libdir}/qt4/plugins/accessible
-%dir %{_libdir}/qt4/plugins/codecs
-%dir %{_libdir}/qt4/plugins/crypto
-%dir %{_libdir}/qt4/plugins/imageformats
-%dir %{_libdir}/qt4/plugins/network
-%dir %{_libdir}/qt4/plugins/sqldrivers
+%dir %{_qtdir}
+%dir %{_qtdir}/bin
+%dir %{_qtdir}/plugins
+%dir %{_qtdir}/plugins/accessible
+%dir %{_qtdir}/plugins/codecs
+%dir %{_qtdir}/plugins/crypto
+%dir %{_qtdir}/plugins/imageformats
+%dir %{_qtdir}/plugins/network
+%dir %{_qtdir}/plugins/sqldrivers
 %dir %{_datadir}/qt4
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt.qm
 %lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt.qm
@@ -1194,9 +1172,9 @@ EOF
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
-%{_libdir}/qt4/plugins/accessible/*
-%{_libdir}/qt4/plugins/codecs/*
-%{_libdir}/qt4/plugins/imageformats/*
+%{_qtdir}/plugins/accessible/*
+%{_qtdir}/plugins/codecs/*
+%{_qtdir}/plugins/imageformats/*
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
@@ -1213,38 +1191,38 @@ EOF
 %if %{with mysql}
 %files -n QtSql-mysql
 %defattr(644,root,root,755)
-%attr(755,root,root)  %{_libdir}/qt4/plugins/sqldrivers/libqsqlmysql*.so
+%attr(755,root,root)  %{_qtdir}/plugins/sqldrivers/libqsqlmysql*.so
 %endif
 
 %if %{with pgsql}
 %files -n QtSql-pgsql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlpsql*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlpsql*.so
 %endif
 
 %if %{with sqlite}
 %files -n QtSql-sqlite
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlite2*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
 %endif
 
 %if %{with sqlite3}
 %files -n QtSql-sqlite3
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlite*.so
-%exclude %{_libdir}/qt4/plugins/sqldrivers/libqsqlite2*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite*.so
+%exclude %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
 %endif
 
 %if %{with ibase}
 %files -n QtSql-ibase
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlibase*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlibase*.so
 %endif
 
 %if %{with odbc}
 %files -n QtSql-odbc
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlodbc*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlodbc*.so
 %endif
 
 %files -n QtSvg
@@ -1261,63 +1239,71 @@ EOF
 
 %files -n Qt3Support
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/uic3
+%attr(755,root,root) %{_qtdir}/bin/uic3
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
 
 %files -n QtAssistant
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
 
+%files -n QtDesigner
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*
+%dir %{_qtdir}/plugins/designer
+%attr(755,root,root) %{_qtdir}/plugins/designer/*.so
+
+%files -n QtUiTools
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
+
 %files assistant
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/assistant
+%attr(755,root,root) %{_bindir}/qt4-assistant
+%attr(755,root,root) %{_qtdir}/bin/assistant
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/assistant.qm
-%{_desktopdir}/assistant.desktop
-%{_pixmapsdir}/assistant.png
+%{_desktopdir}/qt4-assistant.desktop
+%{_pixmapsdir}/qt4-assistant.png
 
 %files build
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/rcc
-%attr(755,root,root) %{_bindir}/moc
-%attr(755,root,root) %{_bindir}/qt3to4
-%attr(755,root,root) %{_bindir}/uic
+%attr(755,root,root) %{_qtdir}/bin/rcc
+%attr(755,root,root) %{_qtdir}/bin/moc
+%attr(755,root,root) %{_qtdir}/bin/qt3to4
+%attr(755,root,root) %{_qtdir}/bin/uic
 %{_datadir}/qt4/q3porting.xml
 
-%if %{with designer}
 %files designer
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/designer
-%{_desktopdir}/designer.desktop
-%{_pixmapsdir}/designer.png
-
-%files designer-libs
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*
-%dir %{_libdir}/qt4/plugins/designer
-%attr(755,root,root) %{_libdir}/qt4/plugins/designer/*.so
-%endif
+%attr(755,root,root) %{_bindir}/qt4-designer
+%attr(755,root,root) %{_qtdir}/bin/designer
+%{_desktopdir}/qt4-designer.desktop
+%{_pixmapsdir}/qt4-designer.png
 
 %files linguist
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/linguist
-%attr(755,root,root) %{_bindir}/findtr
-%attr(755,root,root) %{_bindir}/lrelease
-%attr(755,root,root) %{_bindir}/lupdate
-%attr(755,root,root) %{_bindir}/qm2ts
+%attr(755,root,root) %{_bindir}/qt4-linguist
+%attr(755,root,root) %{_qtdir}/bin/findtr
+%attr(755,root,root) %{_qtdir}/bin/linguist
+%attr(755,root,root) %{_qtdir}/bin/lrelease
+%attr(755,root,root) %{_qtdir}/bin/lupdate
+%attr(755,root,root) %{_qtdir}/bin/qm2ts
 %{_datadir}/qt4/phrasebooks
-%{_desktopdir}/linguist.desktop
-%{_pixmapsdir}/linguist.png
+%{_desktopdir}/qt4-linguist.desktop
+%{_pixmapsdir}/qt4-linguist.png
 
 %files qmake
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qmake
+%attr(755,root,root) %{_bindir}/qt4-qmake
+%attr(755,root,root) %{_qtdir}/bin/qmake
 %{_datadir}/qt4/mkspecs
+%dir %{_qtdir}/mkspecs
 
 %files qtconfig
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qtconfig
-%{_desktopdir}/qtconfig.desktop
-%{_pixmapsdir}/qtconfig.png
+%attr(755,root,root) %{_bindir}/qt4-qtconfig
+%attr(755,root,root) %{_qtdir}/bin/qtconfig
+%{_desktopdir}/qt4-qtconfig.desktop
+%{_pixmapsdir}/qt4-qtconfig.png
 
 %files -n qvfb
 %defattr(644,root,root,755)
@@ -1326,6 +1312,7 @@ EOF
 %files doc
 %defattr(644,root,root,755)
 %{_docdir}/%{name}-doc
+%dir %{_qtdir}/doc
 
 %files -n QtCore-devel -f QtCore-devel.files
 %files -n QtDesigner-devel -f QtDesigner-devel.files
@@ -1338,6 +1325,7 @@ EOF
 %files -n QtXml-devel -f QtXml-devel.files
 %files -n Qt3Support-devel -f Qt3Support-devel.files
 %files -n QtAssistant-devel -f QtAssistant-devel.files
+%files -n QtUiTools-devel -f QtUiTools-devel.files
 
 %if %{with static_libs}
 %files -n QtCore-static
@@ -1372,13 +1360,17 @@ EOF
 %defattr(644,root,root,755)
 %{_libdir}/libQt3Support*.a
 
-%files -n QtDesigner-static
-%defattr(644,root,root,755)
-%{_libdir}/libQtDesigner.a
-
 %files -n QtAssistant-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtAssistantClient.a
+
+%files -n QtDesigner-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtDesigner*.a
+
+%files -n QtUiTools-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtUiTools.a
 %endif
 
 %files demos -f demos.files
