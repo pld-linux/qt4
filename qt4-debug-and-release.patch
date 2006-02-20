@@ -159,15 +159,3 @@
  TEMPLATE    = lib
  DESTDIR     = $$QT_BUILD_TREE/plugins/designer
  
---- qt-x11-opensource-src-4.1.0/tools/designer/src/uitools/uitools.pro.orig	2006-02-19 05:05:09.000000000 +0100
-+++ qt-x11-opensource-src-4.1.0/tools/designer/src/uitools/uitools.pro	2006-02-20 14:04:59.000000000 +0100
-@@ -32,6 +32,9 @@
- HEADERS += quiloader.h
- SOURCES += quiloader.cpp
- 
-+target.path=$$[QT_INSTALL_LIBS]
-+INSTALLS        += target
-+
- include($$QT_SOURCE_TREE/include/QtUiTools/headers.pri)
- quitools_headers.files = $$SYNCQT.HEADER_FILES $$SYNCQT.HEADER_CLASSES
- quitools_headers.path = $$[QT_INSTALL_HEADERS]/QtUiTools
