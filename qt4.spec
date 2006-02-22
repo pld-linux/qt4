@@ -46,10 +46,10 @@ License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
 # Source0-md5:	0e3982a54f56b6420d3062b20524410a
-Source2:	qtconfig.desktop
-Source3:	designer.desktop
-Source4:	assistant.desktop
-Source5:	linguist.desktop
+Source2:	%{name}-qtconfig.desktop
+Source3:	%{name}-designer.desktop
+Source4:	%{name}-assistant.desktop
+Source5:	%{name}-linguist.desktop
 Patch0:		%{name}-tools.patch
 Patch1:		%{name}-alpha.patch
 Patch2:		%{name}-buildsystem.patch
@@ -103,6 +103,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautostrip	'.*_debug\\.so*'
 
 %define		specflags	-fno-strict-aliasing
+
+%define		_qtdir		%{_libdir}/qt4
 
 %description
 Qt is a complete C++ application development framework, which includes
@@ -731,7 +733,6 @@ nastêpnego, a¿ wszystkie bêd± przet³umaczone.
 Summary:	Qt makefile generator
 Summary(pl):	Generator plików makefile dla aplikacji Qt
 Group:		X11/Development/Tools
-Obsoletes:	qmake
 
 %description qmake
 A powerful makefile generator. It can create makefiles on any platform
@@ -745,7 +746,6 @@ na ka¿dej platformi na podstawie ³atwego w przygotowaniu pliku .pro.
 Summary:	Qt widgets configuration tool
 Summary(pl):	Narzêdzie do konfigurowania widgetów Qt
 Group:		X11/Applications
-Obsoletes:	qtconfig
 
 %description qtconfig
 A tool for configuring look and behavior of Qt widgets.
@@ -880,13 +880,13 @@ export PATH=$PWD/bin:$PATH
 COMMONOPT=" \
 	-DQT_CLEAN_NAMESPACE \
 	-verbose \
-	-prefix %{_prefix} \
+	-prefix %{_qtdir} \
+	-bindir %{_qtdir}/bin \
 	-docdir %{_docdir}/%{name}-doc \
 	-headerdir %{_includedir}/qt4 \
 	-libdir %{_libdir} \
 	-L%{_libdir} \
-	-bindir %{_bindir} \
-	-plugindir %{_libdir}/qt4/plugins \
+	-plugindir %{_qtdir}/plugins \
 	-datadir %{_datadir}/qt4 \
 	-translationdir %{_datadir}/locale/ \
 	-sysconfdir %{_sysconfdir}/qt4 \
@@ -984,7 +984,8 @@ cd -
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_pkgconfigdir}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_desktopdir},%{_pixmapsdir},%{_pkgconfigdir}}
+install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
@@ -993,26 +994,37 @@ install -d \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}} \
 	$RPM_BUILD_ROOT%{_libdir}/qt4/plugins/{crypto,network}
 
-install plugins/sqldrivers/* $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/sqldrivers
-install bin/findtr tools/qvfb/qvfb $RPM_BUILD_ROOT%{_bindir}
+install plugins/sqldrivers/* $RPM_BUILD_ROOT%{_qtdir}/plugins/sqldrivers
+
+# install tools
+install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
+install tools/qvfb/qvfb	$RPM_BUILD_ROOT%{_bindir}
+
+cd $RPM_BUILD_ROOT%{_bindir}
+ln -sf ../%{_lib}/qt4/bin/assistant qt4-assistant
+ln -sf ../%{_lib}/qt4/bin/designer qt4-designer
+ln -sf ../%{_lib}/qt4/bin/linguist qt4-linguist
+ln -sf ../%{_lib}/qt4/bin/qmake qt4-qmake
+ln -sf ../%{_lib}/qt4/bin/qtconfig qt4-qtconfig
+cd -
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
 
 install tools/qtconfig/images/appicon.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/qtconfig.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-qtconfig.png
 
 install tools/linguist/linguist/images/appicon.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/linguist.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-linguist.png
 
 install tools/assistant/images/assistant.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/assistant.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-assistant.png
 
 %if %{with designer}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}
 install tools/designer/src/designer/images/designer.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/designer.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-designer.png
 %endif
 
 %if %{with static_libs}
@@ -1049,6 +1061,10 @@ do
 done
 ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
+
+# Ship doc & qmake stuff
+ln -s ../../..%{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
+ln -s ../../..%{_datadir}/qt4/mkspecs $RPM_BUILD_ROOT%{_qtdir}/mkspecs
 
 mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
@@ -1127,8 +1143,8 @@ done
 
 echo "%defattr(644,root,root,755)" > demos.files
 ifecho demos "%{_examplesdir}/qt4-demos"
-ifecho demos "%{_bindir}/qtdemo"
-ifecho demos "%{_libdir}/qt4/plugins/arthurplugin/libarthurplugin.so"
+ifecho demos "%{_qtdir}/bin/qtdemo"
+ifecho demos "%{_qtdir}/plugins/arthurplugin/libarthurplugin.so"
 for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`
 do
 	ifecho demos %{_examplesdir}/qt4-demos/$f
@@ -1184,14 +1200,14 @@ EOF
 %files -n QtCore
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCore.so.*.*
-%dir %{_libdir}/qt4
-%dir %{_libdir}/qt4/plugins
-%dir %{_libdir}/qt4/plugins/accessible
-%dir %{_libdir}/qt4/plugins/codecs
-%dir %{_libdir}/qt4/plugins/crypto
-%dir %{_libdir}/qt4/plugins/imageformats
-%dir %{_libdir}/qt4/plugins/network
-%dir %{_libdir}/qt4/plugins/sqldrivers
+%dir %{_qtdir}
+%dir %{_qtdir}/plugins
+%dir %{_qtdir}/plugins/accessible
+%dir %{_qtdir}/plugins/codecs
+%dir %{_qtdir}/plugins/crypto
+%dir %{_qtdir}/plugins/imageformats
+%dir %{_qtdir}/plugins/network
+%dir %{_qtdir}/plugins/sqldrivers
 %dir %{_datadir}/qt4
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt.qm
 %lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt.qm
@@ -1203,9 +1219,9 @@ EOF
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
-%{_libdir}/qt4/plugins/accessible/*
-%{_libdir}/qt4/plugins/codecs/*
-%{_libdir}/qt4/plugins/imageformats/*
+%{_qtdir}/plugins/accessible/*
+%{_qtdir}/plugins/codecs/*
+%{_qtdir}/plugins/imageformats/*
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
@@ -1222,38 +1238,38 @@ EOF
 %if %{with mysql}
 %files -n QtSql-mysql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlmysql*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlmysql*.so
 %endif
 
 %if %{with pgsql}
 %files -n QtSql-pgsql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlpsql*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlpsql*.so
 %endif
 
 %if %{with sqlite}
 %files -n QtSql-sqlite
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlite2*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
 %endif
 
 %if %{with sqlite3}
 %files -n QtSql-sqlite3
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlite*.so
-%exclude %{_libdir}/qt4/plugins/sqldrivers/libqsqlite2*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite*.so
+%exclude %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
 %endif
 
 %if %{with ibase}
 %files -n QtSql-ibase
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlibase*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlibase*.so
 %endif
 
 %if %{with odbc}
 %files -n QtSql-odbc
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt4/plugins/sqldrivers/libqsqlodbc*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlodbc*.so
 %endif
 
 %files -n QtSvg
@@ -1270,7 +1286,7 @@ EOF
 
 %files -n Qt3Support
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/uic3
+%attr(755,root,root) %{_qtdir}/bin/uic3
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
 
 %files -n QtAssistant
@@ -1279,54 +1295,59 @@ EOF
 
 %files assistant
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/assistant
+%attr(755,root,root) %{_bindir}/qt4-assistant
+%attr(755,root,root) %{_qtdir}/bin/assistant
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/assistant.qm
-%{_desktopdir}/assistant.desktop
-%{_pixmapsdir}/assistant.png
+%{_desktopdir}/qt4-assistant.desktop
+%{_pixmapsdir}/qt4-assistant.png
 
 %files build
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/rcc
-%attr(755,root,root) %{_bindir}/moc
-%attr(755,root,root) %{_bindir}/qt3to4
-%attr(755,root,root) %{_bindir}/uic
+%attr(755,root,root) %{_qtdir}/bin/rcc
+%attr(755,root,root) %{_qtdir}/bin/moc
+%attr(755,root,root) %{_qtdir}/bin/qt3to4
+%attr(755,root,root) %{_qtdir}/bin/uic
 %{_datadir}/qt4/q3porting.xml
 
 %if %{with designer}
 %files designer
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/designer
-%{_desktopdir}/designer.desktop
-%{_pixmapsdir}/designer.png
+%attr(755,root,root) %{_bindir}/qt4-designer
+%attr(755,root,root) %{_qtdir}/bin/designer
+%{_desktopdir}/qt4-designer.desktop
+%{_pixmapsdir}/qt4-designer.png
 
 %files designer-libs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*
-%dir %{_libdir}/qt4/plugins/designer
-%attr(755,root,root) %{_libdir}/qt4/plugins/designer/*.so
+%dir %{_qtdir}/plugins/designer
+%attr(755,root,root) %{_qtdir}/plugins/designer/*.so
 %endif
 
 %files linguist
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/linguist
-%attr(755,root,root) %{_bindir}/findtr
-%attr(755,root,root) %{_bindir}/lrelease
-%attr(755,root,root) %{_bindir}/lupdate
-%attr(755,root,root) %{_bindir}/qm2ts
+%attr(755,root,root) %{_bindir}/qt4-linguist
+%attr(755,root,root) %{_qtdir}/bin/linguist
+%attr(755,root,root) %{_qtdir}/bin/findtr
+%attr(755,root,root) %{_qtdir}/bin/lrelease
+%attr(755,root,root) %{_qtdir}/bin/lupdate
+%attr(755,root,root) %{_qtdir}/bin/qm2ts
 %{_datadir}/qt4/phrasebooks
-%{_desktopdir}/linguist.desktop
-%{_pixmapsdir}/linguist.png
+%{_desktopdir}/qt4-linguist.desktop
+%{_pixmapsdir}/qt4-linguist.png
 
 %files qmake
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qmake
+%attr(755,root,root) %{_bindir}/qt4-qmake
+%attr(755,root,root) %{_qtdir}/bin/qmake
 %{_datadir}/qt4/mkspecs
 
 %files qtconfig
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qtconfig
-%{_desktopdir}/qtconfig.desktop
-%{_pixmapsdir}/qtconfig.png
+%attr(755,root,root) %{_bindir}/qt4-qtconfig
+%attr(755,root,root) %{_qtdir}/bin/qtconfig
+%{_desktopdir}/qt4-qtconfig.desktop
+%{_pixmapsdir}/qt4-qtconfig.png
 
 %files -n qvfb
 %defattr(644,root,root,755)
@@ -1335,6 +1356,7 @@ EOF
 %files doc
 %defattr(644,root,root,755)
 %{_docdir}/%{name}-doc
+%dir %{_qtdir}/doc
 
 %files -n QtCore-devel -f QtCore-devel.files
 %files -n QtDesigner-devel -f QtDesigner-devel.files
