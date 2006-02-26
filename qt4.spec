@@ -610,6 +610,10 @@ Statyczna biblioteka kliencka Qt Assistant.
 Summary:	Classes for extending Qt Designer
 Summary(pl):	Klasy do rozbudowy Qt Designera
 Group:		X11/Libraries
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
+Obsoletes:	qt4-designer-libs
 
 %description -n QtDesigner
 This module provides classes that allow you to create your own custom
