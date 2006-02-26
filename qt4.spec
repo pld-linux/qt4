@@ -1027,8 +1027,8 @@ ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
 # Ship doc & qmake stuff
-ln -s ../../..%{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
-ln -s ../../..%{_datadir}/qt4/mkspecs $RPM_BUILD_ROOT%{_qtdir}/mkspecs
+ln -s %{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
+ln -s %{_datadir}/qt4/mkspecs $RPM_BUILD_ROOT%{_qtdir}/mkspecs
 
 mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
@@ -1207,7 +1207,7 @@ EOF
 %if %{with mysql}
 %files -n QtSql-mysql
 %defattr(644,root,root,755)
-%attr(755,root,root)  %{_qtdir}/plugins/sqldrivers/libqsqlmysql*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlmysql*.so
 %endif
 
 %if %{with pgsql}
@@ -1312,7 +1312,7 @@ EOF
 %attr(755,root,root) %{_bindir}/qt4-qmake
 %attr(755,root,root) %{_qtdir}/bin/qmake
 %{_datadir}/qt4/mkspecs
-%dir %{_qtdir}/mkspecs
+%{_qtdir}/mkspecs
 
 %files qtconfig
 %defattr(644,root,root,755)
@@ -1328,7 +1328,7 @@ EOF
 %files doc
 %defattr(644,root,root,755)
 %{_docdir}/%{name}-doc
-%dir %{_qtdir}/doc
+%{_qtdir}/doc
 
 %files -n QtCore-devel -f QtCore-devel.files
 %files -n QtDesigner-devel -f QtDesigner-devel.files
