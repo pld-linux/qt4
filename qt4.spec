@@ -572,7 +572,7 @@ Biblioteka kompatybilno¶ci z Qt3 - biblioteki statyczne.
 %package -n QtAssistant
 Summary:	Qt Assistant client library
 Summary(pl):	Biblioteka kliencka Qt Assistant
-Group:		X11/Development/Libraries
+Group:		X11/Libraries
 
 %description -n QtAssistant
 This library allows to use Qt Assistant as an application's help tool.
@@ -608,8 +608,8 @@ Statyczna biblioteka kliencka Qt Assistant.
 
 %package -n QtDesigner
 Summary:	Classes for extending Qt Designer
-Summary(pl):	Klasy do rozbudowy Qt Designer
-Group:		X11/Development/Libraries
+Summary(pl):	Klasy do rozbudowy Qt Designera
+Group:		X11/Libraries
 
 %description -n QtDesigner
 This module provides classes that allow you to create your own custom
@@ -618,11 +618,11 @@ Qt Designer's components.
 
 %description -n QtDesigner -l pl
 Ten modu³ dostarcza klasy, które pozwalaj± tworzyæ w³asne wtyczki dla
-Qt Designer oraz klasy, które umo¿liwiaj± dostêp do jego komponentów.
+Qt Designera oraz klasy, które umo¿liwiaj± dostêp do jego komponentów.
 
 %package -n QtDesigner-devel
 Summary:	Classes for extending Qt Designer - development files
-Summary(pl):	Klasy do rozbudowy Qt Designer - pliki programistyczne
+Summary(pl):	Klasy do rozbudowy Qt Designera - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtDesigner = %{version}-%{release}
@@ -631,11 +631,11 @@ Requires:	QtDesigner = %{version}-%{release}
 Classes for extending Qt Designer - development files.
 
 %description -n QtDesigner-devel -l pl
-Klasy do rozbudowy Qt Designer - pliki programistyczne.
+Klasy do rozbudowy Qt Designera - pliki programistyczne.
 
 %package -n QtDesigner-static
 Summary:	Classes for extending Qt Designer - static libraries
-Summary(pl):	Klasy do rozbudowy Qt Designer - biblioteki statyczne
+Summary(pl):	Klasy do rozbudowy Qt Designera - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtDesigner-devel = %{version}-%{release}
 
@@ -643,37 +643,52 @@ Requires:	QtDesigner-devel = %{version}-%{release}
 Classes for extending Qt Designer - static libraries.
 
 %description -n QtDesigner-static -l pl
-Klasy do rozbudowy Qt Designer - biblioteki statyczne.
+Klasy do rozbudowy Qt Designera - biblioteki statyczne.
 
 %package -n QtUiTools
 Summary:	Classes for handling Qt Designer forms in applications
-Group:		X11/Development/Libraries
+Summary(pl):	Klasy do obs³ugi formularzy Qt Designera w aplikacjach
+Group:		X11/Libraries
 
 %description -n QtUiTools
 The QtUiTools module provides classes to handle forms created with Qt
 Designer.
 
+%description -n QtUiTools -l pl
+Modu³ QtUiTools udostêpnia klasy do obs³ugi formularzy tworzonych przy
+u¿yciu Qt Designera.
+
 %package -n QtUiTools-devel
 Summary:	Classes for handling Qt Designer forms in applications - development files
+Summary(pl):	Klasy do obs³ugi formularzy Qt Designera w aplikacjach - pliki programistyczne
 Group:		X11/Development/Libraries
 
 %description -n QtUiTools-devel
 Classes for handling Qt Designer forms in applications - development
 files.
 
+%description -n QtUiTools-devel -l pl
+Klasy do obs³ugi formularzy Qt Designera w aplikacjach - pliki
+programistyczne.
+
 %package -n QtUiTools-static
-Summary:	Classes for handling Qt Designer forms in applications - static libraries
+Summary:	Classes for handling Qt Designer forms in applications - static library
+Summary(pl):	Klasy do obs³ugi formularzy Qt Designera w aplikacjach - biblioteka statyczna
 Group:		X11/Development/Libraries
 
 %description -n QtUiTools-static
 Classes for handling Qt Designer forms in applications - static
-libraries.
+library.
+
+%description -n QtUiTools-static -l pl
+Klasy do obs³ugi formularzy Qt Designera w aplikacjach - biblioteka
+statyczna.
 
 %package assistant
 Summary:	Qt documentation browser
 Summary(pl):	Przegl±darka dokumentacji Qt
 Group:		X11/Development/Tools
-Requires:	%{name}-doc
+Requires:	%{name}-doc = %{version}-%{release}
 
 %description assistant
 Qt Assistant is a tool for browsing on-line documentation with
@@ -704,6 +719,7 @@ konwerter nazw plików nag³ówkowych qt3to4.
 Summary:	IDE used for GUI designing with Qt library
 Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt
 Group:		X11/Applications
+Requires:	QtDesigner = %{version}-%{release}
 
 %description designer
 An advanced tool used for GUI designing with Qt library.
