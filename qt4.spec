@@ -1228,6 +1228,7 @@ EOF
 %dir %{_qtdir}/plugins/codecs
 %dir %{_qtdir}/plugins/crypto
 %dir %{_qtdir}/plugins/imageformats
+%dir %{_qtdir}/plugins/inputmethods
 %dir %{_qtdir}/plugins/network
 %dir %{_qtdir}/plugins/sqldrivers
 %dir %{_datadir}/qt4
@@ -1241,9 +1242,10 @@ EOF
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
-%{_qtdir}/plugins/accessible/*
-%{_qtdir}/plugins/codecs/*
-%{_qtdir}/plugins/imageformats/*
+%{_qtdir}/plugins/accessible/*.so
+%{_qtdir}/plugins/codecs/*.so
+%{_qtdir}/plugins/imageformats/*.so
+%{_qtdir}/plugins/inputmethods/*.so
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
