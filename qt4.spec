@@ -1011,10 +1011,6 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,pc,prl}
 
-install -d \
-	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}} \
-	$RPM_BUILD_ROOT%{_libdir}/qt4/plugins/{crypto,network}
-
 install plugins/sqldrivers/* $RPM_BUILD_ROOT%{_qtdir}/plugins/sqldrivers
 
 # install tools
@@ -1444,7 +1440,6 @@ EOF
 %files -n QtAssistant-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtAssistantClient.a
-%endif
 
 %files -n QtDesigner-static
 %defattr(644,root,root,755)
@@ -1453,6 +1448,7 @@ EOF
 %files -n QtUiTools-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtUiTools.a
- 
+%endif
+
 %files demos -f demos.files
 %files examples -f examples.files
