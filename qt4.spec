@@ -32,23 +32,23 @@ Summary(es):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.1.0
-Release:	1.95
+Version:	4.1.1
+Release:	0.1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	0e3982a54f56b6420d3062b20524410a
+# Source0-md5:	d82b0374d481f93e481aad4e3f26893a
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 Patch0:		%{name}-tools.patch
-Patch1:		%{name}-alpha.patch
+
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
 Patch4:		%{name}-debug-and-release.patch
 Patch5:		%{name}-sse.patch
-Patch6: 	%{name}-antialias.patch
+Patch6:		%{name}-antialias.patch
 Patch7:		%{name}-support-cflags-with-commas.patch
 Patch8:		%{name}-build-lib-static.patch
 Patch9:		%{name}-x11_fonts.patch
@@ -78,7 +78,8 @@ BuildRequires:	xcursor-devel
 BuildRequires:	xft-devel
 BuildRequires:	xrender-devel
 BuildRequires:	zlib-devel
-Requires:	OpenGL
+# due to -L%{_libdir} before -L%{builddir}/... in makefiles
+BuildConflicts:	QtCore-devel < %{version}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
@@ -834,7 +835,7 @@ Programas exemplo para o Qt versão.
 %prep
 %setup -q -n qt-x11-opensource-src-%{version}
 %patch0 -p1
-%patch1 -p1
+
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
@@ -1179,6 +1180,7 @@ EOF
 %dir %{_qtdir}/plugins/codecs
 %dir %{_qtdir}/plugins/crypto
 %dir %{_qtdir}/plugins/imageformats
+%dir %{_qtdir}/plugins/inputmethods
 %dir %{_qtdir}/plugins/network
 %dir %{_qtdir}/plugins/sqldrivers
 %dir %{_datadir}/qt4
@@ -1192,9 +1194,10 @@ EOF
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
-%{_qtdir}/plugins/accessible/*
-%{_qtdir}/plugins/codecs/*
-%{_qtdir}/plugins/imageformats/*
+%{_qtdir}/plugins/accessible/*.so
+%{_qtdir}/plugins/codecs/*.so
+%{_qtdir}/plugins/imageformats/*.so
+%{_qtdir}/plugins/inputmethods/*.so
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
