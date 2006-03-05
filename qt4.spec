@@ -1025,8 +1025,13 @@ cd $RPM_BUILD_ROOT%{_bindir}
 ln -sf ../%{_lib}/qt4/bin/assistant qt4-assistant
 ln -sf ../%{_lib}/qt4/bin/designer qt4-designer
 ln -sf ../%{_lib}/qt4/bin/linguist qt4-linguist
+ln -sf ../%{_lib}/qt4/bin/moc qt4-moc
 ln -sf ../%{_lib}/qt4/bin/qmake qt4-qmake
+ln -sf ../%{_lib}/qt4/bin/qt3to4 .
 ln -sf ../%{_lib}/qt4/bin/qtconfig qt4-qtconfig
+ln -sf ../%{_lib}/qt4/bin/rcc .
+ln -sf ../%{_lib}/qt4/bin/uic qt4-uic
+ln -sf ../%{_lib}/qt4/bin/uic3 .
 cd -
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
@@ -1310,6 +1315,7 @@ EOF
 
 %files -n Qt3Support
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/uic3
 %attr(755,root,root) %{_qtdir}/bin/uic3
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
 
@@ -1337,6 +1343,10 @@ EOF
 
 %files build
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/rcc
+%attr(755,root,root) %{_bindir}/qt4-moc
+%attr(755,root,root) %{_bindir}/qt3to4
+%attr(755,root,root) %{_bindir}/qt4-uic
 %attr(755,root,root) %{_qtdir}/bin/rcc
 %attr(755,root,root) %{_qtdir}/bin/moc
 %attr(755,root,root) %{_qtdir}/bin/qt3to4
