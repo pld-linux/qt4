@@ -694,6 +694,7 @@ Summary:	Qt documentation browser
 Summary(pl):	Przegl±darka dokumentacji Qt
 Group:		X11/Development/Tools
 Requires:	%{name}-doc = %{version}-%{release}
+Requires:	QtAssistant = %{version}-%{release}
 
 %description assistant
 Qt Assistant is a tool for browsing on-line documentation with
