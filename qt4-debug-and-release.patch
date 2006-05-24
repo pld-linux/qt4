@@ -29,16 +29,6 @@
  mac:unix:CONFIG       += explicitlib
  
  HEADERS         = qassistantclient.h
---- qt-x11-opensource-src-4.1.0/tools/designer/designer.pro.orig	2005-12-16 12:51:38.000000000 +0100
-+++ qt-x11-opensource-src-4.1.0/tools/designer/designer.pro	2006-02-12 23:35:22.000000000 +0100
-@@ -1,6 +1,6 @@
- TEMPLATE = subdirs
- 
--CONFIG += qt ordered debug
-+CONFIG += qt ordered
- 
- SUBDIRS = src
- 
 --- qt-x11-opensource-src-4.1.0/tools/designer/src/lib/lib.pro.orig	2005-12-16 12:52:20.000000000 +0100
 +++ qt-x11-opensource-src-4.1.0/tools/designer/src/lib/lib.pro	2006-02-12 23:01:41.000000000 +0100
 @@ -2,7 +2,7 @@
