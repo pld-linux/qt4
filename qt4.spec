@@ -37,7 +37,7 @@ Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.1.3
-Release:	0.1
+Release:	0.2
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -1061,6 +1061,8 @@ do
     [ ! -f $file ] && continue
     LANG=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
     MOD=`echo $file | sed -r 's:.*/([a-zA-Z]*)_.*.qm:\1:'`
+    [ "$LANG" == "iw" ] && LANG=he
+    [ "$MOD" == "qt" ] && MOD=qt4
     mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$LANG/LC_MESSAGES
     cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$LANG/LC_MESSAGES/$MOD.qm
 done
@@ -1237,14 +1239,14 @@ EOF
 %dir %{_qtdir}/plugins/network
 %dir %{_qtdir}/plugins/sqldrivers
 %dir %{_datadir}/qt4
-%lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt.qm
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt.qm
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt.qm
-#%lang(iw) %{_datadir}/locale/iw/LC_MESSAGES/qt.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt.qm
-%lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt.qm
+%lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
+%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4.qm
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
+%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
+%lang(iw) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
+%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
+%lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt4.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
 
 %files -n QtGui
 %defattr(644,root,root,755)
