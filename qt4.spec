@@ -36,12 +36,12 @@ Summary(es):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.1.2
+Version:	4.1.3
 Release:	0.1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	18bca010d09b98e94210710047baca0a
+# Source0-md5:	c6fc6934bfca458dde6e6370a2ed0101
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -1052,14 +1052,18 @@ install tools/designer/src/designer/images/designer.png \
 install staticlib/*.a $RPM_BUILD_ROOT%{_libdir}
 %endif
 
-install -d $RPM_BUILD_ROOT%{_datadir}/locale/{ar,cs,de,fr,ru,sk}/LC_MESSAGES
-install translations/qt_ar.qm $RPM_BUILD_ROOT%{_datadir}/locale/ar/LC_MESSAGES/qt.qm
-install translations/qt_cs.qm $RPM_BUILD_ROOT%{_datadir}/locale/cs/LC_MESSAGES/qt.qm
-install translations/qt_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/qt.qm
-install translations/qt_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/qt.qm
-install translations/qt_ru.qm $RPM_BUILD_ROOT%{_datadir}/locale/ru/LC_MESSAGES/qt.qm
-install translations/qt_sk.qm $RPM_BUILD_ROOT%{_datadir}/locale/sk/LC_MESSAGES/qt.qm
-install tools/assistant/assistant_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/assistant.qm
+#
+# Locale
+#
+rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
+for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm
+do
+    [ ! -f $file ] && continue
+    LANG=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
+    MOD=`echo $file | sed -r 's:.*/([a-zA-Z]*)_.*.qm:\1:'`
+    mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$LANG/LC_MESSAGES
+    cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$LANG/LC_MESSAGES/$MOD.qm
+done
 
 %if %{with dont_enable}
 install tools/designer/designer/designer_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/designer.qm
@@ -1164,7 +1168,6 @@ done
 echo "%defattr(644,root,root,755)" > demos.files
 ifecho demos "%{_examplesdir}/qt4-demos"
 ifecho demos "%{_qtdir}/bin/qtdemo"
-ifecho demos "%{_qtdir}/plugins/arthurplugin/libarthurplugin.so"
 for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`
 do
 	ifecho demos %{_examplesdir}/qt4-demos/$f
@@ -1227,7 +1230,7 @@ EOF
 %dir %{_qtdir}/bin
 %dir %{_qtdir}/plugins
 %dir %{_qtdir}/plugins/accessible
-%dir %{_qtdir}/plugins/codecs
+#%dir %{_qtdir}/plugins/codecs
 %dir %{_qtdir}/plugins/crypto
 %dir %{_qtdir}/plugins/imageformats
 %dir %{_qtdir}/plugins/inputmethods
@@ -1238,14 +1241,16 @@ EOF
 %lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt.qm
+%lang(iw) %{_datadir}/locale/iw/LC_MESSAGES/qt.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt.qm
 %lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt.qm
 
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
 %{_qtdir}/plugins/accessible/*.so
-%{_qtdir}/plugins/codecs/*.so
+#%{_qtdir}/plugins/codecs/*.so
 %{_qtdir}/plugins/imageformats/*.so
 %{_qtdir}/plugins/inputmethods/*.so
 
