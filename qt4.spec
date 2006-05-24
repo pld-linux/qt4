@@ -1243,7 +1243,7 @@ EOF
 %lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
-%lang(iw) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
+%lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
 %lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt4.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
