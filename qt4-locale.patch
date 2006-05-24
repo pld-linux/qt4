@@ -11,7 +11,7 @@
  
      QTranslator qtTranslator( 0 );
 -    qtTranslator.load( QLatin1String("qt_") + QLocale::system().name().toLower(), resourceDir );
-+    qtTranslator.load( QLatin1String("qt"), resourceDir + QLatin1String("/") + QLocale::languageToString(locale.language()) + QLatin1String("/LC_MESSAGES") );
++    qtTranslator.load( QLatin1String("qt4"), resourceDir + QLatin1String("/") + QLocale::languageToString(locale.language()) + QLatin1String("/LC_MESSAGES") );
      a.installTranslator( &qtTranslator );
  
      Config *conf = Config::loadConfig( profileName );
