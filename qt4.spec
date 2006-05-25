@@ -37,7 +37,7 @@ Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.1.3
-Release:	0.2
+Release:	1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -69,7 +69,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
 BuildRequires:	libstdc++-devel
-BuildRequires:	libungif-devel
+BuildRequires:	giflib-devel
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_nas:BuildRequires:	nas-devel}
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
