@@ -38,9 +38,6 @@ License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
 # Source0-md5:	d82b0374d481f93e481aad4e3f26893a
-# from http://websvn.kde.org/trunk/qt-copy/
-Source1:	qt4-copy-060319.tar.bz2
-# Source1-md5:	12128b13ff97e2cbbb76a891ee77aeb1
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -836,7 +833,7 @@ Example programs bundled with Qt version.
 Programas exemplo para o Qt versão.
 
 %prep
-%setup -q -n qt-x11-opensource-src-%{version} -a1
+%setup -q -n qt-x11-opensource-src-%{version}
 %patch0 -p1
 
 %patch2 -p1
@@ -847,9 +844,6 @@ Programas exemplo para o Qt versão.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-
-./apply_patches
-rm ../.qt-x11-opensource-src-%{version}.applied
 
 # change QMAKE_CFLAGS_RELEASE to build
 # properly optimized libs
