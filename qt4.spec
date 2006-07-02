@@ -36,12 +36,12 @@ Summary(es):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.1.3
-Release:	2
+Version:	4.1.4
+Release:	1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	c6fc6934bfca458dde6e6370a2ed0101
+# Source0-md5:	88f8c9c4622108baca2950baac3c02d6
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
