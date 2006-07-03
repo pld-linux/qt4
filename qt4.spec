@@ -1290,7 +1290,9 @@ EOF
 %files -n QtSql-sqlite3
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite*.so
+%if %{with sqlite}
 %exclude %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
+%endif
 %endif
 
 %if %{with ibase}
