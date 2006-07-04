@@ -64,7 +64,7 @@ BuildRequires:	OpenGL-GLU-devel
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
-%{?with_pch:BuildRequires:	gcc >= 5:3.4.0}
+%{?with_pch:BuildRequires:	gcc >= 5:4.0}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
