@@ -13,7 +13,7 @@
 %bcond_without	sqlite3		# don't build SQLite3 plugin
 %bcond_without	sqlite		# don't build SQLite2 plugin
 %bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
-%bcond_without	pch		# disable pch in qmake
+%bcond_with	pch		# enable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
 
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
@@ -33,7 +33,7 @@ Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.1.1
-Release:	0.2
+Release:	0.3
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
