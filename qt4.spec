@@ -87,7 +87,7 @@ BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	zlib-devel
 # due to -L%{_libdir} before -L%{builddir}/... in makefiles
-BuildConflicts:	QtCore-devel < %{version}
+#BuildConflicts:	QtCore-devel < %{version}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
