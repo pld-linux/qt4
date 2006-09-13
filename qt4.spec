@@ -17,6 +17,7 @@
 %bcond_without	pch		# disable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	dont_enable	# blocks translations, they are not yet available
+%bcond_with	AC		# build for AC
 
 %undefine	with_dont_enable
 
@@ -64,7 +65,7 @@ BuildRequires:	OpenGL-GLU-devel
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
-%{?with_pch:BuildRequires:	gcc >= 5:4.0}
+%{!?with_AC:%{?with_pch:BuildRequires:	gcc >= 5:4.0}}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
@@ -78,6 +79,7 @@ BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
+%if %{without AC}
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libXcursor-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -85,9 +87,9 @@ BuildRequires:	xorg-lib-libXi-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
+%endif
+%{?with_AC:BuildRequires:	X11-devel}
 BuildRequires:	zlib-devel
-# due to -L%{_libdir} before -L%{builddir}/... in makefiles
-#BuildConflicts:	QtCore-devel < %{version}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
@@ -193,6 +195,7 @@ Requires:	QtGui = %{version}-%{release}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.0.0
 Requires:	libpng-devel >= 2:1.0.8
+%if %{with AC}
 Requires:	xorg-lib-libSM-devel
 Requires:	xorg-lib-libXcursor-devel
 Requires:	xorg-lib-libXext-devel
@@ -200,6 +203,8 @@ Requires:	xorg-lib-libXi-devel
 Requires:	xorg-lib-libXinerama-devel
 Requires:	xorg-lib-libXrandr-devel
 Requires:	xorg-lib-libXrender-devel
+%endif
+%{?with_AC:Requires:	X11-devel}
 
 %description -n QtGui-devel
 Graphical User Interface components - development files.
@@ -917,7 +922,7 @@ COMMONOPT=" \
 	-examplesdir %{_examplesdir}/qt4 \
 	-demosdir %{_examplesdir}/qt4-demos \
 	-fast \
-	-%{!?with_pch:no-}pch \
+	-%{!?with_AC:%{!?with_pch:no-}}pch \
 	-%{!?with_sse:no-}sse \
 	-qt-gif \
 	-system-libjpeg \
@@ -930,6 +935,7 @@ COMMONOPT=" \
 	%{?with_nas:-system-nas-sound} \
 	%{?debug:-debug} \
 	%{!?debug:-release} \
+	%{?with_AC:-L/usr/X11R6/lib} \
 	-qt3support \
 	-fontconfig \
 	-nis \
