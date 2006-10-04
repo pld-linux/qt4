@@ -37,21 +37,19 @@ Summary(es):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.1.4
-Release:	1
+Version:	4.2.0
+Release:	0.1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	88f8c9c4622108baca2950baac3c02d6
+# Source0-md5:	2c062a125d5ca66397e3430ba537fbec
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 Patch0:		%{name}-tools.patch
-
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
-Patch4:		%{name}-debug-and-release.patch
 Patch5:		%{name}-sse.patch
 Patch6:		%{name}-antialias.patch
 Patch7:		%{name}-support-cflags-with-commas.patch
@@ -63,9 +61,11 @@ BuildRequires:	OpenGL-GLU-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
 # incompatible with bison
 %{?with_cups:BuildRequires:	cups-devel}
+BuildRequires:	dbus-devel
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
 %{!?with_AC:%{?with_pch:BuildRequires:	gcc >= 5:4.0}}
+BuildRequires:	glib-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
@@ -90,6 +90,7 @@ BuildRequires:	xorg-lib-libXrender-devel
 %endif
 %{?with_AC:BuildRequires:	X11-devel}
 BuildRequires:	zlib-devel
+BuildConflicts:	QtCore-devel < %{version}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
@@ -625,6 +626,44 @@ Static Qt Assistant client library.
 %description -n QtAssistant-static -l pl
 Statyczna biblioteka kliencka Qt Assistant.
 
+%package -n QtDBus
+Summary:	Classes for D-BUS support
+Summary(pl):	Klasy do obs³ugi D-BUS
+Group:		X11/Libraries
+Requires:	QtCore = %{version}-%{release}
+Requires:	dbus
+
+%description -n QtDBus
+This module provides classes for D-BUS support. D-BUS is an Inter-Process 
+Communication (IPC) and Remote Procedure Calling (RPC) mechanism originally 
+developed for Linux to replace existing and competing IPC solutions with 
+one unified protocol. 
+
+%package -n QtDBus-devel
+Summary:	Classes for D-BUS support - development files
+Summary(pl):	Klasy do obs³ugi D-BUS - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtDesigner = %{version}-%{release}
+
+%description -n QtDBus-devel
+Classes for D-BUS support - development files.
+
+%description -n QtDBus-devel -l pl
+Klasy do obs³ugi D-BUS - pliki programistyczne.
+
+%package -n QtDBus-static
+Summary:	Classes for D-BUS support - static libraries
+Summary(pl):	Klasy do obs³ugi D-BUS - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtDBus-devel = %{version}-%{release}
+
+%description -n QtDBus-static
+Classes for D-BUS support - static libraries.
+
+%description -n QtDBus-static -l pl
+Klasy do obs³ugi D-BUS - biblioteki statyczne.
+
 %package -n QtDesigner
 Summary:	Classes for extending Qt Designer
 Summary(pl):	Klasy do rozbudowy Qt Designera
@@ -854,10 +893,8 @@ Programas exemplo para o Qt versão.
 %prep
 %setup -q -n qt-x11-opensource-src-%{version}
 %patch0 -p1
-
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
@@ -921,7 +958,9 @@ COMMONOPT=" \
 	-sysconfdir %{_sysconfdir}/qt4 \
 	-examplesdir %{_examplesdir}/qt4 \
 	-demosdir %{_examplesdir}/qt4-demos \
+	-dbus \
 	-fast \
+	-glib \
 	-%{!?with_AC:%{!?with_pch:no-}}pch \
 	-%{!?with_sse:no-}sse \
 	-qt-gif \
@@ -1022,7 +1061,9 @@ install plugins/sqldrivers/* $RPM_BUILD_ROOT%{_qtdir}/plugins/sqldrivers
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
-install tools/qvfb/qvfb	$RPM_BUILD_ROOT%{_bindir}
+install bin/qvfb	$RPM_BUILD_ROOT%{_bindir}
+install bin/pixeltool	$RPM_BUILD_ROOT%{_bindir}
+install bin/qdbus*	$RPM_BUILD_ROOT%{_bindir}
 
 cd $RPM_BUILD_ROOT%{_bindir}
 ln -sf ../%{_lib}/qt4/bin/assistant qt4-assistant
@@ -1084,13 +1125,12 @@ install tools/linguist/linguist/linguist_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale
 %endif
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-for f in ../Qt{3Support,Assistant,Core,Designer,Gui,Network,OpenGL,Sql,Svg,Test,UiTools,Xml}/*
+for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Sql,Svg,Test,UiTools,Xml}/*
 do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
 	fi
 done
-ln -sf ../../QtCore/arch/qatomic.h arch/qatomic.h
 cd -
 
 # Ship doc & qmake stuff
@@ -1152,6 +1192,7 @@ mkdevfl () {
 }
 
 mkdevfl QtCore %{_includedir}/qt4 %{_includedir}/qt4/Qt
+mkdevfl QtDBus %{_bindir}/qdbus %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
 mkdevfl QtGui
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
@@ -1197,6 +1238,9 @@ cat << EOF
  *******************************************************
 EOF
 %postun	-n QtCore	-p /sbin/ldconfig
+
+%post	-n QtDBus	-p /sbin/ldconfig
+%postun	-n QtDBus	-p /sbin/ldconfig
 
 %post	-n QtGui	-p /sbin/ldconfig
 %postun	-n QtGui	-p /sbin/ldconfig
@@ -1253,6 +1297,10 @@ EOF
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
 %lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt4.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
+
+%files -n QtDBus
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
 
 %files -n QtGui
 %defattr(644,root,root,755)
@@ -1347,6 +1395,7 @@ EOF
 
 %files assistant
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/pixeltool
 %attr(755,root,root) %{_bindir}/qt4-assistant
 %attr(755,root,root) %{_qtdir}/bin/assistant
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/assistant.qm
@@ -1408,6 +1457,7 @@ EOF
 %{_qtdir}/doc
 
 %files -n QtCore-devel -f QtCore-devel.files
+%files -n QtDBus-devel -f QtDBus-devel.files
 %files -n QtDesigner-devel -f QtDesigner-devel.files
 %files -n QtGui-devel -f QtGui-devel.files
 %files -n QtNetwork-devel -f QtNetwork-devel.files
@@ -1424,6 +1474,10 @@ EOF
 %files -n QtCore-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtCore*.a
+
+%files -n QtDBus-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtDBus*.a
 
 %files -n QtGui-static
 %defattr(644,root,root,755)
