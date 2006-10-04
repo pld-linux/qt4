@@ -4,13 +4,13 @@
          resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
  
      QTranslator translator( 0 );
--    translator.load( QLatin1String("assistant_") + QLocale::system().name().toLower(), resourceDir );
+-    translator.load( QLatin1String("assistant_") + QLocale::system().name(), resourceDir );
 +    QLocale locale = QLocale::system();
 +    translator.load( QLatin1String("assistant"), resourceDir + QLatin1String("/") + QLocale::languageToString(locale.language())  + QLatin1String("/LC_MESSAGES") );
      a.installTranslator( &translator );
  
      QTranslator qtTranslator( 0 );
--    qtTranslator.load( QLatin1String("qt_") + QLocale::system().name().toLower(), resourceDir );
+-    qtTranslator.load( QLatin1String("qt_") + QLocale::system().name(), resourceDir );
 +    qtTranslator.load( QLatin1String("qt4"), resourceDir + QLatin1String("/") + QLocale::languageToString(locale.language()) + QLatin1String("/LC_MESSAGES") );
      a.installTranslator( &qtTranslator );
  
