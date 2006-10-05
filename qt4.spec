@@ -65,14 +65,15 @@ BuildRequires:	dbus-devel
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
 %{!?with_AC:%{?with_pch:BuildRequires:	gcc >= 5:4.0}}
-BuildRequires:	glib-devel
+BuildRequires:	giflib-devel
+BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
 BuildRequires:	libstdc++-devel
-BuildRequires:	giflib-devel
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_nas:BuildRequires:	nas-devel}
+BuildRequires:	pkgconfig
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	rpmbuild(macros) >= 1.213
@@ -631,13 +632,21 @@ Summary:	Classes for D-BUS support
 Summary(pl):	Klasy do obs³ugi D-BUS
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
-Requires:	dbus
+# is it really required? libs should need just libs, not service
+#Requires:	dbus
 
 %description -n QtDBus
-This module provides classes for D-BUS support. D-BUS is an Inter-Process 
-Communication (IPC) and Remote Procedure Calling (RPC) mechanism originally 
-developed for Linux to replace existing and competing IPC solutions with 
-one unified protocol. 
+This module provides classes for D-BUS support. D-BUS is an
+Inter-Process Communication (IPC) and Remote Procedure Calling (RPC)
+mechanism originally developed for Linux to replace existing and
+competing IPC solutions with one unified protocol. 
+
+%description -n QtDBus -l pl
+Ten modu³ udostêpnia klasy do obs³ugi D-BUS. D-BUS to mechanizm
+komunikacji miêdzy procesowej (IPC - Inter-Process Communication) i
+zdalnego wywo³ywania procedur (RPC - Remote Procedure Calling)
+stworzony pocz±tkowo dla Linuksa, aby zast±piæ istniej±ce i
+konkuruj±ce ze sob± rozwi±zania IPC jednym, ujednoliconym protoko³em.
 
 %package -n QtDBus-devel
 Summary:	Classes for D-BUS support - development files
@@ -958,11 +967,11 @@ COMMONOPT=" \
 	-sysconfdir %{_sysconfdir}/qt4 \
 	-examplesdir %{_examplesdir}/qt4 \
 	-demosdir %{_examplesdir}/qt4-demos \
-	-dbus \
 	-fast \
 	-glib \
 	-%{!?with_AC:%{!?with_pch:no-}}pch \
 	-%{!?with_sse:no-}sse \
+	-qdbus \
 	-qt-gif \
 	-system-libjpeg \
 	-system-libpng \
