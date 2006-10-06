@@ -1492,10 +1492,9 @@ EOF
 %defattr(644,root,root,755)
 %{_libdir}/libQtCore*.a
 
-# XXX: build it
-#%files -n QtDBus-static
-#%defattr(644,root,root,755)
-#%{_libdir}/libQtDBus*.a
+%files -n QtDBus-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtDBus*.a
 
 %files -n QtGui-static
 %defattr(644,root,root,755)
