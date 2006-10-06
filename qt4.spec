@@ -989,7 +989,7 @@ COMMONOPT=" \
 	-fontconfig \
 	-iconv \
 	-no-separate-debug-info \
-	-%{!?with_AC:no-}xfixes \
+	-%{?with_AC:no-}xfixes \
 	-nis \
 	-sm \
 	-tablet \
