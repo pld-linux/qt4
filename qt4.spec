@@ -1071,8 +1071,6 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,pc,prl}
 
-#install plugins/sqldrivers/*.so $RPM_BUILD_ROOT%{_qtdir}/plugins/sqldrivers
-
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
 install bin/qvfb	$RPM_BUILD_ROOT%{_bindir}
