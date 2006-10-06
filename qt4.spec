@@ -1063,16 +1063,21 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
+# XXX: change config(?) or make install to omit installing these and don't strip ELFs
+find $RPM_BUILD_ROOT -name '*.debug' | xargs rm -f
+
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,pc,prl}
 
-install plugins/sqldrivers/* $RPM_BUILD_ROOT%{_qtdir}/plugins/sqldrivers
+#install plugins/sqldrivers/*.so $RPM_BUILD_ROOT%{_qtdir}/plugins/sqldrivers
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
 install bin/qvfb	$RPM_BUILD_ROOT%{_bindir}
 install bin/pixeltool	$RPM_BUILD_ROOT%{_bindir}
-install bin/qdbus*	$RPM_BUILD_ROOT%{_bindir}
+install bin/qdbus	$RPM_BUILD_ROOT%{_bindir}
+install bin/qdbuscpp2xml	$RPM_BUILD_ROOT%{_bindir}
+install bin/qdbusxml2cpp	$RPM_BUILD_ROOT%{_bindir}
 
 cd $RPM_BUILD_ROOT%{_bindir}
 ln -sf ../%{_lib}/qt4/bin/assistant qt4-assistant
@@ -1299,7 +1304,6 @@ EOF
 %dir %{_qtdir}/plugins/sqldrivers
 %dir %{_datadir}/qt4
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
 %lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
@@ -1437,7 +1441,6 @@ EOF
 %attr(755,root,root) %{_qtdir}/bin/linguist
 %attr(755,root,root) %{_qtdir}/bin/lrelease
 %attr(755,root,root) %{_qtdir}/bin/lupdate
-%attr(755,root,root) %{_qtdir}/bin/qm2ts
 %{_datadir}/qt4/phrasebooks
 %{_desktopdir}/qt4-linguist.desktop
 %{_pixmapsdir}/qt4-linguist.png
@@ -1484,9 +1487,10 @@ EOF
 %defattr(644,root,root,755)
 %{_libdir}/libQtCore*.a
 
-%files -n QtDBus-static
-%defattr(644,root,root,755)
-%{_libdir}/libQtDBus*.a
+# XXX: build it
+#%files -n QtDBus-static
+#%defattr(644,root,root,755)
+#%{_libdir}/libQtDBus*.a
 
 %files -n QtGui-static
 %defattr(644,root,root,755)
