@@ -88,6 +88,7 @@ BuildRequires:	xorg-lib-libXi-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
+BuildRequires:	xorg-lib-libXfixes-devel
 %endif
 %{?with_AC:BuildRequires:	X11-devel}
 BuildRequires:	zlib-devel
@@ -986,6 +987,9 @@ COMMONOPT=" \
 	%{?with_AC:-L/usr/X11R6/lib} \
 	-qt3support \
 	-fontconfig \
+	-iconv \
+	-no-separate-debug-info \
+	-%{!?with_AC:no-}xfixes \
 	-nis \
 	-sm \
 	-tablet \
@@ -1013,6 +1017,7 @@ echo "yes" | ./configure $COMMONOPT $OPT
 %{__make} -C src
 %{__make} -C tools/assistant/lib
 %{__make} -C tools/designer
+%{__make} -C tools/qdbus/src
 if [ ! -d staticlib ]; then
 	mkdir staticlib
 	cp -a lib/*.a staticlib
@@ -1062,9 +1067,6 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
-
-# XXX: change config(?) or make install to omit installing these and don't strip ELFs
-find $RPM_BUILD_ROOT -name '*.debug' | xargs rm -f
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,pc,prl}
