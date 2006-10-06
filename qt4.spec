@@ -1296,8 +1296,9 @@ EOF
 %dir %{_qtdir}/bin
 %dir %{_qtdir}/plugins
 %dir %{_qtdir}/plugins/accessible
-#%dir %{_qtdir}/plugins/codecs
+%dir %{_qtdir}/plugins/codecs
 %dir %{_qtdir}/plugins/crypto
+%dir %{_qtdir}/plugins/iconengines
 %dir %{_qtdir}/plugins/imageformats
 %dir %{_qtdir}/plugins/inputmethods
 %dir %{_qtdir}/plugins/network
@@ -1305,6 +1306,7 @@ EOF
 %dir %{_datadir}/qt4
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
+%lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
 %lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
@@ -1318,10 +1320,11 @@ EOF
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
-%{_qtdir}/plugins/accessible/*.so
-#%{_qtdir}/plugins/codecs/*.so
-%{_qtdir}/plugins/imageformats/*.so
-%{_qtdir}/plugins/inputmethods/*.so
+%attr(755,root,root) %{_qtdir}/plugins/accessible/*.so
+%attr(755,root,root) %{_qtdir}/plugins/codecs/*.so
+%attr(755,root,root) %{_qtdir}/plugins/iconengines/*.so
+%attr(755,root,root) %{_qtdir}/plugins/imageformats/*.so
+%attr(755,root,root) %{_qtdir}/plugins/inputmethods/*.so
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
