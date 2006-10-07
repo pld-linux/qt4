@@ -595,6 +595,8 @@ Biblioteka kompatybilno¶ci z Qt3 - biblioteki statyczne.
 Summary:	Qt Assistant client library
 Summary(pl):	Biblioteka kliencka Qt Assistant
 Group:		X11/Development/Libraries
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
 
 %description -n QtAssistant
 This library allows to use Qt Assistant as an application's help tool.
@@ -632,7 +634,7 @@ Statyczna biblioteka kliencka Qt Assistant.
 Summary:	Classes for D-BUS support
 Summary(pl):	Klasy do obs³ugi D-BUS
 Group:		X11/Libraries
-Requires:	QtCore = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
 # is it really required? libs should need just libs, not service
 #Requires:	dbus
 
@@ -653,8 +655,10 @@ konkuruj±ce ze sob± rozwi±zania IPC jednym, ujednoliconym protoko³em.
 Summary:	Classes for D-BUS support - development files
 Summary(pl):	Klasy do obs³ugi D-BUS - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
-Requires:	QtDesigner = %{version}-%{release}
+Requires:	QtDBus = %{version}-%{release}
+Requires:	QtXml-devel = %{version}-%{release}
+Requires:	dbus-devel
+Requires:	glib2-devel >= 2.0.0
 
 %description -n QtDBus-devel
 Classes for D-BUS support - development files.
@@ -696,8 +700,8 @@ Qt Designera oraz klasy, które umo¿liwiaj± dostêp do jego komponentów.
 Summary:	Classes for extending Qt Designer - development files
 Summary(pl):	Klasy do rozbudowy Qt Designera - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtDesigner = %{version}-%{release}
+Requires:	QtGui-devel = %{version}-%{release}
 
 %description -n QtDesigner-devel
 Classes for extending Qt Designer - development files.
@@ -721,6 +725,8 @@ Klasy do rozbudowy Qt Designera - biblioteki statyczne.
 Summary:	Classes for handling Qt Designer forms in applications
 Summary(pl):	Klasy do obs³ugi formularzy Qt Designera w aplikacjach
 Group:		X11/Libraries
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
 
 %description -n QtUiTools
 The QtUiTools module provides classes to handle forms created with Qt
@@ -734,6 +740,8 @@ u¿yciu Qt Designera.
 Summary:	Classes for handling Qt Designer forms in applications - development files
 Summary(pl):	Klasy do obs³ugi formularzy Qt Designera w aplikacjach - pliki programistyczne
 Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtUiTools = %{version}-%{release}
 
 %description -n QtUiTools-devel
 Classes for handling Qt Designer forms in applications - development
@@ -747,6 +755,7 @@ programistyczne.
 Summary:	Classes for handling Qt Designer forms in applications - static library
 Summary(pl):	Klasy do obs³ugi formularzy Qt Designera w aplikacjach - biblioteka statyczna
 Group:		X11/Development/Libraries
+Requires:	QtUiTools-devel = %{version}-%{release}
 
 %description -n QtUiTools-static
 Classes for handling Qt Designer forms in applications - static
@@ -762,6 +771,7 @@ Summary(pl):	Przegl±darka dokumentacji Qt
 Group:		X11/Development/Tools
 Requires:	%{name}-doc = %{version}-%{release}
 Requires:	QtAssistant = %{version}-%{release}
+Requires:	QtDBus = %{version}-%{release}
 
 %description assistant
 Qt Assistant is a tool for browsing on-line documentation with
@@ -792,6 +802,7 @@ konwerter nazw plików nag³ówkowych qt3to4.
 Summary:	IDE used for GUI designing with Qt library
 Summary(pl):	IDE s³u¿±ce do projektowania GUI za pomoc± biblioteki Qt
 Group:		X11/Applications
+Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtDesigner = %{version}-%{release}
 
 %description designer
@@ -805,6 +816,8 @@ za pomoc± biblioteki Qt.
 Summary:	Translation helper for Qt
 Summary(pl):	Aplikacja u³atwiaj±ca t³umaczenie aplikacji oparty o Qt
 Group:		X11/Development/Tools
+Requires:	QtAssistant = %{version}-%{release}
+Requires:	QtUiTools = %{version}-%{release}
 
 %description linguist
 This program provides an interface that shortens and helps systematize
@@ -838,6 +851,11 @@ na ka¿dej platformi na podstawie ³atwego w przygotowaniu pliku .pro.
 Summary:	Qt widgets configuration tool
 Summary(pl):	Narzêdzie do konfigurowania widgetów Qt
 Group:		X11/Applications
+Requires:	Qt3Support = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
+Requires:	QtSql = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
 
 %description qtconfig
 A tool for configuring look and behavior of Qt widgets.
@@ -849,6 +867,8 @@ Narzêdie do konfiguracji wygl±du i zachowania widgetów Qt.
 Summary:	Qt Virtual framebuffer
 Summary(pl):	Wirtualny framebuffer dla Qt
 Group:		X11/Development/Libraries
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtOpenGL = %{version}-%{release}
 
 %description -n qvfb
 Qt Virtual framebuffer allows you to run Qt/Embedded applications in X
@@ -862,7 +882,7 @@ okienku X.
 Summary:	Demos of new Qt4 features
 Summary(pl):	Programy demonstruj±ce nowe mo¿liwo¶ci Qt4
 Group:		X11/Development/Libraries
-Requires:	QtCore = %{version}-%{release}
+Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
 
 %description demos
