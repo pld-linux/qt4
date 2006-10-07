@@ -84,11 +84,11 @@ BuildRequires:	sed >= 4.0
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libXcursor-devel
 BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXfixes-devel
 BuildRequires:	xorg-lib-libXi-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
-BuildRequires:	xorg-lib-libXfixes-devel
 %endif
 %{?with_AC:BuildRequires:	X11-devel}
 BuildRequires:	zlib-devel
