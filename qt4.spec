@@ -203,6 +203,7 @@ Requires:	libpng-devel >= 2:1.0.8
 Requires:	xorg-lib-libSM-devel
 Requires:	xorg-lib-libXcursor-devel
 Requires:	xorg-lib-libXext-devel
+Requires:	xorg-lib-libXfixes-devel
 Requires:	xorg-lib-libXi-devel
 Requires:	xorg-lib-libXinerama-devel
 Requires:	xorg-lib-libXrandr-devel
