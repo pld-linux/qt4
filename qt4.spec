@@ -31,6 +31,7 @@
 
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
+%{?with_AC:%undefine with_pch}
 
 Summary:	The Qt GUI application framework
 Summary(es):	Biblioteca para ejecutar aplicaciones GUI Qt
@@ -990,7 +991,7 @@ COMMONOPT=" \
 	-demosdir %{_examplesdir}/qt4-demos \
 	-fast \
 	-glib \
-	-%{!?with_AC:%{!?with_pch:no-}}pch \
+	-%{!?with_pch:no-}pch \
 	-%{!?with_sse:no-}sse \
 	-qdbus \
 	-qt-gif \
