@@ -461,7 +461,7 @@ Plugin de suporte a SQLite3 para Qt.
 Summary:	SVG support
 Summary(pl):	Wsparcie dla SVG
 Group:		X11/Libraries
-Requires:	QtCore = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
 
 %description -n QtSvg
 SVG support.
@@ -473,8 +473,8 @@ Wsparcie dla SVG.
 Summary:	SVG support - development files
 Summary(pl):	Wsparcie dla SVG - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtSvg = %{version}-%{release}
+Requires:	QtXml-devel = %{version}-%{release}
 
 %description -n QtSvg-devel
 SVG support - development files.
