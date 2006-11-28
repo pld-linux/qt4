@@ -16,10 +16,7 @@
 %bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# disable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
-%bcond_with	dont_enable	# blocks translations, they are not yet available
 %bcond_with	AC		# build for AC
-
-%undefine	with_dont_enable
 
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
@@ -39,7 +36,7 @@ Summary(pl):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.2.1
-Release:	1
+Release:	2
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -48,6 +45,7 @@ Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
+Source6:	%{name}_pl.ts
 Patch0:		%{name}-tools.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
@@ -1062,25 +1060,10 @@ OPT=" \
 echo "yes" | ./configure $COMMONOPT $OPT
 
 %{__make}
-%if %{with dont_enable}
 %{__make} \
 	sub-tools-all-ordered \
 	sub-demos-all-ordered \
 	sub-examples-all-ordered
-
-cd tools/designer/designer
-lrelease designer_de.ts
-lrelease designer_fr.ts
-cd -
-cd tools/assistant
-lrelease assistant_de.ts
-lrelease assistant_fr.ts
-cd -
-cd tools/linguist/linguist
-lrelease linguist_de.ts
-lrelease linguist_fr.ts
-cd -
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -1138,6 +1121,9 @@ install staticlib/*.a $RPM_BUILD_ROOT%{_libdir}
 #
 # Locale
 #
+cp %{SOURCE6} translations/qt_pl.ts
+LD_LIBRARY_PATH=lib bin/lrelease translations/qt_pl.ts -qm translations/qt_pl.qm
+
 rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
 for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm
 do
@@ -1145,20 +1131,11 @@ do
     LANG=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
     MOD=`echo $file | sed -r 's:.*/([a-zA-Z]*)_.*.qm:\1:'`
     [ "$LANG" == "iw" ] && LANG=he
-    [ "$MOD" == "qt" ] && MOD=qt4
+    MOD=qt4-$MOD
+    [ "$MOD" == "qt4-qt" ] && MOD=qt4
     mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$LANG/LC_MESSAGES
     cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$LANG/LC_MESSAGES/$MOD.qm
 done
-
-%if %{with dont_enable}
-install tools/designer/designer/designer_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/designer.qm
-install tools/designer/designer/designer_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/designer.qm
-
-install tools/assistant/assistant_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/assistant.qm
-
-install tools/linguist/linguist/linguist_de.qm $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/linguist.qm
-install tools/linguist/linguist/linguist_fr.qm $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/linguist.qm
-%endif
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
 for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Sql,Svg,Test,UiTools,Xml}/*
@@ -1331,6 +1308,7 @@ EOF
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
 %lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
 %lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt4.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
@@ -1436,7 +1414,7 @@ EOF
 %attr(755,root,root) %{_bindir}/pixeltool
 %attr(755,root,root) %{_bindir}/qt4-assistant
 %attr(755,root,root) %{_qtdir}/bin/assistant
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/assistant.qm
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant.qm
 %{_desktopdir}/qt4-assistant.desktop
 %{_pixmapsdir}/qt4-assistant.png
 
