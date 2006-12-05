@@ -92,6 +92,7 @@ BuildRequires:	xorg-lib-libXrender-devel
 %{?with_AC:BuildRequires:	X11-devel}
 BuildRequires:	zlib-devel
 BuildConflicts:	QtCore-devel < %{version}
+BuildConflicts:	QtCore < %{version}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
