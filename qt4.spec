@@ -40,7 +40,7 @@ Release:	1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	2ab1c88084f55b94809f025a8503bf18
+# Source0-md5:	19f6374fe7924e33775cb87ee02669cb
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
