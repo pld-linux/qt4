@@ -79,7 +79,7 @@ BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
-%if !%{with AC}
+%if %{without AC}
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libXcursor-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -198,7 +198,7 @@ Requires:	QtGui = %{version}-%{release}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.0.0
 Requires:	libpng-devel >= 2:1.0.8
-%if %{with AC}
+%if %{without AC}
 Requires:	xorg-lib-libSM-devel
 Requires:	xorg-lib-libXcursor-devel
 Requires:	xorg-lib-libXext-devel
