@@ -60,7 +60,7 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	dbus-devel
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
-%{!?with_AC:%{?with_pch:BuildRequires:	gcc >= 5:4.0}}
+%{?with_pch:BuildRequires:	gcc >= 5:4.0}
 BuildRequires:	giflib-devel
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	libjpeg-devel
