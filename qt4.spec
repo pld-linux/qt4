@@ -153,6 +153,7 @@ Summary:	Core classes used by other modules - development files
 Summary(pl):	Podstawowe klasy u¿ywane przez inne modu³y - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore = %{version}-%{release}
+Requires:	glib2-devel
 Requires:	libstdc++-devel
 Requires:	zlib-devel
 
@@ -932,38 +933,24 @@ Programas exemplo para o Qt versão.
 %patch8 -p1
 %patch9 -p1
 
-sed -i -e 's,usr/X11R6/,usr/,' mkspecs/linux-g*/qmake.conf
+%{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
+	mkspecs/common/linux.conf
 
-# change QMAKE_CFLAGS_RELEASE to build
-# properly optimized libs
+# change QMAKE FLAGS to build
+%{__sed} -i -e '
+	s|QMAKE_CC.*=.*gcc|QMAKE_CC\t\t= %{__cc}|;
+	s|QMAKE_CXX.*=.*g++|QMAKE_CXX\t\t= %{__cxx}|;
+	s|QMAKE_LINK.*=.*g++|QMAKE_LINK\t\t= %{__cxx}|;
+	s|QMAKE_LINK_SHLIB.*=.*g++|QMAKE_LINK_SHLIB\t= %{__cxx}|;
+	s|QMAKE_CFLAGS_RELEASE.*|QMAKE_CFLAGS_RELEASE\t+= %{rpmcflags}|;
+	s|QMAKE_CXXFLAGS_RELEASE.*|QMAKE_CXXFLAGS_RELEASE\t+= %{rpmcxxflags}|;
+	s|QMAKE_CFLAGS_DEBUG.*|QMAKE_CFLAGS_DEBUG\t+= %{debugcflags}|;
+	s|QMAKE_CXXFLAGS_DEBUG.*|QMAKE_CXXFLAGS_DEBUG\t+= %{debugcflags}|;
+	' mkspecs/common/g++.conf
 
-if [ "%{_lib}" != "lib" ] ; then
-	cfgf="mkspecs/linux-g++-64/qmake.conf"
-else
-	cfgf="mkspecs/linux-g++/qmake.conf"
-fi
-
-sed -i -e '
-	s|QMAKE_CC.*=.*gcc|QMAKE_CC = %{__cc}|;
-	s|QMAKE_CXX.*=.*g++|QMAKE_CXX = %{__cxx}|;
-	s|QMAKE_LINK.*=.*g++|QMAKE_LINK = %{__cxx}|;
-	s|QMAKE_LINK_SHLIB.*=.*g++|QMAKE_LINK_SHLIB = %{__cxx}|;
-	s|QMAKE_INCDIR_QT.*|QMAKE_INCDIR_QT = %{_includedir}/qt4|;
-	' $cfgf
-
-cat $cfgf \
-	| grep -v QMAKE_CFLAGS_RELEASE \
-	| grep -v QMAKE_CXXFLAGS_RELEASE \
-	| grep -v QMAKE_CFLAGS_DEBUG \
-	| grep -v QMAKE_CXXFLAGS_DEBUG \
-	> $cfgf.1
-
-mv $cfgf.1 $cfgf
-echo >> $cfgf
-echo -e "QMAKE_CFLAGS_RELEASE\t= %{rpmcflags}" >> $cfgf
-echo -e "QMAKE_CXXFLAGS_RELEASE\t= %{rpmcxxflags}" >> $cfgf
-echo -e "QMAKE_CFLAGS_DEBUG\t= %{debugcflags}" >> $cfgf
-echo -e "QMAKE_CXXFLAGS_DEBUG\t= %{debugcflags}" >> $cfgf
+%{__sed} -i -e '
+	s|QMAKE_INCDIR_QT.*|QMAKE_INCDIR_QT       = %{_includedir}/qt4|;
+	' mkspecs/common/linux.conf
 
 %build
 # pass OPTFLAGS to build qmake itself with optimization
@@ -1076,6 +1063,10 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,pc,prl}
+%{__sed} -i -e '
+	s|moc_location=.*|moc_location=%{_bindir}/qt4-moc|;
+	s|uic_location=.*|uic_location=%{_bindir}/qt4-uic|;
+	' $RPM_BUILD_ROOT%{_libdir}/*.pc
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
