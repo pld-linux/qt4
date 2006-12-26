@@ -561,6 +561,10 @@ Summary:	Qt3 compatibility library
 Summary(pl):	Biblioteka kompatybilno¶ci z Qt3
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
+Requires:	QtSql = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
 
 %description -n Qt3Support
 Qt3 compatibility library.
@@ -576,6 +580,7 @@ Requires:	Qt3Support = %{version}-%{release}
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
+Requires:	QtSql-devel = %{version}-%{release}
 Requires:	QtXml-devel = %{version}-%{release}
 
 %description -n Qt3Support-devel
