@@ -574,6 +574,9 @@ Summary(pl):	Biblioteka kompatybilno¶ci z Qt3 - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	Qt3Support = %{version}-%{release}
 Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtGui-devel = %{version}-%{release}
+Requires:	QtNetwork-devel = %{version}-%{release}
+Requires:	QtXml-devel = %{version}-%{release}
 
 %description -n Qt3Support-devel
 Qt3 compatibility library - development files.
