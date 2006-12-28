@@ -1128,13 +1128,13 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
 for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm
 do
     [ ! -f $file ] && continue
-    LANG=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
+    lang=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
     MOD=`echo $file | sed -r 's:.*/([a-zA-Z]*)_.*.qm:\1:'`
-    [ "$LANG" == "iw" ] && LANG=he
+    [ "$lang" == "iw" ] && lang=he
     MOD=qt4-$MOD
     [ "$MOD" == "qt4-qt" ] && MOD=qt4
-    mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$LANG/LC_MESSAGES
-    cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$LANG/LC_MESSAGES/$MOD.qm
+    mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
+    cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/$MOD.qm
 done
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
