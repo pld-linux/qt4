@@ -541,6 +541,10 @@ Summary:	Qt3 compatibility library
 Summary(pl):	Biblioteka kompatybilno¶ci z Qt3
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
+Requires:	QtSql = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
 
 %description -n Qt3Support
 Qt3 compatibility library.
@@ -556,6 +560,7 @@ Requires:	Qt3Support = %{version}-%{release}
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
+Requires:	QtSql-devel = %{version}-%{release}
 Requires:	QtXml-devel = %{version}-%{release}
 
 %description -n Qt3Support-devel
@@ -1098,13 +1103,13 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
 for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm
 do
     [ ! -f $file ] && continue
-    LANG=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
+    lang=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
     MOD=`echo $file | sed -r 's:.*/([a-zA-Z]*)_.*.qm:\1:'`
-    [ "$LANG" == "iw" ] && LANG=he
+    [ "$lang" == "iw" ] && lang=he
     MOD=qt4-$MOD
     [ "$MOD" == "qt4-qt" ] && MOD=qt4
-    mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$LANG/LC_MESSAGES
-    cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$LANG/LC_MESSAGES/$MOD.qm
+    mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
+    cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/$MOD.qm
 done
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
