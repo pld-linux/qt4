@@ -31,9 +31,9 @@
 %{?with_AC:%undefine with_pch}
 
 Summary:	The Qt GUI application framework
-Summary(es.UTF-8):   Biblioteca para ejecutar aplicaciones GUI Qt
-Summary(pl.UTF-8):   Biblioteka Qt do tworzenia GUI
-Summary(pt_BR.UTF-8):   Estrutura para rodar aplicações GUI Qt
+Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
+Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
+Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.2.2
 Release:	1
@@ -139,7 +139,7 @@ wykorzystaniem Netscape LiveConnect.
 
 %package -n QtCore
 Summary:	Core classes used by other modules
-Summary(pl.UTF-8):   Podstawowe klasy używane przez inne moduły
+Summary(pl.UTF-8):	Podstawowe klasy używane przez inne moduły
 Group:		X11/Libraries
 
 %description -n QtCore
@@ -150,7 +150,7 @@ Podstawowe klasy używane przez inne moduły.
 
 %package -n QtCore-devel
 Summary:	Core classes used by other modules - development files
-Summary(pl.UTF-8):   Podstawowe klasy używane przez inne moduły - pliki programistyczne
+Summary(pl.UTF-8):	Podstawowe klasy używane przez inne moduły - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore = %{version}-%{release}
 Requires:	glib2-devel
@@ -165,7 +165,7 @@ Podstawowe klasy używane przez inne moduły - pliki programistyczne.
 
 %package -n QtCore-static
 Summary:	Core classes used by other modules - static libraries
-Summary(pl.UTF-8):   Podstawowe klasy używane przez inne moduły - biblioteki statyczne
+Summary(pl.UTF-8):	Podstawowe klasy używane przez inne moduły - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 
@@ -177,7 +177,7 @@ Podstawowe klasy używane przez inne moduły - biblioteki statyczne.
 
 %package -n QtGui
 Summary:	Graphical User Interface components
-Summary(pl.UTF-8):   Komponenty graficznego interfejsu użytkownika
+Summary(pl.UTF-8):	Komponenty graficznego interfejsu użytkownika
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
 # two following because of some plugins
@@ -192,7 +192,7 @@ Komponenty graficznego interfejsu użytkownika.
 
 %package -n QtGui-devel
 Summary:	Graphical User Interface components - development files
-Summary(pl.UTF-8):   Komponenty graficznego interfejsu użytkownika - pliki programistyczne
+Summary(pl.UTF-8):	Komponenty graficznego interfejsu użytkownika - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
@@ -219,7 +219,7 @@ Komponenty graficznego interfejsu użytkownika - pliki programistyczne.
 
 %package -n QtGui-static
 Summary:	Graphical User Interface components - static libraries
-Summary(pl.UTF-8):   Komponenty graficznego interfejsu użytkownika - biblioteki statyczne
+Summary(pl.UTF-8):	Komponenty graficznego interfejsu użytkownika - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtGui-devel = %{version}-%{release}
 
@@ -231,7 +231,7 @@ Komponenty graficznego interfejsu użytkownika - biblioteki statyczne.
 
 %package -n QtNetwork
 Summary:	Classes for network programming
-Summary(pl.UTF-8):   Klasy do programowania sieciowego
+Summary(pl.UTF-8):	Klasy do programowania sieciowego
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
 
@@ -243,7 +243,7 @@ Klasy do programowania sieciowego.
 
 %package -n QtNetwork-devel
 Summary:	Classes for network programming - development files
-Summary(pl.UTF-8):   Klasy do programowania sieciowego - pliki programistyczne
+Summary(pl.UTF-8):	Klasy do programowania sieciowego - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtNetwork = %{version}-%{release}
@@ -256,7 +256,7 @@ Klasy do programowania sieciowego - pliki programistyczne.
 
 %package -n QtNetwork-static
 Summary:	Classes for network programming - static libraries
-Summary(pl.UTF-8):   Klasy do programowania sieciowego - biblioteki statyczne
+Summary(pl.UTF-8):	Klasy do programowania sieciowego - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtNetwork-devel = %{version}-%{release}
 
@@ -268,7 +268,7 @@ Klasy do programowania sieciowego - biblioteki statyczne.
 
 %package -n QtOpenGL
 Summary:	OpenGL support classes
-Summary(pl.UTF-8):   Klasy wspomagające OpenGL
+Summary(pl.UTF-8):	Klasy wspomagające OpenGL
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
 
@@ -280,7 +280,7 @@ Klasy wspomagające OpenGL.
 
 %package -n QtOpenGL-devel
 Summary:	OpenGL support classes - development files
-Summary(pl.UTF-8):   Klasy wspomagające OpenGL - pliki programistyczne
+Summary(pl.UTF-8):	Klasy wspomagające OpenGL - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	OpenGL-GLU-devel
 Requires:	QtCore-devel = %{version}-%{release}
@@ -294,7 +294,7 @@ Klasy wspomagające OpenGL - pliki programistyczne.
 
 %package -n QtOpenGL-static
 Summary:	OpenGL support classes - static libraries
-Summary(pl.UTF-8):   Klasy wspomagające OpenGL - biblioteki statyczne
+Summary(pl.UTF-8):	Klasy wspomagające OpenGL - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtOpenGL-devel = %{version}-%{release}
 
@@ -306,7 +306,7 @@ Klasy wspomagające OpenGL - biblioteki statyczne.
 
 %package -n QtSql
 Summary:	Classes for database integration using SQL
-Summary(pl.UTF-8):   Klasy do integracji z bazami danych przy użyciu SQL
+Summary(pl.UTF-8):	Klasy do integracji z bazami danych przy użyciu SQL
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
 
@@ -318,7 +318,7 @@ Klasy do integracji z bazami danych przy użyciu SQL.
 
 %package -n QtSql-devel
 Summary:	Classes for database integration using SQL - development files
-Summary(pl.UTF-8):   Klasy do integracji z bazami danych przy użyciu SQL - pliki programistyczne
+Summary(pl.UTF-8):	Klasy do integracji z bazami danych przy użyciu SQL - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtSql = %{version}-%{release}
@@ -332,7 +332,7 @@ programistyczne.
 
 %package -n QtSql-static
 Summary:	Classes for database integration using SQL - static libraries
-Summary(pl.UTF-8):   Klasy do integracji z bazami danych przy użyciu SQL - biblioteki statyczne
+Summary(pl.UTF-8):	Klasy do integracji z bazami danych przy użyciu SQL - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtSql-devel = %{version}-%{release}
 
@@ -345,8 +345,8 @@ statyczne. programistyczne.
 
 %package -n QtSql-ibase
 Summary:	Database plugin for InterBase/Firebird Qt support
-Summary(pl.UTF-8):   Wtyczka InterBase/Firebird do Qt
-Summary(pt_BR.UTF-8):   Plugin de suporte a InterBase/Firebird para Qt
+Summary(pl.UTF-8):	Wtyczka InterBase/Firebird do Qt
+Summary(pt_BR.UTF-8):	Plugin de suporte a InterBase/Firebird para Qt
 Group:		X11/Libraries
 Requires:	QtSql = %{version}-%{release}
 Provides:	QtSql-backend = %{version}-%{release}
@@ -364,8 +364,8 @@ Plugin de suporte a InterBase/Firebird para Qt.
 
 %package -n QtSql-mysql
 Summary:	Database plugin for MySQL Qt support
-Summary(pl.UTF-8):   Wtyczka MySQL do Qt
-Summary(pt_BR.UTF-8):   Plugin de suporte a MySQL para Qt
+Summary(pl.UTF-8):	Wtyczka MySQL do Qt
+Summary(pt_BR.UTF-8):	Plugin de suporte a MySQL para Qt
 Group:		X11/Libraries
 Requires:	QtSql = %{version}-%{release}
 Provides:	QtSql-backend = %{version}-%{release}
@@ -383,8 +383,8 @@ Plugin de suporte a MySQL para Qt.
 
 %package -n QtSql-odbc
 Summary:	Database plugin for ODBC Qt support
-Summary(pl.UTF-8):   Wtyczka ODBC do Qt
-Summary(pt_BR.UTF-8):   Plugin de suporte a ODBC para Qt
+Summary(pl.UTF-8):	Wtyczka ODBC do Qt
+Summary(pt_BR.UTF-8):	Plugin de suporte a ODBC para Qt
 Group:		X11/Libraries
 Requires:	QtSql = %{version}-%{release}
 Provides:	QtSql-backend = %{version}-%{release}
@@ -402,8 +402,8 @@ Plugin de suporte a ODBC para Qt.
 
 %package -n QtSql-pgsql
 Summary:	Database plugin for PostgreSQL Qt support
-Summary(pl.UTF-8):   Wtyczka PostgreSQL do Qt
-Summary(pt_BR.UTF-8):   Plugin de suporte a PostgreSQL para Qt
+Summary(pl.UTF-8):	Wtyczka PostgreSQL do Qt
+Summary(pt_BR.UTF-8):	Plugin de suporte a PostgreSQL para Qt
 Group:		X11/Libraries
 Requires:	QtSql = %{version}-%{release}
 Provides:	QtSql-backend = %{version}-%{release}
@@ -421,8 +421,8 @@ Plugin de suporte a PostgreSQL para Qt.
 
 %package -n QtSql-sqlite
 Summary:	Database plugin for SQLite 2.x Qt support
-Summary(pl.UTF-8):   Wtyczka SQLite 2.x do Qt
-Summary(pt_BR.UTF-8):   Plugin de suporte a SQLite 2.x para Qt
+Summary(pl.UTF-8):	Wtyczka SQLite 2.x do Qt
+Summary(pt_BR.UTF-8):	Plugin de suporte a SQLite 2.x para Qt
 Group:		X11/Libraries
 Requires:	QtSql = %{version}-%{release}
 Provides:	QtSql-backend = %{version}-%{release}
@@ -440,8 +440,8 @@ Plugin de suporte a SQLite 2.x para Qt.
 
 %package -n QtSql-sqlite3
 Summary:	Database plugin for SQLite3 Qt support
-Summary(pl.UTF-8):   Wtyczka SQLite3 do Qt
-Summary(pt_BR.UTF-8):   Plugin de suporte a SQLite3 para Qt
+Summary(pl.UTF-8):	Wtyczka SQLite3 do Qt
+Summary(pt_BR.UTF-8):	Plugin de suporte a SQLite3 para Qt
 Group:		X11/Libraries
 Requires:	QtSql = %{version}-%{release}
 Provides:	QtSql-backend = %{version}-%{release}
@@ -459,7 +459,7 @@ Plugin de suporte a SQLite3 para Qt.
 
 %package -n QtSvg
 Summary:	SVG support
-Summary(pl.UTF-8):   Wsparcie dla SVG
+Summary(pl.UTF-8):	Wsparcie dla SVG
 Group:		X11/Libraries
 Requires:	QtXml = %{version}-%{release}
 
@@ -471,7 +471,7 @@ Wsparcie dla SVG.
 
 %package -n QtSvg-devel
 Summary:	SVG support - development files
-Summary(pl.UTF-8):   Wsparcie dla SVG - pliki programistyczne
+Summary(pl.UTF-8):	Wsparcie dla SVG - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtSvg = %{version}-%{release}
 Requires:	QtXml-devel = %{version}-%{release}
@@ -484,7 +484,7 @@ Wsparcie dla SVG - pliki programistyczne.
 
 %package -n QtSvg-static
 Summary:	SVG support - static libraries
-Summary(pl.UTF-8):   Wsparcie dla SVG - biblioteki statyczne
+Summary(pl.UTF-8):	Wsparcie dla SVG - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtSvg-devel = %{version}-%{release}
 
@@ -496,7 +496,7 @@ Wsparcie dla SVG - biblioteki statyczne.
 
 %package -n QtTest
 Summary:	Test framework
-Summary(pl.UTF-8):   Szkielet testów
+Summary(pl.UTF-8):	Szkielet testów
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
 
@@ -508,7 +508,7 @@ Szkielet testów.
 
 %package -n QtTest-devel
 Summary:	Test framework - development files
-Summary(pl.UTF-8):   Szkielet testów - pliki programistyczne
+Summary(pl.UTF-8):	Szkielet testów - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtTest = %{version}-%{release}
@@ -521,7 +521,7 @@ Szkielet testów - pliki programistyczne.
 
 %package -n QtXml
 Summary:	Classes for handling XML
-Summary(pl.UTF-8):   Klasy do obsługi XML-a
+Summary(pl.UTF-8):	Klasy do obsługi XML-a
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
 
@@ -533,7 +533,7 @@ Klasy do obsługi XML-a.
 
 %package -n QtXml-devel
 Summary:	Classes for handling XML - development files
-Summary(pl.UTF-8):   Klasy do obsługi XML-a - pliki programistyczne
+Summary(pl.UTF-8):	Klasy do obsługi XML-a - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
@@ -546,7 +546,7 @@ Klasy do obsługi XML-a - pliki programistyczne.
 
 %package -n QtXml-static
 Summary:	Classes for handling XML - static libraries
-Summary(pl.UTF-8):   Klasy do obsługi XML-a - biblioteki statyczne
+Summary(pl.UTF-8):	Klasy do obsługi XML-a - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtXml-devel = %{version}-%{release}
 
@@ -558,7 +558,7 @@ Klasy do obsługi XML-a - biblioteki statyczne.
 
 %package -n Qt3Support
 Summary:	Qt3 compatibility library
-Summary(pl.UTF-8):   Biblioteka kompatybilności z Qt3
+Summary(pl.UTF-8):	Biblioteka kompatybilności z Qt3
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
@@ -574,7 +574,7 @@ Biblioteka kompatybilności z Qt3.
 
 %package -n Qt3Support-devel
 Summary:	Qt3 compatibility library - development files
-Summary(pl.UTF-8):   Biblioteka kompatybilności z Qt3 - pliki programistyczne
+Summary(pl.UTF-8):	Biblioteka kompatybilności z Qt3 - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	Qt3Support = %{version}-%{release}
 Requires:	QtCore-devel = %{version}-%{release}
@@ -591,7 +591,7 @@ Biblioteka kompatybilności z Qt3 - pliki programistyczne.
 
 %package -n Qt3Support-static
 Summary:	Qt3 compatibility library - static libraries
-Summary(pl.UTF-8):   Biblioteka kompatybilności z Qt3 - biblioteki statyczne
+Summary(pl.UTF-8):	Biblioteka kompatybilności z Qt3 - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	Qt3Support-devel = %{version}-%{release}
 
@@ -603,7 +603,7 @@ Biblioteka kompatybilności z Qt3 - biblioteki statyczne.
 
 %package -n QtAssistant
 Summary:	Qt Assistant client library
-Summary(pl.UTF-8):   Biblioteka kliencka Qt Assistant
+Summary(pl.UTF-8):	Biblioteka kliencka Qt Assistant
 Group:		X11/Development/Libraries
 Requires:	QtGui = %{version}-%{release}
 Requires:	QtNetwork = %{version}-%{release}
@@ -617,7 +617,7 @@ pomocy w aplikacjach.
 
 %package -n QtAssistant-devel
 Summary:	Qt Assistant client library - development files
-Summary(pl.UTF-8):   Biblioteka kliencka Qt Assistant - pliki programistyczne
+Summary(pl.UTF-8):	Biblioteka kliencka Qt Assistant - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
@@ -630,7 +630,7 @@ Pliki programistyczne biblioteki klienckiej Qt Assistant.
 
 %package -n QtAssistant-static
 Summary:	Static Qt Assistant client library
-Summary(pl.UTF-8):   Statyczna biblioteka kliencka Qt Assistant
+Summary(pl.UTF-8):	Statyczna biblioteka kliencka Qt Assistant
 Group:		X11/Development/Libraries
 Requires:	QtAssistant-devel = %{version}-%{release}
 
@@ -642,7 +642,7 @@ Statyczna biblioteka kliencka Qt Assistant.
 
 %package -n QtDBus
 Summary:	Classes for D-BUS support
-Summary(pl.UTF-8):   Klasy do obsługi D-BUS
+Summary(pl.UTF-8):	Klasy do obsługi D-BUS
 Group:		X11/Libraries
 Requires:	QtXml = %{version}-%{release}
 # is it really required? libs should need just libs, not service
@@ -663,7 +663,7 @@ konkurujące ze sobą rozwiązania IPC jednym, ujednoliconym protokołem.
 
 %package -n QtDBus-devel
 Summary:	Classes for D-BUS support - development files
-Summary(pl.UTF-8):   Klasy do obsługi D-BUS - pliki programistyczne
+Summary(pl.UTF-8):	Klasy do obsługi D-BUS - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtDBus = %{version}-%{release}
 Requires:	QtXml-devel = %{version}-%{release}
@@ -678,7 +678,7 @@ Klasy do obsługi D-BUS - pliki programistyczne.
 
 %package -n QtDBus-static
 Summary:	Classes for D-BUS support - static libraries
-Summary(pl.UTF-8):   Klasy do obsługi D-BUS - biblioteki statyczne
+Summary(pl.UTF-8):	Klasy do obsługi D-BUS - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtDBus-devel = %{version}-%{release}
 
@@ -690,7 +690,7 @@ Klasy do obsługi D-BUS - biblioteki statyczne.
 
 %package -n QtDesigner
 Summary:	Classes for extending Qt Designer
-Summary(pl.UTF-8):   Klasy do rozbudowy Qt Designera
+Summary(pl.UTF-8):	Klasy do rozbudowy Qt Designera
 Group:		X11/Libraries
 Requires:	QtGui = %{version}-%{release}
 Requires:	QtNetwork = %{version}-%{release}
@@ -708,7 +708,7 @@ Qt Designera oraz klasy, które umożliwiają dostęp do jego komponentów.
 
 %package -n QtDesigner-devel
 Summary:	Classes for extending Qt Designer - development files
-Summary(pl.UTF-8):   Klasy do rozbudowy Qt Designera - pliki programistyczne
+Summary(pl.UTF-8):	Klasy do rozbudowy Qt Designera - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtDesigner = %{version}-%{release}
 Requires:	QtGui-devel = %{version}-%{release}
@@ -721,7 +721,7 @@ Klasy do rozbudowy Qt Designera - pliki programistyczne.
 
 %package -n QtDesigner-static
 Summary:	Classes for extending Qt Designer - static libraries
-Summary(pl.UTF-8):   Klasy do rozbudowy Qt Designera - biblioteki statyczne
+Summary(pl.UTF-8):	Klasy do rozbudowy Qt Designera - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtDesigner-devel = %{version}-%{release}
 
@@ -733,7 +733,7 @@ Klasy do rozbudowy Qt Designera - biblioteki statyczne.
 
 %package -n QtUiTools
 Summary:	Classes for handling Qt Designer forms in applications
-Summary(pl.UTF-8):   Klasy do obsługi formularzy Qt Designera w aplikacjach
+Summary(pl.UTF-8):	Klasy do obsługi formularzy Qt Designera w aplikacjach
 Group:		X11/Libraries
 Requires:	QtGui = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
@@ -748,7 +748,7 @@ użyciu Qt Designera.
 
 %package -n QtUiTools-devel
 Summary:	Classes for handling Qt Designer forms in applications - development files
-Summary(pl.UTF-8):   Klasy do obsługi formularzy Qt Designera w aplikacjach - pliki programistyczne
+Summary(pl.UTF-8):	Klasy do obsługi formularzy Qt Designera w aplikacjach - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtUiTools = %{version}-%{release}
@@ -763,7 +763,7 @@ programistyczne.
 
 %package -n QtUiTools-static
 Summary:	Classes for handling Qt Designer forms in applications - static library
-Summary(pl.UTF-8):   Klasy do obsługi formularzy Qt Designera w aplikacjach - biblioteka statyczna
+Summary(pl.UTF-8):	Klasy do obsługi formularzy Qt Designera w aplikacjach - biblioteka statyczna
 Group:		X11/Development/Libraries
 Requires:	QtUiTools-devel = %{version}-%{release}
 
@@ -777,7 +777,7 @@ statyczna.
 
 %package assistant
 Summary:	Qt documentation browser
-Summary(pl.UTF-8):   Przeglądarka dokumentacji Qt
+Summary(pl.UTF-8):	Przeglądarka dokumentacji Qt
 Group:		X11/Development/Tools
 Requires:	%{name}-doc = %{version}-%{release}
 Requires:	QtAssistant = %{version}-%{release}
@@ -793,7 +793,7 @@ indeksowania, dodawania zakładek i pełnotekstowego wyszukiwania.
 
 %package build
 Summary:	Build tools for Qt4
-Summary(pl.UTF-8):   Narzędzia do budowania dla Qt4
+Summary(pl.UTF-8):	Narzędzia do budowania dla Qt4
 Group:		X11/Development/Tools
 Requires:	QtCore = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
@@ -810,7 +810,7 @@ konwerter nazw plików nagłówkowych qt3to4.
 
 %package designer
 Summary:	IDE used for GUI designing with Qt library
-Summary(pl.UTF-8):   IDE służące do projektowania GUI za pomocą biblioteki Qt
+Summary(pl.UTF-8):	IDE służące do projektowania GUI za pomocą biblioteki Qt
 Group:		X11/Applications
 Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtDesigner = %{version}-%{release}
@@ -824,7 +824,7 @@ za pomocą biblioteki Qt.
 
 %package linguist
 Summary:	Translation helper for Qt
-Summary(pl.UTF-8):   Aplikacja ułatwiająca tłumaczenie aplikacji oparty o Qt
+Summary(pl.UTF-8):	Aplikacja ułatwiająca tłumaczenie aplikacji oparty o Qt
 Group:		X11/Development/Tools
 Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtUiTools = %{version}-%{release}
@@ -846,7 +846,7 @@ następnego, aż wszystkie będą przetłumaczone.
 
 %package qmake
 Summary:	Qt makefile generator
-Summary(pl.UTF-8):   Generator plików makefile dla aplikacji Qt
+Summary(pl.UTF-8):	Generator plików makefile dla aplikacji Qt
 Group:		X11/Development/Tools
 
 %description qmake
@@ -859,7 +859,7 @@ na każdej platformi na podstawie łatwego w przygotowaniu pliku .pro.
 
 %package qtconfig
 Summary:	Qt widgets configuration tool
-Summary(pl.UTF-8):   Narzędzie do konfigurowania widgetów Qt
+Summary(pl.UTF-8):	Narzędzie do konfigurowania widgetów Qt
 Group:		X11/Applications
 Requires:	Qt3Support = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
@@ -875,7 +875,7 @@ Narzędie do konfiguracji wyglądu i zachowania widgetów Qt.
 
 %package -n qvfb
 Summary:	Qt Virtual framebuffer
-Summary(pl.UTF-8):   Wirtualny framebuffer dla Qt
+Summary(pl.UTF-8):	Wirtualny framebuffer dla Qt
 Group:		X11/Development/Libraries
 Requires:	QtGui = %{version}-%{release}
 Requires:	QtOpenGL = %{version}-%{release}
@@ -890,7 +890,7 @@ okienku X.
 
 %package demos
 Summary:	Demos of new Qt4 features
-Summary(pl.UTF-8):   Programy demonstrujące nowe możliwości Qt4
+Summary(pl.UTF-8):	Programy demonstrujące nowe możliwości Qt4
 Group:		X11/Development/Libraries
 Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
@@ -903,7 +903,7 @@ Dema to latające pająki.
 
 %package doc
 Summary:	Qt Documentation in HTML format
-Summary(pl.UTF-8):   Dokumentacja Qt w formacie HTML
+Summary(pl.UTF-8):	Dokumentacja Qt w formacie HTML
 Group:		X11/Development/Libraries
 
 %description doc
@@ -914,8 +914,8 @@ Dokumentacja qt w formacie HTML.
 
 %package examples
 Summary:	Example programs bundled with Qt
-Summary(pl.UTF-8):   Ćwiczenia i przykłady do Qt
-Summary(pt_BR.UTF-8):   Programas exemplo desenvolvidos com o Qt
+Summary(pl.UTF-8):	Ćwiczenia i przykłady do Qt
+Summary(pt_BR.UTF-8):	Programas exemplo desenvolvidos com o Qt
 Group:		X11/Development/Libraries
 # no it does not , we cant be sure the user wants to compile them right?
 # he might just want to take a look, anwyay no single devel package now
