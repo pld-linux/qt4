@@ -8,18 +8,17 @@
 +#include <qsettings.h>
  #include <qdatetime.h>
  #include <qpaintdevicemetrics.h>
- 
-@@ -1476,9 +1476,11 @@
+
+@@ -1537,9 +1537,11 @@
  	XftPatternAddMatrix( pattern, XFT_MATRIX, &matrix );
      }
  #endif // XFT_MATRIX
--
 -    if (request.styleStrategy & (QFont::PreferAntialias|QFont::NoAntialias)) {
--	XftPatternAddBool(pattern, XFT_ANTIALIAS,
-+    
 +    QSettings prefs;
 +    bool qt_use_antialiasing = prefs.readBoolEntry( "/qt/useXft", TRUE );
 +    if ( !qt_use_antialiasing || request.styleStrategy & (QFont::PreferAntialias|QFont::NoAntialias)) {
+         XftPatternDel(pattern, XFT_ANTIALIAS);
+-	XftPatternAddBool(pattern, XFT_ANTIALIAS,
 +	XftPatternAddBool(pattern, XFT_ANTIALIAS, qt_use_antialiasing &&
  			  !(request.styleStrategy & QFont::NoAntialias));
      }
