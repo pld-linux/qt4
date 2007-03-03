@@ -57,7 +57,7 @@ BuildRequires:	OpenGL-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
 # incompatible with bison
 %{?with_cups:BuildRequires:	cups-devel}
-BuildRequires:	dbus-devel
+BuildRequires:	dbus-devel >= 0.62
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
 %{?with_pch:BuildRequires:	gcc >= 5:4.0}
