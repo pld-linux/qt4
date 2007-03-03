@@ -80,8 +80,8 @@ BuildRequires:	xcursor-devel
 BuildRequires:	xft-devel
 BuildRequires:	xrender-devel
 BuildRequires:	zlib-devel
-BuildConflicts:	QtCore-devel < %{version}
 BuildConflicts:	QtCore < %{version}
+BuildConflicts:	QtCore-devel < %{version}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
@@ -632,7 +632,7 @@ Requires:	QtXml = %{version}-%{release}
 This module provides classes for D-BUS support. D-BUS is an
 Inter-Process Communication (IPC) and Remote Procedure Calling (RPC)
 mechanism originally developed for Linux to replace existing and
-competing IPC solutions with one unified protocol. 
+competing IPC solutions with one unified protocol.
 
 %description -n QtDBus -l pl
 Ten modu³ udostêpnia klasy do obs³ugi D-BUS. D-BUS to mechanizm
@@ -990,7 +990,7 @@ COMMONOPT=" \
 	-xshape"
 
 ##################################
-#      STATIC MULTI-THREAD       #
+#	  STATIC MULTI-THREAD	   #
 ##################################
 
 %if %{with static_libs}
@@ -1017,7 +1017,7 @@ fi
 %endif
 
 ##################################
-#      SHARED MULTI-THREAD       #
+#	  SHARED MULTI-THREAD	   #
 ##################################
 
 OPT=" \
@@ -1108,7 +1108,7 @@ do
     [ "$lang" == "iw" ] && lang=he
     MOD=qt4-$MOD
     [ "$MOD" == "qt4-qt" ] && MOD=qt4
-    mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
+    install -d $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
     cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/$MOD.qm
 done
 
@@ -1447,18 +1447,31 @@ EOF
 %{_qtdir}/doc
 
 %files -n QtCore-devel -f QtCore-devel.files
+%defattr(644,root,root,755)
 %files -n QtDBus-devel -f QtDBus-devel.files
+%defattr(644,root,root,755)
 %files -n QtDesigner-devel -f QtDesigner-devel.files
+%defattr(644,root,root,755)
 %files -n QtGui-devel -f QtGui-devel.files
+%defattr(644,root,root,755)
 %files -n QtNetwork-devel -f QtNetwork-devel.files
+%defattr(644,root,root,755)
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
+%defattr(644,root,root,755)
 %files -n QtSql-devel -f QtSql-devel.files
+%defattr(644,root,root,755)
 %files -n QtSvg-devel -f QtSvg-devel.files
+%defattr(644,root,root,755)
 %files -n QtTest-devel -f QtTest-devel.files
+%defattr(644,root,root,755)
 %files -n QtXml-devel -f QtXml-devel.files
+%defattr(644,root,root,755)
 %files -n Qt3Support-devel -f Qt3Support-devel.files
+%defattr(644,root,root,755)
 %files -n QtAssistant-devel -f QtAssistant-devel.files
+%defattr(644,root,root,755)
 %files -n QtUiTools-devel -f QtUiTools-devel.files
+%defattr(644,root,root,755)
 
 %if %{with static_libs}
 %files -n QtCore-static
@@ -1511,4 +1524,6 @@ EOF
 %endif
 
 %files demos -f demos.files
+%defattr(644,root,root,755)
 %files examples -f examples.files
+%defattr(644,root,root,755)
