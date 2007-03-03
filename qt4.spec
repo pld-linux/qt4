@@ -130,6 +130,7 @@ wykorzystaniem Netscape LiveConnect.
 Summary:	Core classes used by other modules
 Summary(pl):	Podstawowe klasy u¿ywane przez inne modu³y
 Group:		X11/Libraries
+Requires(post):	/sbin/ldconfig
 
 %description -n QtCore
 Core classes used by other modules.
@@ -1155,7 +1156,7 @@ ifecho () {
 	elif [ -f "$r" ]; then
 		echo "$2" >> $1.files
 	else
-		echo "Error generation devel files list!"
+		echo "Error generation $1 files list!"
 		echo "$r: no such file or direcotry!"
 		return 1
 	fi
@@ -1171,8 +1172,7 @@ mkdevfl () {
 	if [ -d "$RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE" ]; then
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE
 	fi
-	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "`
-	do
+	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "` do
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE/$f
 		ifecho $MODULE-devel %{_includedir}/qt4/Qt/$f
 	done
@@ -1215,7 +1215,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n QtCore
 /sbin/ldconfig
-cat << EOF
+%banner -e %{name} <<-EOF
  *******************************************************
  *                                                     *
  *  NOTE:                                              *
