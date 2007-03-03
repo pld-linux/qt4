@@ -969,6 +969,7 @@ COMMONOPT=" \
 	-qdbus \
 	-qt-gif \
 	-system-libjpeg \
+	-system-libmng \
 	-system-libpng \
 	-system-zlib \
 	-no-exceptions \
