@@ -973,6 +973,7 @@ COMMONOPT=" \
 	-system-libpng \
 	-system-zlib \
 	-no-exceptions \
+	-largefile \
 	-I%{_includedir}/postgresql/server \
 	-I%{_includedir}/mysql \
 	%{?with_cups:-cups} \
@@ -997,12 +998,12 @@ COMMONOPT=" \
 
 %if %{with static_libs}
 OPT=" \
-	%{?with_mysql:-qt-sql-mysql} \
-	%{?with_odbc:-qt-sql-odbc} \
-	%{?with_pgsql:-qt-sql-psql} \
-	%{?with_sqlite3:-qt-sql-sqlite} \
-	%{?with_sqlite:-qt-sql-sqlite2} \
-	%{?with_ibase:-qt-sql-ibase} \
+	-%{!?with_mysql:no}%{?with_mysql:qt}-sql-mysql \
+	-%{!?with_odbc:no}%{?with_odbc:qt}-sql-odbc \
+	-%{!?with_pgsql:no}%{?with_pgsql:qt}-sql-psql \
+	-%{!?with_sqlite3:no}%{?with_sqlite3:qt}-sql-sqlite \
+	-%{!?with_sqlite:no}%{?with_sqlite:qt}-sql-sqlite2 \
+	-%{!?with_ibase:no}%{?with_ibase:qt}-sql-ibase \
 	-static"
 
 echo "yes" | ./configure $COMMONOPT $OPT
@@ -1023,12 +1024,12 @@ fi
 ##################################
 
 OPT=" \
-	%{?with_mysql:-plugin-sql-mysql} \
-	%{?with_odbc:-plugin-sql-odbc} \
-	%{?with_pgsql:-plugin-sql-psql} \
-	%{?with_sqlite3:-plugin-sql-sqlite} \
-	%{?with_sqlite:-plugin-sql-sqlite2} \
-	%{?with_ibase:-plugin-sql-ibase}"
+	-%{!?with_mysql:no}%{?with_mysql:plugin}-sql-mysql \
+	-%{!?with_odbc:no}%{?with_odbc:plugin}-sql-odbc \
+	-%{!?with_pgsql:no}%{?with_pgsql:plugin}-sql-psql \
+	-%{!?with_sqlite3:no}%{?with_sqlite3:plugin}-sql-sqlite \
+	-%{!?with_sqlite:no}%{?with_sqlite:plugin}-sql-sqlite2 \
+	-%{!?with_ibase:no}%{?with_ibase:plugin}-sql-ibase"
 
 echo "yes" | ./configure $COMMONOPT $OPT
 
