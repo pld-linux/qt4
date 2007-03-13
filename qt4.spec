@@ -34,12 +34,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.2.2
+Version:	4.2.3
 Release:	1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	19f6374fe7924e33775cb87ee02669cb
+# Source0-md5:	13f12bf58a32ebf15837fcd605cb3c99
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -1161,7 +1161,7 @@ for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 done
 
 # Prepare some files list
-ifecho () {
+ifecho() {
 	RESULT=`echo $RPM_BUILD_ROOT$2 2>/dev/null`
 	[ "$RESULT" == "" ] && return
 	r=`echo $RESULT | awk '{ print $1 }'`
@@ -1179,7 +1179,7 @@ ifecho () {
 	fi
 }
 
-mkdevfl () {
+mkdevfl() {
 	MODULE=$1; shift
 	echo "%%defattr(644,root,root,755)" > $MODULE-devel.files
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.so"
