@@ -1189,7 +1189,7 @@ mkdevfl() {
 	if [ -d "$RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE" ]; then
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE
 	fi
-	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "` do
+	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "` ; do
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE/$f
 		ifecho $MODULE-devel %{_includedir}/qt4/Qt/$f
 	done
