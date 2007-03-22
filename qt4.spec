@@ -27,7 +27,6 @@
 
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
-%{?with_AC:%undefine with_pch}
 
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
@@ -59,10 +58,10 @@ BuildRequires:	OpenGL-GLU-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
 # incompatible with bison
 %{?with_cups:BuildRequires:	cups-devel}
-BuildRequires:	dbus-devel
+BuildRequires:	dbus-devel >= 0.62
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
-%{!?with_AC:%{?with_pch:BuildRequires:	gcc >= 5:4.0}}
+BuildRequires:	gcc >= 5:4.0
 BuildRequires:	giflib-devel
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	libjpeg-devel
@@ -984,21 +983,22 @@ COMMONOPT=" \
 	-qdbus \
 	-qt-gif \
 	-system-libjpeg \
+	-system-libmng \
 	-system-libpng \
 	-system-zlib \
 	-no-exceptions \
+	-largefile \
 	-I%{_includedir}/postgresql/server \
 	-I%{_includedir}/mysql \
 	%{?with_cups:-cups} \
 	%{?with_nas:-system-nas-sound} \
 	%{?debug:-debug} \
 	%{!?debug:-release} \
-	%{?with_AC:-L/usr/X11R6/lib} \
 	-qt3support \
 	-fontconfig \
 	-iconv \
 	-no-separate-debug-info \
-	-%{?with_AC:no-}xfixes \
+	-xfixes \
 	-nis \
 	-sm \
 	-tablet \
@@ -1013,12 +1013,12 @@ COMMONOPT=" \
 
 %if %{with static_libs}
 OPT=" \
-	%{?with_mysql:-qt-sql-mysql} \
-	%{?with_odbc:-qt-sql-odbc} \
-	%{?with_pgsql:-qt-sql-psql} \
-	%{?with_sqlite3:-qt-sql-sqlite} \
-	%{?with_sqlite:-qt-sql-sqlite2} \
-	%{?with_ibase:-qt-sql-ibase} \
+	-%{!?with_mysql:no}%{?with_mysql:qt}-sql-mysql \
+	-%{!?with_odbc:no}%{?with_odbc:qt}-sql-odbc \
+	-%{!?with_pgsql:no}%{?with_pgsql:qt}-sql-psql \
+	-%{!?with_sqlite3:no}%{?with_sqlite3:qt}-sql-sqlite \
+	-%{!?with_sqlite:no}%{?with_sqlite:qt}-sql-sqlite2 \
+	-%{!?with_ibase:no}%{?with_ibase:qt}-sql-ibase \
 	-static"
 
 echo "yes" | ./configure $COMMONOPT $OPT
@@ -1039,12 +1039,12 @@ fi
 ##################################
 
 OPT=" \
-	%{?with_mysql:-plugin-sql-mysql} \
-	%{?with_odbc:-plugin-sql-odbc} \
-	%{?with_pgsql:-plugin-sql-psql} \
-	%{?with_sqlite3:-plugin-sql-sqlite} \
-	%{?with_sqlite:-plugin-sql-sqlite2} \
-	%{?with_ibase:-plugin-sql-ibase}"
+	-%{!?with_mysql:no}%{?with_mysql:plugin}-sql-mysql \
+	-%{!?with_odbc:no}%{?with_odbc:plugin}-sql-odbc \
+	-%{!?with_pgsql:no}%{?with_pgsql:plugin}-sql-psql \
+	-%{!?with_sqlite3:no}%{?with_sqlite3:plugin}-sql-sqlite \
+	-%{!?with_sqlite:no}%{?with_sqlite:plugin}-sql-sqlite2 \
+	-%{!?with_ibase:no}%{?with_ibase:plugin}-sql-ibase"
 
 echo "yes" | ./configure $COMMONOPT $OPT
 
