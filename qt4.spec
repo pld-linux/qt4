@@ -28,23 +28,25 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
+%define		_beta	beta
+
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.2.3
-Release:	1
+Version:	4.3.0
+Release:	0.%{_beta}.1
 License:	GPL/QPL
 Group:		X11/Libraries
-Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	13f12bf58a32ebf15837fcd605cb3c99
+Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}%{_beta}.tar.gz
+# Source0-md5:	cab2e0829f57f9c301aa9b7241cf9546
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 Source6:	%{name}_pl.ts
-Patch0:		%{name}-tools.patch
+#Patch0:		%{name}-tools.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
 Patch5:		%{name}-sse.patch
@@ -923,15 +925,15 @@ Example programs bundled with Qt version.
 Programas exemplo para o Qt versão.
 
 %prep
-%setup -q -n qt-x11-opensource-src-%{version}
-%patch0 -p1
-%patch2 -p1
-%patch3 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
+%setup -q -n qt-x11-opensource-src-%{version}%{_beta}
+#%patch0 -p1
+#%patch2 -p1
+#%patch3 -p1
+#%patch5 -p1
+#%patch6 -p1
+#%patch7 -p1
+#%patch8 -p1
+#%patch9 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1063,15 +1065,15 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
-%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,pc,prl}
-%{__sed} -i -e '
-	s|moc_location=.*|moc_location=%{_bindir}/qt4-moc|;
-	s|uic_location=.*|uic_location=%{_bindir}/qt4-uic|;
-	' $RPM_BUILD_ROOT%{_libdir}/*.pc
+%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,prl}
+#%{__sed} -i -e '
+#	s|moc_location=.*|moc_location=%{_bindir}/qt4-moc|;
+#	s|uic_location=.*|uic_location=%{_bindir}/qt4-uic|;
+#	' $RPM_BUILD_ROOT%{_libdir}/*.pc
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
-install bin/qvfb	$RPM_BUILD_ROOT%{_bindir}
+#install bin/qvfb	$RPM_BUILD_ROOT%{_bindir}
 install bin/pixeltool	$RPM_BUILD_ROOT%{_bindir}
 install bin/qdbus	$RPM_BUILD_ROOT%{_bindir}
 install bin/qdbuscpp2xml	$RPM_BUILD_ROOT%{_bindir}
@@ -1143,22 +1145,22 @@ cd -
 ln -s %{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
 ln -s %{_datadir}/qt4/mkspecs $RPM_BUILD_ROOT%{_qtdir}/mkspecs
 
-mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
-for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
-	HAVEDEBUG=`echo $f | grep _debug | wc -l`
-	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
-	MODULE2=`echo $MODULE | tr a-z A-Z | sed s:QT::`
-	DEFS="-D_REENTRANT"
-
-	if [ "$MODULE2" == "3SUPPORT" ]; then
-		DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
-	else
-		DEFS="$DEFS -DQT_"$MODULE2"_LIB"
-	fi
-	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
-
-	sed -i -e "s:-DQT_SHARED:-DQT_SHARED $DEFS:" $f
-done
+#mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
+#for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
+#	HAVEDEBUG=`echo $f | grep _debug | wc -l`
+#	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
+#	MODULE2=`echo $MODULE | tr a-z A-Z | sed s:QT::`
+#	DEFS="-D_REENTRANT"
+#
+#	if [ "$MODULE2" == "3SUPPORT" ]; then
+#		DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
+#	else
+#		DEFS="$DEFS -DQT_"$MODULE2"_LIB"
+#	fi
+#	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
+#
+#	sed -i -e "s:-DQT_SHARED:-DQT_SHARED $DEFS:" $f
+#done
 
 # Prepare some files list
 ifecho() {
@@ -1185,7 +1187,7 @@ mkdevfl() {
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.so"
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.la"
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.prl"
-	ifecho $MODULE-devel "%{_pkgconfigdir}/$MODULE*.pc"
+#	ifecho $MODULE-devel "%{_pkgconfigdir}/$MODULE*.pc"
 	if [ -d "$RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE" ]; then
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE
 	fi
@@ -1345,7 +1347,7 @@ EOF
 %if %{with sqlite}
 %files -n QtSql-sqlite
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
+#%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
 %endif
 
 %if %{with sqlite3}
@@ -1353,7 +1355,7 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite*.so
 %if %{with sqlite}
-%exclude %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
+#%exclude %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
 %endif
 %endif
 
@@ -1399,7 +1401,7 @@ EOF
 
 %files -n QtUiTools
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
+#%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
 
 %files assistant
 %defattr(644,root,root,755)
@@ -1454,9 +1456,9 @@ EOF
 %{_desktopdir}/qt4-qtconfig.desktop
 %{_pixmapsdir}/qt4-qtconfig.png
 
-%files -n qvfb
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qvfb
+#%files -n qvfb
+#%defattr(644,root,root,755)
+#%attr(755,root,root) %{_bindir}/qvfb
 
 %files doc
 %defattr(644,root,root,755)
