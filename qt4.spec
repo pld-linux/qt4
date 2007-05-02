@@ -1066,10 +1066,11 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,prl}
-#%{__sed} -i -e '
-#	s|moc_location=.*|moc_location=%{_bindir}/qt4-moc|;
-#	s|uic_location=.*|uic_location=%{_bindir}/qt4-uic|;
-#	' $RPM_BUILD_ROOT%{_libdir}/*.pc
+%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*.pc
+%{__sed} -i -e '
+	s|moc_location=.*|moc_location=%{_bindir}/qt4-moc|;
+	s|uic_location=.*|uic_location=%{_bindir}/qt4-uic|;
+	' $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*.pc
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
@@ -1146,21 +1147,21 @@ ln -s %{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
 ln -s %{_datadir}/qt4/mkspecs $RPM_BUILD_ROOT%{_qtdir}/mkspecs
 
 #mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
-#for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
-#	HAVEDEBUG=`echo $f | grep _debug | wc -l`
-#	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
-#	MODULE2=`echo $MODULE | tr a-z A-Z | sed s:QT::`
-#	DEFS="-D_REENTRANT"
-#
-#	if [ "$MODULE2" == "3SUPPORT" ]; then
-#		DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
-#	else
-#		DEFS="$DEFS -DQT_"$MODULE2"_LIB"
-#	fi
-#	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
-#
-#	sed -i -e "s:-DQT_SHARED:-DQT_SHARED $DEFS:" $f
-#done
+for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
+	HAVEDEBUG=`echo $f | grep _debug | wc -l`
+	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
+	MODULE2=`echo $MODULE | tr a-z A-Z | sed s:QT::`
+	DEFS="-D_REENTRANT"
+
+	if [ "$MODULE2" == "3SUPPORT" ]; then
+		DEFS="$DEFS -DQT3_SUPPORT -DQT_QT3SUPPORT_LIB"
+	else
+		DEFS="$DEFS -DQT_"$MODULE2"_LIB"
+	fi
+	[ "$HAVEDEBUG" -eq 0 ] && DEFS="$DEFS -DQT_NO_DEBUG"
+
+	sed -i -e "s:-DQT_SHARED:-DQT_SHARED $DEFS:" $f
+done
 
 # Prepare some files list
 ifecho() {
@@ -1187,7 +1188,7 @@ mkdevfl() {
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.so"
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.la"
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.prl"
-#	ifecho $MODULE-devel "%{_pkgconfigdir}/$MODULE*.pc"
+	ifecho $MODULE-devel "%{_pkgconfigdir}/$MODULE*.pc"
 	if [ -d "$RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE" ]; then
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE
 	fi
