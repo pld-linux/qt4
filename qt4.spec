@@ -3,6 +3,7 @@
 #	- better descriptions
 #	- more cleanups
 #	- check if translations are available
+#	- check Qt ui tool
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
