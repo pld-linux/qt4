@@ -37,7 +37,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.3.0
-Release:	0.%{_rc}.1
+Release:	0.%{_rc}.2
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}%{_rc}.tar.gz
@@ -47,7 +47,7 @@ Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 Source6:	%{name}_pl.ts
-#Patch0:		%{name}-tools.patch
+#Patch0: %{name}-tools.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
 Patch5:		%{name}-sse.patch
@@ -726,6 +726,44 @@ Classes for extending Qt Designer - static libraries.
 %description -n QtDesigner-static -l pl.UTF-8
 Klasy do rozbudowy Qt Designera - biblioteki statyczne.
 
+%package -n QtScript
+Summary:	Classes for scripting applications
+Summary(pl.UTF-8):	Klasy pozwalające dodać obsługę skryptów w aplikacjach
+Group:		X11/Development/Libraries
+
+%description -n QtScript
+The QtScript module provides classes to handle scripts inside
+applications.
+
+%description -n QtScript -l pl.UTF-8
+Ten moduł dostarcza klasy obsługujące języki skryptowe wewnątrz
+aplikacji.
+
+%package -n QtScript-devel
+Summary:	Classes for scripting applications - development files
+Summary(pl.UTF-8):	Klasy do obsługi skryptów wewnątrz aplikacji - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtScript = %{version}-%{release}
+
+%description -n QtScript-devel
+Classes for scriptin applications - development files.
+
+%description -n QtScript-devel -l pl.UTF-8
+Klasy do obsługi skryptów wewnątrz aplikacji - pliki programistyczne.
+
+%package -n QtScript-static
+Summary:	Classes for scripting applications - static library
+Summary(pl.UTF-8):	Klasy pozwalające dodać obsługę skryptów w aplikacjach - biblioteka statyczna
+Group:		X11/Development/Libraries
+Requires:	QtScript-devel = %{version}-%{release}
+
+%description -n QtScript-static
+Classes for scripting applications - static library.
+
+%description -n QtScript-static -l pl.UTF-8
+Klasy pozwalające dodać obsługę skryptów w aplikacjach - biblioteka
+statyczna.
+
 %package -n QtUiTools
 Summary:	Classes for handling Qt Designer forms in applications
 Summary(pl.UTF-8):	Klasy do obsługi formularzy Qt Designera w aplikacjach
@@ -1135,7 +1173,7 @@ do
 done
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Sql,Svg,Test,UiTools,Xml}/*
+for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Script,Sql,Svg,Test,UiTools,Xml}/*
 do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
@@ -1205,6 +1243,7 @@ mkdevfl QtDBus %{_bindir}/qdbus %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
 mkdevfl QtGui
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
+mkdevfl QtScript
 mkdevfl QtSql
 mkdevfl QtSvg
 mkdevfl QtTest
@@ -1260,6 +1299,9 @@ EOF
 %post	-n QtOpenGL	-p /sbin/ldconfig
 %postun	-n QtOpenGL	-p /sbin/ldconfig
 
+%post   -n QtScript	-p /sbin/ldconfig
+%postun -n QtScript	-p /sbin/ldconfig
+
 %post	-n QtSql	-p /sbin/ldconfig
 %postun	-n QtSql	-p /sbin/ldconfig
 
@@ -1307,10 +1349,12 @@ EOF
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
 %lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt4.qm
+%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/qt4.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
 
 %files -n QtDBus
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_qtdir}/bin/qdbus*
 %attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
 
 %files -n QtGui
@@ -1329,6 +1373,10 @@ EOF
 %files -n QtOpenGL
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtOpenGL.so.*.*
+
+%files -n QtScript
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtScript.so.*.*
 
 %files -n QtSql
 %defattr(644,root,root,755)
@@ -1430,6 +1478,8 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qt4-designer
 %attr(755,root,root) %{_qtdir}/bin/designer
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-designer.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-designer.qm
 %{_desktopdir}/qt4-designer.desktop
 %{_pixmapsdir}/qt4-designer.png
 
@@ -1479,6 +1529,8 @@ EOF
 %defattr(644,root,root,755)
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
 %defattr(644,root,root,755)
+%files -n QtScript-devel -f QtScript-devel.files
+%defattr(644,root,root,755)
 %files -n QtSql-devel -f QtSql-devel.files
 %defattr(644,root,root,755)
 %files -n QtSvg-devel -f QtSvg-devel.files
@@ -1514,6 +1566,10 @@ EOF
 %files -n QtOpenGL-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtOpenGL*.a
+
+%files -n QtScript-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtScript*.a
 
 %files -n QtSql-static
 %defattr(644,root,root,755)
