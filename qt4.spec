@@ -47,7 +47,7 @@ Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 Source6:	%{name}_pl.ts
-#Patch0: %{name}-tools.patch
+Patch0:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
 Patch5:		%{name}-sse.patch
@@ -965,7 +965,7 @@ Programas exemplo para o Qt versão.
 
 %prep
 %setup -q -n qt-x11-opensource-src-%{version}%{_rc}
-#%patch0 -p1
+%patch0 -p0
 #%patch2 -p1
 #%patch3 -p1
 #%patch5 -p1
