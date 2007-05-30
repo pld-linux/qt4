@@ -29,19 +29,17 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-%define		_rc	rc1
-
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.3.0
-Release:	0.%{_rc}.2
+Release:	0.1
 License:	GPL/QPL
 Group:		X11/Libraries
-Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}%{_rc}.tar.gz
-# Source0-md5:	28f839b5fd3e475d995bbc0a2a8b24f1
+Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
+# Source0-md5:	8012acea71b35c18247bd92c4721589d
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -964,8 +962,8 @@ Example programs bundled with Qt version.
 Programas exemplo para o Qt versão.
 
 %prep
-%setup -q -n qt-x11-opensource-src-%{version}%{_rc}
-%patch0 -p0
+%setup -q -n qt-x11-opensource-src-%{version}
+#%patch0 -p0
 #%patch2 -p1
 #%patch3 -p1
 #%patch5 -p1
