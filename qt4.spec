@@ -45,7 +45,7 @@ Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 Source6:	%{name}_pl.ts
-Patch0:		%{name}-qt_copy.patch
+#Patch0:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
 Patch5:		%{name}-sse.patch
@@ -1444,6 +1444,7 @@ EOF
 %files -n QtDesigner
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*
+%attr(755,root,root) %{_qtdir}/bin/pixeltool
 %dir %{_qtdir}/plugins/designer
 %attr(755,root,root) %{_qtdir}/plugins/designer/*.so
 
