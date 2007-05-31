@@ -762,21 +762,6 @@ Classes for scripting applications - static library.
 Klasy pozwalające dodać obsługę skryptów w aplikacjach - biblioteka
 statyczna.
 
-%package -n QtUiTools
-Summary:	Classes for handling Qt Designer forms in applications
-Summary(pl.UTF-8):	Klasy do obsługi formularzy Qt Designera w aplikacjach
-Group:		X11/Libraries
-Requires:	QtGui = %{version}-%{release}
-Requires:	QtXml = %{version}-%{release}
-
-%description -n QtUiTools
-The QtUiTools module provides classes to handle forms created with Qt
-Designer.
-
-%description -n QtUiTools -l pl.UTF-8
-Moduł QtUiTools udostępnia klasy do obsługi formularzy tworzonych przy
-użyciu Qt Designera.
-
 %package -n QtUiTools-devel
 Summary:	Classes for handling Qt Designer forms in applications - development files
 Summary(pl.UTF-8):	Klasy do obsługi formularzy Qt Designera w aplikacjach - pliki programistyczne
@@ -797,6 +782,8 @@ Summary:	Classes for handling Qt Designer forms in applications - static library
 Summary(pl.UTF-8):	Klasy do obsługi formularzy Qt Designera w aplikacjach - biblioteka statyczna
 Group:		X11/Development/Libraries
 Requires:	QtUiTools-devel = %{version}-%{release}
+Provides:	QtUiTools
+Obsoletes:	QtUiTools
 
 %description -n QtUiTools-static
 Classes for handling Qt Designer forms in applications - static
@@ -1111,7 +1098,6 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
-#install bin/qvfb	$RPM_BUILD_ROOT%{_bindir}
 install bin/pixeltool	$RPM_BUILD_ROOT%{_bindir}
 install bin/qdbus	$RPM_BUILD_ROOT%{_bindir}
 install bin/qdbuscpp2xml	$RPM_BUILD_ROOT%{_bindir}
@@ -1321,9 +1307,6 @@ EOF
 %post	-n QtDesigner	-p /sbin/ldconfig
 %postun	-n QtDesigner	-p /sbin/ldconfig
 
-%post	-n QtUiTools	-p /sbin/ldconfig
-%postun	-n QtUiTools	-p /sbin/ldconfig
-
 %files -n QtCore
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCore.so.*.*
@@ -1448,10 +1431,6 @@ EOF
 %dir %{_qtdir}/plugins/designer
 %attr(755,root,root) %{_qtdir}/plugins/designer/*.so
 
-%files -n QtUiTools
-%defattr(644,root,root,755)
-#%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
-
 %files assistant
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pixeltool
@@ -1506,10 +1485,6 @@ EOF
 %attr(755,root,root) %{_qtdir}/bin/qtconfig
 %{_desktopdir}/qt4-qtconfig.desktop
 %{_pixmapsdir}/qt4-qtconfig.png
-
-#%files -n qvfb
-#%defattr(644,root,root,755)
-#%attr(755,root,root) %{_bindir}/qvfb
 
 %files doc
 %defattr(644,root,root,755)
