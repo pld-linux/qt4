@@ -3,6 +3,7 @@
 #	- better descriptions
 #	- more cleanups
 #	- check if translations are available
+#	- check Qt ui tool
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -33,18 +34,19 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.2.3
+Version:	4.3.0
 Release:	1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	13f12bf58a32ebf15837fcd605cb3c99
+# Source0-md5:	8012acea71b35c18247bd92c4721589d
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 Source6:	%{name}_pl.ts
 Patch0:		%{name}-tools.patch
+Patch1:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
 Patch5:		%{name}-sse.patch
@@ -723,6 +725,44 @@ Classes for extending Qt Designer - static libraries.
 %description -n QtDesigner-static -l pl.UTF-8
 Klasy do rozbudowy Qt Designera - biblioteki statyczne.
 
+%package -n QtScript
+Summary:	Classes for scripting applications
+Summary(pl.UTF-8):	Klasy pozwalające dodać obsługę skryptów w aplikacjach
+Group:		X11/Development/Libraries
+
+%description -n QtScript
+The QtScript module provides classes to handle scripts inside
+applications.
+
+%description -n QtScript -l pl.UTF-8
+Ten moduł dostarcza klasy obsługujące języki skryptowe wewnątrz
+aplikacji.
+
+%package -n QtScript-devel
+Summary:	Classes for scripting applications - development files
+Summary(pl.UTF-8):	Klasy do obsługi skryptów wewnątrz aplikacji - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtScript = %{version}-%{release}
+
+%description -n QtScript-devel
+Classes for scriptin applications - development files.
+
+%description -n QtScript-devel -l pl.UTF-8
+Klasy do obsługi skryptów wewnątrz aplikacji - pliki programistyczne.
+
+%package -n QtScript-static
+Summary:	Classes for scripting applications - static library
+Summary(pl.UTF-8):	Klasy pozwalające dodać obsługę skryptów w aplikacjach - biblioteka statyczna
+Group:		X11/Development/Libraries
+Requires:	QtScript-devel = %{version}-%{release}
+
+%description -n QtScript-static
+Classes for scripting applications - static library.
+
+%description -n QtScript-static -l pl.UTF-8
+Klasy pozwalające dodać obsługę skryptów w aplikacjach - biblioteka
+statyczna.
+
 %package -n QtUiTools
 Summary:	Classes for handling Qt Designer forms in applications
 Summary(pl.UTF-8):	Klasy do obsługi formularzy Qt Designera w aplikacjach
@@ -925,9 +965,10 @@ Programas exemplo para o Qt versão.
 %prep
 %setup -q -n qt-x11-opensource-src-%{version}
 %patch0 -p1
+%patch1 -p0
 %patch2 -p1
 %patch3 -p1
-%patch5 -p1
+#%patch5 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
@@ -1063,19 +1104,19 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
-%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,pc,prl}
+%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,prl}
+%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*.pc
 %{__sed} -i -e '
 	s|moc_location=.*|moc_location=%{_bindir}/qt4-moc|;
 	s|uic_location=.*|uic_location=%{_bindir}/qt4-uic|;
-	' $RPM_BUILD_ROOT%{_libdir}/*.pc
+	' $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*.pc
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
-install bin/qvfb	$RPM_BUILD_ROOT%{_bindir}
-install bin/pixeltool	$RPM_BUILD_ROOT%{_bindir}
 install bin/qdbus	$RPM_BUILD_ROOT%{_bindir}
 install bin/qdbuscpp2xml	$RPM_BUILD_ROOT%{_bindir}
 install bin/qdbusxml2cpp	$RPM_BUILD_ROOT%{_bindir}
+#mv $RPM_BUILD_ROOT%{_libdir}/qt4/bin/qvfb	$RPM_BUILD_ROOT%{_bindir}
 
 cd $RPM_BUILD_ROOT%{_bindir}
 ln -sf ../%{_lib}/qt4/bin/assistant qt4-assistant
@@ -1088,6 +1129,12 @@ ln -sf ../%{_lib}/qt4/bin/qtconfig qt4-qtconfig
 ln -sf ../%{_lib}/qt4/bin/rcc .
 ln -sf ../%{_lib}/qt4/bin/uic qt4-uic
 ln -sf ../%{_lib}/qt4/bin/uic3 .
+ln -sf ../%{_lib}/qt4/bin/pixeltool .
+ln -sf ../%{_lib}/qt4/bin/qdbus .
+ln -sf ../%{_lib}/qt4/bin/qdbuscpp2xml .
+ln -sf ../%{_lib}/qt4/bin/qdbusxml2cpp .
+ln -sf ../%{_lib}/qt4/bin/qdbusviewer .
+ln -sf ../%{_lib}/qt4/bin/qvfb .
 cd -
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
@@ -1131,7 +1178,7 @@ do
 done
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Sql,Svg,Test,UiTools,Xml}/*
+for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Script,Sql,Svg,Test,UiTools,Xml}/*
 do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
@@ -1139,11 +1186,14 @@ do
 done
 cd -
 
+mv $RPM_BUILD_ROOT%{_datadir}/locale/ja_jp/LC_MESSAGES/qt4.qm \
+	$RPM_BUILD_ROOT%{_datadir}/locale/ja/LC_MESSAGES/qt4.qm
+
 # Ship doc & qmake stuff
 ln -s %{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
 ln -s %{_datadir}/qt4/mkspecs $RPM_BUILD_ROOT%{_qtdir}/mkspecs
 
-mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
+#mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 	HAVEDEBUG=`echo $f | grep _debug | wc -l`
 	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
@@ -1201,6 +1251,7 @@ mkdevfl QtDBus %{_bindir}/qdbus %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
 mkdevfl QtGui
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
+mkdevfl QtScript
 mkdevfl QtSql
 mkdevfl QtSvg
 mkdevfl QtTest
@@ -1256,6 +1307,9 @@ EOF
 %post	-n QtOpenGL	-p /sbin/ldconfig
 %postun	-n QtOpenGL	-p /sbin/ldconfig
 
+%post   -n QtScript	-p /sbin/ldconfig
+%postun -n QtScript	-p /sbin/ldconfig
+
 %post	-n QtSql	-p /sbin/ldconfig
 %postun	-n QtSql	-p /sbin/ldconfig
 
@@ -1300,13 +1354,19 @@ EOF
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
 %lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4.qm
+%lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/qt4.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
 %lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt4.qm
+%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/qt4.qm
+%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
 
 %files -n QtDBus
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_qtdir}/bin/qdbus*
+%attr(755,root,root) %{_bindir}/qdbus*
 %attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
 
 %files -n QtGui
@@ -1325,6 +1385,10 @@ EOF
 %files -n QtOpenGL
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtOpenGL.so.*.*
+
+%files -n QtScript
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtScript.so.*.*
 
 %files -n QtSql
 %defattr(644,root,root,755)
@@ -1345,7 +1409,7 @@ EOF
 %if %{with sqlite}
 %files -n QtSql-sqlite
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
+#%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
 %endif
 
 %if %{with sqlite3}
@@ -1353,7 +1417,7 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite*.so
 %if %{with sqlite}
-%exclude %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
+#%exclude %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
 %endif
 %endif
 
@@ -1390,6 +1454,7 @@ EOF
 %files -n QtAssistant
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant.qm
 
 %files -n QtDesigner
 %defattr(644,root,root,755)
@@ -1404,6 +1469,7 @@ EOF
 %files assistant
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pixeltool
+%attr(755,root,root) %{_qtdir}/bin/pixeltool
 %attr(755,root,root) %{_bindir}/qt4-assistant
 %attr(755,root,root) %{_qtdir}/bin/assistant
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant.qm
@@ -1426,6 +1492,8 @@ EOF
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qt4-designer
 %attr(755,root,root) %{_qtdir}/bin/designer
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-designer.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-designer.qm
 %{_desktopdir}/qt4-designer.desktop
 %{_pixmapsdir}/qt4-designer.png
 
@@ -1436,6 +1504,7 @@ EOF
 %attr(755,root,root) %{_qtdir}/bin/linguist
 %attr(755,root,root) %{_qtdir}/bin/lrelease
 %attr(755,root,root) %{_qtdir}/bin/lupdate
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-linguist.qm
 %{_datadir}/qt4/phrasebooks
 %{_desktopdir}/qt4-linguist.desktop
 %{_pixmapsdir}/qt4-linguist.png
@@ -1457,6 +1526,7 @@ EOF
 %files -n qvfb
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qvfb
+%attr(755,root,root) %{_qtdir}/bin/qvfb
 
 %files doc
 %defattr(644,root,root,755)
@@ -1464,31 +1534,19 @@ EOF
 %{_qtdir}/doc
 
 %files -n QtCore-devel -f QtCore-devel.files
-%defattr(644,root,root,755)
 %files -n QtDBus-devel -f QtDBus-devel.files
-%defattr(644,root,root,755)
 %files -n QtDesigner-devel -f QtDesigner-devel.files
-%defattr(644,root,root,755)
 %files -n QtGui-devel -f QtGui-devel.files
-%defattr(644,root,root,755)
 %files -n QtNetwork-devel -f QtNetwork-devel.files
-%defattr(644,root,root,755)
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
-%defattr(644,root,root,755)
+%files -n QtScript-devel -f QtScript-devel.files
 %files -n QtSql-devel -f QtSql-devel.files
-%defattr(644,root,root,755)
 %files -n QtSvg-devel -f QtSvg-devel.files
-%defattr(644,root,root,755)
 %files -n QtTest-devel -f QtTest-devel.files
-%defattr(644,root,root,755)
 %files -n QtXml-devel -f QtXml-devel.files
-%defattr(644,root,root,755)
 %files -n Qt3Support-devel -f Qt3Support-devel.files
-%defattr(644,root,root,755)
 %files -n QtAssistant-devel -f QtAssistant-devel.files
-%defattr(644,root,root,755)
 %files -n QtUiTools-devel -f QtUiTools-devel.files
-%defattr(644,root,root,755)
 
 %if %{with static_libs}
 %files -n QtCore-static
@@ -1510,6 +1568,10 @@ EOF
 %files -n QtOpenGL-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtOpenGL*.a
+
+%files -n QtScript-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtScript*.a
 
 %files -n QtSql-static
 %defattr(644,root,root,755)
@@ -1541,6 +1603,4 @@ EOF
 %endif
 
 %files demos -f demos.files
-%defattr(644,root,root,755)
 %files examples -f examples.files
-%defattr(644,root,root,755)
