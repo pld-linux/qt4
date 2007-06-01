@@ -126,31 +126,34 @@ diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/assistant/main.cpp qt-x11-opens
 diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/designer/src/designer/qdesigner.cpp qt-x11-opensource-src-4.2.1.chng/tools/designer/src/designer/qdesigner.cpp
 --- qt-x11-opensource-src-4.2.1.orig/tools/designer/src/designer/qdesigner.cpp	2006-10-20 17:35:40.000000000 +0200
 +++ qt-x11-opensource-src-4.2.1.chng/tools/designer/src/designer/qdesigner.cpp	2006-11-28 14:22:20.000000000 +0100
-@@ -112,8 +112,8 @@
+@@ -112,11 +112,11 @@
+     QTranslator *qtTranslator = new QTranslator(this);
  
-     QTranslator *translator = new QTranslator;
-     QTranslator *qtTranslator = new QTranslator;
--    translator->load(QLatin1String("designer_") + QLocale::system().name().toLower(), resourceDir);
--    qtTranslator->load(QLatin1String("qt_") + QLocale::system().name().toLower(), resourceDir);
-+    translator->load(QLatin1String("qt4-designer_") + QLocale::system().name(), resourceDir);
-+    qtTranslator->load(QLatin1String("qt4_") + QLocale::system().name(), resourceDir);
+     const QString localSysName = QLocale::system().name();
+-    QString  translatorFileName = QLatin1String("designer_");
++    QString  translatorFileName = QLatin1String("qt4-designer_");
+     translatorFileName += localSysName;
+     translator->load(translatorFileName, resourceDir);
+ 
+-    translatorFileName = QLatin1String("qt_");
++    translatorFileName = QLatin1String("qt4_");
+     translatorFileName += localSysName;
+     qtTranslator->load(translatorFileName, resourceDir);
      installTranslator(translator);
-     installTranslator(qtTranslator);
- 
 diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/linguist/linguist/main.cpp qt-x11-opensource-src-4.2.1.chng/tools/linguist/linguist/main.cpp
 --- qt-x11-opensource-src-4.2.1.orig/tools/linguist/linguist/main.cpp	2006-10-20 17:35:26.000000000 +0200
 +++ qt-x11-opensource-src-4.2.1.chng/tools/linguist/linguist/main.cpp	2006-11-28 14:21:19.000000000 +0100
 @@ -41,11 +41,11 @@
-     QApplication::setOverrideCursor(Qt::WaitCursor);
+     }
  
      QTranslator translator(0);
--    translator.load(QLatin1String("linguist_") + QLocale::system().name(), ".");
-+    translator.load(QLatin1String("qt4-linguist_") + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+-    translator.load(QLatin1String("linguist_") + QLocale::system().name(), resourceDir);
++    translator.load(QLatin1String("qt4-linguist_") + QLocale::system().name(), resourceDir);
      app.installTranslator(&translator);
  
      QTranslator qtTranslator(0);
--    qtTranslator.load(QLatin1String("qt_") + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-+    qtTranslator.load(QLatin1String("qt4_") + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+-    qtTranslator.load(QLatin1String("qt_") + QLocale::system().name(), resourceDir);
++    qtTranslator.load(QLatin1String("qt4_") + QLocale::system().name(), resourceDir);
      app.installTranslator(&qtTranslator);
  
-     app.setOrganizationName("Trolltech");
+     app.setOrganizationName(QLatin1String("Trolltech"));

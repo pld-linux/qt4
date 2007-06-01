@@ -9,16 +9,16 @@
  HEADERS         = qassistantclient.h \
                    qassistantclient_global.h
 @@ -17,6 +16,10 @@
-         QMAKE_CXXFLAGS += $$QMAKE_CXXFLAGS_SHLIB
  }
  
+ DEFINES += QT_ASSISTANT_CLIENT_LIBRARY
 +!contains(CONFIG, static) {
 +    CONFIG += dll
 +}
 +
- !debug_and_release|build_pass {
-    CONFIG(debug, debug|release) {
-       unix:TARGET = $$member(TARGET, 0)_debug
+ contains(CONFIG, static) {
+     DEFINES += QT_ASSISTANT_CLIENT_STATIC
+ }
 --- qt-x11-opensource-src-4.1.0/tools/designer/src/uitools/uitools.pro.orig	2005-12-16 12:52:20.000000000 +0100
 +++ qt-x11-opensource-src-4.1.0/tools/designer/src/uitools/uitools.pro	2006-02-13 09:26:05.000000000 +0100
 @@ -1,7 +1,7 @@
