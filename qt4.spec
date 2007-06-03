@@ -1105,18 +1105,14 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,prl}
-%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*.pc
+%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
 %{__sed} -i -e '
 	s|moc_location=.*|moc_location=%{_bindir}/qt4-moc|;
 	s|uic_location=.*|uic_location=%{_bindir}/qt4-uic|;
-	' $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*.pc
+	' $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
-install bin/qdbus	$RPM_BUILD_ROOT%{_bindir}
-install bin/qdbuscpp2xml	$RPM_BUILD_ROOT%{_bindir}
-install bin/qdbusxml2cpp	$RPM_BUILD_ROOT%{_bindir}
-#mv $RPM_BUILD_ROOT%{_libdir}/qt4/bin/qvfb	$RPM_BUILD_ROOT%{_bindir}
 
 cd $RPM_BUILD_ROOT%{_bindir}
 ln -sf ../%{_lib}/qt4/bin/assistant qt4-assistant
@@ -1193,7 +1189,6 @@ mv $RPM_BUILD_ROOT%{_datadir}/locale/ja_jp/LC_MESSAGES/qt4.qm \
 ln -s %{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
 ln -s %{_datadir}/qt4/mkspecs $RPM_BUILD_ROOT%{_qtdir}/mkspecs
 
-#mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 	HAVEDEBUG=`echo $f | grep _debug | wc -l`
 	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
@@ -1247,7 +1242,7 @@ mkdevfl() {
 }
 
 mkdevfl QtCore %{_includedir}/qt4 %{_includedir}/qt4/Qt
-mkdevfl QtDBus %{_bindir}/qdbus %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
+mkdevfl QtDBus %{_qtdir}/bin/qdbuscpp2xml %{_qtdir}/bin/qdbusxml2cpp %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
 mkdevfl QtGui
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
@@ -1365,8 +1360,10 @@ EOF
 
 %files -n QtDBus
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/bin/qdbus*
-%attr(755,root,root) %{_bindir}/qdbus*
+%attr(755,root,root) %{_qtdir}/bin/qdbus
+%attr(755,root,root) %{_qtdir}/bin/qdbusviewer
+%attr(755,root,root) %{_bindir}/qdbus
+%attr(755,root,root) %{_bindir}/qdbusviewer
 %attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
 
 %files -n QtGui
