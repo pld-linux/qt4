@@ -17,6 +17,7 @@
 %bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# disable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
+%bcond_with	sse2		# use SSE2 instructions
 
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
@@ -24,6 +25,10 @@
 
 %ifarch pentium3 pentium4 %{x8664}
 %define		with_sse	1
+%endif
+
+%ifarch pentium4 %{x8664}
+%define		with_sse2	1
 %endif
 
 %define		_withsql	1
@@ -49,7 +54,7 @@ Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
-Patch5:		%{name}-sse.patch
+
 Patch6:		%{name}-antialias.patch
 Patch7:		%{name}-support-cflags-with-commas.patch
 Patch8:		%{name}-build-lib-static.patch
@@ -968,7 +973,6 @@ Programas exemplo para o Qt versão.
 %patch1 -p0
 %patch2 -p1
 %patch3 -p1
-#%patch5 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
@@ -1021,6 +1025,7 @@ COMMONOPT=" \
 	-glib \
 	-%{!?with_pch:no-}pch \
 	-%{!?with_sse:no-}sse \
+	-%{!?with_sse2:no-}sse2 \
 	-qdbus \
 	-qt-gif \
 	-system-libjpeg \
