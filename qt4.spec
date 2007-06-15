@@ -93,7 +93,6 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	zlib-devel
-BuildConflicts:	QtCore < %{version}
 BuildConflicts:	QtCore-devel < %{version}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
@@ -1024,6 +1023,7 @@ COMMONOPT=" \
 	-fast \
 	-glib \
 	-%{!?with_pch:no-}pch \
+	-no-rpath \
 	-%{!?with_sse:no-}sse \
 	-%{!?with_sse2:no-}sse2 \
 	-qdbus \
