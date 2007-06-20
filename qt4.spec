@@ -68,7 +68,7 @@ BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	dbus-devel >= 0.62
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
-BuildRequires:	gcc >= 5:4.0
+%{?with_pch:BuildRequires:	gcc >= 5:4.0}
 BuildRequires:	giflib-devel
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	libjpeg-devel
@@ -142,6 +142,7 @@ wykorzystaniem Netscape LiveConnect.
 Summary:	Core classes used by other modules
 Summary(pl.UTF-8):	Podstawowe klasy używane przez inne moduły
 Group:		X11/Libraries
+Requires(post):	/sbin/ldconfig
 
 %description -n QtCore
 Core classes used by other modules.
@@ -1239,7 +1240,7 @@ mkdevfl() {
 	if [ -d "$RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE" ]; then
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE
 	fi
-	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "` ; do
+	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "`; do
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE/$f
 		ifecho $MODULE-devel %{_includedir}/qt4/Qt/$f
 	done
