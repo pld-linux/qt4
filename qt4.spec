@@ -1536,19 +1536,33 @@ EOF
 %{_qtdir}/doc
 
 %files -n QtCore-devel -f QtCore-devel.files
+%defattr(644,root,root,755)
 %files -n QtDBus-devel -f QtDBus-devel.files
+%defattr(644,root,root,755)
 %files -n QtDesigner-devel -f QtDesigner-devel.files
+%defattr(644,root,root,755)
 %files -n QtGui-devel -f QtGui-devel.files
+%defattr(644,root,root,755)
 %files -n QtNetwork-devel -f QtNetwork-devel.files
+%defattr(644,root,root,755)
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
+%defattr(644,root,root,755)
 %files -n QtScript-devel -f QtScript-devel.files
+%defattr(644,root,root,755)
 %files -n QtSql-devel -f QtSql-devel.files
+%defattr(644,root,root,755)
 %files -n QtSvg-devel -f QtSvg-devel.files
+%defattr(644,root,root,755)
 %files -n QtTest-devel -f QtTest-devel.files
+%defattr(644,root,root,755)
 %files -n QtXml-devel -f QtXml-devel.files
+%defattr(644,root,root,755)
 %files -n Qt3Support-devel -f Qt3Support-devel.files
+%defattr(644,root,root,755)
 %files -n QtAssistant-devel -f QtAssistant-devel.files
+%defattr(644,root,root,755)
 %files -n QtUiTools-devel -f QtUiTools-devel.files
+%defattr(644,root,root,755)
 
 %if %{with static_libs}
 %files -n QtCore-static
@@ -1605,4 +1619,6 @@ EOF
 %endif
 
 %files demos -f demos.files
+%defattr(644,root,root,755)
 %files examples -f examples.files
+%defattr(644,root,root,755)
