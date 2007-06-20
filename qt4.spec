@@ -1168,21 +1168,19 @@ cp %{SOURCE6} translations/qt_pl.ts
 LD_LIBRARY_PATH=lib bin/lrelease translations/qt_pl.ts -qm translations/qt_pl.qm
 
 rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
-for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm
-do
-    [ ! -f $file ] && continue
-    lang=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
-    MOD=`echo $file | sed -r 's:.*/([a-zA-Z]*)_.*.qm:\1:'`
-    [ "$lang" == "iw" ] && lang=he
-    MOD=qt4-$MOD
-    [ "$MOD" == "qt4-qt" ] && MOD=qt4
-    install -d $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
-    cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/$MOD.qm
+for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm; do
+	[ ! -f $file ] && continue
+	lang=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
+	MOD=`echo $file | sed -r 's:.*/([a-zA-Z]*)_.*.qm:\1:'`
+	[ "$lang" == "iw" ] && lang=he
+	MOD=qt4-$MOD
+	[ "$MOD" == "qt4-qt" ] && MOD=qt4
+	install -d $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
+	cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/$MOD.qm
 done
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Script,Sql,Svg,Test,UiTools,Xml}/*
-do
+for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Script,Sql,Svg,Test,UiTools,Xml}/*; do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
 	fi
@@ -1215,7 +1213,7 @@ done
 # Prepare some files list
 ifecho() {
 	RESULT=`echo $RPM_BUILD_ROOT$2 2>/dev/null`
-	[ "$RESULT" == "" ] && return
+	[ "$RESULT" == "" ] && return # XXX this is never true due $RPM_BUILD_ROOT being set
 	r=`echo $RESULT | awk '{ print $1 }'`
 
 	if [ -d "$r" ]; then
@@ -1267,16 +1265,14 @@ mkdevfl QtUiTools || /bin/true
 
 echo "%defattr(644,root,root,755)" > examples.files
 ifecho examples %{_examplesdir}/qt4
-for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4 -printf "%%P "`
-do
+for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4 -printf "%%P "`; do
 	ifecho examples %{_examplesdir}/qt4/$f
 done
 
 echo "%defattr(644,root,root,755)" > demos.files
 ifecho demos "%{_examplesdir}/qt4-demos"
 ifecho demos "%{_qtdir}/bin/qtdemo"
-for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`
-do
+for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`; do
 	ifecho demos %{_examplesdir}/qt4-demos/$f
 done
 
@@ -1285,7 +1281,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n QtCore
 /sbin/ldconfig
-%banner -e %{name} <<-EOF
+if [ "$1" = 1 ]; then
+%banner -e %{name} <<'EOF'
  *******************************************************
  *                                                     *
  *  NOTE:                                              *
@@ -1295,6 +1292,8 @@ rm -rf $RPM_BUILD_ROOT
  *                                                     *
  *******************************************************
 EOF
+fi
+
 %postun	-n QtCore	-p /sbin/ldconfig
 
 %post	-n QtDBus	-p /sbin/ldconfig
