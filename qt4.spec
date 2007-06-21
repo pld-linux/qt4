@@ -15,7 +15,7 @@
 %bcond_without	sqlite3		# don't build SQLite3 plugin
 %bcond_without	sqlite		# don't build SQLite2 plugin
 %bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
-%bcond_without	pch		# disable pch in qmake
+%bcond_with	pch		# enable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
 
@@ -84,14 +84,9 @@ BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
-BuildRequires:	xorg-lib-libSM-devel
-BuildRequires:	xorg-lib-libXcursor-devel
-BuildRequires:	xorg-lib-libXext-devel
-BuildRequires:	xorg-lib-libXfixes-devel
-BuildRequires:	xorg-lib-libXi-devel
-BuildRequires:	xorg-lib-libXinerama-devel
-BuildRequires:	xorg-lib-libXrandr-devel
-BuildRequires:	xorg-lib-libXrender-devel
+BuildRequires:	xcursor-devel
+BuildRequires:	xft-devel
+BuildRequires:	xrender-devel
 BuildRequires:	zlib-devel
 BuildConflicts:	QtCore < %{version}
 BuildConflicts:	QtCore-devel < %{version}
@@ -202,14 +197,8 @@ Requires:	QtGui = %{version}-%{release}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.0.0
 Requires:	libpng-devel >= 2:1.0.8
-Requires:	xorg-lib-libSM-devel
-Requires:	xorg-lib-libXcursor-devel
-Requires:	xorg-lib-libXext-devel
-Requires:	xorg-lib-libXfixes-devel
-Requires:	xorg-lib-libXi-devel
-Requires:	xorg-lib-libXinerama-devel
-Requires:	xorg-lib-libXrandr-devel
-Requires:	xorg-lib-libXrender-devel
+Requires:	xcursor-devel
+Requires:	xrender-devel
 
 %description -n QtGui-devel
 Graphical User Interface components - development files.
@@ -978,9 +967,6 @@ Programas exemplo para o Qt versão.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-
-%{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
-	mkspecs/common/linux.conf
 
 # change QMAKE FLAGS to build
 %{__sed} -i -e '
