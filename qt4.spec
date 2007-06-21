@@ -15,8 +15,9 @@
 %bcond_without	sqlite3		# don't build SQLite3 plugin
 %bcond_without	sqlite		# don't build SQLite2 plugin
 %bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
-%bcond_without	pch		# disable pch in qmake
+%bcond_with	pch		# enable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
+%bcond_with	sse2		# use SSE2 instructions
 
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
@@ -24,6 +25,10 @@
 
 %ifarch pentium3 pentium4 %{x8664}
 %define		with_sse	1
+%endif
+
+%ifarch pentium4 %{x8664}
+%define		with_sse2	1
 %endif
 
 %define		_withsql	1
@@ -49,7 +54,7 @@ Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
-Patch5:		%{name}-sse.patch
+
 Patch6:		%{name}-antialias.patch
 Patch7:		%{name}-support-cflags-with-commas.patch
 Patch8:		%{name}-build-lib-static.patch
@@ -63,7 +68,7 @@ BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	dbus-devel >= 0.62
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
-BuildRequires:	gcc >= 5:4.0
+%{?with_pch:BuildRequires:	gcc >= 5:4.0}
 BuildRequires:	giflib-devel
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	libjpeg-devel
@@ -79,14 +84,9 @@ BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
-BuildRequires:	xorg-lib-libSM-devel
-BuildRequires:	xorg-lib-libXcursor-devel
-BuildRequires:	xorg-lib-libXext-devel
-BuildRequires:	xorg-lib-libXfixes-devel
-BuildRequires:	xorg-lib-libXi-devel
-BuildRequires:	xorg-lib-libXinerama-devel
-BuildRequires:	xorg-lib-libXrandr-devel
-BuildRequires:	xorg-lib-libXrender-devel
+BuildRequires:	xcursor-devel
+BuildRequires:	xft-devel
+BuildRequires:	xrender-devel
 BuildRequires:	zlib-devel
 BuildConflicts:	QtCore < %{version}
 BuildConflicts:	QtCore-devel < %{version}
@@ -138,6 +138,7 @@ wykorzystaniem Netscape LiveConnect.
 Summary:	Core classes used by other modules
 Summary(pl.UTF-8):	Podstawowe klasy używane przez inne moduły
 Group:		X11/Libraries
+Requires(post):	/sbin/ldconfig
 
 %description -n QtCore
 Core classes used by other modules.
@@ -196,14 +197,8 @@ Requires:	QtGui = %{version}-%{release}
 Requires:	fontconfig-devel
 Requires:	freetype-devel >= 1:2.0.0
 Requires:	libpng-devel >= 2:1.0.8
-Requires:	xorg-lib-libSM-devel
-Requires:	xorg-lib-libXcursor-devel
-Requires:	xorg-lib-libXext-devel
-Requires:	xorg-lib-libXfixes-devel
-Requires:	xorg-lib-libXi-devel
-Requires:	xorg-lib-libXinerama-devel
-Requires:	xorg-lib-libXrandr-devel
-Requires:	xorg-lib-libXrender-devel
+Requires:	xcursor-devel
+Requires:	xrender-devel
 
 %description -n QtGui-devel
 Graphical User Interface components - development files.
@@ -968,14 +963,10 @@ Programas exemplo para o Qt versão.
 %patch1 -p0
 %patch2 -p1
 %patch3 -p1
-#%patch5 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-
-%{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
-	mkspecs/common/linux.conf
 
 # change QMAKE FLAGS to build
 %{__sed} -i -e '
@@ -1020,7 +1011,9 @@ COMMONOPT=" \
 	-fast \
 	-glib \
 	-%{!?with_pch:no-}pch \
+	-no-rpath \
 	-%{!?with_sse:no-}sse \
+	-%{!?with_sse2:no-}sse2 \
 	-qdbus \
 	-qt-gif \
 	-system-libjpeg \
@@ -1105,18 +1098,14 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,prl}
-%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*.pc
+%{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
 %{__sed} -i -e '
 	s|moc_location=.*|moc_location=%{_bindir}/qt4-moc|;
 	s|uic_location=.*|uic_location=%{_bindir}/qt4-uic|;
-	' $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*.pc
+	' $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
-install bin/qdbus	$RPM_BUILD_ROOT%{_bindir}
-install bin/qdbuscpp2xml	$RPM_BUILD_ROOT%{_bindir}
-install bin/qdbusxml2cpp	$RPM_BUILD_ROOT%{_bindir}
-#mv $RPM_BUILD_ROOT%{_libdir}/qt4/bin/qvfb	$RPM_BUILD_ROOT%{_bindir}
 
 cd $RPM_BUILD_ROOT%{_bindir}
 ln -sf ../%{_lib}/qt4/bin/assistant qt4-assistant
@@ -1165,21 +1154,19 @@ cp %{SOURCE6} translations/qt_pl.ts
 LD_LIBRARY_PATH=lib bin/lrelease translations/qt_pl.ts -qm translations/qt_pl.qm
 
 rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
-for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm
-do
-    [ ! -f $file ] && continue
-    lang=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
-    MOD=`echo $file | sed -r 's:.*/([a-zA-Z]*)_.*.qm:\1:'`
-    [ "$lang" == "iw" ] && lang=he
-    MOD=qt4-$MOD
-    [ "$MOD" == "qt4-qt" ] && MOD=qt4
-    install -d $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
-    cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/$MOD.qm
+for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm; do
+	[ ! -f $file ] && continue
+	lang=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
+	MOD=`echo $file | sed -r 's:.*/([a-zA-Z]*)_.*.qm:\1:'`
+	[ "$lang" == "iw" ] && lang=he
+	MOD=qt4-$MOD
+	[ "$MOD" == "qt4-qt" ] && MOD=qt4
+	install -d $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
+	cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/$MOD.qm
 done
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Script,Sql,Svg,Test,UiTools,Xml}/*
-do
+for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Script,Sql,Svg,Test,UiTools,Xml}/*; do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
 	fi
@@ -1193,7 +1180,6 @@ mv $RPM_BUILD_ROOT%{_datadir}/locale/ja_jp/LC_MESSAGES/qt4.qm \
 ln -s %{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
 ln -s %{_datadir}/qt4/mkspecs $RPM_BUILD_ROOT%{_qtdir}/mkspecs
 
-#mv $RPM_BUILD_ROOT%{_libdir}/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
 	HAVEDEBUG=`echo $f | grep _debug | wc -l`
 	MODULE=`echo $f | basename $f | cut -d. -f1 | cut -d_ -f1`
@@ -1213,7 +1199,7 @@ done
 # Prepare some files list
 ifecho() {
 	RESULT=`echo $RPM_BUILD_ROOT$2 2>/dev/null`
-	[ "$RESULT" == "" ] && return
+	[ "$RESULT" == "" ] && return # XXX this is never true due $RPM_BUILD_ROOT being set
 	r=`echo $RESULT | awk '{ print $1 }'`
 
 	if [ -d "$r" ]; then
@@ -1239,7 +1225,7 @@ mkdevfl() {
 	if [ -d "$RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE" ]; then
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE
 	fi
-	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "` ; do
+	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "`; do
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE/$f
 		ifecho $MODULE-devel %{_includedir}/qt4/Qt/$f
 	done
@@ -1247,7 +1233,7 @@ mkdevfl() {
 }
 
 mkdevfl QtCore %{_includedir}/qt4 %{_includedir}/qt4/Qt
-mkdevfl QtDBus %{_bindir}/qdbus %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
+mkdevfl QtDBus %{_qtdir}/bin/qdbuscpp2xml %{_qtdir}/bin/qdbusxml2cpp %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
 mkdevfl QtGui
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
@@ -1265,16 +1251,14 @@ mkdevfl QtUiTools || /bin/true
 
 echo "%defattr(644,root,root,755)" > examples.files
 ifecho examples %{_examplesdir}/qt4
-for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4 -printf "%%P "`
-do
+for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4 -printf "%%P "`; do
 	ifecho examples %{_examplesdir}/qt4/$f
 done
 
 echo "%defattr(644,root,root,755)" > demos.files
 ifecho demos "%{_examplesdir}/qt4-demos"
 ifecho demos "%{_qtdir}/bin/qtdemo"
-for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`
-do
+for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`; do
 	ifecho demos %{_examplesdir}/qt4-demos/$f
 done
 
@@ -1283,7 +1267,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n QtCore
 /sbin/ldconfig
-%banner -e %{name} <<-EOF
+if [ "$1" = 1 ]; then
+%banner -e %{name} <<'EOF'
  *******************************************************
  *                                                     *
  *  NOTE:                                              *
@@ -1293,6 +1278,8 @@ rm -rf $RPM_BUILD_ROOT
  *                                                     *
  *******************************************************
 EOF
+fi
+
 %postun	-n QtCore	-p /sbin/ldconfig
 
 %post	-n QtDBus	-p /sbin/ldconfig
@@ -1365,8 +1352,10 @@ EOF
 
 %files -n QtDBus
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/bin/qdbus*
-%attr(755,root,root) %{_bindir}/qdbus*
+%attr(755,root,root) %{_qtdir}/bin/qdbus
+%attr(755,root,root) %{_qtdir}/bin/qdbusviewer
+%attr(755,root,root) %{_bindir}/qdbus
+%attr(755,root,root) %{_bindir}/qdbusviewer
 %attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
 
 %files -n QtGui
@@ -1534,19 +1523,33 @@ EOF
 %{_qtdir}/doc
 
 %files -n QtCore-devel -f QtCore-devel.files
+%defattr(644,root,root,755)
 %files -n QtDBus-devel -f QtDBus-devel.files
+%defattr(644,root,root,755)
 %files -n QtDesigner-devel -f QtDesigner-devel.files
+%defattr(644,root,root,755)
 %files -n QtGui-devel -f QtGui-devel.files
+%defattr(644,root,root,755)
 %files -n QtNetwork-devel -f QtNetwork-devel.files
+%defattr(644,root,root,755)
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
+%defattr(644,root,root,755)
 %files -n QtScript-devel -f QtScript-devel.files
+%defattr(644,root,root,755)
 %files -n QtSql-devel -f QtSql-devel.files
+%defattr(644,root,root,755)
 %files -n QtSvg-devel -f QtSvg-devel.files
+%defattr(644,root,root,755)
 %files -n QtTest-devel -f QtTest-devel.files
+%defattr(644,root,root,755)
 %files -n QtXml-devel -f QtXml-devel.files
+%defattr(644,root,root,755)
 %files -n Qt3Support-devel -f Qt3Support-devel.files
+%defattr(644,root,root,755)
 %files -n QtAssistant-devel -f QtAssistant-devel.files
+%defattr(644,root,root,755)
 %files -n QtUiTools-devel -f QtUiTools-devel.files
+%defattr(644,root,root,755)
 
 %if %{with static_libs}
 %files -n QtCore-static
@@ -1603,4 +1606,6 @@ EOF
 %endif
 
 %files demos -f demos.files
+%defattr(644,root,root,755)
 %files examples -f examples.files
+%defattr(644,root,root,755)
