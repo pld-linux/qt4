@@ -16,8 +16,7 @@
 %bcond_without	sqlite		# don't build SQLite2 plugin
 # Disabled because of bug in 4.3.1 - (can't build odbc and ibase at once).
 # Should be fixed in 4.3.2 (or by some patch eariler) - just temporary workaround.
-#%bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
-%bcond_with	ibase		# don't build ibase (InterBase/Firebird) plugin
+%bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# disable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
@@ -57,7 +56,7 @@ Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
-
+Patch4:		%{name}-ibase.patch
 Patch6:		%{name}-antialias.patch
 Patch7:		%{name}-support-cflags-with-commas.patch
 Patch8:		%{name}-build-lib-static.patch
@@ -96,8 +95,7 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	zlib-devel
-BuildConflicts:	QtCore < %{version}
-BuildConflicts:	QtCore-devel < %{version}
+BuildConflicts:	QtCore-devel < 4.3
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
@@ -977,6 +975,7 @@ Programas exemplo para o Qt versão.
 %patch1 -p0
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
