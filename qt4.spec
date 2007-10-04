@@ -41,12 +41,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.3.1
-Release:	2
+Version:	4.3.2
+Release:	1
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	ec255dcc2b30f5efe0ded85ae8a75e13
+# Source0-md5:	a60490b36099bdd10c4d2f55430075b3
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -56,12 +56,10 @@ Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
-Patch4:		%{name}-ibase.patch
-Patch6:		%{name}-antialias.patch
-Patch7:		%{name}-support-cflags-with-commas.patch
-Patch8:		%{name}-build-lib-static.patch
-Patch9:		%{name}-x11_fonts.patch
-Patch10:	%{name}-CVE-2007-4137.patch
+Patch4:		%{name}-antialias.patch
+Patch5:		%{name}-support-cflags-with-commas.patch
+Patch6:		%{name}-build-lib-static.patch
+Patch7:		%{name}-x11_fonts.patch
 URL:		http://www.trolltech.com/products/qt/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
@@ -977,11 +975,9 @@ Programas exemplo para o Qt versão.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1480,6 +1476,8 @@ fi
 %attr(755,root,root) %{_bindir}/qt4-assistant
 %attr(755,root,root) %{_qtdir}/bin/assistant
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-assistant.qm
 %{_desktopdir}/qt4-assistant.desktop
 %{_pixmapsdir}/qt4-assistant.png
 
@@ -1501,6 +1499,8 @@ fi
 %attr(755,root,root) %{_qtdir}/bin/designer
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-designer.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-designer.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-designer.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-designer.qm
 %{_desktopdir}/qt4-designer.desktop
 %{_pixmapsdir}/qt4-designer.png
 
@@ -1512,6 +1512,8 @@ fi
 %attr(755,root,root) %{_qtdir}/bin/lrelease
 %attr(755,root,root) %{_qtdir}/bin/lupdate
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-linguist.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-linguist.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-linguist.qm
 %{_datadir}/qt4/phrasebooks
 %{_desktopdir}/qt4-linguist.desktop
 %{_pixmapsdir}/qt4-linguist.png
@@ -1527,6 +1529,8 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qt4-qtconfig
 %attr(755,root,root) %{_qtdir}/bin/qtconfig
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qtconfig.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qtconfig.qm
 %{_desktopdir}/qt4-qtconfig.desktop
 %{_pixmapsdir}/qt4-qtconfig.png
 
@@ -1534,6 +1538,8 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qvfb
 %attr(755,root,root) %{_qtdir}/bin/qvfb
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qvfb.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qvfb.qm
 
 %files doc
 %defattr(644,root,root,755)
