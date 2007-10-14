@@ -1,0 +1,24 @@
+--- qt-copy/src/gui/text/qfontdatabase_x11.cpp.niedakh	2005-05-13 16:35:52.000000000 +0200
++++ qt-copy/src/gui/text/qfontdatabase_x11.cpp	2005-05-13 23:30:47.000000000 +0200
+@@ -27,7 +27,7 @@
+ ****************************************************************************/
+ 
+ #include <qplatformdefs.h>
+-
++#include <qsettings.h>
+ #include <qdatetime.h>
+ #include <qpaintdevice.h>
+ 
+@@ -1248,8 +1248,11 @@
+     if (!stretch)
+         stretch = 100;
+     FcPatternAddInteger(pattern, FC_WIDTH, stretch);
++    
++	QSettings prefs;
++	bool qt_use_antialiasing = prefs.value( "/qt/useXft", TRUE ).toBool() ;
+ 
+-    if (X11->display && QX11Info::appDepth(screen) <= 8) {
++    if (X11->display && (QX11Info::appDepth(screen) <= 8) || ! (qt_use_antialiasing)) {
+         // can't do antialiasing on 8bpp
+         FcPatternAddBool(pattern, FC_ANTIALIAS, false);
+     } else if (request.styleStrategy & (QFont::PreferAntialias|QFont::NoAntialias)) {

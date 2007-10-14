@@ -1,0 +1,73 @@
+--- qt-x11-opensource-src-4.1.0/configure.orig	2006-01-15 16:08:12.000000000 +0100
++++ qt-x11-opensource-src-4.1.0/configure	2006-01-15 16:35:27.416743000 +0100
+@@ -411,6 +411,7 @@
+ CFG_LARGEFILE=auto
+ CFG_STL=auto
+ CFG_PRECOMPILE=no
++CFG_HAVE_SSE=no
+ CFG_SEPARATE_DEBUG_INFO=auto
+ CFG_REDUCE_EXPORTS=auto
+ CFG_IPV6=auto
+@@ -516,7 +517,7 @@
+         VAL=no
+         ;;
+     #Qt style yes options
+-        -incremental|-qvfb|-profile|-shared|-static|-sm|-xinerama|-xshape|-tablet|-reduce-exports|-pch|-separate-debug-info|-stl|-freetype|-xcursor|-xfixes|-xrandr|-xrender|-fontconfig|-xkb|-nis|-qdbus|-glib|-cups|-iconv|-largefile|-h|-help|-v|-verbose|-debug|-release|-fast|-opengl|-accessibility|-confirm-license|-gnumake|-framework|-qt3support|-debug-and-release|-exceptions|-universal|-prefix-install|-silent)
++        -incremental|-qvfb|-profile|-shared|-static|-sm|-xinerama|-xshape|-tablet|-reduce-exports|-pch|-separate-debug-info|-sse|-stl|-freetype|-xcursor|-xfixes|-xrandr|-xrender|-fontconfig|-xkb|-nis|-qdbus|-glib|-cups|-iconv|-largefile|-h|-help|-v|-verbose|-debug|-release|-fast|-opengl|-accessibility|-confirm-license|-gnumake|-framework|-qt3support|-debug-and-release|-exceptions|-universal|-prefix-install|-silent)
+         VAR=`echo $1 | sed "s,^-\(.*\),\1,"`
+         VAL=yes
+         ;;
+@@ -953,6 +954,13 @@
+             UNKNOWN_OPT=yes
+         fi
+         ;;
++    sse)
++        if [ "$VAL" = "yes" ] || [ "$VAL" = "no" ]; then
++            CFG_HAVE_SSE="$VAL"
++        else
++            UNKNOWN_OPT=yes
++        fi
++        ;;
+     reduce-exports)
+         if [ "$VAL" = "yes" ] || [ "$VAL" = "no" ]; then
+             CFG_REDUCE_EXPORTS="$VAL"
+@@ -1844,11 +1852,13 @@
+     fi
+ fi
+ 
+-# detect sse support
+-if "$unixtests/sse.test" "$TEST_COMPILER" "$OPT_VERBOSE"; then
+-    CFG_HAVE_SSE=no
+-else
+-    CFG_HAVE_SSE=yes
++# auto-detect sse support
++if [ "$CFG_HAVE_SSE" = "auto" ]; then
++    if "$unixtests/sse.test" "$TEST_COMPILER" "$OPT_VERBOSE"; then
++       CFG_HAVE_SSE=no
++    else
++       CFG_HAVE_SSE=yes
++    fi
+ fi
+ 
+ # check iwmmxt support
+@@ -1931,8 +1941,8 @@
+         [-qt-libjpeg] [-system-libjpeg] [-make <part>] [-no-make <part>] 
+         [-R <string>]  [-l <string>] [-no-rpath]  [-rpath] [-continue] 
+         [-verbose] [-v] [-silent] [-no-nis] [-nis] [-no-cups] [-cups] [-no-iconv] 
+-        [-iconv] [-no-pch] [-pch] [-no-qdbus] [-qdbus] [-no-separate-debug-info] 
+-        [-separate-debug-info] 
++        [-iconv] [-no-pch] [-pch] [-no-sse] [-sse] [-no-qdbus] [-qdbus] 
++        [-no-separate-debug-info] [-separate-debug-info] 
+ 
+         [additional platform specific options (see below)]
+           
+@@ -2086,6 +2096,9 @@
+  $PHN  -no-pch ............ Do not use precompiled header support.
+  $PHY  -pch ............... Use precompiled header support.
+ 
++    -no-sse ............ Do not use MMX/SSE instructions.
++    -sse ............... Use MMX/SSE instructions.
++
+  $DBN  -no-qdbus........... Do not compile the QtDBus module.
+  $DBY  -qdbus.............. Compile the QtDBus module.
+ 

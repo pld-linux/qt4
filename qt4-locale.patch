@@ -1,0 +1,159 @@
+diff -Nur qt-x11-opensource-src-4.2.1.orig/src/corelib/kernel/qtranslator.cpp qt-x11-opensource-src-4.2.1.chng/src/corelib/kernel/qtranslator.cpp
+--- qt-x11-opensource-src-4.2.1.orig/src/corelib/kernel/qtranslator.cpp	2006-10-20 17:35:15.000000000 +0200
++++ qt-x11-opensource-src-4.2.1.chng/src/corelib/kernel/qtranslator.cpp	2006-11-28 14:17:12.000000000 +0100
+@@ -37,6 +37,7 @@
+ #include "qalgorithms.h"
+ #include "qhash.h"
+ #include "qtranslator_p.h"
++#include <qlibraryinfo.h>
+ 
+ #if defined(Q_OS_UNIX)
+ #define QT_USE_MMAP
+@@ -377,33 +378,72 @@
+     QString delims;
+     delims = search_delimiters.isNull() ? QString::fromLatin1("_.") : search_delimiters;
+ 
+-    for (;;) {
+-        QFileInfo fi;
+-
+-        realname = prefix + fname + (suffix.isNull() ? QString::fromLatin1(".qm") : suffix);
+-        fi.setFile(realname);
+-        if (fi.isReadable())
+-            break;
+-
+-        realname = prefix + fname;
+-        fi.setFile(realname);
+-        if (fi.isReadable())
+-            break;
++    if (directory == QLibraryInfo::location(QLibraryInfo::TranslationsPath)) {
++	QString locale;
++        int idelim = 0, leftmost;
++                    
++        for (;;) {
++    	    leftmost = filename.size();
++            for (int i = 0; i < (int)delims.length(); i++) {
++        	int k = filename.indexOf(delims[i], idelim);
++                if ((k > 0)&&(k < leftmost))
++                leftmost = k;
++            }
++            
++            if (leftmost == filename.size())
++        	return false;
++                                                                                                                                                
++            idelim = leftmost + 1;
++            fname = filename.left(leftmost);
++            locale = filename.mid(leftmost+1);
++            
++            while (!locale.isEmpty()) {
++        	QFileInfo fi;
++                realname = prefix + locale + QString::fromLatin1("/LC_MESSAGES/") +  fname + QString::fromLatin1(".qm");
++                
++                fi.setFile(realname);
++                if (fi.isReadable())
++            	    break;
++                                                                                                                                                                                                                                                                                    
++                int rightmost = 0;
++                for (int i = 0; i < (int)delims.length(); i++) {
++            	    int k = locale.lastIndexOf(delims[i]);
++                    if (k > rightmost)
++                	rightmost = k;
++                }
++                locale.truncate(rightmost);
++            }
++            if (!locale.isEmpty())
++        	break;
++	}
++    } else {
++	for (;;) {
++    	    QFileInfo fi;
++
++    	    realname = prefix + fname + (suffix.isNull() ? QString::fromLatin1(".qm") : suffix);
++    	    fi.setFile(realname);
++    	    if (fi.isReadable())
++        	break;
++
++    	    realname = prefix + fname;
++    	    fi.setFile(realname);
++    	    if (fi.isReadable())
++        	break;
++
++    	    int rightmost = 0;
++    	    for (int i = 0; i < (int)delims.length(); i++) {
++        	int k = fname.lastIndexOf(delims[i]);
++        	if (k > rightmost)
++            	    rightmost = k;
++    	    }
++
++            // no truncations? fail
++    	    if (rightmost == 0)
++    	    return false;
+ 
+-        int rightmost = 0;
+-        for (int i = 0; i < (int)delims.length(); i++) {
+-            int k = fname.lastIndexOf(delims[i]);
+-            if (k > rightmost)
+-                rightmost = k;
++	    fname.truncate(rightmost);
+         }
+-
+-        // no truncations? fail
+-        if (rightmost == 0)
+-            return false;
+-
+-        fname.truncate(rightmost);
+     }
+-
+     // realname is now the fully qualified name of a readable file.
+ 
+     bool ok = false;
+diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/assistant/main.cpp qt-x11-opensource-src-4.2.1.chng/tools/assistant/main.cpp
+--- qt-x11-opensource-src-4.2.1.orig/tools/assistant/main.cpp	2006-10-20 17:35:28.000000000 +0200
++++ qt-x11-opensource-src-4.2.1.chng/tools/assistant/main.cpp	2006-11-28 14:23:03.000000000 +0100
+@@ -310,11 +310,11 @@
+         resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+ 
+     QTranslator translator( 0 );
+-    translator.load( QLatin1String("assistant_") + QLocale::system().name(), resourceDir );
++    translator.load( QLatin1String("qt4-assistant_") + QLocale::system().name(), resourceDir );
+     a.installTranslator( &translator );
+ 
+     QTranslator qtTranslator( 0 );
+-    qtTranslator.load( QLatin1String("qt_") + QLocale::system().name(), resourceDir );
++    qtTranslator.load( QLatin1String("qt4_") + QLocale::system().name(), resourceDir );
+     a.installTranslator( &qtTranslator );
+ 
+     Config *conf = Config::loadConfig( profileName );
+diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/designer/src/designer/qdesigner.cpp qt-x11-opensource-src-4.2.1.chng/tools/designer/src/designer/qdesigner.cpp
+--- qt-x11-opensource-src-4.2.1.orig/tools/designer/src/designer/qdesigner.cpp	2006-10-20 17:35:40.000000000 +0200
++++ qt-x11-opensource-src-4.2.1.chng/tools/designer/src/designer/qdesigner.cpp	2006-11-28 14:22:20.000000000 +0100
+@@ -112,11 +112,11 @@
+     QTranslator *qtTranslator = new QTranslator(this);
+ 
+     const QString localSysName = QLocale::system().name();
+-    QString  translatorFileName = QLatin1String("designer_");
++    QString  translatorFileName = QLatin1String("qt4-designer_");
+     translatorFileName += localSysName;
+     translator->load(translatorFileName, resourceDir);
+ 
+-    translatorFileName = QLatin1String("qt_");
++    translatorFileName = QLatin1String("qt4_");
+     translatorFileName += localSysName;
+     qtTranslator->load(translatorFileName, resourceDir);
+     installTranslator(translator);
+diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/linguist/linguist/main.cpp qt-x11-opensource-src-4.2.1.chng/tools/linguist/linguist/main.cpp
+--- qt-x11-opensource-src-4.2.1.orig/tools/linguist/linguist/main.cpp	2006-10-20 17:35:26.000000000 +0200
++++ qt-x11-opensource-src-4.2.1.chng/tools/linguist/linguist/main.cpp	2006-11-28 14:21:19.000000000 +0100
+@@ -41,11 +41,11 @@
+     }
+ 
+     QTranslator translator(0);
+-    translator.load(QLatin1String("linguist_") + QLocale::system().name(), resourceDir);
++    translator.load(QLatin1String("qt4-linguist_") + QLocale::system().name(), resourceDir);
+     app.installTranslator(&translator);
+ 
+     QTranslator qtTranslator(0);
+-    qtTranslator.load(QLatin1String("qt_") + QLocale::system().name(), resourceDir);
++    qtTranslator.load(QLatin1String("qt4_") + QLocale::system().name(), resourceDir);
+     app.installTranslator(&qtTranslator);
+ 
+     app.setOrganizationName(QLatin1String("Trolltech"));

@@ -1,0 +1,12 @@
+diff -uNr qt-x11-opensource-desktop-4.0.0.orig/configure qt-x11-opensource-desktop-4.0.0/configure
+--- qt-x11-opensource-desktop-4.0.0.orig/configure	2005-08-16 11:54:47.000000000 +0200
++++ qt-x11-opensource-desktop-4.0.0/configure	2005-08-16 11:58:19.000000000 +0200
+@@ -2737,7 +2737,7 @@
+ 	adjrelpath=`echo "$relpath" | sed 's/ /\\\\\\\\ /g'`
+ 	adjoutpath=`echo "$outpath" | sed 's/ /\\\\\\\\ /g'`
+         sed -e "s,@SOURCE_PATH@,$adjrelpath,g" -e "s,@BUILD_PATH@,$adjoutpath,g" \
+-            -e "s,@QMAKE_CFLAGS@,$EXTRA_CFLAGS,g" -e "s,@QMAKE_LFLAGS@,$EXTRA_LFLAGS,g" \
++            -e "s:@QMAKE_CFLAGS@:$EXTRA_CFLAGS:g" -e "s,@QMAKE_LFLAGS@,$EXTRA_LFLAGS,g" \
+             -e "s,@QMAKE_CXXFLAGS@,$EXTRA_CXXFLAGS,g" \
+             -e "s,@QT_INSTALL_BINS@,\$(INSTALL_ROOT)$QMAKE_BIN_DIR,g" \
+             -e "s,@QT_INSTALL_DATA@,\$(INSTALL_ROOT)$QMAKE_DATA_DIR,g" \

@@ -1,0 +1,25 @@
+--- qt-x11-free-3.3.3/src/kernel/qfontdatabase_x11.cpp.orig	2004-08-05 16:42:06.000000000 +0200
++++ qt-x11-free-3.3.3/src/kernel/qfontdatabase_x11.cpp	2004-08-20 18:04:38.961735120 +0200
+@@ -36,7 +36,7 @@
+ **********************************************************************/
+ 
+ #include <qplatformdefs.h>
+-
++#include <qsettings.h>
+ #include <qdatetime.h>
+ #include <qpaintdevicemetrics.h>
+
+@@ -1537,9 +1537,11 @@
+ 	XftPatternAddMatrix( pattern, XFT_MATRIX, &matrix );
+     }
+ #endif // XFT_MATRIX
+-    if (request.styleStrategy & (QFont::PreferAntialias|QFont::NoAntialias)) {
++    QSettings prefs;
++    bool qt_use_antialiasing = prefs.readBoolEntry( "/qt/useXft", TRUE );
++    if ( !qt_use_antialiasing || request.styleStrategy & (QFont::PreferAntialias|QFont::NoAntialias)) {
+         XftPatternDel(pattern, XFT_ANTIALIAS);
+-	XftPatternAddBool(pattern, XFT_ANTIALIAS,
++	XftPatternAddBool(pattern, XFT_ANTIALIAS, qt_use_antialiasing &&
+ 			  !(request.styleStrategy & QFont::NoAntialias));
+     }
+ 
