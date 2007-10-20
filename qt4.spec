@@ -84,7 +84,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
-%{?with_odbc:BuildRequires:	unixODBC-devel}
+%{?with_odbc:BuildRequires:  unixODBC-devel >= 2.2.12-2}
 BuildRequires:	xcursor-devel
 BuildRequires:	xft-devel
 BuildRequires:	xrender-devel
