@@ -14,9 +14,7 @@
 %bcond_without	pgsql		# don't build PostgreSQL plugin
 %bcond_without	sqlite3		# don't build SQLite3 plugin
 %bcond_without	sqlite		# don't build SQLite2 plugin
-# Disabled because of bug in 4.3.1 - (can't build odbc and ibase at once).
-# Should be fixed in 4.3.2 (or by some patch eariler) - just temporary workaround.
-%bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
+%bcond_with	ibase		# don't build ibase (InterBase/Firebird) plugin
 %bcond_with	pch		# disable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
@@ -42,7 +40,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.3.2
-Release:	2
+Release:	3
 License:	GPL/QPL
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
