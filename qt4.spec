@@ -1,6 +1,6 @@
 #
 # TODO:
-#	- fix ibase build with current Firebird
+#	- fix ibase build with current Firebird on x86_64
 #	- better descriptions
 #	- more cleanups
 #	- check if translations are available
