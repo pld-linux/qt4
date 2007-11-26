@@ -41,7 +41,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.3.2
-Release:	3
+Release:	4
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -1449,8 +1449,6 @@ fi
 
 %files -n Qt3Support
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/uic3
-%attr(755,root,root) %{_qtdir}/bin/uic3
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
 
 %files -n QtAssistant
@@ -1547,30 +1545,45 @@ fi
 
 %files -n QtCore-devel -f QtCore-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtDBus-devel -f QtDBus-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtDesigner-devel -f QtDesigner-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtGui-devel -f QtGui-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtNetwork-devel -f QtNetwork-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtScript-devel -f QtScript-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtSql-devel -f QtSql-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtSvg-devel -f QtSvg-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtTest-devel -f QtTest-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtXml-devel -f QtXml-devel.files
 %defattr(644,root,root,755)
+
 %files -n Qt3Support-devel -f Qt3Support-devel.files
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/uic3
+%attr(755,root,root) %{_qtdir}/bin/uic3
+
 %files -n QtAssistant-devel -f QtAssistant-devel.files
 %defattr(644,root,root,755)
+
 %files -n QtUiTools-devel -f QtUiTools-devel.files
 %defattr(644,root,root,755)
 
