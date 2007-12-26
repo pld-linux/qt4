@@ -1,5 +1,4 @@
 [Desktop Entry]
-Encoding=UTF-8
 Exec=linguist
 Name=Qt Linguist
 Name[ar]=مترجم كيوتي
@@ -103,8 +102,7 @@ GenericName[zh_TW]=翻譯工具
 GenericName[zu]=Ithuluzi Lokuguqulela
 Categories=Qt;Development;
 X-KDE-StartupNotify=true
-MimeType=application/x-linguist
+MimeType=application/x-linguist;
 Terminal=false
 Type=Application
 Icon=linguist
-
