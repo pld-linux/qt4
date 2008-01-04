@@ -1328,6 +1328,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtCore
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCore.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtCore.so.4
 %dir %{_qtdir}
 %dir %{_qtdir}/bin
 %dir %{_qtdir}/plugins
@@ -1359,12 +1360,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qdbus
 %attr(755,root,root) %{_bindir}/qdbusviewer
 %attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtDBus.so.4
 %attr(755,root,root) %{_qtdir}/bin/qdbus
 %attr(755,root,root) %{_qtdir}/bin/qdbusviewer
 
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtGui.so.4
 %attr(755,root,root) %{_qtdir}/plugins/accessible/*.so
 %attr(755,root,root) %{_qtdir}/plugins/codecs/*.so
 %attr(755,root,root) %{_qtdir}/plugins/iconengines/*.so
@@ -1374,18 +1377,22 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtNetwork
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtNetwork.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.4
 
 %files -n QtOpenGL
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtOpenGL.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtOpenGL.so.4
 
 %files -n QtScript
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtScript.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtScript.so.4
 
 %files -n QtSql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSql.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtSql.so.4
 
 %if %{with mysql}
 %files -n QtSql-mysql
@@ -1426,33 +1433,41 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtSvg
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSvg.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtSvg.so.4
 
 %files -n QtTest
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtTest.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtTest.so.4
 
 %files -n QtXml
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtXml.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtXml.so.4
 
 %files -n Qt3Support
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.4
 
 %files -n QtAssistant
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtAssistantClient.so.4
 
 %files -n QtDesigner
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtDesigner.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtDesigner.so.4
 %attr(755,root,root) %{_libdir}/libQtDesignerComponents.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtDesignerComponents.so.4
 %dir %{_qtdir}/plugins/designer
 %attr(755,root,root) %{_qtdir}/plugins/designer/*.so
 
 %files -n QtUiTools
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.4
 
 %files assistant
 %defattr(644,root,root,755)
