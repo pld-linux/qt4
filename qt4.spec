@@ -41,7 +41,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.3.3
-Release:	2
+Release:	2.1
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -1113,23 +1113,26 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,prl}
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
 %{__sed} -i -e '
-	s|moc_location=.*|moc_location=%{_bindir}/qt4-moc|;
-	s|uic_location=.*|uic_location=%{_bindir}/qt4-uic|;
+	s|moc_location=.*|moc_location=%{_bindir}/moc-qt4|;
+	s|uic_location=.*|uic_location=%{_bindir}/uic-qt4|;
 	' $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
 
 cd $RPM_BUILD_ROOT%{_bindir}
-ln -sf ../%{_lib}/qt4/bin/assistant qt4-assistant
-ln -sf ../%{_lib}/qt4/bin/designer qt4-designer
-ln -sf ../%{_lib}/qt4/bin/linguist qt4-linguist
-ln -sf ../%{_lib}/qt4/bin/moc qt4-moc
-ln -sf ../%{_lib}/qt4/bin/qmake qt4-qmake
+ln -sf ../%{_lib}/qt4/bin/assistant assistant-qt4
+ln -sf ../%{_lib}/qt4/bin/designer designer-qt4
+ln -sf ../%{_lib}/qt4/bin/findtr findtr-qt4
+ln -sf ../%{_lib}/qt4/bin/linguist linguist-qt4
+ln -sf ../%{_lib}/qt4/bin/lrelease lrelease-qt4
+ln -sf ../%{_lib}/qt4/bin/lupdate lupdate-qt4
+ln -sf ../%{_lib}/qt4/bin/moc moc-qt4
+ln -sf ../%{_lib}/qt4/bin/qmake qmake-qt4
+ln -sf ../%{_lib}/qt4/bin/qtconfig qtconfig-qt4
+ln -sf ../%{_lib}/qt4/bin/uic uic-qt4
 ln -sf ../%{_lib}/qt4/bin/qt3to4 .
-ln -sf ../%{_lib}/qt4/bin/qtconfig qt4-qtconfig
 ln -sf ../%{_lib}/qt4/bin/rcc .
-ln -sf ../%{_lib}/qt4/bin/uic qt4-uic
 ln -sf ../%{_lib}/qt4/bin/uic3 .
 ln -sf ../%{_lib}/qt4/bin/pixeltool .
 ln -sf ../%{_lib}/qt4/bin/qdbus .
@@ -1139,22 +1142,21 @@ ln -sf ../%{_lib}/qt4/bin/qdbusviewer .
 ln -sf ../%{_lib}/qt4/bin/qvfb .
 cd -
 
-install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
-install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}
-install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}
-
+install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}/qtconfig-qt4.desktop
 install tools/qtconfig/images/appicon.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-qtconfig.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/qtconfig-qt4.png
 
+install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}/linguist-qt4.desktop
 install tools/linguist/linguist/images/appicon.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-linguist.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/linguist-qt4.png
 
+install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/assistant-qt4.desktop
 install tools/assistant/images/assistant.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-assistant.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/assistant-qt4.png
 
-install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}
+install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/designer-qt4.desktop
 install tools/designer/src/designer/images/designer.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/qt4-designer.png
+	$RPM_BUILD_ROOT%{_pixmapsdir}/designer-qt4.png
 
 %if %{with static_libs}
 install staticlib/*.a $RPM_BUILD_ROOT%{_libdir}
@@ -1365,11 +1367,11 @@ fi
 
 %files -n QtDBus
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/bin/qdbus
-%attr(755,root,root) %{_qtdir}/bin/qdbusviewer
 %attr(755,root,root) %{_bindir}/qdbus
 %attr(755,root,root) %{_bindir}/qdbusviewer
 %attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
+%attr(755,root,root) %{_qtdir}/bin/qdbus
+%attr(755,root,root) %{_qtdir}/bin/qdbusviewer
 
 %files -n QtGui
 %defattr(644,root,root,755)
@@ -1399,40 +1401,37 @@ fi
 %if %{with mysql}
 %files -n QtSql-mysql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlmysql*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlmysql.so
 %endif
 
 %if %{with pgsql}
 %files -n QtSql-pgsql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlpsql*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlpsql.so
 %endif
 
 %if %{with sqlite}
 %files -n QtSql-sqlite
 %defattr(644,root,root,755)
-#%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite2.so
 %endif
 
 %if %{with sqlite3}
 %files -n QtSql-sqlite3
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite*.so
-%if %{with sqlite}
-#%exclude %{_qtdir}/plugins/sqldrivers/libqsqlite2*.so
-%endif
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite.so
 %endif
 
 %if %{with ibase}
 %files -n QtSql-ibase
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlibase*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlibase.so
 %endif
 
 %if %{with odbc}
 %files -n QtSql-odbc
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlodbc*.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlodbc.so
 %endif
 
 %files -n QtSvg
@@ -1454,11 +1453,11 @@ fi
 %files -n QtAssistant
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant.qm
 
 %files -n QtDesigner
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtDesigner*.so.*.*
+%attr(755,root,root) %{_libdir}/libQtDesigner.so.*.*
+%attr(755,root,root) %{_libdir}/libQtDesignerComponents.so.*.*
 %dir %{_qtdir}/plugins/designer
 %attr(755,root,root) %{_qtdir}/plugins/designer/*.so
 
@@ -1469,21 +1468,22 @@ fi
 %files assistant
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pixeltool
+%attr(755,root,root) %{_bindir}/assistant-qt4
 %attr(755,root,root) %{_qtdir}/bin/pixeltool
-%attr(755,root,root) %{_bindir}/qt4-assistant
 %attr(755,root,root) %{_qtdir}/bin/assistant
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-assistant.qm
-%{_desktopdir}/qt4-assistant.desktop
-%{_pixmapsdir}/qt4-assistant.png
+%{_desktopdir}/assistant-qt4.desktop
+%{_pixmapsdir}/assistant-qt4.png
 
 %files build
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/rcc
-%attr(755,root,root) %{_bindir}/qt4-moc
+%attr(755,root,root) %{_bindir}/moc-qt4
 %attr(755,root,root) %{_bindir}/qt3to4
-%attr(755,root,root) %{_bindir}/qt4-uic
+%attr(755,root,root) %{_bindir}/uic-qt4
 %attr(755,root,root) %{_qtdir}/bin/rcc
 %attr(755,root,root) %{_qtdir}/bin/moc
 %attr(755,root,root) %{_qtdir}/bin/qt3to4
@@ -1492,18 +1492,21 @@ fi
 
 %files designer
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qt4-designer
+%attr(755,root,root) %{_bindir}/designer-qt4
 %attr(755,root,root) %{_qtdir}/bin/designer
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-designer.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-designer.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-designer.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-designer.qm
-%{_desktopdir}/qt4-designer.desktop
-%{_pixmapsdir}/qt4-designer.png
+%{_desktopdir}/designer-qt4.desktop
+%{_pixmapsdir}/designer-qt4.png
 
 %files linguist
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qt4-linguist
+%attr(755,root,root) %{_bindir}/findtr-qt4
+%attr(755,root,root) %{_bindir}/linguist-qt4
+%attr(755,root,root) %{_bindir}/lrelease-qt4
+%attr(755,root,root) %{_bindir}/lupdate-qt4
 %attr(755,root,root) %{_qtdir}/bin/findtr
 %attr(755,root,root) %{_qtdir}/bin/linguist
 %attr(755,root,root) %{_qtdir}/bin/lrelease
@@ -1512,24 +1515,24 @@ fi
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-linguist.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-linguist.qm
 %{_datadir}/qt4/phrasebooks
-%{_desktopdir}/qt4-linguist.desktop
-%{_pixmapsdir}/qt4-linguist.png
+%{_desktopdir}/linguist-qt4.desktop
+%{_pixmapsdir}/linguist-qt4.png
 
 %files qmake
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qt4-qmake
+%attr(755,root,root) %{_bindir}/qmake-qt4
 %attr(755,root,root) %{_qtdir}/bin/qmake
 %{_datadir}/qt4/mkspecs
 %{_qtdir}/mkspecs
 
 %files qtconfig
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qt4-qtconfig
+%attr(755,root,root) %{_bindir}/qtconfig-qt4
 %attr(755,root,root) %{_qtdir}/bin/qtconfig
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qtconfig.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qtconfig.qm
-%{_desktopdir}/qt4-qtconfig.desktop
-%{_pixmapsdir}/qt4-qtconfig.png
+%{_desktopdir}/qtconfig-qt4.desktop
+%{_pixmapsdir}/qtconfig-qt4.png
 
 %files -n qvfb
 %defattr(644,root,root,755)
@@ -1590,43 +1593,43 @@ fi
 %if %{with static_libs}
 %files -n QtCore-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtCore*.a
+%{_libdir}/libQtCore.a
 
 %files -n QtDBus-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtDBus*.a
+%{_libdir}/libQtDBus.a
 
 %files -n QtGui-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtGui*.a
+%{_libdir}/libQtGui.a
 
 %files -n QtNetwork-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtNetwork*.a
+%{_libdir}/libQtNetwork.a
 
 %files -n QtOpenGL-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtOpenGL*.a
+%{_libdir}/libQtOpenGL.a
 
 %files -n QtScript-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtScript*.a
+%{_libdir}/libQtScript.a
 
 %files -n QtSql-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtSql*.a
+%{_libdir}/libQtSql.a
 
 %files -n QtSvg-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtSvg*.a
+%{_libdir}/libQtSvg.a
 
 %files -n QtXml-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtXml*.a
+%{_libdir}/libQtXml.a
 
 %files -n Qt3Support-static
 %defattr(644,root,root,755)
-%{_libdir}/libQt3Support*.a
+%{_libdir}/libQt3Support.a
 
 %files -n QtAssistant-static
 %defattr(644,root,root,755)
@@ -1634,7 +1637,8 @@ fi
 
 %files -n QtDesigner-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtDesigner*.a
+%{_libdir}/libQtDesigner.a
+%{_libdir}/libQtDesignerComponents.a
 
 %files -n QtUiTools-static
 %defattr(644,root,root,755)
@@ -1643,5 +1647,6 @@ fi
 
 %files demos -f demos.files
 %defattr(644,root,root,755)
+
 %files examples -f examples.files
 %defattr(644,root,root,755)
