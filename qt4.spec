@@ -1280,21 +1280,7 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-n QtCore
-/sbin/ldconfig
-if [ "$1" = 1 ]; then
-%banner -e %{name} <<'EOF'
- *******************************************************
- *                                                     *
- *  NOTE:                                              *
- *  With qt 4.0.0 the single threaded version was      *
- *  removed. Also the library is modular now so be     *
- *  sure to check that you have every module you need. *
- *                                                     *
- *******************************************************
-EOF
-fi
-
+%post	-n QtCore	-p /sbin/ldconfig
 %postun	-n QtCore	-p /sbin/ldconfig
 
 %post	-n QtDBus	-p /sbin/ldconfig
