@@ -1,6 +1,5 @@
 #
 # TODO:
-#	- fix ibase build with current Firebird on x86_64
 #	- better descriptions
 #	- more cleanups
 #	- check if translations are available
@@ -15,7 +14,7 @@
 %bcond_without	pgsql		# don't build PostgreSQL plugin
 %bcond_without	sqlite3		# don't build SQLite3 plugin
 %bcond_without	sqlite		# don't build SQLite2 plugin
-%bcond_with	ibase		# don't build ibase (InterBase/Firebird) plugin
+%bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# disable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
@@ -50,7 +49,6 @@ Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
-Source6:	%{name}_pl.ts
 Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
@@ -59,6 +57,7 @@ Patch4:		%{name}-antialias.patch
 Patch5:		%{name}-support-cflags-with-commas.patch
 Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
+Patch8:		%{name}-pl-update.patch
 URL:		http://www.trolltech.com/products/qt/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
@@ -977,6 +976,7 @@ Programas exemplo para o Qt versão.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1165,8 +1165,9 @@ install staticlib/*.a $RPM_BUILD_ROOT%{_libdir}
 #
 # Locale
 #
-cp %{SOURCE6} translations/qt_pl.ts
-LD_LIBRARY_PATH=lib bin/lrelease translations/qt_pl.ts -qm translations/qt_pl.qm
+for f in translations/*_pl.ts ; do
+	LD_LIBRARY_PATH=lib bin/lrelease $f -qm translations/$(basename $f .ts).qm
+done
 
 rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
 for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm; do
