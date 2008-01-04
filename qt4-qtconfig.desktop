@@ -1,5 +1,5 @@
 [Desktop Entry]
-Exec=qt4-qtconfig
+Exec=qtconfig-qt4
 Name=Qt4 Configuration 
 Name[de]=Qt4 Konfiguration
 Name[pl]=Konfiguracja Qt4
@@ -8,7 +8,7 @@ Comment[de]=Ein grafisches Konfigurationstool für Qt4-Programme
 Comment[pl]=Narzędzie graficzne do konfiguracji programów korzystających z Qt4
 MimeType=application/x-qtconfig;
 Terminal=false
-Icon=qt4-qtconfig
+Icon=qtconfig-qt4
 Type=Application
 Categories=Qt;Settings;
 # vi: encoding=utf-8

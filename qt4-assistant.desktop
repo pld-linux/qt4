@@ -1,5 +1,5 @@
 [Desktop Entry]
-Exec=qt4-assistant
+Exec=assistant-qt4
 Name=Qt4 Assistant
 Name[af]=Qt4 Assistent
 Name[ar]=مساعد Qt4
@@ -115,6 +115,6 @@ GenericName[zh_TW]=文件閱讀器
 GenericName[zu]=Umcingi Woshicilelo
 X-KDE-StartupNotify=true
 Categories=Qt;Development;
-Icon=qt4-assistant
+Icon=assistant-qt4
 Terminal=false
 Type=Application
