@@ -1,3 +1,16 @@
+--- qt-x11-opensource-src-4.1.0/tools/assistant/lib/lib.pro.orig	2006-02-13 07:13:58.000000000 +0100
++++ qt-x11-opensource-src-4.1.0/tools/assistant/lib/lib.pro	2006-02-13 07:39:59.000000000 +0100
+@ -2,6 +2,10 @@
+ TEMPLATE = lib
+ TARGET = QtHelp
+ DEFINES += QHELP_LIB QT_CLUCENE_SUPPORT
++!contains(CONFIG, static) {
++    CONFIG += dll
++}
++
+ CONFIG += dll qt warn_on
+ 
+ include(../../../src/qbase.pri)
 --- qt-x11-opensource-src-4.1.0/tools/designer/src/uitools/uitools.pro.orig	2005-12-16 12:52:20.000000000 +0100
 +++ qt-x11-opensource-src-4.1.0/tools/designer/src/uitools/uitools.pro	2006-02-13 09:26:05.000000000 +0100
 @@ -1,7 +1,7 @@
