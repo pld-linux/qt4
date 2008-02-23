@@ -1,11 +1,14 @@
---- src/gui/kernel/qapplication_x11.cpp	2007-12-18 11:52:08.000000000 +0100
-+++ src/gui/kernel/qapplication_x11.cpp-new	2008-02-23 16:29:23.550847092 +0100
-@@ -1699,7 +1699,7 @@
+--- src/gui/kernel/qapplication_x11.cpp-old	2008-02-23 16:42:52.742864418 +0100
++++ src/gui/kernel/qapplication_x11.cpp	2008-02-23 16:41:57.643563692 +0100
+@@ -1699,7 +1699,10 @@
                  (PtrXcursorLibraryLoadCursor) xcursorLib.resolve("XcursorLibraryLoadCursor");
          }
  #else
 -        ptrXcursorLibraryLoadCursor = XcursorLibraryLoadCursor;
++	QLibrary xcursorLib(QLatin1String("Xcursor"));
++	        if (xcursorLib.load()) {
 +        X11->ptrXcursorLibraryLoadCursor = (PtrXcursorLibraryLoadCursor) xcursorLib.resolve("XcursorLibraryLoadCursor");
++		}
  #endif // QT_RUNTIME_XCURSOR
  #endif // QT_NO_XCURSOR
  
