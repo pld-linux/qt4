@@ -40,11 +40,11 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.4.0
-Release:	0.1
+Release:	0.beta1.1
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
-Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-preview-opensource-src-%{version}-tp1.tar.gz
-# Source0-md5:	1c5a5533f885f331600951abd71bd00c
+Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}-beta1.tar.gz
+# Source0-md5:	12ada77eabf4a982bc54ff241ec1e483
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -969,7 +969,7 @@ Example programs bundled with Qt version.
 Programas exemplo para o Qt versão.
 
 %prep
-%setup -q -n qt-x11-preview-opensource-src-%{version}-tp1
+%setup -q -n qt-x11-opensource-src-%{version}-beta1
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
