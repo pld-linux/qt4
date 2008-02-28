@@ -1070,7 +1070,8 @@ OPT=" \
 	-%{!?with_sqlite3:no}%{?with_sqlite3:qt}-sql-sqlite \
 	-%{!?with_sqlite:no}%{?with_sqlite:qt}-sql-sqlite2 \
 	-%{!?with_ibase:no}%{?with_ibase:qt}-sql-ibase \
-	-static"
+	-static \
+	-continue"
 
 echo "yes" | ./configure $COMMONOPT $OPT
 
