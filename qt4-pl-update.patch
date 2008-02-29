@@ -77,207 +77,6 @@
      </message>
  </context>
  <context>
---- qt-x11-opensource-src-4.3.3/translations/designer_pl.ts.orig	2007-12-04 17:43:07.000000000 +0100
-+++ qt-x11-opensource-src-4.3.3/translations/designer_pl.ts	2008-01-04 17:03:55.303516715 +0100
-@@ -756,7 +756,7 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/designer/plugindialog.ui" line="60"/>
-         <source>1</source>
--        <translation type="unfinished">1</translation>
-+        <translation>1</translation>
-     </message>
- </context>
- <context>
-@@ -1915,12 +1915,12 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/lib/shared/widgetfactory.cpp" line="280"/>
-         <source>The current page of the container &apos;%1&apos; (%2) could not be determined while creating a layout.This indicates an inconsistency in the ui-file, probably a layout being constructed on a container widget.</source>
--        <translation type="unfinished"></translation>
-+        <translation>Podczas tworzenia układu nie udało się określić bieżącej strony kontenera &apos;%1&apos; (%2). Oznacza to niespójność w pliku ui, prawdopodobnie układ tworzony na widżecie kontenera.</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/lib/uilib/properties_p.h" line="96"/>
-         <source>The enumeration-value &quot;%1&quot; is invalid. The default value &quot;%2&quot; will be used instead.</source>
--        <translation type="unfinished"></translation>
-+        <translation>Wartość wyliczeniowa &quot;%1&qout; jest niepoprawna. Użyta zostanie wartość domyślna &quot;%2&quot;.</translation>
-     </message>
- </context>
- <context>
-@@ -2054,12 +2054,12 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/designer/versiondialog.cpp" line="157"/>
-         <source>This version of Qt Designer is part of the Qt Open Source Edition, for use in the development of Open Source applications. Qt is a comprehensive C++ framework for cross-platform application development.&lt;br/&gt;&lt;br/&gt;You need a commercial Qt license for development of proprietary (closed source) applications. Please see &lt;a href=&quot;http://www.trolltech.com/company/model.html&quot;&gt;http://www.trolltech.com/company/model.html&lt;/a&gt; for an overview of Qt licensing.&lt;br/&gt;</source>
--        <translation type="unfinished">Ta wersja Qt Designer jest częścią wydania Qt Open Source, przeznaczonego do tworzenia aplikacji Open Source. Qt zawiera wszechstronny zestaw bibliotek wykorzystywanych do pisania przenośnych aplikacji.&lt;br/&gt;&lt;br/&gt;Aby móc tworzyć przy pomocy Qt własne aplikacje bez publikowania kodu (closed source) potrzebujesz wydania komercyjnego. Proszę sprawdzić &lt;a href=&quot;http://www.trolltech.com/company/model.html&quot;&gt;www.trolltech.com/company/model.html&lt;/a&gt; w celu zapoznania się z licencjonowaniem Qt.&lt;br/&gt;</translation>
-+        <translation>Ta wersja Qt Designera jest częścią wydania Qt Open Source, przeznaczonego do tworzenia aplikacji Open Source. Qt zawiera wszechstronny zestaw bibliotek C++ wykorzystywanych do pisania przenośnych aplikacji.&lt;br/&gt;&lt;br/&gt;Aby móc tworzyć przy pomocy Qt własne aplikacje bez publikowania kodu (closed source) potrzebujesz wydania komercyjnego. Proszę sprawdzić &lt;a href=&quot;http://www.trolltech.com/company/model.html&quot;&gt;www.trolltech.com/company/model.html&lt;/a&gt; w celu zapoznania się z licencjonowaniem Qt.&lt;br/&gt;</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/designer/versiondialog.cpp" line="161"/>
-         <source>This program is licensed to you under the terms of the Qt Commercial License Agreement. For details, see the file LICENSE that came with this software distribution.&lt;br/&gt;</source>
--        <translation type="unfinished">Ten program wydany jest na licencji Qt Commercial. Aby zapoznać się ze szczegółami licencji, proszę sprawdzić plik LICENSE, który dołączony jest do pakietu Qt.&lt;br/&gt;</translation>
-+        <translation>Ten program wydany jest na komercyjnej licencji Qt. Aby zapoznać się ze szczegółami licencji, proszę sprawdzić plik LICENSE, który dołączony jest do pakietu Qt.&lt;br/&gt;</translation>
-     </message>
-     <message>
-         <location filename="../tools/designer/src/designer/versiondialog.cpp" line="177"/>
-@@ -2069,7 +2069,7 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/designer/versiondialog.cpp" line="169"/>
-         <source>%1&lt;br/&gt;%2&lt;br/&gt;Copyright 2000-2007 Trolltech ASA. All rights reserved.&lt;br/&gt;&lt;br/&gt;The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.&lt;br/&gt; </source>
--        <translation type="unfinished">%1&lt;br/&gt;%2&lt;br/&gt;Copyright (C) 2000-2007 Trolltech ASA. Wszystkie prawa zastrzeżone.&lt;br/&gt;&lt;br/&gt;Program dostarczony jest BEZ ŻADNYCH GWARANCJI.&lt;br/&gt; </translation>
-+        <translation>%1&lt;br/&gt;%2&lt;br/&gt;Copyright (C) 2000-2007 Trolltech ASA. Wszystkie prawa zastrzeżone.&lt;br/&gt;&lt;br/&gt;Program dostarczony jest BEZ ŻADNYCH GWARANCJI.&lt;br/&gt; </translation>
-     </message>
- </context>
- <context>
-@@ -2468,7 +2468,7 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/lib/shared/formwindowbase.cpp" line="153"/>
-         <source>Delete &apos;%1&apos;</source>
--        <translation type="unfinished">Usuń &apos;%1&apos;</translation>
-+        <translation>Usuń &apos;%1&apos;</translation>
-     </message>
- </context>
- <context>
-@@ -3851,7 +3851,7 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/components/propertyeditor/qtgradienteditor.ui" line="268"/>
-         <source>Spread</source>
--        <translation type="unfinished">Rozciąganie</translation>
-+        <translation>Rozmieszczenie</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/components/propertyeditor/qtgradienteditor.ui" line="308"/>
-@@ -3906,17 +3906,17 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/components/propertyeditor/qtgradienteditor.cpp" line="266"/>
-         <source>Pad</source>
--        <translation type="unfinished">Brak</translation>
-+        <translation>Dopełnienie</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/components/propertyeditor/qtgradienteditor.cpp" line="266"/>
-         <source>Repeat</source>
--        <translation type="unfinished">Powtórzone</translation>
-+        <translation>Powtórzenie</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/components/propertyeditor/qtgradienteditor.cpp" line="266"/>
-         <source>Reflect</source>
--        <translation type="unfinished">Odbite</translation>
-+        <translation>Odbicie</translation>
-     </message>
- </context>
- <context>
---- qt-x11-opensource-src-4.3.3/translations/linguist_pl.ts.orig	2007-12-04 17:43:16.000000000 +0100
-+++ qt-x11-opensource-src-4.3.3/translations/linguist_pl.ts	2008-01-04 17:13:33.877191315 +0100
-@@ -76,22 +76,22 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/msgedit.cpp" line="507"/>
-         <source>This area shows the source text.</source>
--        <translation type="unfinished">W tym obszarze wyświetlany jest tekst źródłowy.</translation>
-+        <translation>W tym obszarze wyświetlany jest tekst źródłowy.</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/msgedit.cpp" line="513"/>
-         <source>Alternative source text</source>
--        <translation type="unfinished"></translation>
-+        <translation>Alternatywny tekst źródłowy</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/msgedit.cpp" line="523"/>
-         <source>This area shows text from an auxillary translation.</source>
--        <translation type="unfinished"></translation>
-+        <translation>W tym obszarze wyświetlane jest tekst dodatkowego tłumaczenia.</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/msgedit.cpp" line="549"/>
-         <source>This area shows a comment that may guide you, and the context in which the text occurs.</source>
--        <translation type="unfinished">W tym obszarze wyświetlany jest komentarz oraz kontekst, w którym dany tekst wystąpił.</translation>
-+        <translation>W tym obszarze wyświetlany jest komentarz objaśniający oraz kontekst, w którym dany tekst wystąpił.</translation>
-     </message>
- </context>
- <context>
-@@ -785,12 +785,12 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/mainwindow.ui" line="769"/>
-         <source>Open auxiliary source</source>
--        <translation type="unfinished"></translation>
-+        <translation>Otwórz dodatkowe źródło</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/mainwindow.ui" line="777"/>
-         <source>Disable auxiliary source</source>
--        <translation type="unfinished"></translation>
-+        <translation>Wyłącz dodatkowe źródło</translation>
-     </message>
- </context>
- <context>
-@@ -1330,7 +1330,7 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="943"/>
-         <source>&lt;center&gt;&lt;img src=&quot;:/images/splash.png&quot;/&gt;&lt;/img&gt;&lt;p&gt;%1&lt;/p&gt;&lt;/center&gt;&lt;p&gt;Qt Linguist is a tool for adding translations to Qt applications.&lt;/p&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Copyright (C) 2000-2007 Trolltech ASA. All rights reserved.&lt;/p&gt;&lt;p&gt;The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.&lt;/p&gt;</source>
--        <translation type="unfinished"></translation>
-+        <translation>&lt;center&gt;&lt;img src=&quot;:/images/splash.png&quot;/&gt;&lt;/img&gt;&lt;p&gt;%1&lt;/p&gt;&lt;/center&gt;&lt;p&gt;Qt Linguist jest narzędziem do dodawania tłumaczeń do aplikacji Qt.&lt;/p&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Copyright (C) 2000-2007 Trolltech ASA. Wszelkie prawa zastrzeżone.&lt;/p&gt;&lt;p&gt;Program dostarczony jest BEZ ŻADNYCH GWARANCJI.&lt;/p&gt;</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="1620"/>
-@@ -1541,12 +1541,12 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="933"/>
-         <source>This program is licensed to you under the terms of the Qt Commercial License Agreement. For details, see the file LICENSE that came with this software distribution.</source>
--        <translation type="unfinished">Ten program wydany jest na licencji Qt Commercial. Aby sprawdzić szczegóły licencji, proszę sprawdzić plik LICENSE, który dołączany jest do pakietu Qt.</translation>
-+        <translation>Ten program wydany jest na licencji komercyjnej Qt. Aby sprawdzić szczegóły licencji, proszę sprawdzić plik LICENSE, który dołączany jest do oprogramowania.</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="929"/>
-         <source>This version of Qt Linguist is part of the Qt Open Source Edition, for use in the development of Open Source applications. Qt is a comprehensive C++ framework for cross-platform application development.&lt;br/&gt;&lt;br/&gt;You need a commercial Qt license for development of proprietary (closed source) applications. Please see &lt;tt&gt;http://www.trolltech.com/company/model.html&lt;/tt&gt; for an overview of Qt licensing.</source>
--        <translation type="unfinished">Ta wersja Qt Linguist is częścią wydania Qt Open Source, przeznaczonego dla tworzenia i publikowania aplikacji Open Source. Qt jest zaawansowanym zestawem bibliotek wykorzystywanym do pisania aplikacji cross-platformowych.&lt;br/&gt;&lt;br/&gt;Aby móc sprzedawać aplikację utworzone przy pomocy Qt potrzebujesz wersji komercyjnej. Proszę sprawdzić &lt;tt&gt;http://www.trolltech.com/company/model.html&lt;/tt&gt; dla poznania sposobu licencjonowania Qt.</translation>
-+        <translation>Ta wersja Qt Linguista jest częścią wydania Qt Open Source, przeznaczonego do tworzenia i publikowania aplikacji Open Source. Qt jest zaawansowanym zestawem bibliotek C++ wykorzystywanym do pisania przenośnych aplikacji.&lt;br/&gt;&lt;br/&gt;Aby móc tworzyć przy pomocy Qt własne aplikacje bez publikowania kodu (closed source) potrzebujesz wersji komercyjnej. Proszę sprawdzić &lt;tt&gt;http://www.trolltech.com/company/model.html&lt;/tt&gt; w celi zapoznania się z licencjonowaniem Qt.</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="689"/>
-@@ -1600,33 +1600,35 @@
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="302"/>
-         <source>%1 translation</source>
--        <translation type="unfinished"></translation>
-+        <translation>Tłumaczenie %1</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="350"/>
-         <source>Qt alternative translation source (*.ts)
- XLIFF localization file (*.xlf)
- All files (*)</source>
--        <translation type="unfinished"></translation>
-+	<translation>Alternatywne źródło tłumaczenia Qt (*.ts)
-+Plik lokalizacji XLIFF (*.xlf)
-+Wszystkie pliki (*)</translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="367"/>
-         <source>Loading alternative translation...</source>
--        <translation type="unfinished"></translation>
-+        <translation>Wczytywanie alternatywnego tłumaczenia...</translation>
-     </message>
-     <message numerus="yes">
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="376"/>
-         <source>%n alternative translation(s) loaded.</source>
--        <translation type="unfinished">
--            <numerusform></numerusform>
--            <numerusform></numerusform>
--            <numerusform></numerusform>
-+        <translation>
-+            <numerusform>Wczytano %n alternatywne tłumaczenie.</numerusform>
-+            <numerusform>Wczytano %n alternatywne tłumaczenia.</numerusform>
-+            <numerusform>Wczytano %n alternatywnych tłumaczeń.</numerusform>
-         </translation>
-     </message>
-     <message>
-         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="379"/>
-         <source>Existing %1 translation</source>
--        <translation type="unfinished"></translation>
-+        <translation>Istniejące tłumaczenie %1</translation>
-     </message>
- </context>
- <context>
 --- qt-x11-opensource-src-4.3.3/translations/qtconfig_pl.ts.orig	2007-12-04 17:43:38.000000000 +0100
 +++ qt-x11-opensource-src-4.3.3/translations/qtconfig_pl.ts	2008-01-04 17:53:35.810111777 +0100
 @@ -308,7 +308,7 @@
@@ -403,3 +202,204 @@
      </message>
      <message>
          <location filename="../tools/qtconfig/paletteeditoradvancedbase.ui" line="517"/>
+--- qt-x11-opensource-src-4.3.4/translations/designer_pl.ts.orig	2008-02-19 18:47:30.000000000 +0100
++++ qt-x11-opensource-src-4.3.4/translations/designer_pl.ts	2008-02-29 15:23:53.753191684 +0100
+@@ -756,7 +756,7 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/designer/plugindialog.ui" line="60"/>
+         <source>1</source>
+-        <translation type="unfinished">1</translation>
++        <translation>1</translation>
+     </message>
+ </context>
+ <context>
+@@ -1915,12 +1915,12 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/lib/shared/widgetfactory.cpp" line="280"/>
+         <source>The current page of the container &apos;%1&apos; (%2) could not be determined while creating a layout.This indicates an inconsistency in the ui-file, probably a layout being constructed on a container widget.</source>
+-        <translation type="unfinished"></translation>
++        <translation>Podczas tworzenia układu nie udało się określić bieżącej strony kontenera &apos;%1&apos; (%2). Oznacza to niespójność w pliku ui, prawdopodobnie układ tworzony na widżecie kontenera.</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/lib/uilib/properties_p.h" line="96"/>
+         <source>The enumeration-value &quot;%1&quot; is invalid. The default value &quot;%2&quot; will be used instead.</source>
+-        <translation type="unfinished"></translation>
++        <translation>Wartość wyliczeniowa &quot;%1&qout; jest niepoprawna. Użyta zostanie wartość domyślna &quot;%2&quot;.</translation>
+     </message>
+ </context>
+ <context>
+@@ -2054,12 +2054,12 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/designer/versiondialog.cpp" line="157"/>
+         <source>This version of Qt Designer is part of the Qt Open Source Edition, for use in the development of Open Source applications. Qt is a comprehensive C++ framework for cross-platform application development.&lt;br/&gt;&lt;br/&gt;You need a commercial Qt license for development of proprietary (closed source) applications. Please see &lt;a href=&quot;http://www.trolltech.com/company/model.html&quot;&gt;http://www.trolltech.com/company/model.html&lt;/a&gt; for an overview of Qt licensing.&lt;br/&gt;</source>
+-        <translation type="unfinished">Ta wersja Qt Designer jest częścią wydania Qt Open Source, przeznaczonego do tworzenia aplikacji Open Source. Qt zawiera wszechstronny zestaw bibliotek wykorzystywanych do pisania przenośnych aplikacji.&lt;br/&gt;&lt;br/&gt;Aby móc tworzyć przy pomocy Qt własne aplikacje bez publikowania kodu (closed source) potrzebujesz wydania komercyjnego. Proszę sprawdzić &lt;a href=&quot;http://www.trolltech.com/company/model.html&quot;&gt;www.trolltech.com/company/model.html&lt;/a&gt; w celu zapoznania się z licencjonowaniem Qt.&lt;br/&gt;</translation>
++        <translation>Ta wersja Qt Designera jest częścią wydania Qt Open Source, przeznaczonego do tworzenia aplikacji Open Source. Qt zawiera wszechstronny zestaw bibliotek C++ wykorzystywanych do pisania przenośnych aplikacji.&lt;br/&gt;&lt;br/&gt;Aby móc tworzyć przy pomocy Qt własne aplikacje bez publikowania kodu (closed source) potrzebujesz wydania komercyjnego. Proszę sprawdzić &lt;a href=&quot;http://www.trolltech.com/company/model.html&quot;&gt;www.trolltech.com/company/model.html&lt;/a&gt; w celu zapoznania się z licencjonowaniem Qt.&lt;br/&gt;</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/designer/versiondialog.cpp" line="161"/>
+         <source>This program is licensed to you under the terms of the Qt Commercial License Agreement. For details, see the file LICENSE that came with this software distribution.&lt;br/&gt;</source>
+-        <translation type="unfinished">Ten program wydany jest na licencji Qt Commercial. Aby zapoznać się ze szczegółami licencji, proszę sprawdzić plik LICENSE, który dołączony jest do pakietu Qt.&lt;br/&gt;</translation>
++        <translation>Ten program wydany jest na komercyjnej licencji Qt. Aby zapoznać się ze szczegółami licencji, proszę sprawdzić plik LICENSE, który dołączony jest do pakietu Qt.&lt;br/&gt;</translation>
+     </message>
+     <message>
+         <location filename="../tools/designer/src/designer/versiondialog.cpp" line="177"/>
+@@ -2069,7 +2069,7 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/designer/versiondialog.cpp" line="169"/>
+         <source>%1&lt;br/&gt;%2&lt;br/&gt;Copyright 2000-2008 Trolltech ASA. All rights reserved.&lt;br/&gt;&lt;br/&gt;The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.&lt;br/&gt; </source>
+-        <translation type="unfinished">%1&lt;br/&gt;%2&lt;br/&gt;Copyright (C) 2000-2008 Trolltech ASA. Wszystkie prawa zastrzeżone.&lt;br/&gt;&lt;br/&gt;Program dostarczony jest BEZ ŻADNYCH GWARANCJI.&lt;br/&gt; </translation>
++        <translation>%1&lt;br/&gt;%2&lt;br/&gt;Copyright (C) 2000-2007 Trolltech ASA. Wszystkie prawa zastrzeżone.&lt;br/&gt;&lt;br/&gt;Program dostarczony jest BEZ ŻADNYCH GWARANCJI.&lt;br/&gt; </translation>
+     </message>
+ </context>
+ <context>
+@@ -2468,7 +2468,7 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/lib/shared/formwindowbase.cpp" line="153"/>
+         <source>Delete &apos;%1&apos;</source>
+-        <translation type="unfinished">Usuń &apos;%1&apos;</translation>
++        <translation>Usuń &apos;%1&apos;</translation>
+     </message>
+ </context>
+ <context>
+@@ -3851,7 +3851,7 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/components/propertyeditor/qtgradienteditor.ui" line="268"/>
+         <source>Spread</source>
+-        <translation type="unfinished">Rozciąganie</translation>
++        <translation>Rozmieszczenie</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/components/propertyeditor/qtgradienteditor.ui" line="308"/>
+@@ -3906,17 +3906,17 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/components/propertyeditor/qtgradienteditor.cpp" line="266"/>
+         <source>Pad</source>
+-        <translation type="unfinished">Brak</translation>
++        <translation>Dopełnienie</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/components/propertyeditor/qtgradienteditor.cpp" line="266"/>
+         <source>Repeat</source>
+-        <translation type="unfinished">Powtórzone</translation>
++        <translation>Powtórzenie</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/designer/src/components/propertyeditor/qtgradienteditor.cpp" line="266"/>
+         <source>Reflect</source>
+-        <translation type="unfinished">Odbite</translation>
++        <translation>Odbicie</translation>
+     </message>
+ </context>
+ <context>
+--- qt-x11-opensource-src-4.3.4/translations/linguist_pl.ts.orig	2008-02-19 18:47:39.000000000 +0100
++++ qt-x11-opensource-src-4.3.4/translations/linguist_pl.ts	2008-02-29 15:25:57.385768693 +0100
+@@ -76,22 +76,22 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/msgedit.cpp" line="507"/>
+         <source>This area shows the source text.</source>
+-        <translation type="unfinished">W tym obszarze wyświetlany jest tekst źródłowy.</translation>
++        <translation>W tym obszarze wyświetlany jest tekst źródłowy.</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/msgedit.cpp" line="513"/>
+         <source>Alternative source text</source>
+-        <translation type="unfinished"></translation>
++        <translation>Alternatywny tekst źródłowy</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/msgedit.cpp" line="523"/>
+         <source>This area shows text from an auxillary translation.</source>
+-        <translation type="unfinished"></translation>
++        <translation>W tym obszarze wyświetlane jest tekst dodatkowego tłumaczenia.</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/msgedit.cpp" line="549"/>
+         <source>This area shows a comment that may guide you, and the context in which the text occurs.</source>
+-        <translation type="unfinished">W tym obszarze wyświetlany jest komentarz oraz kontekst, w którym dany tekst wystąpił.</translation>
++        <translation>W tym obszarze wyświetlany jest komentarz objaśniający oraz kontekst, w którym dany tekst wystąpił.</translation>
+     </message>
+ </context>
+ <context>
+@@ -791,12 +791,12 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/mainwindow.ui" line="769"/>
+         <source>Open auxiliary source</source>
+-        <translation type="unfinished"></translation>
++        <translation>Otwórz dodatkowe źródło</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/mainwindow.ui" line="777"/>
+         <source>Disable auxiliary source</source>
+-        <translation type="unfinished"></translation>
++        <translation>Wyłącz dodatkowe źródło</translation>
+     </message>
+ </context>
+ <context>
+@@ -1351,7 +1351,7 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="943"/>
+         <source>&lt;center&gt;&lt;img src=&quot;:/images/splash.png&quot;/&gt;&lt;/img&gt;&lt;p&gt;%1&lt;/p&gt;&lt;/center&gt;&lt;p&gt;Qt Linguist is a tool for adding translations to Qt applications.&lt;/p&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Copyright (C) 2000-2008 Trolltech ASA. All rights reserved.&lt;/p&gt;&lt;p&gt;The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.&lt;/p&gt;</source>
+-        <translation type="unfinished"></translation>
++        <translation>&lt;center&gt;&lt;img src=&quot;:/images/splash.png&quot;/&gt;&lt;/img&gt;&lt;p&gt;%1&lt;/p&gt;&lt;/center&gt;&lt;p&gt;Qt Linguist jest narzędziem do dodawania tłumaczeń do aplikacji Qt.&lt;/p&gt;&lt;p&gt;%2&lt;/p&gt;&lt;p&gt;Copyright (C) 2000-2007 Trolltech ASA. Wszelkie prawa zastrzeżone.&lt;/p&gt;&lt;p&gt;Program dostarczony jest BEZ ŻADNYCH GWARANCJI.&lt;/p&gt;</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="1620"/>
+@@ -1562,12 +1562,12 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="933"/>
+         <source>This program is licensed to you under the terms of the Qt Commercial License Agreement. For details, see the file LICENSE that came with this software distribution.</source>
+-        <translation type="unfinished">Ten program wydany jest na licencji Qt Commercial. Aby sprawdzić szczegóły licencji, proszę sprawdzić plik LICENSE, który dołączany jest do pakietu Qt.</translation>
++        <translation>Ten program wydany jest na licencji komercyjnej Qt. Aby sprawdzić szczegóły licencji, proszę sprawdzić plik LICENSE, który dołączany jest do oprogramowania.</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="929"/>
+         <source>This version of Qt Linguist is part of the Qt Open Source Edition, for use in the development of Open Source applications. Qt is a comprehensive C++ framework for cross-platform application development.&lt;br/&gt;&lt;br/&gt;You need a commercial Qt license for development of proprietary (closed source) applications. Please see &lt;tt&gt;http://www.trolltech.com/company/model.html&lt;/tt&gt; for an overview of Qt licensing.</source>
+-        <translation type="unfinished">Ta wersja Qt Linguist is częścią wydania Qt Open Source, przeznaczonego dla tworzenia i publikowania aplikacji Open Source. Qt jest zaawansowanym zestawem bibliotek wykorzystywanym do pisania aplikacji cross-platformowych.&lt;br/&gt;&lt;br/&gt;Aby móc sprzedawać aplikację utworzone przy pomocy Qt potrzebujesz wersji komercyjnej. Proszę sprawdzić &lt;tt&gt;http://www.trolltech.com/company/model.html&lt;/tt&gt; dla poznania sposobu licencjonowania Qt.</translation>
++        <translation>Ta wersja Qt Linguista jest częścią wydania Qt Open Source, przeznaczonego do tworzenia i publikowania aplikacji Open Source. Qt jest zaawansowanym zestawem bibliotek C++ wykorzystywanym do pisania przenośnych aplikacji.&lt;br/&gt;&lt;br/&gt;Aby móc tworzyć przy pomocy Qt własne aplikacje bez publikowania kodu (closed source) potrzebujesz wersji komercyjnej. Proszę sprawdzić &lt;tt&gt;http://www.trolltech.com/company/model.html&lt;/tt&gt; w celi zapoznania się z licencjonowaniem Qt.</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="689"/>
+@@ -1621,33 +1621,35 @@
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="302"/>
+         <source>%1 translation</source>
+-        <translation type="unfinished"></translation>
++        <translation>Tłumaczenie %1</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="350"/>
+         <source>Qt alternative translation source (*.ts)
+ XLIFF localization file (*.xlf)
+ All files (*)</source>
+-        <translation type="unfinished"></translation>
++	<translation>Alternatywne źródło tłumaczenia Qt (*.ts)
++Plik lokalizacji XLIFF (*.xlf)
++Wszystkie pliki (*)</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="367"/>
+         <source>Loading alternative translation...</source>
+-        <translation type="unfinished"></translation>
++        <translation>Wczytywanie alternatywnego tłumaczenia...</translation>
+     </message>
+     <message numerus="yes">
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="376"/>
+         <source>%n alternative translation(s) loaded.</source>
+-        <translation type="unfinished">
+-            <numerusform></numerusform>
+-            <numerusform></numerusform>
+-            <numerusform></numerusform>
++        <translation>
++            <numerusform>Wczytano %n alternatywne tłumaczenie.</numerusform>
++            <numerusform>Wczytano %n alternatywne tłumaczenia.</numerusform>
++            <numerusform>Wczytano %n alternatywnych tłumaczeń.</numerusform>
+         </translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="379"/>
+         <source>Existing %1 translation</source>
+-        <translation type="unfinished"></translation>
++        <translation>Istniejące tłumaczenie %1</translation>
+     </message>
+     <message>
+         <location filename="../../../../data/depot/qt/4.3/tools/linguist/linguist/trwindow.cpp" line="14"/>
