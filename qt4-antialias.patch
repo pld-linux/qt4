@@ -17,8 +17,8 @@
 +	QSettings prefs;
 +	bool qt_use_antialiasing = prefs.value( "/qt/useXft", TRUE ).toBool() ;
  
-+    if (QX11Info::appDepth(screen) <= 8 || ! (qt_use_antialiasing)) {
--    if (QX11Info::appDepth(screen) <= 8) {
+-    if (X11->display && QX11Info::appDepth(screen) <= 8) {
++    if (X11->display && (QX11Info::appDepth(screen) <= 8) || ! (qt_use_antialiasing)) {
          // can't do antialiasing on 8bpp
          FcPatternAddBool(pattern, FC_ANTIALIAS, false);
      } else if (request.styleStrategy & (QFont::PreferAntialias|QFont::NoAntialias)) {
