@@ -1524,7 +1524,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with pgsql}
 %files -n QtSql-pgsql
 %defattr(644,root,root,755)
-#%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlpsql.so
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlpsql.so
 %endif
 
 %if %{with sqlite}
