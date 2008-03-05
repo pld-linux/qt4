@@ -94,7 +94,7 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	zlib-devel
-BuildConflicts:	QtCore-devel < 4.3.2
+BuildConflicts:	QtCore-devel < 4.4.0
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
@@ -519,6 +519,18 @@ Test framework - development files.
 %description -n QtTest-devel -l pl.UTF-8
 Szkielet testów - pliki programistyczne.
 
+%package -n QtTest-static
+Summary:        Test framework - static libraries
+Summary(pl.UTF-8):      Szkielet testów - biblioteki statyczne
+Group:          X11/Development/Libraries
+Requires:       QtTest-devel = %{version}-%{release}
+
+%description -n QtTest-static
+Test framework - static libraries.
+
+%description -n QtTest-static -l pl.UTF-8
+Szkielet testów - biblioteki statyczne.
+
 %package -n QtXml
 Summary:	Classes for handling XML
 Summary(pl.UTF-8):	Klasy do obsługi XML-a
@@ -813,6 +825,78 @@ library.
 Klasy do obsługi formularzy Qt Designera w aplikacjach - biblioteka
 statyczna.
 
+%package -n QtHelp
+Summary:        QtHelp
+Group:          X11/Libraries
+Requires:       QtGui = %{version}-%{release}
+
+%description -n QtHelp
+QtHelp.
+
+%package -n QtHelp-devel
+Summary:        QtHelp - development files
+Group:          X11/Development/Libraries
+Requires:       QtCore-devel = %{version}-%{release}
+
+%description -n QtHelp-devel
+QtHelp - development files.
+
+%package -n QtHelp-static
+Summary:        QtHelp - static libraries
+Group:          X11/Development/Libraries
+Requires:       QtCore-devel = %{version}-%{release}
+
+%description -n QtHelp-static
+QtHelp - static libraries.
+
+%package -n QtWebKit
+Summary:        QtWebKit
+Group:          X11/Libraries
+Requires:       QtGui = %{version}-%{release}
+
+%description -n QtWebKit
+QtWebKit.
+
+%package -n QtWebKit-devel
+Summary:        QtWebKit - development files
+Group:          X11/Development/Libraries
+Requires:       QtCore-devel = %{version}-%{release}
+
+%description -n QtWebKit-devel
+QtWebKit - development files.
+
+%package -n QtWebKit-static
+Summary:        QtWebKit - static libraries
+Group:          X11/Development/Libraries
+Requires:       QtCore-devel = %{version}-%{release}
+
+%description -n QtWebKit-static
+QtWebKit - static libraries.
+
+%package -n QtCLucene
+Summary:        QtCLucene
+Group:          X11/Libraries
+Requires:       QtGui = %{version}-%{release}
+
+%description -n QtCLucene
+QtCLucene.
+
+%package -n QtCLucene-devel
+Summary:        QtCLucene - development files
+Group:          X11/Development/Libraries
+Requires:       QtCore-devel = %{version}-%{release}
+
+%description -n QtCLucene-devel
+QtCLucene - development files.
+
+%package -n QtCLucene-static
+Summary:        QtCLucene - static libraries
+Group:          X11/Development/Libraries
+Requires:       QtCore-devel = %{version}-%{release}
+
+%description -n QtCLucene-static
+QtCLucene - static libraries.
+
 %package assistant
 Summary:	Qt documentation browser
 Summary(pl.UTF-8):	Przeglądarka dokumentacji Qt
@@ -881,6 +965,22 @@ tłumaczenia interfejsu użytkownika. Zbiera wszystkie teksty
 przeznaczone do tłumaczenia i przedstawia w łatwym w obsłudze oknie.
 Gdy jeden z nich jest już przetłumaczony, automatycznie przechodzi do
 następnego, aż wszystkie będą przetłumaczone.
+
+%package phonon
+Summary:        phonon
+Group:          X11/Development/Tools
+
+%description phonon
+phonon.
+
+%package phonon-devel
+Summary:        phonon - development files
+Group:          X11/Development/Libraries
+Requires:       QtCore-devel = %{version}-%{release}
+Requires:	phonon = %{version}=%{release}
+
+%description phonon-devel
+phonon - development files.
 
 %package qmake
 Summary:	Qt makefile generator
@@ -1056,7 +1156,8 @@ COMMONOPT=" \
 	-xcursor \
 	-xkb \
 	-xrender \
-	-xshape"
+	-xshape \
+	-continue"
 
 ##################################
 #	  STATIC MULTI-THREAD	   #
@@ -1070,15 +1171,13 @@ OPT=" \
 	-%{!?with_sqlite3:no}%{?with_sqlite3:qt}-sql-sqlite \
 	-%{!?with_sqlite:no}%{?with_sqlite:qt}-sql-sqlite2 \
 	-%{!?with_ibase:no}%{?with_ibase:qt}-sql-ibase \
-	-static \
-	-continue"
+	-static"
 
 echo "yes" | ./configure $COMMONOPT $OPT
 
 %{__make} -C src
 %{__make} -C tools/assistant/lib
 %{__make} -C tools/designer
-%{__make} -C tools/qdbus/src
 if [ ! -d staticlib ]; then
 	mkdir staticlib
 	cp -a lib/*.a staticlib
@@ -1156,8 +1255,6 @@ install tools/linguist/linguist/images/appicon.png \
 	$RPM_BUILD_ROOT%{_pixmapsdir}/linguist-qt4.png
 
 install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/assistant-qt4.desktop
-install tools/assistant/images/assistant.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/assistant-qt4.png
 
 install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/designer-qt4.desktop
 install tools/designer/src/designer/images/designer.png \
@@ -1248,7 +1345,9 @@ mkdevfl() {
 	fi
 	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "`; do
 		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE/$f
-		ifecho $MODULE-devel %{_includedir}/qt4/Qt/$f
+		if [ -a "$RPM_BUILD_ROOT%{_includedir}/qt4/Qt/$f" ]; then
+			ifecho $MODULE-devel %{_includedir}/qt4/Qt/$f
+		fi
 	done
 	for f in $@; do ifecho $MODULE-devel $f; done
 }
@@ -1262,8 +1361,12 @@ mkdevfl QtScript
 mkdevfl QtSql
 mkdevfl QtSvg
 mkdevfl QtTest
+mkdevfl	QtHelp
+mkdevfl	QtWebKit
+mkdevfl	QtCLucene
 mkdevfl QtXml
 mkdevfl Qt3Support
+mkdevfl phonon
 
 # without *.la *.pc etc.
 mkdevfl QtAssistant || /bin/true
@@ -1313,6 +1416,15 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n QtTest	-p /sbin/ldconfig
 %postun	-n QtTest	-p /sbin/ldconfig
 
+%post	-n QtHelp	-p /sbin/ldconfig
+%postun	-n QtHelp	-p /sbin/ldconfig
+
+%post	-n QtWebKit	-p /sbin/ldconfig
+%postun	-n QtWebKit	-p /sbin/ldconfig
+
+%post	-n QtCLucene	-p /sbin/ldconfig
+%postun	-n QtCLucene	-p /sbin/ldconfig
+
 %post	-n QtXml	-p /sbin/ldconfig
 %postun	-n QtXml	-p /sbin/ldconfig
 
@@ -1327,6 +1439,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n QtUiTools	-p /sbin/ldconfig
 %postun	-n QtUiTools	-p /sbin/ldconfig
+
+%post	phonon		-p /sbin/ldconfig
+%postun	phonon		-p /sbin/ldconfig
 
 %files -n QtCore
 %defattr(644,root,root,755)
@@ -1343,6 +1458,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/plugins/inputmethods
 %dir %{_qtdir}/plugins/network
 %dir %{_qtdir}/plugins/sqldrivers
+%dir %{_qtdir}/plugins/script
 %dir %{_datadir}/qt4
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
@@ -1366,6 +1482,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQtDBus.so.4
 %attr(755,root,root) %{_qtdir}/bin/qdbus
 %attr(755,root,root) %{_qtdir}/bin/qdbusviewer
+# ?? is this the proper place?
+%attr(755,root,root) %{_qtdir}/plugins/script/libqtscriptdbus.so
 
 %files -n QtGui
 %defattr(644,root,root,755)
@@ -1406,7 +1524,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with pgsql}
 %files -n QtSql-pgsql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlpsql.so
+#%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlpsql.so
 %endif
 
 %if %{with sqlite}
@@ -1472,18 +1590,36 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.4
 
+%files -n QtCLucene
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtCLucene.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtCLucene.so.4
+
+%files -n QtHelp
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtHelp.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
+%attr(755,root,root) %{_qtdir}/bin/qhelpconverter
+%attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
+
+%files -n QtWebKit
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtWebKit.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtWebKit.so.4
+
 %files assistant
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pixeltool
 %attr(755,root,root) %{_bindir}/assistant-qt4
 %attr(755,root,root) %{_qtdir}/bin/pixeltool
 %attr(755,root,root) %{_qtdir}/bin/assistant
+%attr(755,root,root) %{_qtdir}/bin/assistant_adp
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-assistant.qm
 %{_desktopdir}/assistant-qt4.desktop
-%{_pixmapsdir}/assistant-qt4.png
+#%{_pixmapsdir}/assistant-qt4.png
 
 %files build
 %defattr(644,root,root,755)
@@ -1524,6 +1660,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/qt4/phrasebooks
 %{_desktopdir}/linguist-qt4.desktop
 %{_pixmapsdir}/linguist-qt4.png
+
+%files phonon
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libphonon.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libphonon.so.4
+%dir %{_qtdir}/plugins/phonon_backend
+%attr(755,root,root) %{_qtdir}/plugins/phonon_backend/libphonon_gstreamer.so
 
 %files qmake
 %defattr(644,root,root,755)
@@ -1583,6 +1726,15 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtTest-devel -f QtTest-devel.files
 %defattr(644,root,root,755)
 
+%files -n QtHelp-devel -f QtHelp-devel.files
+%defattr(644,root,root,755)
+
+%files -n QtWebKit-devel -f QtWebKit-devel.files
+%defattr(644,root,root,755)
+
+%files -n QtCLucene-devel -f QtCLucene-devel.files
+%defattr(644,root,root,755)
+
 %files -n QtXml-devel -f QtXml-devel.files
 %defattr(644,root,root,755)
 
@@ -1595,6 +1747,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 
 %files -n QtUiTools-devel -f QtUiTools-devel.files
+%defattr(644,root,root,755)
+
+%files phonon-devel -f phonon-devel.files
 %defattr(644,root,root,755)
 
 %if %{with static_libs}
@@ -1630,6 +1785,22 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libQtSvg.a
 
+%files -n QtTest-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtTest.a
+
+#%files -n QtCLucene-static
+#%defattr(644,root,root,755)
+#%{_libdir}/libQtCLucene.a
+
+%files -n QtHelp-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtHelp.a
+
+%files -n QtWebKit-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtWebKit.a
+
 %files -n QtXml-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtXml.a
@@ -1640,7 +1811,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtAssistant-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtAssistantClient.a
+#%{_libdir}/libQtAssistantClient.a
 
 %files -n QtDesigner-static
 %defattr(644,root,root,755)
