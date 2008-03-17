@@ -93,6 +93,7 @@ BuildRequires:	xorg-lib-libXi-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
+BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	zlib-devel
 BuildConflicts:	QtCore-devel < 4.4.0
 Obsoletes:	qt-extensions
