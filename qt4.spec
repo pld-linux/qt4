@@ -95,7 +95,8 @@ BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	zlib-devel
-BuildConflicts:	QtCore-devel < 4.4.0
+BuildConflicts:	QtCore-devel < %{version}
+BuildConflicts:	QtScript-devel < %{version}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
