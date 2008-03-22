@@ -71,6 +71,8 @@ BuildRequires:	freetype-devel >= 1:2.0.0
 %{?with_pch:BuildRequires:	gcc >= 5:4.0}
 BuildRequires:	giflib-devel
 BuildRequires:	glib2-devel >= 2.0.0
+BuildRequires:	gstreamer-devel >= 0.10
+BuildRequires:	gstreamer-plugins-base-devel >= 0.10
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
