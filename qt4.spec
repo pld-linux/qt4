@@ -81,6 +81,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	pkgconfig
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
+%{?with_pgsql:BuildRequires:	postgresql-static}
 BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
