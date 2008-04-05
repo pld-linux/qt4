@@ -40,7 +40,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.3.4
-Release:	3
+Release:	4
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -1010,6 +1010,7 @@ export PATH=$PWD/bin:$PATH
 
 COMMONOPT=" \
 	-DQT_CLEAN_NAMESPACE \
+	-buildkey pld \
 	-verbose \
 	-prefix %{_qtdir} \
 	-bindir %{_qtdir}/bin \
