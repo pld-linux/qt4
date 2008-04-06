@@ -522,10 +522,10 @@ Test framework - development files.
 Szkielet testów - pliki programistyczne.
 
 %package -n QtTest-static
-Summary:        Test framework - static libraries
-Summary(pl.UTF-8):      Szkielet testów - biblioteki statyczne
-Group:          X11/Development/Libraries
-Requires:       QtTest-devel = %{version}-%{release}
+Summary:	Test framework - static libraries
+Summary(pl.UTF-8):	Szkielet testów - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtTest-devel = %{version}-%{release}
 
 %description -n QtTest-static
 Test framework - static libraries.
@@ -828,76 +828,100 @@ Klasy do obsługi formularzy Qt Designera w aplikacjach - biblioteka
 statyczna.
 
 %package -n QtHelp
-Summary:        QtHelp
-Group:          X11/Libraries
-Requires:       QtGui = %{version}-%{release}
+Summary:	QtHelp
+Group:		X11/Libraries
+Requires:	QtGui = %{version}-%{release}
 
 %description -n QtHelp
 QtHelp.
 
 %package -n QtHelp-devel
-Summary:        QtHelp - development files
-Group:          X11/Development/Libraries
-Requires:       QtCore-devel = %{version}-%{release}
+Summary:	QtHelp - development files
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
 
 %description -n QtHelp-devel
 QtHelp - development files.
 
 %package -n QtHelp-static
-Summary:        QtHelp - static libraries
-Group:          X11/Development/Libraries
-Requires:       QtCore-devel = %{version}-%{release}
+Summary:	QtHelp - static libraries
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
 
 %description -n QtHelp-static
 QtHelp - static libraries.
 
 %package -n QtWebKit
-Summary:        QtWebKit
-Group:          X11/Libraries
-Requires:       QtGui = %{version}-%{release}
+Summary:	QtWebKit
+Group:		X11/Libraries
+Requires:	QtGui = %{version}-%{release}
 
 %description -n QtWebKit
 QtWebKit.
 
 %package -n QtWebKit-devel
-Summary:        QtWebKit - development files
-Group:          X11/Development/Libraries
-Requires:       QtCore-devel = %{version}-%{release}
+Summary:	QtWebKit - development files
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
 
 %description -n QtWebKit-devel
 QtWebKit - development files.
 
 %package -n QtWebKit-static
-Summary:        QtWebKit - static libraries
-Group:          X11/Development/Libraries
-Requires:       QtCore-devel = %{version}-%{release}
+Summary:	QtWebKit - static libraries
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
 
 %description -n QtWebKit-static
 QtWebKit - static libraries.
 
 %package -n QtCLucene
-Summary:        QtCLucene
-Group:          X11/Libraries
-Requires:       QtGui = %{version}-%{release}
+Summary:	QtCLucene
+Group:		X11/Libraries
+Requires:	QtGui = %{version}-%{release}
 
 %description -n QtCLucene
 QtCLucene.
 
 %package -n QtCLucene-devel
-Summary:        QtCLucene - development files
-Group:          X11/Development/Libraries
-Requires:       QtCore-devel = %{version}-%{release}
+Summary:	QtCLucene - development files
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
 
 %description -n QtCLucene-devel
 QtCLucene - development files.
 
 %package -n QtCLucene-static
-Summary:        QtCLucene - static libraries
-Group:          X11/Development/Libraries
-Requires:       QtCore-devel = %{version}-%{release}
+Summary:	QtCLucene - static libraries
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
 
 %description -n QtCLucene-static
 QtCLucene - static libraries.
+
+%package -n QtXmlPatterns
+Summary:	QtXmlPatterns
+Group:		X11/Libraries
+Requires:	QtGui = %{version}-%{release}
+
+%description -n QtXmlPatterns
+QtXmlPatterns.
+
+%package -n QtXmlPatterns-devel
+Summary:	QtXmlPatterns - development files
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
+
+%description -n QtXmlPatterns-devel
+QtXmlPatterns - development files.
+
+%package -n QtXmlPatterns-static
+Summary:	QtXmlPatterns - static libraries
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
+
+%description -n QtXmlPatterns-static
+QtXmlPatterns - static libraries.
 
 %package assistant
 Summary:	Qt documentation browser
@@ -969,16 +993,16 @@ Gdy jeden z nich jest już przetłumaczony, automatycznie przechodzi do
 następnego, aż wszystkie będą przetłumaczone.
 
 %package phonon
-Summary:        phonon
-Group:          X11/Development/Tools
+Summary:	phonon
+Group:		X11/Development/Tools
 
 %description phonon
 phonon.
 
 %package phonon-devel
-Summary:        phonon - development files
-Group:          X11/Development/Libraries
-Requires:       QtCore-devel = %{version}-%{release}
+Summary:	phonon - development files
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
 Requires:	phonon = %{version}=%{release}
 
 %description phonon-devel
@@ -1368,6 +1392,7 @@ mkdevfl	QtHelp
 mkdevfl	QtWebKit
 mkdevfl	QtCLucene
 mkdevfl QtXml
+mkdevfl QtXmlPatterns
 mkdevfl Qt3Support
 mkdevfl phonon
 
@@ -1431,6 +1456,9 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n QtXml	-p /sbin/ldconfig
 %postun	-n QtXml	-p /sbin/ldconfig
 
+%post   -n QtXmlPatterns	-p /sbin/ldconfig
+%postun -n QtXmlPatterns	-p /sbin/ldconfig
+
 %post	-n Qt3Support	-p /sbin/ldconfig
 %postun	-n Qt3Support	-p /sbin/ldconfig
 
@@ -1461,7 +1489,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/plugins/inputmethods
 %dir %{_qtdir}/plugins/network
 %dir %{_qtdir}/plugins/sqldrivers
-%dir %{_qtdir}/plugins/script
+#%dir %{_qtdir}/plugins/script
 %dir %{_datadir}/qt4
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
@@ -1476,6 +1504,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/qt4.qm
 %lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4.qm
 
 %files -n QtDBus
 %defattr(644,root,root,755)
@@ -1486,7 +1515,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/qdbus
 %attr(755,root,root) %{_qtdir}/bin/qdbusviewer
 # ?? is this the proper place?
-%attr(755,root,root) %{_qtdir}/plugins/script/libqtscriptdbus.so
+#%attr(755,root,root) %{_qtdir}/plugins/script/libqtscriptdbus.so
 
 %files -n QtGui
 %defattr(644,root,root,755)
@@ -1569,6 +1598,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libQtXml.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtXml.so.4
 
+%files -n QtXmlPatterns
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_qtdir}/bin/xmlpatterns
+%attr(755,root,root) %{_libdir}/libQtXmlPatterns.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.4
+
 %files -n Qt3Support
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
@@ -1615,12 +1650,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pixeltool
 %attr(755,root,root) %{_bindir}/assistant-qt4
 %attr(755,root,root) %{_qtdir}/bin/pixeltool
+%attr(755,root,root) %{_qtdir}/bin/qcollectiongenerator
 %attr(755,root,root) %{_qtdir}/bin/assistant
 %attr(755,root,root) %{_qtdir}/bin/assistant_adp
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant.qm
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-assistant.qm
+%lang(de) %{_datadir}/locale/*de/LC_MESSAGES/qt4-assistant.qm
+%lang(ja) %{_datadir}/locale/*ja/LC_MESSAGES/qt4-assistant.qm
+%lang(pl) %{_datadir}/locale/*pl/LC_MESSAGES/qt4-assistant.qm
+%lang(zh_CN) %{_datadir}/locale/*_zh_*/LC_MESSAGES/qt4-assistant.qm
 %{_desktopdir}/assistant-qt4.desktop
 #%{_pixmapsdir}/assistant-qt4.png
 
@@ -1644,6 +1680,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-designer.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-designer.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-designer.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-designer.qm
 %{_desktopdir}/designer-qt4.desktop
 %{_pixmapsdir}/designer-qt4.png
 
@@ -1657,9 +1694,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/linguist
 %attr(755,root,root) %{_qtdir}/bin/lrelease
 %attr(755,root,root) %{_qtdir}/bin/lupdate
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-linguist.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-linguist.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-linguist.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-linguist.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-linguist.qm
 %{_datadir}/qt4/phrasebooks
 %{_desktopdir}/linguist-qt4.desktop
 %{_pixmapsdir}/linguist-qt4.png
@@ -1684,6 +1723,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/qtconfig
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qtconfig.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qtconfig.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qtconfig.qm
 %{_desktopdir}/qtconfig-qt4.desktop
 %{_pixmapsdir}/qtconfig-qt4.png
 
@@ -1693,6 +1733,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/qvfb
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qvfb.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qvfb.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qvfb.qm
 
 %files doc
 %defattr(644,root,root,755)
@@ -1739,6 +1780,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 
 %files -n QtXml-devel -f QtXml-devel.files
+%defattr(644,root,root,755)
+
+%files -n QtXmlPatterns-devel -f QtXmlPatterns-devel.files
 %defattr(644,root,root,755)
 
 %files -n Qt3Support-devel -f Qt3Support-devel.files
@@ -1807,6 +1851,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtXml-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtXml.a
+
+%files -n QtXmlPatterns-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtXmlPatterns.a
 
 %files -n Qt3Support-static
 %defattr(644,root,root,755)
