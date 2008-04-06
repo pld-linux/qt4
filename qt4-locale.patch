@@ -113,8 +113,8 @@ diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/assistant/compat/main.cpp qt-x1
          resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
  
      QTranslator translator( 0 );
--    translator.load( QLatin1String("assistant_") + QLocale::system().name(), resourceDir );
-+    translator.load( QLatin1String("qt4-assistant_") + QLocale::system().name(), resourceDir );
+-    translator.load( QLatin1String("assistant_adp_") + QLocale::system().name(), resourceDir );
++    translator.load( QLatin1String("qt4-assistant_adp_") + QLocale::system().name(), resourceDir );
      a.installTranslator( &translator );
  
      QTranslator qtTranslator( 0 );
