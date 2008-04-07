@@ -158,6 +158,8 @@ Summary:	Core classes used by other modules - development files
 Summary(pl.UTF-8):	Podstawowe klasy używane przez inne moduły - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore = %{version}-%{release}
+Requires:	QtXml-devel = %{version}-%{release}
+Requires:	QtXmlPatterns-devel = %{version}-%{release}
 Requires:	glib2-devel
 Requires:	libstdc++-devel
 Requires:	zlib-devel
@@ -1361,6 +1363,7 @@ ifecho() {
 }
 
 mkdevfl() {
+	set -x
 	MODULE=$1; shift
 	echo "%%defattr(644,root,root,755)" > $MODULE-devel.files
 	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.so"
