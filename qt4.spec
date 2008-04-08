@@ -4,6 +4,11 @@
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
+#error: qt4-assistant-4.4.0-0.rc1.1: req /usr/share/locale/adp_de/LC_MESSAGES not found
+#error: qt4-assistant-4.4.0-0.rc1.1: req /usr/share/locale/adp_ja/LC_MESSAGES not found
+#error: qt4-assistant-4.4.0-0.rc1.1: req /usr/share/locale/adp_pl/LC_MESSAGES not found
+#error: qt4-assistant-4.4.0-0.rc1.1: req /usr/share/locale/adp_zh_CN/LC_MESSAGES not found
+#error: qt4-assistant-4.4.0-0.rc1.1: req /usr/share/locale/adp_zh_TW/LC_MESSAGES not found
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
