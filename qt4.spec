@@ -34,13 +34,14 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
+%defein		rel	2
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.4.0
-Release:	0.rc1.1
+Release:	0.rc1.%{rel}
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}-rc1.tar.gz
@@ -1005,7 +1006,7 @@ phonon.
 Summary:	phonon - development files
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
-Requires:	phonon = %{version}=%{release}
+Requires:	phonon = %{version}-%{release}
 
 %description phonon-devel
 phonon - development files.
