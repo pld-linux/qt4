@@ -39,7 +39,7 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-%define		rel	2
+%define		rel	3
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
@@ -894,6 +894,7 @@ QtCLucene.
 %package -n QtCLucene-devel
 Summary:	QtCLucene - development files
 Group:		X11/Development/Libraries
+Requires:	QtCLucene = %{version}-%{release}
 Requires:	QtCore-devel = %{version}-%{release}
 
 %description -n QtCLucene-devel
@@ -919,6 +920,7 @@ QtXmlPatterns.
 Summary:	QtXmlPatterns - development files
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtXmlPatterns = %{version}-%{release}
 
 %description -n QtXmlPatterns-devel
 QtXmlPatterns - development files.
