@@ -4,11 +4,6 @@
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
-#error: qt4-assistant-4.4.0-0.rc1.1: req /usr/share/locale/adp_de/LC_MESSAGES not found
-#error: qt4-assistant-4.4.0-0.rc1.1: req /usr/share/locale/adp_ja/LC_MESSAGES not found
-#error: qt4-assistant-4.4.0-0.rc1.1: req /usr/share/locale/adp_pl/LC_MESSAGES not found
-#error: qt4-assistant-4.4.0-0.rc1.1: req /usr/share/locale/adp_zh_CN/LC_MESSAGES not found
-#error: qt4-assistant-4.4.0-0.rc1.1: req /usr/share/locale/adp_zh_TW/LC_MESSAGES not found
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -39,7 +34,7 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-%define		rel	3
+%define		rel	4
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
@@ -1311,12 +1306,11 @@ done
 rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
 for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm; do
 	[ ! -f $file ] && continue
-	lang=`echo $file | sed -r 's:.*/[a-zA-Z]*_(.*).qm:\1:'`
-	MOD=`echo $file | sed -r 's:.*/([a-zA-Z]*)_.*.qm:\1:'`
+	eval "`echo $file | sed -r 's:.*/([a-zA-Z]+(_[a-zA-Z]{3,}){0,1})_(((ja)_jp)|([a-z]{2}_[A-Z]{2,})|([a-z]{2}))\.qm$:MOD=\1 ; lang=\5\6\7:'`"
 	[ "$lang" == "iw" ] && lang=he
 	MOD=qt4-$MOD
 	[ "$MOD" == "qt4-qt" ] && MOD=qt4
-	install -d $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
+	install	-d $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
 	cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/$MOD.qm
 done
 
@@ -1327,9 +1321,6 @@ for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Script,S
 	fi
 done
 cd -
-
-mv $RPM_BUILD_ROOT%{_datadir}/locale/ja_jp/LC_MESSAGES/qt4.qm \
-	$RPM_BUILD_ROOT%{_datadir}/locale/ja/LC_MESSAGES/qt4.qm
 
 # Ship doc & qmake stuff
 ln -s %{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
@@ -1664,10 +1655,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/qcollectiongenerator
 %attr(755,root,root) %{_qtdir}/bin/assistant
 %attr(755,root,root) %{_qtdir}/bin/assistant_adp
-%lang(de) %{_datadir}/locale/*de/LC_MESSAGES/qt4-assistant.qm
-%lang(ja) %{_datadir}/locale/*ja/LC_MESSAGES/qt4-assistant.qm
-%lang(pl) %{_datadir}/locale/*pl/LC_MESSAGES/qt4-assistant.qm
-%lang(zh_CN) %{_datadir}/locale/*_zh_*/LC_MESSAGES/qt4-assistant.qm
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant*.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant*.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant*.qm
+%lang(zh_CN) %{_datadir}/locale/zh_*/LC_MESSAGES/qt4-assistant*.qm
 %{_desktopdir}/assistant-qt4.desktop
 #%{_pixmapsdir}/assistant-qt4.png
 
