@@ -1,5 +1,5 @@
 [Desktop Entry]
-Exec=qt4-designer
+Exec=designer-qt4
 Name=Qt4 Designer
 Name[bg]=Qt4 Дизайнер
 Name[br]=Ergrafer Qt4
@@ -71,7 +71,7 @@ Comment[zh_CN]=Qt4 界面设计程序
 Comment[zh_TW]=Qt4 介面編輯器
 MapNotify=true
 MimeType=application/x-designer
-Icon=qt4-designer
+Icon=designer-qt4
 Terminal=false
 Type=Application
 Categories=Qt;GUIDesigner;

@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Exec=qt4-linguist
+Exec=linguist-qt4
 Name=Qt4 Linguist
 Name[ar]=مترجم كيوتي
 Name[ca]=Lingüista Qt4
@@ -106,5 +106,5 @@ X-KDE-StartupNotify=true
 MimeType=application/x-linguist
 Terminal=false
 Type=Application
-Icon=qt4-linguist
+Icon=linguist-qt4
 
