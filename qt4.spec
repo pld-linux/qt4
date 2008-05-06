@@ -4,6 +4,10 @@
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
+#--- qt4.spec:auto-th-qt4-4_4_0-1:
+#upgrading packages
+#error: Failed dependencies:
+#        /usr/lib64/qt4/plugins/script is needed by QtDBus-4.4.0-1.x86_64
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
