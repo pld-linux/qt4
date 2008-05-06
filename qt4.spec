@@ -34,18 +34,18 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-%define		rel	4
+%define		rel	1
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.4.0
-Release:	0.rc1.%{rel}
+Release:	%{rel}
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
-Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}-rc1.tar.gz
-# Source0-md5:	285aa66aaa9d321a45467c359a01d900
+Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
+# Source0-md5:	f13ad0aa75efad314715930e663bad55
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -1100,7 +1100,7 @@ Example programs bundled with Qt version.
 Programas exemplo para o Qt versão.
 
 %prep
-%setup -q -n qt-x11-opensource-src-%{version}-rc1
+%setup -q -n qt-x11-opensource-src-%{version}
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
@@ -1517,7 +1517,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/qdbus
 %attr(755,root,root) %{_qtdir}/bin/qdbusviewer
 # ?? is this the proper place?
-#%attr(755,root,root) %{_qtdir}/plugins/script/libqtscriptdbus.so
+%attr(755,root,root) %{_qtdir}/plugins/script/libqtscriptdbus.so
 
 %files -n QtGui
 %defattr(644,root,root,755)
@@ -1641,6 +1641,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
 %attr(755,root,root) %{_qtdir}/bin/qhelpconverter
 %attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-qt_help.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qt_help.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qt_help.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qt_help.qm
 
 %files -n QtWebKit
 %defattr(644,root,root,755)
