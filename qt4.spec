@@ -38,7 +38,7 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-%define		rel	2
+%define		rel	3
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
@@ -76,6 +76,7 @@ BuildRequires:	freetype-devel >= 1:2.0.0
 %{?with_pch:BuildRequires:	gcc >= 5:4.0}
 BuildRequires:	giflib-devel
 BuildRequires:	glib2-devel >= 2.0.0
+BuildRequires:	gstreamer-plugins-base-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
@@ -1174,8 +1175,9 @@ COMMONOPT=" \
 	-system-zlib \
 	-exceptions \
 	-largefile \
-	-I%{_includedir}/postgresql/server \
-	-I%{_includedir}/mysql \
+	-I/usr/include/postgresql/server \
+	-I/usr/include/mysql \
+	`pkg-config --cflags-only-I gstreamer-0.10` \
 	%{?with_cups:-cups} \
 	%{?with_nas:-system-nas-sound} \
 	%{?debug:-debug} \
