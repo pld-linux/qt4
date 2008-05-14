@@ -1177,7 +1177,6 @@ COMMONOPT=" \
 	-largefile \
 	-I/usr/include/postgresql/server \
 	-I/usr/include/mysql \
-	`pkg-config --cflags-only-I gstreamer-0.10` \
 	%{?with_cups:-cups} \
 	%{?with_nas:-system-nas-sound} \
 	%{?debug:-debug} \
