@@ -64,6 +64,7 @@ Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
+Patch10:	%{name}-pg_libs.patch
 URL:		http://www.trolltech.com/products/qt/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
@@ -1116,6 +1117,7 @@ Programas exemplo para o Qt versão.
 %patch7 -p1
 #%patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
