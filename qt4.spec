@@ -1013,7 +1013,7 @@ phonon.
 Summary:	phonon - development files
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
-Requires:	phonon = %{version}-%{release}
+Requires:	qt4-phonon = %{version}-%{release}
 
 %description phonon-devel
 phonon - development files.
