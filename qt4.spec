@@ -38,7 +38,7 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-%define		rel	3
+%define		rel	4
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
