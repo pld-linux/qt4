@@ -106,15 +106,15 @@ diff -Nur qt-x11-opensource-src-4.2.1.orig/src/corelib/kernel/qtranslator.cpp qt
      // realname is now the fully qualified name of a readable file.
  
      bool ok = false;
-diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/assistant/main.cpp qt-x11-opensource-src-4.2.1.chng/tools/assistant/main.cpp
---- qt-x11-opensource-src-4.2.1.orig/tools/assistant/main.cpp	2006-10-20 17:35:28.000000000 +0200
-+++ qt-x11-opensource-src-4.2.1.chng/tools/assistant/main.cpp	2006-11-28 14:23:03.000000000 +0100
+diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/assistant/compat/main.cpp qt-x11-opensource-src-4.2.1.chng/tools/assistant/main.cpp
+--- qt-x11-opensource-src-4.2.1.orig/tools/assistant/compat/main.cpp	2006-10-20 17:35:28.000000000 +0200
++++ qt-x11-opensource-src-4.2.1.chng/tools/assistant/compat/main.cpp	2006-11-28 14:23:03.000000000 +0100
 @@ -310,11 +310,11 @@
          resourceDir = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
  
      QTranslator translator( 0 );
--    translator.load( QLatin1String("assistant_") + QLocale::system().name(), resourceDir );
-+    translator.load( QLatin1String("qt4-assistant_") + QLocale::system().name(), resourceDir );
+-    translator.load( QLatin1String("assistant_adp_") + QLocale::system().name(), resourceDir );
++    translator.load( QLatin1String("qt4-assistant_adp_") + QLocale::system().name(), resourceDir );
      a.installTranslator( &translator );
  
      QTranslator qtTranslator( 0 );
