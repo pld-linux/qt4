@@ -1440,14 +1440,29 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-n Qt3Support	-p /sbin/ldconfig
+%postun	-n Qt3Support	-p /sbin/ldconfig
+
+%post	-n QtAssistant	-p /sbin/ldconfig
+%postun	-n QtAssistant	-p /sbin/ldconfig
+
+%post	-n QtCLucene	-p /sbin/ldconfig
+%postun	-n QtCLucene	-p /sbin/ldconfig
+
 %post	-n QtCore	-p /sbin/ldconfig
 %postun	-n QtCore	-p /sbin/ldconfig
 
 %post	-n QtDBus	-p /sbin/ldconfig
 %postun	-n QtDBus	-p /sbin/ldconfig
 
+%post	-n QtDesigner	-p /sbin/ldconfig
+%postun	-n QtDesigner	-p /sbin/ldconfig
+
 %post	-n QtGui	-p /sbin/ldconfig
 %postun	-n QtGui	-p /sbin/ldconfig
+
+%post	-n QtHelp	-p /sbin/ldconfig
+%postun	-n QtHelp	-p /sbin/ldconfig
 
 %post	-n QtNetwork	-p /sbin/ldconfig
 %postun	-n QtNetwork	-p /sbin/ldconfig
@@ -1467,14 +1482,11 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n QtTest	-p /sbin/ldconfig
 %postun	-n QtTest	-p /sbin/ldconfig
 
-%post	-n QtHelp	-p /sbin/ldconfig
-%postun	-n QtHelp	-p /sbin/ldconfig
+%post	-n QtUiTools	-p /sbin/ldconfig
+%postun	-n QtUiTools	-p /sbin/ldconfig
 
 %post	-n QtWebKit	-p /sbin/ldconfig
 %postun	-n QtWebKit	-p /sbin/ldconfig
-
-%post	-n QtCLucene	-p /sbin/ldconfig
-%postun	-n QtCLucene	-p /sbin/ldconfig
 
 %post	-n QtXml	-p /sbin/ldconfig
 %postun	-n QtXml	-p /sbin/ldconfig
@@ -1482,20 +1494,23 @@ rm -rf $RPM_BUILD_ROOT
 %post   -n QtXmlPatterns	-p /sbin/ldconfig
 %postun -n QtXmlPatterns	-p /sbin/ldconfig
 
-%post	-n Qt3Support	-p /sbin/ldconfig
-%postun	-n Qt3Support	-p /sbin/ldconfig
-
-%post	-n QtAssistant	-p /sbin/ldconfig
-%postun	-n QtAssistant	-p /sbin/ldconfig
-
-%post	-n QtDesigner	-p /sbin/ldconfig
-%postun	-n QtDesigner	-p /sbin/ldconfig
-
-%post	-n QtUiTools	-p /sbin/ldconfig
-%postun	-n QtUiTools	-p /sbin/ldconfig
-
 %post	phonon		-p /sbin/ldconfig
 %postun	phonon		-p /sbin/ldconfig
+
+%files -n Qt3Support
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.4
+
+%files -n QtAssistant
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtAssistantClient.so.4
+
+%files -n QtCLucene
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtCLucene.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtCLucene.so.4
 
 %files -n QtCore
 %defattr(644,root,root,755)
@@ -1540,6 +1555,15 @@ rm -rf $RPM_BUILD_ROOT
 # ?? is this the proper place?
 %attr(755,root,root) %{_qtdir}/plugins/script/libqtscriptdbus.so
 
+%files -n QtDesigner
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtDesigner.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtDesigner.so.4
+%attr(755,root,root) %{_libdir}/libQtDesignerComponents.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtDesignerComponents.so.4
+%dir %{_qtdir}/plugins/designer
+%attr(755,root,root) %{_qtdir}/plugins/designer/*.so
+
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
@@ -1549,6 +1573,17 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/plugins/iconengines/*.so
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/*.so
 %attr(755,root,root) %{_qtdir}/plugins/inputmethods/*.so
+
+%files -n QtHelp
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtHelp.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
+%attr(755,root,root) %{_qtdir}/bin/qhelpconverter
+%attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-qt_help.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qt_help.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qt_help.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qt_help.qm
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
@@ -1616,6 +1651,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libQtTest.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtTest.so.4
 
+%files -n QtUiTools
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.4
+
+%files -n QtWebKit
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtWebKit.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtWebKit.so.4
+
 %files -n QtXml
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtXml.so.*.*
@@ -1626,51 +1671,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/xmlpatterns
 %attr(755,root,root) %{_libdir}/libQtXmlPatterns.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.4
-
-%files -n Qt3Support
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.4
-
-%files -n QtAssistant
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtAssistantClient.so.4
-
-%files -n QtDesigner
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtDesigner.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDesigner.so.4
-%attr(755,root,root) %{_libdir}/libQtDesignerComponents.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDesignerComponents.so.4
-%dir %{_qtdir}/plugins/designer
-%attr(755,root,root) %{_qtdir}/plugins/designer/*.so
-
-%files -n QtUiTools
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.4
-
-%files -n QtCLucene
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtCLucene.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtCLucene.so.4
-
-%files -n QtHelp
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtHelp.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
-%attr(755,root,root) %{_qtdir}/bin/qhelpconverter
-%attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-qt_help.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qt_help.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qt_help.qm
-%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qt_help.qm
-
-%files -n QtWebKit
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtWebKit.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtWebKit.so.4
 
 %files assistant
 %defattr(644,root,root,755)
@@ -1767,6 +1767,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/%{name}-doc
 %{_qtdir}/doc
 
+%files -n QtCLucene-devel -f QtCLucene-devel.files
+%defattr(644,root,root,755)
+
+%files -n Qt3Support-devel -f Qt3Support-devel.files
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/uic3
+%attr(755,root,root) %{_qtdir}/bin/uic3
+
+%files -n QtAssistant-devel -f QtAssistant-devel.files
+%defattr(644,root,root,755)
+
 %files -n QtCore-devel -f QtCore-devel.files
 %defattr(644,root,root,755)
 
@@ -1777,6 +1788,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 
 %files -n QtGui-devel -f QtGui-devel.files
+%defattr(644,root,root,755)
+
+%files -n QtHelp-devel -f QtHelp-devel.files
 %defattr(644,root,root,755)
 
 %files -n QtNetwork-devel -f QtNetwork-devel.files
@@ -1797,13 +1811,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtTest-devel -f QtTest-devel.files
 %defattr(644,root,root,755)
 
-%files -n QtHelp-devel -f QtHelp-devel.files
+%files -n QtUiTools-devel -f QtUiTools-devel.files
 %defattr(644,root,root,755)
 
 %files -n QtWebKit-devel -f QtWebKit-devel.files
-%defattr(644,root,root,755)
-
-%files -n QtCLucene-devel -f QtCLucene-devel.files
 %defattr(644,root,root,755)
 
 %files -n QtXml-devel -f QtXml-devel.files
@@ -1812,21 +1823,22 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtXmlPatterns-devel -f QtXmlPatterns-devel.files
 %defattr(644,root,root,755)
 
-%files -n Qt3Support-devel -f Qt3Support-devel.files
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/uic3
-%attr(755,root,root) %{_qtdir}/bin/uic3
-
-%files -n QtAssistant-devel -f QtAssistant-devel.files
-%defattr(644,root,root,755)
-
-%files -n QtUiTools-devel -f QtUiTools-devel.files
-%defattr(644,root,root,755)
-
 %files phonon-devel -f phonon-devel.files
 %defattr(644,root,root,755)
 
 %if %{with static_libs}
+%files -n Qt3Support-static
+%defattr(644,root,root,755)
+%{_libdir}/libQt3Support.a
+
+#%files -n QtAssistant-static
+#%defattr(644,root,root,755)
+#%{_libdir}/libQtAssistantClient.a
+
+#%files -n QtCLucene-static
+#%defattr(644,root,root,755)
+#%{_libdir}/libQtCLucene.a
+
 %files -n QtCore-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtCore.a
@@ -1835,9 +1847,18 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libQtDBus.a
 
+%files -n QtDesigner-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtDesigner.a
+%{_libdir}/libQtDesignerComponents.a
+
 %files -n QtGui-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtGui.a
+
+%files -n QtHelp-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtHelp.a
 
 %files -n QtNetwork-static
 %defattr(644,root,root,755)
@@ -1863,13 +1884,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libQtTest.a
 
-#%files -n QtCLucene-static
-#%defattr(644,root,root,755)
-#%{_libdir}/libQtCLucene.a
-
-%files -n QtHelp-static
+%files -n QtUiTools-static
 %defattr(644,root,root,755)
-%{_libdir}/libQtHelp.a
+%{_libdir}/libQtUiTools.a
 
 %files -n QtWebKit-static
 %defattr(644,root,root,755)
@@ -1882,23 +1899,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtXmlPatterns-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtXmlPatterns.a
-
-%files -n Qt3Support-static
-%defattr(644,root,root,755)
-%{_libdir}/libQt3Support.a
-
-%files -n QtAssistant-static
-%defattr(644,root,root,755)
-#%{_libdir}/libQtAssistantClient.a
-
-%files -n QtDesigner-static
-%defattr(644,root,root,755)
-%{_libdir}/libQtDesigner.a
-%{_libdir}/libQtDesignerComponents.a
-
-%files -n QtUiTools-static
-%defattr(644,root,root,755)
-%{_libdir}/libQtUiTools.a
 %endif
 
 %files demos -f demos.files
