@@ -38,7 +38,7 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-%define		rel	1
+%define		rel	2
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
@@ -165,8 +165,6 @@ Summary:	Core classes used by other modules - development files
 Summary(pl.UTF-8):	Podstawowe klasy używane przez inne moduły - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore = %{version}-%{release}
-Requires:	QtXml-devel = %{version}-%{release}
-Requires:	QtXmlPatterns-devel = %{version}-%{release}
 Requires:	glib2-devel
 Requires:	libstdc++-devel
 Requires:	zlib-devel
@@ -295,6 +293,7 @@ Summary(pl.UTF-8):	Klasy wspomagające OpenGL - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	OpenGL-GLU-devel
 Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtOpenGL = %{version}-%{release}
 
 %description -n QtOpenGL-devel
@@ -312,7 +311,7 @@ Requires:	QtOpenGL-devel = %{version}-%{release}
 %description -n QtOpenGL-static
 OpenGL support classes - static libraries.
 
-%description -n QtOpenGL-devel -l pl.UTF-8
+%description -n QtOpenGL-static -l pl.UTF-8
 Klasy wspomagające OpenGL - biblioteki statyczne.
 
 %package -n QtSql
@@ -484,8 +483,8 @@ Wsparcie dla SVG.
 Summary:	SVG support - development files
 Summary(pl.UTF-8):	Wsparcie dla SVG - pliki programistyczne
 Group:		X11/Development/Libraries
+Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtSvg = %{version}-%{release}
-Requires:	QtXml-devel = %{version}-%{release}
 
 %description -n QtSvg-devel
 SVG support - development files.
@@ -643,6 +642,7 @@ Summary:	Qt Assistant client library - development files
 Summary(pl.UTF-8):	Biblioteka kliencka Qt Assistant - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtAssistant = %{version}-%{release}
+Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
 
 %description -n QtAssistant-devel
@@ -735,6 +735,8 @@ Summary(pl.UTF-8):	Klasy do rozbudowy Qt Designera - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtDesigner = %{version}-%{release}
 Requires:	QtGui-devel = %{version}-%{release}
+Requires:	QtScript-devel = %{version}-%{release}
+Requires:	QtXml-devel = %{version}-%{release}
 
 %description -n QtDesigner-devel
 Classes for extending Qt Designer - development files.
@@ -771,6 +773,7 @@ aplikacji.
 Summary:	Classes for scripting applications - development files
 Summary(pl.UTF-8):	Klasy do obsługi skryptów wewnątrz aplikacji - pliki programistyczne
 Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtScript = %{version}-%{release}
 
 %description -n QtScript-devel
@@ -811,8 +814,9 @@ użyciu Qt Designera.
 Summary:	Classes for handling Qt Designer forms in applications - development files
 Summary(pl.UTF-8):	Klasy do obsługi formularzy Qt Designera w aplikacjach - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtUiTools = %{version}-%{release}
+Requires:	QtXml-devel = %{version}-%{release}
 
 %description -n QtUiTools-devel
 Classes for handling Qt Designer forms in applications - development
@@ -847,7 +851,11 @@ QtHelp.
 %package -n QtHelp-devel
 Summary:	QtHelp - development files
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtCLucene-devel = %{version}-%{release}
+Requires:	QtHelp = %{version}-%{release}
+Requires:	QtGui-devel = %{version}-%{release}
+Requires:	QtSql-devel = %{version}-%{release}
+Requires:	QtXml-devel = %{version}-%{release}
 
 %description -n QtHelp-devel
 QtHelp - development files.
@@ -855,7 +863,7 @@ QtHelp - development files.
 %package -n QtHelp-static
 Summary:	QtHelp - static libraries
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtHelp-devel = %{version}-%{release}
 
 %description -n QtHelp-static
 QtHelp - static libraries.
@@ -871,7 +879,9 @@ QtWebKit.
 %package -n QtWebKit-devel
 Summary:	QtWebKit - development files
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtGui-devel = %{version}-%{release}
+Requires:	QtNetwork-devel = %{version}-%{release}
+Requires:	QtWebKit = %{version}-%{release}
 
 %description -n QtWebKit-devel
 QtWebKit - development files.
@@ -879,7 +889,7 @@ QtWebKit - development files.
 %package -n QtWebKit-static
 Summary:	QtWebKit - static libraries
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtWebKit-devel = %{version}-%{release}
 
 %description -n QtWebKit-static
 QtWebKit - static libraries.
@@ -887,7 +897,7 @@ QtWebKit - static libraries.
 %package -n QtCLucene
 Summary:	QtCLucene
 Group:		X11/Libraries
-Requires:	QtGui = %{version}-%{release}
+Requires:	QtCore = %{version}-%{release}
 
 %description -n QtCLucene
 QtCLucene.
@@ -904,7 +914,7 @@ QtCLucene - development files.
 %package -n QtCLucene-static
 Summary:	QtCLucene - static libraries
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtCLucene-devel = %{version}-%{release}
 
 %description -n QtCLucene-static
 QtCLucene - static libraries.
@@ -912,7 +922,7 @@ QtCLucene - static libraries.
 %package -n QtXmlPatterns
 Summary:	QtXmlPatterns
 Group:		X11/Libraries
-Requires:	QtGui = %{version}-%{release}
+Requires:	QtCore = %{version}-%{release}
 
 %description -n QtXmlPatterns
 QtXmlPatterns.
@@ -920,7 +930,7 @@ QtXmlPatterns.
 %package -n QtXmlPatterns-devel
 Summary:	QtXmlPatterns - development files
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtNetwork-devel = %{version}-%{release}
 Requires:	QtXmlPatterns = %{version}-%{release}
 
 %description -n QtXmlPatterns-devel
@@ -929,7 +939,7 @@ QtXmlPatterns - development files.
 %package -n QtXmlPatterns-static
 Summary:	QtXmlPatterns - static libraries
 Group:		X11/Development/Libraries
-Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtXmlPatterns-devel = %{version}-%{release}
 
 %description -n QtXmlPatterns-static
 QtXmlPatterns - static libraries.
@@ -1014,6 +1024,8 @@ phonon.
 Summary:	phonon - development files
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtDBus-devel = %{version}-%{release}
+Requires:	QtGui-devel = %{version}-%{release}
 Requires:	qt4-phonon = %{version}-%{release}
 
 %description phonon-devel
@@ -1322,7 +1334,8 @@ for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm 
 done
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
-for f in ../Qt{3Support,Assistant,Core,DBus,Designer,Gui,Network,OpenGL,Script,Sql,Svg,Test,UiTools,Xml}/*; do
+# QtCore must be the last
+for f in ../Qt{3Support,Assistant,DBus,Designer,Gui,Help,Network,OpenGL,Script,Sql,Svg,Test,UiTools,WebKit,Xml,XmlPatterns,Core}/*; do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
 	fi
@@ -1409,6 +1422,9 @@ mkdevfl phonon
 mkdevfl QtAssistant || /bin/true
 mkdevfl QtDesigner || /bin/true
 mkdevfl QtUiTools || /bin/true
+
+# without glob (exclude QtXmlPatterns*)
+%{__sed} -i 's,QtXml\*,QtXml,g' QtXml-devel.files
 
 echo "%defattr(644,root,root,755)" > examples.files
 ifecho examples %{_examplesdir}/qt4
