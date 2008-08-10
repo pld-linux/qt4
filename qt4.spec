@@ -440,15 +440,18 @@ Graphical User Interface components - static libraries.
 Komponenty graficznego interfejsu użytkownika - biblioteki statyczne.
 
 %package -n QtHelp
-Summary:	QtHelp
+Summary:	Classes for integrating online documentation in applications
 Group:		X11/Libraries
 Requires:	QtGui = %{version}-%{release}
 
 %description -n QtHelp
-QtHelp.
+QtHelp module includes tools for generating and viewing Qt help files.
+In addition it provides classes for accessing help contents
+programatically to be able to integrate online help into Qt
+applications.
 
 %package -n QtHelp-devel
-Summary:	QtHelp - development files
+Summary:	Classes for integrating online documentation in applications - development files
 Group:		X11/Development/Libraries
 Requires:	QtCLucene-devel = %{version}-%{release}
 Requires:	QtGui-devel = %{version}-%{release}
@@ -457,15 +460,17 @@ Requires:	QtSql-devel = %{version}-%{release}
 Requires:	QtXml-devel = %{version}-%{release}
 
 %description -n QtHelp-devel
-QtHelp - development files.
+Classes for integrating online documentation in applications -
+development files.
 
 %package -n QtHelp-static
-Summary:	QtHelp - static libraries
+Summary:	Classes for integrating online documentation in applications - static libraries
 Group:		X11/Development/Libraries
 Requires:	QtHelp-devel = %{version}-%{release}
 
 %description -n QtHelp-static
-QtHelp - static libraries.
+Classes for integrating online documentation in applications - static
+libraries.
 
 %package -n QtNetwork
 Summary:	Classes for network programming
@@ -855,30 +860,37 @@ Klasy do obsługi formularzy Qt Designera w aplikacjach - biblioteka
 statyczna.
 
 %package -n QtWebKit
-Summary:	QtWebKit
+Summary:	Classes for rendering HTML, XHTML and SVG documents
 Group:		X11/Libraries
 Requires:	QtGui = %{version}-%{release}
 
 %description -n QtWebKit
-QtWebKit.
+QtWebKit provides a Web browser engine that makes it easy to embed
+content from the World Wide Web into your Qt application. At the same
+time Web content can be enhanced with native controls. QtWebKit
+provides facilities for rendering of HyperText Markup Language (HTML),
+Extensible HyperText Markup Language (XHTML) and Scalable Vector
+Graphics (SVG) documents, styled using Cascading Style Sheets (CSS)
+and scripted with JavaScript.
 
 %package -n QtWebKit-devel
-Summary:	QtWebKit - development files
+Summary:	Classes for rendering HTML, XHTML and SVG documents - development files
 Group:		X11/Development/Libraries
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
 Requires:	QtWebKit = %{version}-%{release}
 
 %description -n QtWebKit-devel
-QtWebKit - development files.
+Classes for rendering HTML, XHTML and SVG documents - development
+files.
 
 %package -n QtWebKit-static
-Summary:	QtWebKit - static libraries
+Summary:	Classes for rendering HTML, XHTML and SVG documents - static library
 Group:		X11/Development/Libraries
 Requires:	QtWebKit-devel = %{version}-%{release}
 
 %description -n QtWebKit-static
-QtWebKit - static libraries.
+Classes for rendering HTML, XHTML and SVG documents - static library.
 
 %package -n QtXml
 Summary:	Classes for handling XML
@@ -1012,14 +1024,15 @@ Gdy jeden z nich jest już przetłumaczony, automatycznie przechodzi do
 następnego, aż wszystkie będą przetłumaczone.
 
 %package phonon
-Summary:	phonon
+Summary:	Cross-platform multimedia framework
 Group:		X11/Development/Tools
 
 %description phonon
-phonon.
+Phonon is a cross-platform multimedia framework that enables the use
+of audio and video content in Qt applications.
 
 %package phonon-devel
-Summary:	phonon - development files
+Summary:	Cross-platform multimedia framework - development files
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtDBus-devel = %{version}-%{release}
@@ -1027,7 +1040,7 @@ Requires:	QtGui-devel = %{version}-%{release}
 Requires:	qt4-phonon = %{version}-%{release}
 
 %description phonon-devel
-phonon - development files.
+Cross-platform multimedia framework - development files.
 
 %package qmake
 Summary:	Qt makefile generator
