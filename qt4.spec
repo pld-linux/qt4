@@ -1484,9 +1484,9 @@ mkdevfl QtScript
 mkdevfl QtSql
 mkdevfl QtSvg
 mkdevfl QtTest
-mkdevfl	QtHelp
-mkdevfl	QtWebKit
-mkdevfl	QtCLucene
+mkdevfl QtHelp
+mkdevfl QtWebKit
+mkdevfl QtCLucene
 mkdevfl QtXml
 mkdevfl QtXmlPatterns
 mkdevfl Qt3Support
