@@ -230,29 +230,43 @@ Static Qt Assistant client library.
 Statyczna biblioteka kliencka Qt Assistant.
 
 %package -n QtCLucene
-Summary:	QtCLucene
+Summary:	QtCLucene full text search library wrapper
+Summary(pl.UTF-8):	Interfejs QtCLucene do biblioteki wyszukiwania pełnotekstowego
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
 
 %description -n QtCLucene
-QtCLucene.
+QtCLucene full text search library wrapper.
+
+%description -n QtCLucene -l pl.UTF-8
+Interfejs QtCLucene do biblioteki wyszukiwania pełnotekstowego.
 
 %package -n QtCLucene-devel
-Summary:	QtCLucene - development files
+Summary:	QtCLucene full text search library wrapper - development files
+Summary(pl.UTF-8):	Interfejs QtCLucene do biblioteki wyszukiwania pełnotekstowego - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCLucene = %{version}-%{release}
 Requires:	QtCore-devel = %{version}-%{release}
 
 %description -n QtCLucene-devel
-QtCLucene - development files.
+QtCLucene full text search library wrapper - development files.
+
+%description -n QtCLucene-devel -l pl.UTF-8
+Interfejs QtCLucene do biblioteki wyszukiwania pełnotekstowego - pliki
+programistyczne.
 
 %package -n QtCLucene-static
-Summary:	QtCLucene - static libraries
+Summary:	QtCLucene full text search library wrapper - static library
+Summary(pl.UTF-8):	Interfejs QtCLucene do biblioteki wyszukiwania pełnotekstowego - biblioteka statyczna
 Group:		X11/Development/Libraries
 Requires:	QtCLucene-devel = %{version}-%{release}
 
 %description -n QtCLucene-static
-QtCLucene - static libraries.
+QtCLucene full text search library wrapper - static library.
+
+%description -n QtCLucene-static -l pl.UTF-8
+Interfejs QtCLucene do biblioteki wyszukiwania pełnotekstowego -
+biblioteka statyczna.
 
 %package -n QtCore
 Summary:	Core classes used by other modules
@@ -961,29 +975,41 @@ Classes for handling XML - static libraries.
 Klasy do obsługi XML-a - biblioteki statyczne.
 
 %package -n QtXmlPatterns
-Summary:	QtXmlPatterns
+Summary:	QtXmlPatterns XQuery engine
+Summary(pl.UTF-8):	Silnik zapytan XQuery QtXmlPatterns
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
 
 %description -n QtXmlPatterns
-QtXmlPatterns.
+QtXmlPatterns XQuery engine.
+
+%description -n QtXmlPatterns -l pl.UTF-8
+Silnik zapytan XQuery QtXmlPatterns.
 
 %package -n QtXmlPatterns-devel
-Summary:	QtXmlPatterns - development files
+Summary:	QtXmlPatterns XQuery engine - development files
+Summary(pl.UTF-8):	Silnik zapytan XQuery QtXmlPatterns - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtNetwork-devel = %{version}-%{release}
 Requires:	QtXmlPatterns = %{version}-%{release}
 
 %description -n QtXmlPatterns-devel
-QtXmlPatterns - development files.
+QtXmlPatterns XQuery engine - development files.
+
+%description -n QtXmlPatterns-devel -l pl.UTF-8
+Silnik zapytan XQuery QtXmlPatterns - pliki programistyczne.
 
 %package -n QtXmlPatterns-static
-Summary:	QtXmlPatterns - static libraries
+Summary:	QtXmlPatterns XQuery engine - static library
+Summary(pl.UTF-8):	Silnik zapytan XQuery QtXmlPatterns - biblioteka statyczna
 Group:		X11/Development/Libraries
 Requires:	QtXmlPatterns-devel = %{version}-%{release}
 
 %description -n QtXmlPatterns-static
-QtXmlPatterns - static libraries.
+QtXmlPatterns XQuery engine - static library.
+
+%description -n QtXmlPatterns-static -l pl.UTF-8
+Silnik zapytan XQuery QtXmlPatterns - biblioteka statyczna.
 
 %package assistant
 Summary:	Qt documentation browser
