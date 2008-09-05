@@ -4,10 +4,6 @@
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
-#--- qt4.spec:auto-th-qt4-4_4_0-1:
-#upgrading packages
-#error: Failed dependencies:
-#        /usr/lib64/qt4/plugins/script is needed by QtDBus-4.4.0-1.x86_64
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -441,6 +437,7 @@ Komponenty graficznego interfejsu użytkownika - biblioteki statyczne.
 
 %package -n QtHelp
 Summary:	Classes for integrating online documentation in applications
+Summary(pl.UTF-8):	Klasy do integracji dokumentacji w aplikacjach
 Group:		X11/Libraries
 Requires:	QtGui = %{version}-%{release}
 
@@ -450,8 +447,15 @@ In addition it provides classes for accessing help contents
 programatically to be able to integrate online help into Qt
 applications.
 
+%description -n QtHelp -l pl.UTF-8
+Moduł QtHelp zawiera narzędzia do generowania i przeglądania plików
+pomocy Qt. Oprócz tego udostępnia klasy pozwalające na programowy
+dostęp do zawartości dokumentacji w celu integracji pomocy w
+aplikacjach Qt.
+
 %package -n QtHelp-devel
 Summary:	Classes for integrating online documentation in applications - development files
+Summary(pl.UTF-8):	Klasy do integracji dokumentacji w aplikacjach - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCLucene-devel = %{version}-%{release}
 Requires:	QtGui-devel = %{version}-%{release}
@@ -463,14 +467,21 @@ Requires:	QtXml-devel = %{version}-%{release}
 Classes for integrating online documentation in applications -
 development files.
 
+%description -n QtHelp-devel -l pl.UTF-8
+Klasy do integracji dokumentacji w aplikacjach - pliki programistyczne.
+
 %package -n QtHelp-static
-Summary:	Classes for integrating online documentation in applications - static libraries
+Summary:	Classes for integrating online documentation in applications - static library
+Summary(pl.UTF-8):	Klasy do integracji dokumentacji w aplikacjach - biblioteka statyczna
 Group:		X11/Development/Libraries
 Requires:	QtHelp-devel = %{version}-%{release}
 
 %description -n QtHelp-static
 Classes for integrating online documentation in applications - static
-libraries.
+library.
+
+%description -n QtHelp-static -l pl.UTF-8
+Klasy do integracji dokumentacji w aplikacjach - biblioteka statyczna.
 
 %package -n QtNetwork
 Summary:	Classes for network programming
@@ -861,6 +872,7 @@ statyczna.
 
 %package -n QtWebKit
 Summary:	Classes for rendering HTML, XHTML and SVG documents
+Summary(pl.UTF-8):	Klasy do renderowania dokumentów HTML, XHTML i SVG
 Group:		X11/Libraries
 Requires:	QtGui = %{version}-%{release}
 
@@ -873,8 +885,18 @@ Extensible HyperText Markup Language (XHTML) and Scalable Vector
 Graphics (SVG) documents, styled using Cascading Style Sheets (CSS)
 and scripted with JavaScript.
 
+%description -n QtWebKit -l pl.UTF-8
+QtWebKit udostępnia silnik przeglądarki WWW ułatwiający osadzanie
+treści ze stron WWW w aplikacjach Qt. Jednocześnie treść WWW może być
+rozszerzana o natywne kontrolki. QtWebKit zapewnia renderowanie
+dokumentów w językach HTML (HyperText Markup Language), XHTML
+(Extensible HyperText Markup Language) i SVG (Scalable Vector
+Graphics) z obsługą styli CSS (Cascading Style Sheets) i skryptów w
+języku JavaScript.
+
 %package -n QtWebKit-devel
 Summary:	Classes for rendering HTML, XHTML and SVG documents - development files
+Summary(pl.UTF-8):	Klasy do renderowania dokumentów HTML, XHTML i SVG - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
@@ -884,13 +906,22 @@ Requires:	QtWebKit = %{version}-%{release}
 Classes for rendering HTML, XHTML and SVG documents - development
 files.
 
+%description -n QtWebKit-devel -l pl.UTF-8
+Klasy do renderowania dokumentów HTML, XHTML i SVG - pliki
+programistyczne.
+
 %package -n QtWebKit-static
 Summary:	Classes for rendering HTML, XHTML and SVG documents - static library
+Summary(pl.UTF-8):	Klasy do renderowania dokumentów HTML, XHTML i SVG - biblioteka statyczna
 Group:		X11/Development/Libraries
 Requires:	QtWebKit-devel = %{version}-%{release}
 
 %description -n QtWebKit-static
 Classes for rendering HTML, XHTML and SVG documents - static library.
+
+%description -n QtWebKit-static -l pl.UTF-8
+Klasy do renderowania dokumentów HTML, XHTML i SVG - biblioteka
+statyczna.
 
 %package -n QtXml
 Summary:	Classes for handling XML
@@ -1025,14 +1056,20 @@ następnego, aż wszystkie będą przetłumaczone.
 
 %package phonon
 Summary:	Cross-platform multimedia framework
+Summary(pl.UTF-8):	Wieloplatformowy szkielet multimedialny
 Group:		X11/Development/Tools
 
 %description phonon
 Phonon is a cross-platform multimedia framework that enables the use
 of audio and video content in Qt applications.
 
+%description phonon -l pl.UTF-8
+Phonon to wieloplatformowy szkielet multimedialny pozwalający na
+wykorzystywanie treści dźwiękowych i filmowych w aplikacjach Qt.
+
 %package phonon-devel
 Summary:	Cross-platform multimedia framework - development files
+Summary(pl.UTF-8):	Wieloplatformowy szkielet multimedialny - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtDBus-devel = %{version}-%{release}
@@ -1041,6 +1078,9 @@ Requires:	qt4-phonon = %{version}-%{release}
 
 %description phonon-devel
 Cross-platform multimedia framework - development files.
+
+%description phonon-devel -l pl.UTF-8
+Wieloplatformowy szkielet multimedialny - pliki programistyczne.
 
 %package qmake
 Summary:	Qt makefile generator
