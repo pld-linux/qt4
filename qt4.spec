@@ -18,30 +18,27 @@
 %bcond_without	pch		# disable pch in qmake
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
-
+#
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
 %endif
-
 %ifarch pentium3 pentium4 %{x8664}
 %define		with_sse	1
 %endif
-
 %ifarch pentium4 %{x8664}
 %define		with_sse2	1
 %endif
-
+# any SQL
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
-
-%define		rel	3
+#
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.4.1
-Release:	%{rel}
+Release:	3
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
