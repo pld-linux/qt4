@@ -1081,6 +1081,7 @@ następnego, aż wszystkie będą przetłumaczone.
 Summary:	Cross-platform multimedia framework
 Summary(pl.UTF-8):	Wieloplatformowy szkielet multimedialny
 Group:		X11/Development/Tools
+Obsoletes:	phonon
 
 %description phonon
 Phonon is a cross-platform multimedia framework that enables the use
@@ -1098,6 +1099,7 @@ Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtDBus-devel = %{version}-%{release}
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	qt4-phonon = %{version}-%{release}
+Obsoletes:	phonon-devel
 
 %description phonon-devel
 Cross-platform multimedia framework - development files.
