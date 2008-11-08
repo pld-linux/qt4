@@ -1,0 +1,61 @@
+qt-bugs@ issue : N214287
+Trolltech task ID : 214302
+bugs.kde.org number : 
+applied: no
+author: Benjamin Reed <rangerrick@befunk.com>
+
+By default, Qt/Mac builds plugins as dynamic libraries, instead of
+bundles, which is incorrect for a runtime-loadable module.  In
+addition, it calls them .dylib when they should be .bundle (or .so)
+by Mac convention (although this is just a cosmetic thing).
+
+In addition, KDE phonon cannot load Qt phonon backends because they
+are built as normal twolevel dynamic libraries, which means that
+they try to use symbols from the library they were linked against,
+even if a newer version of that library is already loaded into
+memory.  For example:
+
+$QTDIR/plugins/phonon_backend/libphonon_qt7.dylib links to
+$QTDIR/lib/phonon.framework/Versions/4/phonon.  Amarok links to
+$KDEDIR/lib/libphonon.4.dylib.  At runtime, Amarok resolves it's
+phonon symbols to the $KDEDIR version, then dlopens libphonon_qt7
+from $QTDIR which resolves some of those same symbols from
+the $QTDIR version of phonon, since it explicitly references
+the version it was linked against, rather than the version it
+was loaded into.
+
+What you end up with is a dangling pointer.
+
+For details on this, see Apple's documentation:
+
+http://developer.apple.com/documentation/Porting/Conceptual/PortingUnix/compiling/chapter_4_section_7.html
+
+
+In short, the fix is to build plugins as bundles, with a flat
+namespace.
+
+Index: mkspecs/common/mac.conf
+===================================================================
+--- mkspecs/common/mac.conf	(revision 814547)
++++ mkspecs/common/mac.conf	(working copy)
+@@ -5,6 +5,7 @@
+ QMAKE_RESOURCE		= /Developer/Tools/Rez
+ 
+ QMAKE_EXTENSION_SHLIB	= dylib
++QMAKE_EXTENSION_PLUGIN	= bundle
+ 
+ QMAKE_LIBDIR		=
+ QMAKE_INCDIR_QT		= $$[QT_INSTALL_HEADERS]
+Index: mkspecs/common/mac-g++.conf
+===================================================================
+--- mkspecs/common/mac-g++.conf	(revision 814547)
++++ mkspecs/common/mac-g++.conf	(working copy)
+@@ -55,7 +55,7 @@
+ QMAKE_LFLAGS_DEBUG	+=
+ QMAKE_LFLAGS_APP	+=
+ QMAKE_LFLAGS_SHLIB	+= -single_module -dynamiclib
+-QMAKE_LFLAGS_PLUGIN	+= $$QMAKE_LFLAGS_SHLIB
++QMAKE_LFLAGS_PLUGIN	+= -bundle -flat_namespace
+ QMAKE_LFLAGS_THREAD	+=
+ QMAKE_LFLAGS_INCREMENTAL+= -undefined suppress -flat_namespace
+ QMAKE_LFLAGS_SONAME	+= -install_name$${LITERAL_WHITESPACE}
