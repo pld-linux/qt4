@@ -38,7 +38,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.4.3
-Release:	1
+Release:	2
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -58,6 +58,29 @@ Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
 Patch10:	%{name}-pg_libs.patch
+# svn://anonsvn.kde.org/home/kde/trunk/qt-copy/patches
+Patch100:	0118-qtcopy-define.diff
+Patch101:	0167-fix-group-reading.diff
+Patch102:	0180-window-role.diff
+patch103:	0195-compositing-properties.diff
+Patch104:	0203-qtexthtmlparser-link-color.diff
+Patch105:	0209-prevent-qt-mixing.diff
+Patch106:	0216-allow-isystem-for-headers.diff
+Patch107:	0224-fast-qpixmap-fill.diff
+Patch108:	0225-invalidate-tabbar-geometry-on-refresh.patch
+Patch109:	0226-qtreeview-column_resize_when_needed.diff
+Patch110:	0231-mac-plugins.diff
+Patch111:	0234-fix-mysql-threaded.diff
+Patch112:	0238-fix-qt-qttabbar-size.diff
+Patch114:	0245-fix-randr-changes-detecting.diff
+Patch115:	0248-fix-qwidget-scroll-slowness.diff
+Patch116:	0249-webkit-stale-frame-pointer.diff
+Patch117:	0253-qmake_correct_path_separators.diff
+Patch118:	0254-fix-qgraphicsproxywidget-deletion-crash.diff
+Patch119:	0255-qtreeview-selection-columns-hidden.diff
+Patch120:	0256-fix-recursive-backingstore-sync-crash.diff
+Patch121:	0257-qurl-validate-speedup.diff
+Patch122:	0258-windowsxpstyle-qbrush.diff
 URL:		http://www.trolltech.com/products/qt/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
@@ -1195,6 +1218,29 @@ Programas exemplo para o Qt versão.
 
 %prep
 %setup -q -n qt-x11-opensource-src-%{version}
+%patch100 -p0
+%patch101 -p0
+%patch102 -p0
+%patch103 -p0
+%patch104 -p0
+%patch105 -p0
+%patch106 -p0
+%patch107 -p0
+%patch108 -p0
+%patch109 -p0
+%patch110 -p0
+%patch111 -p0
+%patch112 -p0
+%patch114 -p0
+%patch115 -p0
+%patch116 -p0
+%patch117 -p0
+%patch118 -p0
+%patch119 -p0
+%patch120 -p0
+%patch121 -p0
+%patch122 -p0
+
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
