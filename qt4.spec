@@ -4,6 +4,30 @@
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
+# - solve dep loops:
+#error: LOOP:
+#error: removing QtGui-4.4.3-1.athlon "Requires(auto): libQtSvg.so.4" from tsort relations.
+#error:     QtGui-4.4.3-1.athlon                     Requires(auto): libQtSvg.so.4
+#error: removing QtSvg-4.4.3-1.athlon "Requires(auto): libQtGui.so.4" from tsort relations.
+#error:     QtSvg-4.4.3-1.athlon                     Requires(auto): libQtGui.so.4
+#
+#error: LOOP:
+#error: removing QtGui-4.3.4-2.athlon "Requires(auto): libQtGui.so.4" from tsort relations.
+#error:     QtGui-4.3.4-2.athlon                     Requires(auto): libQtGui.so.4
+#error: removing QtSvg-4.3.4-2.athlon "Requires(auto): libQtSvg.so.4" from tsort relations.
+#error:     QtSvg-4.3.4-2.athlon                     Requires(auto): libQtSvg.so.4
+#
+#error: LOOP:
+#error: removing Qt3Support-4.4.3-1.athlon "Requires: QtGui = 4.4.3-1" from tsort relations.
+#error:     Qt3Support-4.4.3-1.athlon                Requires: QtGui = 4.4.3-1
+#error: removing QtGui-4.4.3-1.athlon "Requires: Qt3Support = 4.4.3-1" from tsort relations.
+#error:     QtGui-4.4.3-1.athlon                     Requires: Qt3Support = 4.4.3-1
+#
+#error: LOOP:
+#error: removing QtGui-4.3.4-2.athlon "Requires: QtGui = 4.3.4-2" from tsort relations.
+#error:     QtGui-4.3.4-2.athlon                     Requires: QtGui = 4.3.4-2
+#error: removing Qt3Support-4.3.4-2.athlon "Requires: Qt3Support = 4.3.4-2" from tsort relations.
+#error:     Qt3Support-4.3.4-2.athlon                Requires: Qt3Support = 4.3.4-2
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
