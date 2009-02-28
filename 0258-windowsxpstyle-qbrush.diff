@@ -1,6 +1,6 @@
-qt-bugs@ issue : none
-Trolltech task ID : none
-applied: yes
+qt-bugs@ issue : N234506
+Trolltech task ID : 234932
+applied: no
 author: Patrick Spendrin <ps_ml@gmx.de>
 
 This makes windows style paint a frame and not a rect for QStyle::PE_Frame

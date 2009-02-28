@@ -1,0 +1,68 @@
+qt-bugs@ issue : none
+Trolltech task ID : 226687
+bugs.kde.org number : none (but they could, issues caused by this are sometimes hard to find)
+applied: no
+author: Marcos Dione <mdione@grulic.org.ar>
+
+This patch handles a interupted select by a unix signal. So that the socket
+doesn't get closed in such cases. 
+
+See http://lists.kde.org/?l=kde-core-devel&m=122628518123927&w=2
+
+The issue is already marked as fixed by Qt Software and sheduled for QT 4.4.4
+The official patch posted by Thiago on kcd is linux specific,
+so I will take this more general one.
+
+
+Index: src/network/socket/qnativesocketengine_unix.cpp
+===================================================================
+--- src/network/socket/qnativesocketengine_unix.cpp	(revision 882581)
++++ src/network/socket/qnativesocketengine_unix.cpp	(working copy)
+@@ -856,18 +856,10 @@
+ 
+ int QNativeSocketEnginePrivate::nativeSelect(int timeout, bool selectForRead) const
+ {
+-    fd_set fds;
+-    FD_ZERO(&fds);
+-    FD_SET(socketDescriptor, &fds);
++    bool selectForWrite = not selectForRead;
+ 
+-    struct timeval tv;
+-    tv.tv_sec = timeout / 1000;
+-    tv.tv_usec = (timeout % 1000) * 1000;
+-
+-    if (selectForRead)
+-        return select(socketDescriptor + 1, &fds, 0, 0, timeout < 0 ? 0 : &tv);
+-    else
+-        return select(socketDescriptor + 1, 0, &fds, 0, timeout < 0 ? 0 : &tv);
++    return nativeSelect (timeout, selectForRead, selectForWrite,
++                            &selectForRead, &selectForWrite);
+ }
+ 
+ int QNativeSocketEnginePrivate::nativeSelect(int timeout, bool checkRead, bool checkWrite,
+@@ -884,10 +876,22 @@
+         FD_SET(socketDescriptor, &fdwrite);
+ 
+     struct timeval tv;
+-    tv.tv_sec = timeout / 1000;
+-    tv.tv_usec = (timeout % 1000) * 1000;
++    int left= timeout;
++    clock_t start, stop;
+ 
+-    int ret = select(socketDescriptor + 1, &fdread, &fdwrite, 0, timeout < 0 ? 0 : &tv);
++    int ret;
++    do {
++        tv.tv_sec = left / 1000;
++        tv.tv_usec = (left % 1000) * 1000;
++
++        start = clock();
++        ret = select(socketDescriptor + 1, &fdread, &fdwrite, 0, timeout < 0 ? 0 : &tv);
++        stop = clock();
++        // calcule how much we should wait
++        // instead of using the same value again
++        left= left - (stop-start)/CLOCKS_PER_SEC*1000;
++    } while (ret == -1 && errno == EINTR);
++
+     if (ret <= 0)
+         return ret;
+ 
