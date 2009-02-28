@@ -62,7 +62,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.4.3
-Release:	2
+Release:	3
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
 Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -105,6 +105,11 @@ Patch119:	0255-qtreeview-selection-columns-hidden.diff
 Patch120:	0256-fix-recursive-backingstore-sync-crash.diff
 Patch121:	0257-qurl-validate-speedup.diff
 Patch122:	0258-windowsxpstyle-qbrush.diff
+Patch123:	0259-restart-select-on-EINTR.diff
+Patch124:	0260-fix-qgraphicswidget-deletionclearFocus.diff
+Patch125:	0261-sync-before-reset-errorhandler.patch
+Patch126:	0262-fix-treeview-animation-crash.diff
+Patch127:	0263-fix-fontconfig-handling.diff
 URL:		http://www.trolltech.com/products/qt/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
@@ -1264,6 +1269,11 @@ Programas exemplo para o Qt versão.
 %patch120 -p0
 %patch121 -p0
 %patch122 -p0
+%patch123 -p0
+%patch124 -p0
+%patch125 -p0
+%patch126 -p0
+%patch127 -p0
 
 %patch0 -p1
 %patch1 -p0
