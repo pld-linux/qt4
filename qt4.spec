@@ -63,7 +63,7 @@ Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.5.0
 Release:	1
-License:	GPL v2 with OSS exception or QPL v1
+License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
 # Source0-md5:	d6d1555b7a074e0a746f6247af402e11
