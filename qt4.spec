@@ -62,7 +62,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.5.0
-Release:	0.1
+Release:	1
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
 Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -81,7 +81,6 @@ Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
-Patch10:	%{name}-pg_libs.patch
 # svn://anonsvn.kde.org/home/kde/trunk/qt-copy/patches
 URL:		http://www.qtsoftware.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -91,6 +90,7 @@ BuildRequires:	OpenGL-GLU-devel
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	dbus-devel >= 0.62
 BuildRequires:	fontconfig-devel
+BuildRequires:	freetds-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
 %{?with_pch:BuildRequires:	gcc >= 5:4.0}
 BuildRequires:	giflib-devel
@@ -504,7 +504,8 @@ Classes for integrating online documentation in applications -
 development files.
 
 %description -n QtHelp-devel -l pl.UTF-8
-Klasy do integracji dokumentacji w aplikacjach - pliki programistyczne.
+Klasy do integracji dokumentacji w aplikacjach - pliki
+programistyczne.
 
 %package -n QtHelp-static
 Summary:	Classes for integrating online documentation in applications - static library
@@ -631,6 +632,46 @@ Requires:	QtScript-devel = %{version}-%{release}
 Classes for scripting applications - static library.
 
 %description -n QtScript-static -l pl.UTF-8
+Klasy pozwalające dodać obsługę skryptów w aplikacjach - biblioteka
+statyczna.
+
+%package -n QtScriptTools
+Summary:	Classes for scripting applications
+Summary(pl.UTF-8):	Klasy pozwalające dodać obsługę skryptów w aplikacjach
+Group:		X11/Development/Libraries
+
+%description -n QtScriptTools
+The QtScriptTools module provides classes to handle scripts inside
+applications.
+
+%description -n QtScriptTools -l pl.UTF-8
+Ten moduł dostarcza klasy obsługujące języki skryptowe wewnątrz
+aplikacji.
+
+%package -n QtScriptTools-devel
+Summary:	Classes for scripting applications - development files
+Summary(pl.UTF-8):	Klasy do obsługi skryptów wewnątrz aplikacji - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtScript-devel = %{version}-%{release}
+Requires:	QtScriptTools = %{version}-%{release}
+
+%description -n QtScriptTools-devel
+Classes for scriptin applications - development files.
+
+%description -n QtScriptTools-devel -l pl.UTF-8
+Klasy do obsługi skryptów wewnątrz aplikacji - pliki programistyczne.
+
+%package -n QtScriptTools-static
+Summary:	Classes for scripting applications - static library
+Summary(pl.UTF-8):	Klasy pozwalające dodać obsługę skryptów w aplikacjach - biblioteka statyczna
+Group:		X11/Development/Libraries
+Requires:	QtScriptTools-devel = %{version}-%{release}
+
+%description -n QtScriptTools-static
+Classes for scripting applications - static library.
+
+%description -n QtScriptTools-static -l pl.UTF-8
 Klasy pozwalające dodać obsługę skryptów w aplikacjach - biblioteka
 statyczna.
 
@@ -786,6 +827,25 @@ danych SQLite3 poprzez klasy QSql.
 
 %description -n QtSql-sqlite3 -l pt_BR.UTF-8
 Plugin de suporte a SQLite3 para Qt.
+
+%package -n QtSql-tds
+Summary:	Database plugin for TDS Qt support
+Summary(pl.UTF-8):	Wtyczka TDS do Qt
+Summary(pt_BR.UTF-8):	Plugin de suporte a TDS para Qt
+Group:		X11/Libraries
+Requires:	QtSql = %{version}-%{release}
+Provides:	QtSql-backend = %{version}-%{release}
+
+%description -n QtSql-tds
+This package contains a plugin for accessing TDS database via the QSql
+classes.
+
+%description -n QtSql-tds -l pl.UTF-8
+Ten pakiet zawiera wtyczki do Qt umożliwiające korzystanie z baz
+danych TDS poprzez klasy QSql.
+
+%description -n QtSql-tds -l pt_BR.UTF-8
+Plugin de suporte a TDS para Qt.
 
 %package -n QtSvg
 Summary:	SVG support
@@ -1232,8 +1292,6 @@ Programas exemplo para o Qt versão.
 %patch7 -p1
 #%patch8 -p1
 %patch9 -p1
-# obsolete?
-#%patch10 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1510,6 +1568,7 @@ mkdevfl QtGui
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
 mkdevfl QtScript
+mkdevfl QtScriptTools
 mkdevfl QtSql
 mkdevfl QtSvg
 mkdevfl QtTest
@@ -1578,6 +1637,9 @@ rm -rf $RPM_BUILD_ROOT
 %post   -n QtScript	-p /sbin/ldconfig
 %postun -n QtScript	-p /sbin/ldconfig
 
+%post   -n QtScriptTools	-p /sbin/ldconfig
+%postun -n QtScriptTools	-p /sbin/ldconfig
+
 %post	-n QtSql	-p /sbin/ldconfig
 %postun	-n QtSql	-p /sbin/ldconfig
 
@@ -1627,6 +1689,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/plugins/accessible
 %dir %{_qtdir}/plugins/codecs
 %dir %{_qtdir}/plugins/crypto
+%dir %{_qtdir}/plugins/graphicssystems
 %dir %{_qtdir}/plugins/iconengines
 %dir %{_qtdir}/plugins/imageformats
 %dir %{_qtdir}/plugins/inputmethods
@@ -1675,6 +1738,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQtGui.so.4
 %attr(755,root,root) %{_qtdir}/plugins/accessible/*.so
 %attr(755,root,root) %{_qtdir}/plugins/codecs/*.so
+%attr(755,root,root) %{_qtdir}/plugins/graphicssystems/*.so
 %attr(755,root,root) %{_qtdir}/plugins/iconengines/*.so
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/*.so
 %attr(755,root,root) %{_qtdir}/plugins/inputmethods/*.so
@@ -1704,6 +1768,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtScript.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtScript.so.4
+
+%files -n QtScriptTools
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtScriptTools.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtScriptTools.so.4
 
 %files -n QtSql
 %defattr(644,root,root,755)
@@ -1745,6 +1814,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlodbc.so
 %endif
+
+%files -n QtSql-tds
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqltds.so
 
 %files -n QtSvg
 %defattr(644,root,root,755)
@@ -1824,6 +1897,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/lupdate-qt4
 %attr(755,root,root) %{_qtdir}/bin/findtr
 %attr(755,root,root) %{_qtdir}/bin/linguist
+%attr(755,root,root) %{_qtdir}/bin/lconvert
 %attr(755,root,root) %{_qtdir}/bin/lrelease
 %attr(755,root,root) %{_qtdir}/bin/lupdate
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-linguist.qm
@@ -1907,6 +1981,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtScript-devel -f QtScript-devel.files
 %defattr(644,root,root,755)
 
+%files -n QtScriptTools-devel -f QtScriptTools-devel.files
+%defattr(644,root,root,755)
+
 %files -n QtSql-devel -f QtSql-devel.files
 %defattr(644,root,root,755)
 
@@ -1976,6 +2053,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtScript-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtScript.a
+
+%files -n QtScriptTools-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtScriptTools.a
 
 %files -n QtSql-static
 %defattr(644,root,root,755)
