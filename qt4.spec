@@ -61,12 +61,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.4.3
-Release:	3
+Version:	4.5.0
+Release:	0.1
 License:	GPL v2 with OSS exception or QPL v1
 Group:		X11/Libraries
-Source0:	ftp://ftp.trolltech.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	376c003317c4417326ba2116370227d0
+Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
+# Source0-md5:	d6d1555b7a074e0a746f6247af402e11
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -83,34 +83,7 @@ Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
 Patch10:	%{name}-pg_libs.patch
 # svn://anonsvn.kde.org/home/kde/trunk/qt-copy/patches
-Patch100:	0118-qtcopy-define.diff
-Patch101:	0167-fix-group-reading.diff
-Patch102:	0180-window-role.diff
-patch103:	0195-compositing-properties.diff
-Patch104:	0203-qtexthtmlparser-link-color.diff
-Patch105:	0209-prevent-qt-mixing.diff
-Patch106:	0216-allow-isystem-for-headers.diff
-Patch107:	0224-fast-qpixmap-fill.diff
-Patch108:	0225-invalidate-tabbar-geometry-on-refresh.patch
-Patch109:	0226-qtreeview-column_resize_when_needed.diff
-Patch110:	0231-mac-plugins.diff
-Patch111:	0234-fix-mysql-threaded.diff
-Patch112:	0238-fix-qt-qttabbar-size.diff
-Patch114:	0245-fix-randr-changes-detecting.diff
-Patch115:	0248-fix-qwidget-scroll-slowness.diff
-Patch116:	0249-webkit-stale-frame-pointer.diff
-Patch117:	0253-qmake_correct_path_separators.diff
-Patch118:	0254-fix-qgraphicsproxywidget-deletion-crash.diff
-Patch119:	0255-qtreeview-selection-columns-hidden.diff
-Patch120:	0256-fix-recursive-backingstore-sync-crash.diff
-Patch121:	0257-qurl-validate-speedup.diff
-Patch122:	0258-windowsxpstyle-qbrush.diff
-Patch123:	0259-restart-select-on-EINTR.diff
-Patch124:	0260-fix-qgraphicswidget-deletionclearFocus.diff
-Patch125:	0261-sync-before-reset-errorhandler.patch
-Patch126:	0262-fix-treeview-animation-crash.diff
-Patch127:	0263-fix-fontconfig-handling.diff
-URL:		http://www.trolltech.com/products/qt/
+URL:		http://www.qtsoftware.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
@@ -1247,33 +1220,7 @@ Programas exemplo para o Qt versão.
 
 %prep
 %setup -q -n qt-x11-opensource-src-%{version}
-%patch100 -p0
-%patch101 -p0
-%patch102 -p0
-%patch103 -p0
-%patch104 -p0
-%patch105 -p0
-%patch106 -p0
-%patch107 -p0
-%patch108 -p0
-%patch109 -p0
-%patch110 -p0
-%patch111 -p0
-%patch112 -p0
-%patch114 -p0
-%patch115 -p0
-%patch116 -p0
-%patch117 -p0
-%patch118 -p0
-%patch119 -p0
-%patch120 -p0
-%patch121 -p0
-%patch122 -p0
-%patch123 -p0
-%patch124 -p0
-%patch125 -p0
-%patch126 -p0
-%patch127 -p0
+# patch100
 
 %patch0 -p1
 %patch1 -p0
@@ -1285,7 +1232,8 @@ Programas exemplo para o Qt versão.
 %patch7 -p1
 #%patch8 -p1
 %patch9 -p1
-%patch10 -p1
+# obsolete?
+#%patch10 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1358,7 +1306,6 @@ COMMONOPT=" \
 	-xfixes \
 	-nis \
 	-sm \
-	-tablet \
 	-xcursor \
 	-xkb \
 	-xrender \
