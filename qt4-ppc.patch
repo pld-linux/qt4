@@ -1,0 +1,12 @@
+diff -up qt-x11-opensource-src-4.5.0-rc1/src/corelib/arch/qatomic_powerpc.h.orig qt-x11-opensource-src-4.5.0-rc1/src/corelib/arch/qatomic_powerpc.h
+--- qt-x11-opensource-src-4.5.0-rc1/src/corelib/arch/qatomic_powerpc.h.orig	2009-02-14 22:51:51.000000000 +0100
++++ qt-x11-opensource-src-4.5.0-rc1/src/corelib/arch/qatomic_powerpc.h	2009-02-14 22:53:03.000000000 +0100
+@@ -188,7 +188,7 @@ inline bool QBasicAtomicInt::testAndSetR
+                  "lwarx  %[result]," _Q_VALUE "\n"
+                  "xor.   %[result], %[result], %[expectedValue]\n"
+                  "bne    $+12\n"
+-                 "stwcx. %[newValue],0,%[_q_value]\n"
++                 "stwcx. %[newValue]," _Q_VALUE "\n"
+                  "bne-   $-16\n"
+                  : [result] "=&r" (result),
+                    _Q_VALUE_MEMORY_OPERAND
