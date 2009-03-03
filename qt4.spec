@@ -1345,6 +1345,7 @@ COMMONOPT=" \
 	%{!?with_sse2:-no-sse2} \
 	-qdbus \
 	-qt-gif \
+	-reduce-relocations \
 	-system-libjpeg \
 	-system-libmng \
 	-system-libpng \
@@ -1365,6 +1366,7 @@ COMMONOPT=" \
 	-nis \
 	-sm \
 	-xcursor \
+	-xinput \
 	-xkb \
 	-xrender \
 	-xshape \
