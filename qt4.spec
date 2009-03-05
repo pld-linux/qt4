@@ -62,7 +62,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.5.0
-Release:	2
+Release:	3
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -1423,11 +1423,14 @@ echo "yes" | ./configure $COMMONOPT $OPT
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_desktopdir},%{_pixmapsdir},%{_pkgconfigdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_desktopdir},%{_pixmapsdir},%{_pkgconfigdir},%{_libdir}/qt4/tools/qdoc3}
 install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
+
+# for qt-creator sth is messed up in the Makefile, nothing for make install
+install tools/qdoc3/qdoc3 $RPM_BUILD_ROOT%{_libdir}/qt4/tools/qdoc3
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,prl}
@@ -1701,6 +1704,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/plugins/sqldrivers
 %dir %{_qtdir}/plugins/script
 %dir %{_datadir}/qt4
+%dir %{_libdir}/qt4
+%dir %{_libdir}/qt4/tools
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
@@ -1879,6 +1884,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/moc
 %attr(755,root,root) %{_qtdir}/bin/qt3to4
 %attr(755,root,root) %{_qtdir}/bin/uic
+%dir %{_libdir}/qt4/tools/qdoc3
+%attr(755,root,root) %{_libdir}/qt4/tools/qdoc3/qdoc3
 %{_datadir}/qt4/q3porting.xml
 
 %files designer
