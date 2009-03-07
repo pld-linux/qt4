@@ -1,0 +1,11 @@
+--- qt-x11-opensource-src-4.5.0/src/corelib/Makefile~	2009-03-07 13:43:27.000000000 +0100
++++ qt-x11-opensource-src-4.5.0/src/corelib/Makefile	2009-03-07 15:29:12.000000000 +0100
+@@ -7489,7 +7489,7 @@
+ 		tools/qunicodetables.cpp \
+ 		tools/qstringmatcher.cpp \
+ 		.pch/release-static/QtCore.gch/c++
+-	$(CXX) -c -include .pch/release-static/QtCore $(CXXFLAGS) $(INCPATH) -o .obj/release-static/qstring.o tools/qstring.cpp
++	$(CXX) -c -include .pch/release-static/QtCore $(CXXFLAGS) $(INCPATH) -O1 -o .obj/release-static/qstring.o tools/qstring.cpp
+ 
+ .obj/release-static/qstringlist.o: tools/qstringlist.cpp ../../include/QtCore/qstringlist.h \
+ 		tools/qstringlist.h \
