@@ -72,6 +72,23 @@ Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
+
+Patch100:	0118-qtcopy-define.diff
+Patch101:	0180-window-role.diff
+Patch102:	0195-compositing-properties.diff
+Patch103:	0209-prevent-qt-mixing.diff
+Patch104:	0216-allow-isystem-for-headers.diff
+Patch105:	0225-invalidate-tabbar-geometry-on-refresh.patch
+Patch106:	0231-mac-plugins.diff
+Patch107:	0234-fix-mysql-threaded.diff
+Patch108:	0245-fix-randr-changes-detecting.diff
+Patch109:	0253-qmake_correct_path_separators.diff
+Patch110:	0255-qtreeview-selection-columns-hidden.diff
+Patch111:	0269-msvc-webkit-compile.diff
+Patch112:	0273-odbc-64bit-compile.diff
+Patch113:	0274-shm-native-image-fix.diff
+Patch114:	0275-qtconcurrent-threadcount.diff
+
 Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
@@ -1284,7 +1301,22 @@ Programas exemplo para o Qt versão.
 
 %prep
 %setup -q -n qt-x11-opensource-src-%{version}
-# patch100
+
+%patch100 -p0
+%patch101 -p0
+%patch102 -p0
+%patch103 -p0
+%patch104 -p0
+%patch105 -p0
+%patch106 -p0
+%patch107 -p0
+%patch108 -p0
+%patch109 -p0
+%patch110 -p0
+%patch111 -p0
+%patch112 -p0
+%patch113 -p0
+%patch114 -p0
 
 %patch0 -p1
 %patch1 -p0
