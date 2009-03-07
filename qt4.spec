@@ -40,6 +40,7 @@
 %bcond_without	sqlite		# don't build SQLite2 plugin
 %bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# disable pch in qmake
+%bcond_without	gtk		# don't build GTK theme integration
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
 #
@@ -97,6 +98,7 @@ BuildRequires:	freetype-devel >= 1:2.0.0
 BuildRequires:	giflib-devel
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	gstreamer-plugins-base-devel
+%{?with_gtk:BuildRequires:	gtk+2-devel}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
@@ -998,6 +1000,7 @@ Group:		X11/Development/Libraries
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
 Requires:	QtWebKit = %{version}-%{release}
+Requires:	qt4-phonon-devel = %{version}-%{release}
 
 %description -n QtWebKit-devel
 Classes for rendering HTML, XHTML and SVG documents - development
@@ -1592,7 +1595,8 @@ mkdevfl QtAssistant || /bin/true
 mkdevfl QtDesigner || /bin/true
 mkdevfl QtUiTools || /bin/true
 
-# without glob (exclude QtXmlPatterns*)
+# without glob (exclude QtScriptTools* QtXmlPatterns*)
+%{__sed} -i 's,QtScript\*,QtScript,g' QtScript-devel.files
 %{__sed} -i 's,QtXml\*,QtXml,g' QtXml-devel.files
 
 echo "%defattr(644,root,root,755)" > examples.files
