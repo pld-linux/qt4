@@ -33,10 +33,10 @@ diff --git a/src/gui/itemviews/qtreeview.cpp b/src/gui/itemviews/qtreeview.cpp
 index d5ca633..b7975be 100644
 --- src/gui/itemviews/qtreeview.cpp
 +++ src/gui/itemviews/qtreeview.cpp
-@@ -3494,7 +3494,7 @@ QList<QPair<int, int> > QTreeViewPrivate::columnRanges(const QModelIndex &topInd
+@@ -3494,7 +3494,7 @@
      current.first = -2; // -1 is not enough because -1+1 = 0
      current.second = -2;
-     foreach(int logicalColumn, logicalIndexes) {
+     foreach (int logicalColumn, logicalIndexes) {
 -        if (current.second + 1 != logicalColumn) {
 +        if (current.second + 1 != logicalColumn && !header->isSectionHidden(current.second + 1)) {
              if (current.first != -2) {

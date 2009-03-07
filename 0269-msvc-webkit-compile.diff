@@ -1,0 +1,24 @@
+Trolltech task ID : N244010
+KDE :
+applied: no
+os: windows/msvc
+author: Christian Ehrlicher <ch.ehrlicher@gmx.de>
+
+Due to the implicit build rules created in 'batch mode' all source files
+inside a directory matching those rules are compiled. This means make also
+wants to compile pcre.c which isn't needed at all (and does not compile).
+--> Disabling batch mode for this directory to work around this bug.
+
+
+Index: src/3rdparty/webkit/JavaScriptCore/pcre/pcre.pri
+===================================================================
+--- src/3rdparty/webkit/JavaScriptCore/pcre/pcre.pri	(revision 922833)
++++ src/3rdparty/webkit/JavaScriptCore/pcre/pcre.pri	(working copy)
+@@ -2,6 +2,7 @@
+ VPATH += $$PWD
+ INCLUDEPATH += $$PWD $$OUTPUT_DIR/JavaScriptCore/tmp
+ DEPENDPATH += $$PWD
++win32-msvc*: CONFIG += no_batch
+ 
+ isEmpty(GENERATED_SOURCES_DIR):GENERATED_SOURCES_DIR = tmp
+ 
