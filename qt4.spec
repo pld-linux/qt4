@@ -1465,6 +1465,8 @@ ln -sf ../%{_lib}/qt4/bin/qdbus .
 ln -sf ../%{_lib}/qt4/bin/qdbuscpp2xml .
 ln -sf ../%{_lib}/qt4/bin/qdbusxml2cpp .
 ln -sf ../%{_lib}/qt4/bin/qdbusviewer .
+ln -sf ../%{_lib}/qt4/bin/qhelpconverter .
+ln -sf ../%{_lib}/qt4/bin/qhelpgenerator .
 ln -sf ../%{_lib}/qt4/bin/qvfb .
 cd -
 
