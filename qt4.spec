@@ -100,6 +100,7 @@ Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
 Patch10:	%{name}-ppc.patch
+Patch11:	%{name}-ppc-hack.patch
 # svn://anonsvn.kde.org/home/kde/trunk/qt-copy/patches
 URL:		http://www.qtsoftware.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -1329,6 +1330,11 @@ Programas exemplo para o Qt versão.
 #%patch8 -p1
 %patch9 -p1
 %patch10 -p1
+
+# hack for tools/qstring.cpp:2329: internal compiler error: in output_369, at config/rs6000/rs6000.md:11495
+%ifarch ppc ppc64
+%patch11 -p1
+%endif
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
