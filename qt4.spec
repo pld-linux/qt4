@@ -1793,6 +1793,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtHelp
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/qhelpconverter
+%attr(755,root,root) %{_bindir}/qhelpgenerator
 %attr(755,root,root) %{_libdir}/libQtHelp.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
 %attr(755,root,root) %{_qtdir}/bin/qhelpconverter
