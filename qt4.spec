@@ -1376,6 +1376,7 @@ COMMONOPT=" \
 	-demosdir %{_examplesdir}/qt4-demos \
 	-fast \
 	-glib \
+	%{!?with_gtk:-no-gtkstyle} \
 	-%{!?with_pch:no-}pch \
 	-no-rpath \
 	%{!?with_sse:-no-sse} \
