@@ -1331,11 +1331,6 @@ Programas exemplo para o Qt versão.
 %patch9 -p1
 %patch10 -p1
 
-# hack for tools/qstring.cpp:2329: internal compiler error: in output_369, at config/rs6000/rs6000.md:11495
-%ifarch ppc ppc64
-%patch11 -p1
-%endif
-
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
 
@@ -1432,6 +1427,11 @@ OPT=" \
 	-static"
 
 echo "yes" | ./configure $COMMONOPT $OPT
+
+# hack for tools/qstring.cpp:2329: internal compiler error: in output_369, at config/rs6000/rs6000.md:11495
+%ifarch ppc ppc64
+%patch11 -p1
+%endif
 
 %{__make} -C src
 %{__make} -C tools/assistant/lib
