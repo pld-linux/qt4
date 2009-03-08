@@ -63,7 +63,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.5.0
-Release:	4
+Release:	5
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -100,7 +100,6 @@ Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
 Patch10:	%{name}-ppc.patch
-Patch11:	%{name}-ppc-hack.patch
 # svn://anonsvn.kde.org/home/kde/trunk/qt-copy/patches
 URL:		http://www.qtsoftware.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -1430,7 +1429,7 @@ echo "yes" | ./configure $COMMONOPT $OPT
 
 # hack for tools/qstring.cpp:2329: internal compiler error: in output_369, at config/rs6000/rs6000.md:11495
 %ifarch ppc ppc64
-cat %{PATCH11} | patch -p1 || exit
+sed -i -e 's#qstring.o tools/qstring.cpp#qstring.o -O1 tools/qstring.cpp#g' src/corelib/Makefile
 %endif
 
 %{__make} -C src
@@ -1458,7 +1457,7 @@ OPT=" \
 echo "yes" | ./configure $COMMONOPT $OPT
 
 %ifarch ppc ppc64
-cat %{PATCH11} | patch -p1 || exit
+sed -i -e 's#qstring.o tools/qstring.cpp#qstring.o -O1 tools/qstring.cpp#g' src/corelib/Makefile
 %endif
 
 %{__make}
