@@ -1,11 +1,11 @@
---- qt-x11-opensource-src-4.5.0/qmake/Makefile.unix~	2009-02-25 22:09:16.000000000 +0100
-+++ qt-x11-opensource-src-4.5.0/qmake/Makefile.unix	2009-03-07 21:16:08.902865896 +0100
-@@ -161,7 +161,7 @@
- 	$(CXX) -c -o $@ $(CXXFLAGS) $(SOURCE_PATH)/src/corelib/io/qurl.cpp
+--- qt-x11-opensource-src-4.5.0/src/corelib/Makefile~	2009-03-07 13:43:27.000000000 +0100
++++ qt-x11-opensource-src-4.5.0/src/corelib/Makefile	2009-03-07 15:29:12.000000000 +0100
+@@ -7489,7 +7489,7 @@
+ 		tools/qunicodetables.cpp \
+ 		tools/qstringmatcher.cpp \
+ 		.pch/release-static/QtCore.gch/c++
+-	$(CXX) -c -include .pch/release-static/QtCore $(CXXFLAGS) $(INCPATH) -o .obj/release-static/qstring.o tools/qstring.cpp
++	$(CXX) -c -include .pch/release-static/QtCore $(CXXFLAGS) $(INCPATH) -O1 -o .obj/release-static/qstring.o tools/qstring.cpp
  
- qstring.o: $(SOURCE_PATH)/src/corelib/tools/qstring.cpp
--	$(CXX) -c -o $@ $(CXXFLAGS) $(SOURCE_PATH)/src/corelib/tools/qstring.cpp
-+	$(CXX) -c -o $@ $(CXXFLAGS) -O1 $(SOURCE_PATH)/src/corelib/tools/qstring.cpp
- 
- qlocale.o: $(SOURCE_PATH)/src/corelib/tools/qlocale.cpp
- 	$(CXX) -c -o $@ $(CXXFLAGS) $(SOURCE_PATH)/src/corelib/tools/qlocale.cpp
+ .obj/release-static/qstringlist.o: tools/qstringlist.cpp ../../include/QtCore/qstringlist.h \
+ 		tools/qstringlist.h \
