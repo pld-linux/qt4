@@ -1430,7 +1430,7 @@ echo "yes" | ./configure $COMMONOPT $OPT
 
 # hack for tools/qstring.cpp:2329: internal compiler error: in output_369, at config/rs6000/rs6000.md:11495
 %ifarch ppc ppc64
-%patch11 -p1
+cat %{PATCH11} | patch -p1 || exit
 %endif
 
 %{__make} -C src
