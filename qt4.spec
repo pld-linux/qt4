@@ -1452,7 +1452,8 @@ OPT=" \
 	-%{!?with_pgsql:no}%{?with_pgsql:plugin}-sql-psql \
 	-%{!?with_sqlite3:no}%{?with_sqlite3:plugin}-sql-sqlite \
 	-%{!?with_sqlite:no}%{?with_sqlite:plugin}-sql-sqlite2 \
-	-%{!?with_ibase:no}%{?with_ibase:plugin}-sql-ibase"
+	-%{!?with_ibase:no}%{?with_ibase:plugin}-sql-ibase \
+	-shared" 
 
 echo "yes" | ./configure $COMMONOPT $OPT
 
