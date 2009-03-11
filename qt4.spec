@@ -1,5 +1,6 @@
 #
 # TODO:
+#	- figure out why it tries to link with system qt (fix and drop BuildConflicts Qt)
 #	- better descriptions
 #	- more cleanups
 #	- check if translations are available
@@ -140,6 +141,7 @@ BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	zlib-devel
+# when building it tries to link with system qt instead of buit one
 BuildConflicts:	QtCore-devel <= %{version}
 BuildConflicts:	QtScript-devel <= %{version}
 Obsoletes:	qt-extensions
