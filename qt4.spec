@@ -1349,6 +1349,16 @@ Programas exemplo para o Qt versão.
 	s|QMAKE_INCDIR_QT.*|QMAKE_INCDIR_QT       = %{_includedir}/qt4|;
 	' mkspecs/common/linux.conf
 
+# No -L/usr/lib.
+%{__sed} -i -e '
+	s|^QMAKE_LIBDIR_QT.*=.*|QMAKE_LIBDIR_QT       =|;
+	' mkspecs/common/linux.conf
+
+# undefine QMAKE_STRIP, so we get useful -debuginfo pkgs
+%{__sed} -i -e '
+	s|^QMAKE_STRIP.*=.*|QMAKE_STRIP             =|;
+	' mkspecs/common/linux.conf
+
 %build
 # pass OPTFLAGS to build qmake itself with optimization
 export OPTFLAGS="%{rpmcflags}"
