@@ -1451,7 +1451,7 @@ if [ ! -d staticlib ]; then
 	mkdir staticlib
 	cp -a lib/*.a staticlib
 fi
-%{__make} confclean
+%{__make} distclean
 %endif
 
 ##################################
