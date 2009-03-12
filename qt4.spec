@@ -42,6 +42,7 @@
 %bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
 %bcond_without	pch		# disable pch in qmake
 %bcond_without	gtk		# don't build GTK theme integration
+%bcond_without	system_phonon
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
 #
@@ -64,7 +65,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.5.0
-Release:	6
+Release:	7
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -1019,7 +1020,11 @@ Group:		X11/Development/Libraries
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
 Requires:	QtWebKit = %{version}-%{release}
+%if %{with system_phonon}
+Requires:	phonon-devel
+%else
 Requires:	qt4-phonon-devel = %{version}-%{release}
+%endif
 
 %description -n QtWebKit-devel
 Classes for rendering HTML, XHTML and SVG documents - development
@@ -1983,12 +1988,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/linguist-qt4.desktop
 %{_pixmapsdir}/linguist-qt4.png
 
+%if ! %{with system_phonon}
 %files phonon
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libphonon.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libphonon.so.4
 %dir %{_qtdir}/plugins/phonon_backend
 %attr(755,root,root) %{_qtdir}/plugins/phonon_backend/libphonon_gstreamer.so
+%endif
 
 %files qmake
 %defattr(644,root,root,755)
@@ -2079,8 +2086,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtXmlPatterns-devel -f QtXmlPatterns-devel.files
 %defattr(644,root,root,755)
 
+%if ! %{with system_phonon}
 %files phonon-devel -f phonon-devel.files
 %defattr(644,root,root,755)
+%endif
 
 %if %{with static_libs}
 %files -n Qt3Support-static
