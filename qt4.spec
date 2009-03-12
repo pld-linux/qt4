@@ -1019,6 +1019,7 @@ Summary(pl.UTF-8):	Klasy do renderowania dokumentów HTML, XHTML i SVG - pliki p
 Group:		X11/Development/Libraries
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
+Requires:	QtScript-devel = %{version}-%{release}
 Requires:	QtWebKit = %{version}-%{release}
 %if %{with system_phonon}
 Requires:	phonon-devel
