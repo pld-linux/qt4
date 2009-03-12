@@ -1989,7 +1989,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/linguist-qt4.desktop
 %{_pixmapsdir}/linguist-qt4.png
 
-%if ! %{with system_phonon}
+%if %{without system_phonon}
 %files phonon
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libphonon.so.*.*
@@ -2087,7 +2087,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtXmlPatterns-devel -f QtXmlPatterns-devel.files
 %defattr(644,root,root,755)
 
-%if ! %{with system_phonon}
+%if %{without system_phonon}
 %files phonon-devel -f phonon-devel.files
 %defattr(644,root,root,755)
 %endif
