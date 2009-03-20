@@ -81,7 +81,6 @@ Patch102:	0195-compositing-properties.diff
 Patch103:	0209-prevent-qt-mixing.diff
 Patch104:	0216-allow-isystem-for-headers.diff
 Patch105:	0225-invalidate-tabbar-geometry-on-refresh.patch
-Patch106:	0231-mac-plugins.diff
 Patch107:	0234-fix-mysql-threaded.diff
 Patch108:	0245-fix-randr-changes-detecting.diff
 Patch109:	0253-qmake_correct_path_separators.diff
@@ -1317,7 +1316,6 @@ Programas exemplo para o Qt versão.
 %patch103 -p0
 %patch104 -p0
 %patch105 -p0
-%patch106 -p0
 %patch107 -p0
 %patch108 -p0
 %patch109 -p0
