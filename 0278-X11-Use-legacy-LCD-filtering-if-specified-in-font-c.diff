@@ -1,0 +1,70 @@
+qt-bugs@ issue : none
+Qt Software task ID : 248387
+bugs.kde.org number : none
+applied: no
+author: Samuel Rodal <sroedal@trolltech.com>
+
+[PATCH] X11: Use legacy LCD filtering if specified in font config.
+
+If Freetype is built without subpixel rendering, we should use
+the Qt 3 intrapixel filter instead of the bitmap convolution
+when the Legacy LCD filter is chosen.
+
+--- src/gui/text/qfontengine_ft.cpp
++++ src/gui/text/qfontengine_ft.cpp
+@@ -529,7 +529,7 @@ static const uint subpixel_filter[3][3] 
+ };
+ #endif
+ 
+-static void convertRGBToARGB(const uchar *src, uint *dst, int width, int height, int src_pitch, bool bgr)
++static void convertRGBToARGB(const uchar *src, uint *dst, int width, int height, int src_pitch, bool bgr, bool legacyFilter)
+ {
+     int h = height;
+     const int offs = bgr ? -1 : 1;
+@@ -540,8 +540,16 @@ static void convertRGBToARGB(const uchar
+             uint red = src[x+1-offs];
+             uint green = src[x+1];
+             uint blue = src[x+1+offs];
+-            uint alpha = green;
+-            uint res = (alpha << 24) + (red << 16) + (green << 8) + blue;
++            uint res;
++#if !defined(QT_USE_FREETYPE_LCDFILTER)
++            if (legacyFilter) {
++                uint high = (red*subpixel_filter[0][0] + green*subpixel_filter[0][1] + blue*subpixel_filter[0][2]) >> 8;
++                uint mid = (red*subpixel_filter[1][0] + green*subpixel_filter[1][1] + blue*subpixel_filter[1][2]) >> 8;
++                uint low = (red*subpixel_filter[2][0] + green*subpixel_filter[2][1] + blue*subpixel_filter[2][2]) >> 8;
++                res = (mid << 24) + (high << 16) + (mid << 8) + low;
++            } else
++#endif
++            res = (green << 24) + (red << 16) + (green << 8) + blue;
+             *dd = res;
+             ++dd;
+         }
+@@ -941,7 +949,7 @@ QFontEngineFT::Glyph *QFontEngineFT::loa
+         glyph_buffer = new uchar[glyph_buffer_size];
+ 
+         if (hsubpixel)
+-            convertRGBToARGB(slot->bitmap.buffer, (uint *)glyph_buffer, info.width, info.height, slot->bitmap.pitch, subpixelType != QFontEngineFT::Subpixel_RGB);
++            convertRGBToARGB(slot->bitmap.buffer, (uint *)glyph_buffer, info.width, info.height, slot->bitmap.pitch, subpixelType != QFontEngineFT::Subpixel_RGB, false);
+         else if (vfactor != 1)
+             convertRGBToARGB_V(slot->bitmap.buffer, (uint *)glyph_buffer, info.width, info.height, slot->bitmap.pitch, subpixelType != QFontEngineFT::Subpixel_VRGB);
+     } else
+@@ -1042,8 +1050,16 @@ QFontEngineFT::Glyph *QFontEngineFT::loa
+             Q_ASSERT (bitmap.pixel_mode == FT_PIXEL_MODE_GRAY);
+             Q_ASSERT(antialias);
+             uchar *convoluted = new uchar[bitmap.rows*bitmap.pitch];
+-            convoluteBitmap(bitmap.buffer, convoluted, bitmap.width, info.height, bitmap.pitch);
+-            convertRGBToARGB(convoluted + 1, (uint *)glyph_buffer, info.width, info.height, bitmap.pitch, subpixelType != QFontEngineFT::Subpixel_RGB);
++            bool useLegacyLcdFilter = false;
++#if defined(FT_LCD_FILTER_H)
++            useLegacyLcdFilter = (lcdFilterType == FT_LCD_FILTER_LEGACY);
++#endif
++            uchar *buffer = bitmap.buffer;
++            if (!useLegacyLcdFilter) {
++                convoluteBitmap(bitmap.buffer, convoluted, bitmap.width, info.height, bitmap.pitch);
++                buffer = convoluted;
++            }
++            convertRGBToARGB(buffer + 1, (uint *)glyph_buffer, info.width, info.height, bitmap.pitch, subpixelType != QFontEngineFT::Subpixel_RGB, useLegacyLcdFilter);
+             delete [] convoluted;
+         } else if (vfactor != 1) {
+             convertRGBToARGB_V(bitmap.buffer, (uint *)glyph_buffer, info.width, info.height, bitmap.pitch, subpixelType != QFontEngineFT::Subpixel_VRGB);
