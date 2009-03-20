@@ -90,6 +90,7 @@ Patch111:	0269-msvc-webkit-compile.diff
 Patch112:	0273-odbc-64bit-compile.diff
 Patch113:	0274-shm-native-image-fix.diff
 Patch114:	0275-qtconcurrent-threadcount.diff
+Patch115:	0278-X11-Use-legacy-LCD-filtering-if-specified-in-font-c.diff
 
 Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
@@ -1325,6 +1326,7 @@ Programas exemplo para o Qt versão.
 %patch112 -p0
 %patch113 -p0
 %patch114 -p0
+%patch115 -p0
 
 %patch0 -p1
 %patch1 -p0
