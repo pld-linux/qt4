@@ -10,11 +10,21 @@ means that QtConcurrent is basically rendered useless for relatively atomic task
 since the advantages of parallelization are far less than the overhead.  In my
 tests this patch procuced a 30-50x improvement in performance on Linux.
 
+Missing header added by Fred Emmott <mail@fredemmott.co.uk>
+
 Index: src/corelib/concurrent/qtconcurrentreducekernel.h
 ===================================================================
---- src/corelib/concurrent/qtconcurrentreducekernel.h	(revision 936031)
+--- src/corelib/concurrent/qtconcurrentreducekernel.h	(revision 942234)
 +++ src/corelib/concurrent/qtconcurrentreducekernel.h	(working copy)
-@@ -210,12 +210,14 @@
+@@ -51,6 +51,7 @@
+ #include <QtCore/qmap.h>
+ #include <QtCore/qmutex.h>
+ #include <QtCore/qthread.h>
++#include <QtCore/qthreadpool.h>
+ #include <QtCore/qvector.h>
+ 
+ QT_BEGIN_HEADER
+@@ -210,12 +211,14 @@
  
      inline bool shouldThrottle()
      {
