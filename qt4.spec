@@ -5,6 +5,17 @@
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
+# - QtDBus (and maybe others) not multilib compatible (split pkgs or drop symlinks)
+#   file /usr/bin/qdbus from install of QtDBus-4.5.0-7.i686 conflicts with file from package QtDBus-4.5.0-7.x86_64
+#   file /usr/bin/qdbusviewer from install of QtDBus-4.5.0-7.i686 conflicts with file from package QtDBus-4.5.0-7.x86_64
+#   $ rpm -q QtDBus --filecolor|less
+#   /usr/bin/qdbus  0
+#   /usr/bin/qdbusviewer    0
+#   $ file /usr/bin/qdbus /usr/bin/qdbusviewer
+#   /usr/bin/qdbus:       symbolic link to `../lib/qt4/bin/qdbus'
+#   /usr/bin/qdbusviewer: symbolic link to `../lib/qt4/bin/qdbusviewer'
+#   MORAL: it would be ok if the files were marked as multilib (colors 1 or 2), not symlinks (color 0)
+#   I personally would moved binaries to %{_bindir}
 # - solve dep loops:
 #error: LOOP:
 #error: removing QtGui-4.4.3-1.athlon "Requires(auto): libQtSvg.so.4" from tsort relations.
