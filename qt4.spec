@@ -75,12 +75,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.5.0
-Release:	7
+Version:	4.5.1
+Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	d6d1555b7a074e0a746f6247af402e11
+# Source0-md5:	f81a94e2ab7713b2d375d4e5cfc8e051
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -93,14 +93,11 @@ Patch103:	0209-prevent-qt-mixing.diff
 Patch104:	0216-allow-isystem-for-headers.diff
 Patch105:	0225-invalidate-tabbar-geometry-on-refresh.patch
 Patch107:	0234-fix-mysql-threaded.diff
-Patch108:	0245-fix-randr-changes-detecting.diff
 Patch109:	0253-qmake_correct_path_separators.diff
 Patch110:	0255-qtreeview-selection-columns-hidden.diff
 Patch111:	0269-msvc-webkit-compile.diff
 Patch112:	0273-odbc-64bit-compile.diff
 Patch113:	0274-shm-native-image-fix.diff
-Patch114:	0275-qtconcurrent-threadcount.diff
-Patch115:	0278-X11-Use-legacy-LCD-filtering-if-specified-in-font-c.diff
 
 Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
@@ -112,7 +109,6 @@ Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
-Patch10:	%{name}-ppc.patch
 # svn://anonsvn.kde.org/home/kde/trunk/qt-copy/patches
 URL:		http://www.qtsoftware.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -1328,14 +1324,11 @@ Programas exemplo para o Qt versão.
 %patch104 -p0
 %patch105 -p0
 %patch107 -p0
-%patch108 -p0
 %patch109 -p0
 %patch110 -p0
 %patch111 -p0
 %patch112 -p0
 %patch113 -p0
-%patch114 -p0
-%patch115 -p0
 
 %patch0 -p1
 %patch1 -p0
@@ -1347,7 +1340,6 @@ Programas exemplo para o Qt versão.
 %patch7 -p1
 #%patch8 -p1
 %patch9 -p1
-%patch10 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1454,12 +1446,8 @@ OPT=" \
 	-%{!?with_ibase:no}%{?with_ibase:qt}-sql-ibase \
 	-static"
 
-echo "yes" | ./configure $COMMONOPT $OPT
-
-# hack for tools/qstring.cpp:2329: internal compiler error: in output_369, at config/rs6000/rs6000.md:11495
-%ifarch ppc ppc64
-sed -i -e 's#qstring.o tools/qstring.cpp#qstring.o -O1 tools/qstring.cpp#g' src/corelib/Makefile
-%endif
+echo "o
+yes" | ./configure $COMMONOPT $OPT
 
 %{__make} -C src
 %{__make} -C tools/assistant/lib
@@ -1484,11 +1472,8 @@ OPT=" \
 	-%{!?with_ibase:no}%{?with_ibase:plugin}-sql-ibase \
 	-shared" 
 
-echo "yes" | ./configure $COMMONOPT $OPT
-
-%ifarch ppc ppc64
-sed -i -e 's#qstring.o tools/qstring.cpp#qstring.o -O1 tools/qstring.cpp#g' src/corelib/Makefile
-%endif
+echo "o
+yes" | ./configure $COMMONOPT $OPT
 
 %{__make}
 %{__make} \
