@@ -76,7 +76,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.5.1
-Release:	3
+Release:	3.1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -1489,6 +1489,9 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
+# check whether no other fixes are needed
+mv $RPM_BUILD_ROOT%{_datadir}/locale/ja{_JP,}
+
 # for qt-creator sth is messed up in the Makefile, nothing for make install
 install tools/qdoc3/qdoc3 $RPM_BUILD_ROOT%{_libdir}/qt4/tools/qdoc3
 
@@ -1774,7 +1777,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
 %lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
-%lang(ja) %{_datadir}/locale/ja_JP/LC_MESSAGES/qt4.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4.qm
 %lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/qt4.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
