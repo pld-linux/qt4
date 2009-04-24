@@ -1774,7 +1774,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
 %lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
-%lang(ja_JP) %{_datadir}/locale/ja_JP/LC_MESSAGES/qt4.qm
+%lang(ja) %{_datadir}/locale/ja_JP/LC_MESSAGES/qt4.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4.qm
 %lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/qt4.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
