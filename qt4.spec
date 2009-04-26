@@ -76,7 +76,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.5.1
-Release:	5
+Release:	6
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -92,6 +92,7 @@ Patch102:	0195-compositing-properties.diff
 Patch103:	0209-prevent-qt-mixing.diff
 Patch104:	0216-allow-isystem-for-headers.diff
 Patch105:	0225-invalidate-tabbar-geometry-on-refresh.patch
+Patch106:	0279-svg-rendering-regression.diff
 Patch107:	0234-fix-mysql-threaded.diff
 Patch109:	0253-qmake_correct_path_separators.diff
 Patch110:	0255-qtreeview-selection-columns-hidden.diff
@@ -1323,6 +1324,7 @@ Programas exemplo para o Qt versão.
 %patch103 -p0
 %patch104 -p0
 %patch105 -p0
+%patch106 -p0
 %patch107 -p0
 %patch109 -p0
 %patch110 -p0
