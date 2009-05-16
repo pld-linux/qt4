@@ -1,0 +1,27 @@
+qt-bugs@ issue : none
+Qt Software task ID : none
+bugs.kde.org number : none
+applied: yes
+author: Thiago Macieira <thiago.macieira@nokia.com>
+
+Make sure syncqt creates the Phonon/Global file.
+
+The standard Phonon package has this file and it points to
+phononnamespace.h
+
+This patch is already in 4.5 branch.
+
+--- src/3rdparty/phonon/phonon/phononnamespace.h
++++ src/3rdparty/phonon/phonon/phononnamespace.h
+@@ -25,6 +25,11 @@
+ 
+ #include "phonon_export.h"
+ 
++#ifdef __QT_SYNCQT__
++// Tell syncqt to create a "Global" header here
++#pragma qt_class(Phonon::Global)
++#endif
++
+ /**
+  * Helper macro that can be used like
+  * \code
