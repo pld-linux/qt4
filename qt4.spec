@@ -1833,6 +1833,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/qhelpconverter
 %attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-qt_help.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-qt_help.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qt_help.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qt_help.qm
 %lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qt_help.qm
@@ -1986,6 +1987,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/lrelease
 %attr(755,root,root) %{_qtdir}/bin/lupdate
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-linguist.qm
+%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-linguist.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-linguist.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-linguist.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-linguist.qm
