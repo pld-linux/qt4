@@ -411,6 +411,7 @@ Summary(pl.UTF-8):	Klasy do rozbudowy Qt Designera
 Group:		X11/Libraries
 Requires:	QtGui = %{version}-%{release}
 Requires:	QtNetwork = %{version}-%{release}
+Requires:	QtScript = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
 Obsoletes:	qt4-designer-libs
 
