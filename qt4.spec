@@ -1471,7 +1471,7 @@ OPT=" \
 	-%{!?with_sqlite3:no}%{?with_sqlite3:plugin}-sql-sqlite \
 	-%{!?with_sqlite:no}%{?with_sqlite:plugin}-sql-sqlite2 \
 	-%{!?with_ibase:no}%{?with_ibase:plugin}-sql-ibase \
-	-shared" 
+	-shared"
 
 echo "o
 yes" | ./configure $COMMONOPT $OPT
@@ -1677,9 +1677,17 @@ for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`; do
 	ifecho demos %{_examplesdir}/qt4-demos/$f
 done
 
+%if %{with system_phonon}
+for a in $(sed -e '/%defattr/d;s/\(%dir\|%attr[^ ]\+\) //;' < phonon-devel.files); do
+	rm -rf $RPM_BUILD_ROOT$a
+done
+rm -f $RPM_BUILD_ROOT%{_libdir}/libphonon.so.*
+rm -f $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/phonon_backend/libphonon_gstreamer.so
+%endif
+
 # check whether no other fixes are needed
 mv $RPM_BUILD_ROOT%{_datadir}/locale/ja_JP/LC_MESSAGES/*.* \
-        $RPM_BUILD_ROOT%{_datadir}/locale/ja/LC_MESSAGES/
+	$RPM_BUILD_ROOT%{_datadir}/locale/ja/LC_MESSAGES/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -1776,9 +1784,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/plugins/network
 %dir %{_qtdir}/plugins/sqldrivers
 %dir %{_qtdir}/plugins/script
+%dir %{_qtdir}/tools
 %dir %{_datadir}/qt4
-%dir %{_libdir}/qt4
-%dir %{_libdir}/qt4/tools
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
