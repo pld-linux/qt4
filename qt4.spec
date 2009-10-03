@@ -76,7 +76,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.5.3
-Release:	2
+Release:	3
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -1549,7 +1549,7 @@ install staticlib/*.a $RPM_BUILD_ROOT%{_libdir}
 #
 # Locale
 #
-for f in translations/*_pl.ts ; do
+for f in translations/*.ts ; do
 	LD_LIBRARY_PATH=lib bin/lrelease $f -qm translations/$(basename $f .ts).qm
 done
 
@@ -1686,8 +1686,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/phonon_backend/libphonon_gstreamer.s
 %endif
 
 # check whether no other fixes are needed
-#mv $RPM_BUILD_ROOT%{_datadir}/locale/ja_JP/LC_MESSAGES/*.* \
-#	$RPM_BUILD_ROOT%{_datadir}/locale/ja/LC_MESSAGES/
+mv $RPM_BUILD_ROOT%{_datadir}/locale/ja_JP/LC_MESSAGES/*.* \
+	$RPM_BUILD_ROOT%{_datadir}/locale/ja/LC_MESSAGES/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -1786,20 +1786,20 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/plugins/script
 %dir %{_qtdir}/tools
 %dir %{_datadir}/qt4
-#%lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
-#%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
-#%lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
-#%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
-#%lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
-#%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4.qm
-#%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4.qm
-#%lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/qt4.qm
-#%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
-#%lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt4.qm
-#%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/qt4.qm
-#%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4.qm
-#%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
-#%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4.qm
+%lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
+%lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
+%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
+%lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4.qm
+%lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/qt4.qm
+%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
+%lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt4.qm
+%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/qt4.qm
+%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4.qm
 
 %files -n QtDBus
 %defattr(644,root,root,755)
