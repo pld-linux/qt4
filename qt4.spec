@@ -76,7 +76,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.5.3
-Release:	3
+Release:	4
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
@@ -86,18 +86,10 @@ Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 
-Patch100:	0118-qtcopy-define.diff
-Patch101:	0180-window-role.diff
-Patch102:	0195-compositing-properties.diff
-Patch103:	0209-prevent-qt-mixing.diff
-Patch104:	0216-allow-isystem-for-headers.diff
-Patch105:	0225-invalidate-tabbar-geometry-on-refresh.patch
-Patch108:	0280-deserialization-custom-dbus-properties.diff
-Patch109:	0253-qmake_correct_path_separators.diff
-Patch110:	0255-qtreeview-selection-columns-hidden.diff
-Patch111:	0269-msvc-webkit-compile.diff
-Patch115:	0283-do-not-deduce-scrollbar-extent-twice.diff
-Patch116:	0285-qgv-dontshowchildren.diff
+# git clone git://gitorious.org/+kde-developers/qt/kde-qt.git
+# git checkout -b 4.5.3-patched origin/4.5.3-patched
+# git diff v4.5.3..4.5.3-patched > qt4-kde-git.patch
+Patch100:	%{name}-kde-git.patch
 
 Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
@@ -1318,18 +1310,7 @@ Programas exemplo para o Qt versão.
 %prep
 %setup -q -n qt-x11-opensource-src-%{version}
 
-%patch100 -p0
-%patch101 -p0
-%patch102 -p0
-%patch103 -p0
-%patch104 -p0
-%patch105 -p0
-%patch108 -p0
-%patch109 -p0
-%patch110 -p0
-%patch111 -p0
-%patch115 -p0
-%patch116 -p0
+%patch100 -p1
 
 %patch0 -p1
 %patch1 -p0
