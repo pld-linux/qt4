@@ -41,6 +41,56 @@
 #error: removing Qt3Support-4.3.4-2.athlon "Requires: Qt3Support = 4.3.4-2" from tsort relations.
 #error:     Qt3Support-4.3.4-2.athlon                Requires: Qt3Support = 4.3.4-2
 #
+# Package those files (probably need to create QtMultimedia subpackage):
+#    /usr/include/qt4/Qt/QtMultimedia
+#   /usr/include/qt4/Qt/qabstractvideobuffer.h
+#   /usr/include/qt4/Qt/qabstractvideosurface.h
+#   /usr/include/qt4/Qt/qaudio.h
+#   /usr/include/qt4/Qt/qaudiodeviceinfo.h
+#   /usr/include/qt4/Qt/qaudioengine.h
+#   /usr/include/qt4/Qt/qaudioengineplugin.h
+#   /usr/include/qt4/Qt/qaudioformat.h
+#   /usr/include/qt4/Qt/qaudioinput.h
+#   /usr/include/qt4/Qt/qaudiooutput.h
+#   /usr/include/qt4/Qt/qvideoframe.h
+#   /usr/include/qt4/Qt/qvideosurfaceformat.h
+#   /usr/include/qt4/QtMultimedia/QAbstractAudioDeviceInfo
+#   /usr/include/qt4/QtMultimedia/QAbstractAudioInput
+#   /usr/include/qt4/QtMultimedia/QAbstractAudioOutput
+#   /usr/include/qt4/QtMultimedia/QAbstractVideoBuffer
+#   /usr/include/qt4/QtMultimedia/QAbstractVideoSurface
+#   /usr/include/qt4/QtMultimedia/QAudioDeviceInfo
+#   /usr/include/qt4/QtMultimedia/QAudioEngineFactoryInterface
+#   /usr/include/qt4/QtMultimedia/QAudioEnginePlugin
+#   /usr/include/qt4/QtMultimedia/QAudioFormat
+#   /usr/include/qt4/QtMultimedia/QAudioInput
+#   /usr/include/qt4/QtMultimedia/QAudioOutput
+#   /usr/include/qt4/QtMultimedia/QVideoFrame
+#   /usr/include/qt4/QtMultimedia/QVideoSurfaceFormat
+#   /usr/include/qt4/QtMultimedia/QtMultimedia
+#   /usr/include/qt4/QtMultimedia/qabstractvideobuffer.h
+#   /usr/include/qt4/QtMultimedia/qabstractvideosurface.h
+#   /usr/include/qt4/QtMultimedia/qaudio.h
+#   /usr/include/qt4/QtMultimedia/qaudiodeviceinfo.h
+#   /usr/include/qt4/QtMultimedia/qaudioengine.h
+#   /usr/include/qt4/QtMultimedia/qaudioengineplugin.h
+#   /usr/include/qt4/QtMultimedia/qaudioformat.h
+#   /usr/include/qt4/QtMultimedia/qaudioinput.h
+#   /usr/include/qt4/QtMultimedia/qaudiooutput.h
+#   /usr/include/qt4/QtMultimedia/qvideoframe.h
+#   /usr/include/qt4/QtMultimedia/qvideosurfaceformat.h
+#   /usr/lib64/libQtMultimedia.a
+#   /usr/lib64/libQtMultimedia.la
+#   /usr/lib64/libQtMultimedia.prl
+#   /usr/lib64/libQtMultimedia.so
+#   /usr/lib64/libQtMultimedia.so.4
+#   /usr/lib64/libQtMultimedia.so.4.6
+#   /usr/lib64/libQtMultimedia.so.4.6.0
+#   /usr/lib64/libphonon.a
+#   /usr/lib64/pkgconfig/QtMultimedia.pc
+#   /usr/lib64/qt4/bin/qttracereplay
+#   /usr/lib64/qt4/bin/xmlpatternsvalidator
+#
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
 %bcond_without	static_libs	# build static libraries
@@ -56,6 +106,8 @@
 %bcond_without	system_phonon
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
+#
+%define		state	beta1
 #
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
@@ -75,12 +127,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.5.3
-Release:	4
+Version:	4.6.0
+Release:	0.%{state}.1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	3988cf9af68be2df8a8000ede231de9b
+Source0:	http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}-%{state}.tar.gz
+# Source0-md5:	60d136f17491ce0e56bb317ea7300aef
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -89,7 +141,7 @@ Source5:	%{name}-linguist.desktop
 # git clone git://gitorious.org/+kde-developers/qt/kde-qt.git
 # git checkout -b 4.5.3-patched origin/4.5.3-patched
 # git diff v4.5.3..4.5.3-patched > qt4-kde-git.patch
-Patch100:	%{name}-kde-git.patch
+#Patch100:	%{name}-kde-git.patch
 
 Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
@@ -1308,17 +1360,17 @@ Example programs bundled with Qt version.
 Programas exemplo para o Qt versão.
 
 %prep
-%setup -q -n qt-x11-opensource-src-%{version}
+%setup -q -n qt-everywhere-opensource-src-%{version}-%{state}
 
-%patch100 -p1
+#%patch100 -p1
 
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p0
-%patch2 -p1
-%patch3 -p1
+#%patch2 -p1
+#%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
+#%patch6 -p1
 %patch7 -p1
 #%patch8 -p1
 %patch9 -p1
@@ -1472,7 +1524,7 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
 # for qt-creator sth is messed up in the Makefile, nothing for make install
-install tools/qdoc3/qdoc3 $RPM_BUILD_ROOT%{_libdir}/qt4/tools/qdoc3
+#install tools/qdoc3/qdoc3 $RPM_BUILD_ROOT%{_libdir}/qt4/tools/qdoc3
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,prl}
@@ -1904,8 +1956,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtUiTools
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.4
+#%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
+#%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.4
 
 %files -n QtWebKit
 %defattr(644,root,root,755)
@@ -1948,8 +2000,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/moc
 %attr(755,root,root) %{_qtdir}/bin/qt3to4
 %attr(755,root,root) %{_qtdir}/bin/uic
-%dir %{_libdir}/qt4/tools/qdoc3
-%attr(755,root,root) %{_libdir}/qt4/tools/qdoc3/qdoc3
+#%dir %{_libdir}/qt4/tools/qdoc3
+#%attr(755,root,root) %{_libdir}/qt4/tools/qdoc3/qdoc3
 %{_datadir}/qt4/q3porting.xml
 
 %files designer
@@ -2014,7 +2066,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n qvfb
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qvfb
-%attr(755,root,root) %{_qtdir}/bin/qvfb
+#%attr(755,root,root) %{_qtdir}/bin/qvfb
 #%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qvfb.qm
 #%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qvfb.qm
 #%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qvfb.qm
