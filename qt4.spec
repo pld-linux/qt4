@@ -595,6 +595,30 @@ library.
 %description -n QtHelp-static -l pl.UTF-8
 Klasy do integracji dokumentacji w aplikacjach - biblioteka statyczna.
 
+%package -n QtMultimedia
+Summary:	Classes for multimedia programming
+Summary(pl.UTF-8):	Klasy do programowania multimediów
+Group:		X11/Libraries
+Requires:	QtCore = %{version}-%{release}
+
+%description -n QtMultimedia
+Classes for multimedia programming.
+
+%description -n QtMultimedia -l pl.UTF-8
+Klasy do programowania multimediów.
+
+%package -n QtMultimedia-devel
+Summary:	Classes for multimedia programming - development files
+Summary(pl.UTF-8):	Klasy do programowania multimediów - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
+
+%description -n QtMultimedia-devel
+Classes for multimedia programming - development files.
+
+%description -n QtMultimedia-devel -l pl.UTF-8
+Klasy do programowania multimediów - pliki programistyczne.
+
 %package -n QtNetwork
 Summary:	Classes for network programming
 Summary(pl.UTF-8):	Klasy do programowania sieciowego
