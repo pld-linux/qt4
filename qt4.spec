@@ -619,6 +619,18 @@ Classes for multimedia programming - development files.
 %description -n QtMultimedia-devel -l pl.UTF-8
 Klasy do programowania multimediów - pliki programistyczne.
 
+%package -n QtMultimedia-static
+Summary:       Classes for multimedia programming - static libraries
+Summary(pl.UTF-8):     Klasy do programowania multimediów - biblioteki statyczne
+Group:         X11/Development/Libraries
+Requires:      QtNetwork-devel = %{version}-%{release}
+
+%description -n QtMultimedia-static
+Classes for multimedia programming - static libraries.
+
+%description -n QtMultimedia-static -l pl.UTF-8
+Klasy do programowania multimediów - biblioteki statyczne.
+
 %package -n QtNetwork
 Summary:	Classes for network programming
 Summary(pl.UTF-8):	Klasy do programowania sieciowego
@@ -1697,6 +1709,7 @@ mkdevfl() {
 mkdevfl QtCore %{_includedir}/qt4 %{_includedir}/qt4/Qt
 mkdevfl QtDBus %{_qtdir}/bin/qdbuscpp2xml %{_qtdir}/bin/qdbusxml2cpp %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
 mkdevfl QtGui
+mkdevfl QtMultimedia
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
 mkdevfl QtScript
@@ -1773,6 +1786,9 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n QtHelp	-p /sbin/ldconfig
 %postun	-n QtHelp	-p /sbin/ldconfig
 
+%post	-n QtMultimedia	-p /sbin/ldconfig
+%postun	-n QtMultimedia	-p /sbin/ldconfig
+
 %post	-n QtNetwork	-p /sbin/ldconfig
 %postun	-n QtNetwork	-p /sbin/ldconfig
 
@@ -1812,22 +1828,22 @@ rm -rf $RPM_BUILD_ROOT
 %files -n Qt3Support
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.?
 
 %files -n QtAssistant
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtAssistantClient.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtAssistantClient.so.?
 
 %files -n QtCLucene
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCLucene.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtCLucene.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtCLucene.so.?
 
 %files -n QtCore
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCore.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtCore.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtCore.so.?
 %dir %{_qtdir}
 %dir %{_qtdir}/bin
 %dir %{_qtdir}/plugins
@@ -1863,7 +1879,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qdbus
 %attr(755,root,root) %{_bindir}/qdbusviewer
 %attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDBus.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtDBus.so.?
 %attr(755,root,root) %{_qtdir}/bin/qdbus
 %attr(755,root,root) %{_qtdir}/bin/qdbusviewer
 # ?? is this the proper place?
@@ -1872,16 +1888,16 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtDesigner
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtDesigner.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDesigner.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtDesigner.so.?
 %attr(755,root,root) %{_libdir}/libQtDesignerComponents.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDesignerComponents.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtDesignerComponents.so.?
 %dir %{_qtdir}/plugins/designer
 %attr(755,root,root) %{_qtdir}/plugins/designer/*.so
 
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtGui.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtGui.so.?
 %attr(755,root,root) %{_qtdir}/plugins/accessible/*.so
 %attr(755,root,root) %{_qtdir}/plugins/codecs/*.so
 %attr(755,root,root) %{_qtdir}/plugins/graphicssystems/*.so
@@ -1894,7 +1910,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qhelpconverter
 %attr(755,root,root) %{_bindir}/qhelpgenerator
 %attr(755,root,root) %{_libdir}/libQtHelp.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.?
 %attr(755,root,root) %{_qtdir}/bin/qhelpconverter
 %attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
 #%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-qt_help.qm
@@ -1903,30 +1919,35 @@ rm -rf $RPM_BUILD_ROOT
 #%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qt_help.qm
 #%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qt_help.qm
 
+%files -n QtMultimedia
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtMultimedia.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.?
+
 %files -n QtNetwork
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtNetwork.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.?
 
 %files -n QtOpenGL
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtOpenGL.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtOpenGL.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtOpenGL.so.?
 
 %files -n QtScript
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtScript.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtScript.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtScript.so.?
 
 %files -n QtScriptTools
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtScriptTools.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtScriptTools.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtScriptTools.so.?
 
 %files -n QtSql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSql.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtSql.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtSql.so.?
 
 %if %{with mysql}
 %files -n QtSql-mysql
@@ -1971,33 +1992,33 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtSvg
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSvg.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtSvg.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtSvg.so.?
 
 %files -n QtTest
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtTest.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtTest.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtTest.so.?
 
 %files -n QtUiTools
 %defattr(644,root,root,755)
 #%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
-#%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.4
+#%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.?
 
 %files -n QtWebKit
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtWebKit.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtWebKit.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtWebKit.so.?
 
 %files -n QtXml
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtXml.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtXml.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtXml.so.?
 
 %files -n QtXmlPatterns
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/bin/xmlpatterns
 %attr(755,root,root) %{_libdir}/libQtXmlPatterns.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.?
 
 %files assistant
 %defattr(644,root,root,755)
@@ -2065,7 +2086,7 @@ rm -rf $RPM_BUILD_ROOT
 %files phonon
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libphonon.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libphonon.so.4
+%attr(755,root,root) %ghost %{_libdir}/libphonon.so.?
 %dir %{_qtdir}/plugins/phonon_backend
 %attr(755,root,root) %{_qtdir}/plugins/phonon_backend/libphonon_gstreamer.so
 %endif
@@ -2124,6 +2145,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 
 %files -n QtHelp-devel -f QtHelp-devel.files
+%defattr(644,root,root,755)
+
+%files -n QtMultimedia-devel -f QtMultimedia-devel.files
 %defattr(644,root,root,755)
 
 %files -n QtNetwork-devel -f QtNetwork-devel.files
@@ -2197,6 +2221,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtHelp-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtHelp.a
+
+%files -n QtMultimedia-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtMultimedia.a
 
 %files -n QtNetwork-static
 %defattr(644,root,root,755)
