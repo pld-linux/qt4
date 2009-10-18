@@ -141,7 +141,7 @@ Source5:	%{name}-linguist.desktop
 # git clone git://gitorious.org/+kde-developers/qt/kde-qt.git
 # git checkout -b 4.5.3-patched origin/4.5.3-patched
 # git diff v4.5.3..4.5.3-patched > qt4-kde-git.patch
-#Patch100:	%{name}-kde-git.patch
+Patch100:	%{name}-kde-git.patch
 
 Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
@@ -1362,15 +1362,15 @@ Programas exemplo para o Qt versão.
 %prep
 %setup -q -n qt-everywhere-opensource-src-%{version}-%{state}
 
-#%patch100 -p1
+%patch100 -p1
 
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p0
-#%patch2 -p1
-#%patch3 -p1
+%patch2 -p1
+%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-#%patch6 -p1
+%patch6 -p1
 %patch7 -p1
 #%patch8 -p1
 %patch9 -p1
