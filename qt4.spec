@@ -41,53 +41,8 @@
 #error: removing Qt3Support-4.3.4-2.athlon "Requires: Qt3Support = 4.3.4-2" from tsort relations.
 #error:     Qt3Support-4.3.4-2.athlon                Requires: Qt3Support = 4.3.4-2
 #
-# Package those files (probably need to create QtMultimedia subpackage):
-#    /usr/include/qt4/Qt/QtMultimedia
-#   /usr/include/qt4/Qt/qabstractvideobuffer.h
-#   /usr/include/qt4/Qt/qabstractvideosurface.h
-#   /usr/include/qt4/Qt/qaudio.h
-#   /usr/include/qt4/Qt/qaudiodeviceinfo.h
-#   /usr/include/qt4/Qt/qaudioengine.h
-#   /usr/include/qt4/Qt/qaudioengineplugin.h
-#   /usr/include/qt4/Qt/qaudioformat.h
-#   /usr/include/qt4/Qt/qaudioinput.h
-#   /usr/include/qt4/Qt/qaudiooutput.h
-#   /usr/include/qt4/Qt/qvideoframe.h
-#   /usr/include/qt4/Qt/qvideosurfaceformat.h
-#   /usr/include/qt4/QtMultimedia/QAbstractAudioDeviceInfo
-#   /usr/include/qt4/QtMultimedia/QAbstractAudioInput
-#   /usr/include/qt4/QtMultimedia/QAbstractAudioOutput
-#   /usr/include/qt4/QtMultimedia/QAbstractVideoBuffer
-#   /usr/include/qt4/QtMultimedia/QAbstractVideoSurface
-#   /usr/include/qt4/QtMultimedia/QAudioDeviceInfo
-#   /usr/include/qt4/QtMultimedia/QAudioEngineFactoryInterface
-#   /usr/include/qt4/QtMultimedia/QAudioEnginePlugin
-#   /usr/include/qt4/QtMultimedia/QAudioFormat
-#   /usr/include/qt4/QtMultimedia/QAudioInput
-#   /usr/include/qt4/QtMultimedia/QAudioOutput
-#   /usr/include/qt4/QtMultimedia/QVideoFrame
-#   /usr/include/qt4/QtMultimedia/QVideoSurfaceFormat
-#   /usr/include/qt4/QtMultimedia/QtMultimedia
-#   /usr/include/qt4/QtMultimedia/qabstractvideobuffer.h
-#   /usr/include/qt4/QtMultimedia/qabstractvideosurface.h
-#   /usr/include/qt4/QtMultimedia/qaudio.h
-#   /usr/include/qt4/QtMultimedia/qaudiodeviceinfo.h
-#   /usr/include/qt4/QtMultimedia/qaudioengine.h
-#   /usr/include/qt4/QtMultimedia/qaudioengineplugin.h
-#   /usr/include/qt4/QtMultimedia/qaudioformat.h
-#   /usr/include/qt4/QtMultimedia/qaudioinput.h
-#   /usr/include/qt4/QtMultimedia/qaudiooutput.h
-#   /usr/include/qt4/QtMultimedia/qvideoframe.h
-#   /usr/include/qt4/QtMultimedia/qvideosurfaceformat.h
-#   /usr/lib64/libQtMultimedia.a
-#   /usr/lib64/libQtMultimedia.la
-#   /usr/lib64/libQtMultimedia.prl
-#   /usr/lib64/libQtMultimedia.so
-#   /usr/lib64/libQtMultimedia.so.4
-#   /usr/lib64/libQtMultimedia.so.4.6
-#   /usr/lib64/libQtMultimedia.so.4.6.0
+# Package those files:
 #   /usr/lib64/libphonon.a
-#   /usr/lib64/pkgconfig/QtMultimedia.pc
 #   /usr/lib64/qt4/bin/qttracereplay
 #   /usr/lib64/qt4/bin/xmlpatternsvalidator
 #
@@ -1922,7 +1877,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtMultimedia
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtMultimedia.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtMultimedia.so.?
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
@@ -2001,8 +1956,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtUiTools
 %defattr(644,root,root,755)
-#%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
-#%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.?
+%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.?
 
 %files -n QtWebKit
 %defattr(644,root,root,755)
@@ -2111,7 +2066,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n qvfb
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qvfb
-#%attr(755,root,root) %{_qtdir}/bin/qvfb
+%attr(755,root,root) %{_qtdir}/bin/qvfb
 #%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qvfb.qm
 #%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qvfb.qm
 #%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qvfb.qm
