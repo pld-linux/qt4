@@ -143,17 +143,15 @@ diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/designer/src/designer/qdesigner
 diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/linguist/linguist/main.cpp qt-x11-opensource-src-4.2.1.chng/tools/linguist/linguist/main.cpp
 --- qt-x11-opensource-src-4.2.1.orig/tools/linguist/linguist/main.cpp	2006-10-20 17:35:26.000000000 +0200
 +++ qt-x11-opensource-src-4.2.1.chng/tools/linguist/linguist/main.cpp	2006-11-28 14:21:19.000000000 +0100
-@@ -41,11 +41,11 @@
-     }
- 
-     QTranslator translator(0);
--    translator.load(QLatin1String("linguist_") + QLocale::system().name(), resourceDir);
-+    translator.load(QLatin1String("qt4-linguist_") + QLocale::system().name(), resourceDir);
-     app.installTranslator(&translator);
- 
-     QTranslator qtTranslator(0);
--    qtTranslator.load(QLatin1String("qt_") + QLocale::system().name(), resourceDir);
-+    qtTranslator.load(QLatin1String("qt4_") + QLocale::system().name(), resourceDir);
-     app.installTranslator(&qtTranslator);
- 
-     app.setOrganizationName(QLatin1String("Trolltech"));
+@@ -83,9 +83,9 @@
+     QTranslator translator;
+     QTranslator qtTranslator;
+     QString sysLocale = QLocale::system().name();
+-    if (translator.load(QLatin1String("linguist_") + sysLocale, resourceDir)) {
++    if (translator.load(QLatin1String("qt4-linguist_") + sysLocale, resourceDir)) {
+         app.installTranslator(&translator);
+-        if (qtTranslator.load(QLatin1String("qt_") + sysLocale, resourceDir))
++        if (qtTranslator.load(QLatin1String("qt4_") + sysLocale, resourceDir))
+             app.installTranslator(&qtTranslator);
+         else
+             app.removeTranslator(&translator);
