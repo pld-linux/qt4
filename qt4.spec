@@ -43,8 +43,9 @@
 #
 # Package those files:
 #   /usr/lib64/libphonon.a
+#
+# temporary these files are in build subpackage - find place?
 #   /usr/lib64/qt4/bin/qttracereplay
-#   /usr/lib64/qt4/bin/xmlpatternsvalidator
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -1549,7 +1550,9 @@ ln -sf ../%{_lib}/qt4/bin/qdbusxml2cpp .
 ln -sf ../%{_lib}/qt4/bin/qdbusviewer .
 ln -sf ../%{_lib}/qt4/bin/qhelpconverter .
 ln -sf ../%{_lib}/qt4/bin/qhelpgenerator .
+ln -sf ../%{_lib}/qt4/bin/qttracereplay .
 ln -sf ../%{_lib}/qt4/bin/qvfb .
+ln -sf ../%{_lib}/qt4/bin/xmlpatternsvalidator .
 cd -
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}/qtconfig-qt4.desktop
@@ -1976,6 +1979,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtXmlPatterns
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/bin/xmlpatterns
+%attr(755,root,root) %{_qtdir}/bin/xmlpatternsvalidator
 %attr(755,root,root) %{_libdir}/libQtXmlPatterns.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.?
 
@@ -2006,6 +2010,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/moc
 %attr(755,root,root) %{_qtdir}/bin/qt3to4
 %attr(755,root,root) %{_qtdir}/bin/uic
+#find better place?
+%attr(755,root,root) %{_bindir}/qttracereplay
+%attr(755,root,root) %{_qtdir}/bin/qttracereplay
 #%dir %{_libdir}/qt4/tools/qdoc3
 #%attr(755,root,root) %{_libdir}/qt4/tools/qdoc3/qdoc3
 %{_datadir}/qt4/q3porting.xml
