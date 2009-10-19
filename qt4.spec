@@ -1980,6 +1980,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/bin/xmlpatterns
 %attr(755,root,root) %{_qtdir}/bin/xmlpatternsvalidator
+%attr(755,root,root) %{_bindir}/bin/xmlpatternsvalidator
 %attr(755,root,root) %{_libdir}/libQtXmlPatterns.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.?
 
