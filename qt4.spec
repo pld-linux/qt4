@@ -63,7 +63,7 @@
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
 #
-%define		state	beta1
+%define		state	rc1
 #
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
@@ -88,7 +88,7 @@ Release:	0.%{state}.1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}-%{state}.tar.gz
-# Source0-md5:	60d136f17491ce0e56bb317ea7300aef
+# Source0-md5:	56772a3f9128f00504d2b21dbe4186b3
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -576,10 +576,10 @@ Classes for multimedia programming - development files.
 Klasy do programowania multimediów - pliki programistyczne.
 
 %package -n QtMultimedia-static
-Summary:       Classes for multimedia programming - static libraries
-Summary(pl.UTF-8):     Klasy do programowania multimediów - biblioteki statyczne
-Group:         X11/Development/Libraries
-Requires:      QtNetwork-devel = %{version}-%{release}
+Summary:	Classes for multimedia programming - static libraries
+Summary(pl.UTF-8):	Klasy do programowania multimediów - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtNetwork-devel = %{version}-%{release}
 
 %description -n QtMultimedia-static
 Classes for multimedia programming - static libraries.
@@ -1354,7 +1354,7 @@ Programas exemplo para o Qt versão.
 %prep
 %setup -q -n qt-everywhere-opensource-src-%{version}-%{state}
 
-%patch100 -p1
+#%patch100 -p1
 
 %patch0 -p1
 %patch1 -p0
