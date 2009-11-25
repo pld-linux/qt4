@@ -1354,7 +1354,7 @@ Programas exemplo para o Qt versão.
 %prep
 %setup -q -n qt-everywhere-opensource-src-%{version}-%{state}
 
-#%patch100 -p1
+%patch100 -p1
 
 %patch0 -p1
 %patch1 -p0
