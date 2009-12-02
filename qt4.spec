@@ -75,20 +75,20 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.5.3
-Release:	4
+Version:	4.6.0
+Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://download.qtsoftware.com/qt/source/qt-x11-opensource-src-%{version}.tar.gz
-# Source0-md5:	3988cf9af68be2df8a8000ede231de9b
+Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
+# Source0-md5:	2a7b5126f2450d8525af355fc4c12ad6
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 
 # git clone git://gitorious.org/+kde-developers/qt/kde-qt.git
-# git checkout -b 4.5.3-patched origin/4.5.3-patched
-# git diff v4.5.3..4.5.3-patched > qt4-kde-git.patch
+# git checkout -b 4.6-stable-patched origin/4.6-stable-patched
+# git diff v4.6.0..4.6.0-patched > qt4-kde-git.patch
 Patch100:	%{name}-kde-git.patch
 
 Patch0:		%{name}-tools.patch
@@ -542,6 +542,42 @@ library.
 
 %description -n QtHelp-static -l pl.UTF-8
 Klasy do integracji dokumentacji w aplikacjach - biblioteka statyczna.
+
+%package -n QtMultimedia
+Summary:	Classes for multimedia programming
+Summary(pl.UTF-8):	Klasy do programowania multimediów
+Group:		X11/Libraries
+Requires:	QtCore = %{version}-%{release}
+
+%description -n QtMultimedia
+Classes for multimedia programming.
+
+%description -n QtMultimedia -l pl.UTF-8
+Klasy do programowania multimediów.
+
+%package -n QtMultimedia-devel
+Summary:	Classes for multimedia programming - development files
+Summary(pl.UTF-8):	Klasy do programowania multimediów - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtCore-devel = %{version}-%{release}
+
+%description -n QtMultimedia-devel
+Classes for multimedia programming - development files.
+
+%description -n QtMultimedia-devel -l pl.UTF-8
+Klasy do programowania multimediów - pliki programistyczne.
+
+%package -n QtMultimedia-static
+Summary:	Classes for multimedia programming - static libraries
+Summary(pl.UTF-8):	Klasy do programowania multimediów - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtNetwork-devel = %{version}-%{release}
+
+%description -n QtMultimedia-static
+Classes for multimedia programming - static libraries.
+
+%description -n QtMultimedia-static -l pl.UTF-8
+Klasy do programowania multimediów - biblioteki statyczne.
 
 %package -n QtNetwork
 Summary:	Classes for network programming
@@ -1308,7 +1344,7 @@ Example programs bundled with Qt version.
 Programas exemplo para o Qt versão.
 
 %prep
-%setup -q -n qt-x11-opensource-src-%{version}
+%setup -q -n qt-everywhere-opensource-src-%{version}
 
 %patch100 -p1
 
@@ -1472,7 +1508,7 @@ install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
 # for qt-creator sth is messed up in the Makefile, nothing for make install
-install tools/qdoc3/qdoc3 $RPM_BUILD_ROOT%{_libdir}/qt4/tools/qdoc3
+#install tools/qdoc3/qdoc3 $RPM_BUILD_ROOT%{_libdir}/qt4/tools/qdoc3
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,prl}
@@ -1506,7 +1542,9 @@ ln -sf ../%{_lib}/qt4/bin/qdbusxml2cpp .
 ln -sf ../%{_lib}/qt4/bin/qdbusviewer .
 ln -sf ../%{_lib}/qt4/bin/qhelpconverter .
 ln -sf ../%{_lib}/qt4/bin/qhelpgenerator .
+ln -sf ../%{_lib}/qt4/bin/qttracereplay .
 ln -sf ../%{_lib}/qt4/bin/qvfb .
+ln -sf ../%{_lib}/qt4/bin/xmlpatternsvalidator .
 cd -
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}/qtconfig-qt4.desktop
@@ -1621,6 +1659,7 @@ mkdevfl() {
 mkdevfl QtCore %{_includedir}/qt4 %{_includedir}/qt4/Qt
 mkdevfl QtDBus %{_qtdir}/bin/qdbuscpp2xml %{_qtdir}/bin/qdbusxml2cpp %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
 mkdevfl QtGui
+mkdevfl QtMultimedia
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
 mkdevfl QtScript
@@ -1697,6 +1736,9 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n QtHelp	-p /sbin/ldconfig
 %postun	-n QtHelp	-p /sbin/ldconfig
 
+%post	-n QtMultimedia	-p /sbin/ldconfig
+%postun	-n QtMultimedia	-p /sbin/ldconfig
+
 %post	-n QtNetwork	-p /sbin/ldconfig
 %postun	-n QtNetwork	-p /sbin/ldconfig
 
@@ -1736,22 +1778,22 @@ rm -rf $RPM_BUILD_ROOT
 %files -n Qt3Support
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.?
 
 %files -n QtAssistant
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtAssistantClient.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtAssistantClient.so.?
 
 %files -n QtCLucene
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCLucene.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtCLucene.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtCLucene.so.?
 
 %files -n QtCore
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCore.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtCore.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtCore.so.?
 %dir %{_qtdir}
 %dir %{_qtdir}/bin
 %dir %{_qtdir}/plugins
@@ -1768,6 +1810,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/tools
 %dir %{_datadir}/qt4
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
+%lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
@@ -1777,6 +1820,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/qt4.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
 %lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt4.qm
+%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4.qm
 %lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/qt4.qm
 %lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
@@ -1787,7 +1831,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qdbus
 %attr(755,root,root) %{_bindir}/qdbusviewer
 %attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDBus.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtDBus.so.?
 %attr(755,root,root) %{_qtdir}/bin/qdbus
 %attr(755,root,root) %{_qtdir}/bin/qdbusviewer
 # ?? is this the proper place?
@@ -1796,16 +1840,16 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtDesigner
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtDesigner.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDesigner.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtDesigner.so.?
 %attr(755,root,root) %{_libdir}/libQtDesignerComponents.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDesignerComponents.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtDesignerComponents.so.?
 %dir %{_qtdir}/plugins/designer
 %attr(755,root,root) %{_qtdir}/plugins/designer/*.so
 
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtGui.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtGui.so.?
 %attr(755,root,root) %{_qtdir}/plugins/accessible/*.so
 %attr(755,root,root) %{_qtdir}/plugins/codecs/*.so
 %attr(755,root,root) %{_qtdir}/plugins/graphicssystems/*.so
@@ -1818,39 +1862,46 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qhelpconverter
 %attr(755,root,root) %{_bindir}/qhelpgenerator
 %attr(755,root,root) %{_libdir}/libQtHelp.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.?
 %attr(755,root,root) %{_qtdir}/bin/qhelpconverter
 %attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
-#%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-qt_help.qm
-#%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-qt_help.qm
-#%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qt_help.qm
-#%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qt_help.qm
-#%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qt_help.qm
+%lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-qt_help.qm
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-qt_help.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-qt_help.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qt_help.qm
+%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qt_help.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qt_help.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qt_help.qm
+
+%files -n QtMultimedia
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtMultimedia.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtMultimedia.so.?
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtNetwork.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.?
 
 %files -n QtOpenGL
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtOpenGL.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtOpenGL.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtOpenGL.so.?
 
 %files -n QtScript
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtScript.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtScript.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtScript.so.?
 
 %files -n QtScriptTools
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtScriptTools.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtScriptTools.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtScriptTools.so.?
 
 %files -n QtSql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSql.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtSql.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtSql.so.?
 
 %if %{with mysql}
 %files -n QtSql-mysql
@@ -1895,33 +1946,35 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtSvg
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSvg.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtSvg.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtSvg.so.?
 
 %files -n QtTest
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtTest.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtTest.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtTest.so.?
 
 %files -n QtUiTools
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.?
 
 %files -n QtWebKit
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtWebKit.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtWebKit.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtWebKit.so.?
 
 %files -n QtXml
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtXml.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtXml.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtXml.so.?
 
 %files -n QtXmlPatterns
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/bin/xmlpatterns
+%attr(755,root,root) %{_qtdir}/bin/xmlpatternsvalidator
+%attr(755,root,root) %{_bindir}/xmlpatternsvalidator
 %attr(755,root,root) %{_libdir}/libQtXmlPatterns.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.4
+%attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.?
 
 %files assistant
 %defattr(644,root,root,755)
@@ -1931,10 +1984,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/qcollectiongenerator
 %attr(755,root,root) %{_qtdir}/bin/assistant
 %attr(755,root,root) %{_qtdir}/bin/assistant_adp
-#%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant*.qm
-#%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant*.qm
-#%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant*.qm
-#%lang(zh_CN) %{_datadir}/locale/zh_*/LC_MESSAGES/qt4-assistant*.qm
+%lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-assistant*.qm
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant*.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant*.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant*.qm
+%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-assistant*.qm
+%lang(zh_CN) %{_datadir}/locale/zh_*/LC_MESSAGES/qt4-assistant*.qm
 %{_desktopdir}/assistant-qt4.desktop
 #%{_pixmapsdir}/assistant-qt4.png
 
@@ -1948,19 +2003,23 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/moc
 %attr(755,root,root) %{_qtdir}/bin/qt3to4
 %attr(755,root,root) %{_qtdir}/bin/uic
-%dir %{_libdir}/qt4/tools/qdoc3
-%attr(755,root,root) %{_libdir}/qt4/tools/qdoc3/qdoc3
+#find better place?
+%attr(755,root,root) %{_bindir}/qttracereplay
+%attr(755,root,root) %{_qtdir}/bin/qttracereplay
+#%dir %{_libdir}/qt4/tools/qdoc3
+#%attr(755,root,root) %{_libdir}/qt4/tools/qdoc3/qdoc3
 %{_datadir}/qt4/q3porting.xml
 
 %files designer
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/designer-qt4
 %attr(755,root,root) %{_qtdir}/bin/designer
-#%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-designer.qm
-#%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-designer.qm
-#%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-designer.qm
-#%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-designer.qm
-#%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-designer.qm
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-designer.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-designer.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-designer.qm
+%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-designer.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-designer.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-designer.qm
 %{_desktopdir}/designer-qt4.desktop
 %{_pixmapsdir}/designer-qt4.png
 
@@ -1975,12 +2034,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/lconvert
 %attr(755,root,root) %{_qtdir}/bin/lrelease
 %attr(755,root,root) %{_qtdir}/bin/lupdate
-#%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-linguist.qm
-#%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-linguist.qm
-#%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-linguist.qm
-#%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-linguist.qm
-#%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-linguist.qm
-#%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-linguist.qm
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-linguist.qm
+%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-linguist.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-linguist.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-linguist.qm
+%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-linguist.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-linguist.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-linguist.qm
 %{_datadir}/qt4/phrasebooks
 %{_desktopdir}/linguist-qt4.desktop
 %{_pixmapsdir}/linguist-qt4.png
@@ -1989,7 +2049,7 @@ rm -rf $RPM_BUILD_ROOT
 %files phonon
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libphonon.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libphonon.so.4
+%attr(755,root,root) %ghost %{_libdir}/libphonon.so.?
 %dir %{_qtdir}/plugins/phonon_backend
 %attr(755,root,root) %{_qtdir}/plugins/phonon_backend/libphonon_gstreamer.so
 %endif
@@ -2005,9 +2065,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qtconfig-qt4
 %attr(755,root,root) %{_qtdir}/bin/qtconfig
-#%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qtconfig.qm
-#%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qtconfig.qm
-#%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qtconfig.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qtconfig.qm
+%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qtconfig.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qtconfig.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qtconfig.qm
 %{_desktopdir}/qtconfig-qt4.desktop
 %{_pixmapsdir}/qtconfig-qt4.png
 
@@ -2015,9 +2076,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qvfb
 %attr(755,root,root) %{_qtdir}/bin/qvfb
-#%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qvfb.qm
-#%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qvfb.qm
-#%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qvfb.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qvfb.qm
+%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qvfb.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qvfb.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qvfb.qm
 
 %files doc
 %defattr(644,root,root,755)
@@ -2048,6 +2110,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 
 %files -n QtHelp-devel -f QtHelp-devel.files
+%defattr(644,root,root,755)
+
+%files -n QtMultimedia-devel -f QtMultimedia-devel.files
 %defattr(644,root,root,755)
 
 %files -n QtNetwork-devel -f QtNetwork-devel.files
@@ -2121,6 +2186,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtHelp-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtHelp.a
+
+%files -n QtMultimedia-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtMultimedia.a
 
 %files -n QtNetwork-static
 %defattr(644,root,root,755)

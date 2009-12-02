@@ -12,10 +12,3 @@
          if [ "$PLATFORM_MAC" = "yes" ]; then
              echo "export MACOSX_DEPLOYMENT_TARGET = 10.2" >>$mkfile
              echo "CARBON_LFLAGS +=-framework CoreServices -framework CoreFoundation" >>$mkfile
---- qt-copy/src/plugins/sqldrivers/sqldrivers.pro.orig	2005-05-15 21:26:42.000000000 +0200
-+++ qt-copy/src/plugins/sqldrivers/sqldrivers.pro	2005-05-15 21:26:59.000000000 +0200
-@@ -8,3 +8,4 @@
- contains(sql-plugins, db2)	: SUBDIRS += db2
- contains(sql-plugins, sqlite)	: SUBDIRS += sqlite
- contains(sql-plugins, ibase)	: SUBDIRS += ibase
-+contains(sql-plugins, sqlite2)	: SUBDIRS += sqlite2
