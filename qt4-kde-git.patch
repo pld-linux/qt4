@@ -225,10 +225,10 @@ index a14a82d..ac140eb 100755
          for(my $i = 0; $i < $count; $i++) {
              $dots .= "../";
 diff --git a/configure b/configure
-index b6ce9e6..6c69378 100755
+index 146ba82..7be8f7c 100755
 --- a/configure
 +++ b/configure
-@@ -1022,6 +1022,11 @@ while [ "$#" -gt 0 ]; do
+@@ -1012,6 +1012,11 @@ while [ "$#" -gt 0 ]; do
              VAL=`echo $1 | sed 's,-D,,'`
          fi
          ;;
@@ -240,7 +240,7 @@ index b6ce9e6..6c69378 100755
      -I?*|-I)
          VAR="add_ipath"
          if [ "$1" = "-I" ]; then
-@@ -2030,6 +2035,9 @@ while [ "$#" -gt 0 ]; do
+@@ -2020,6 +2025,9 @@ while [ "$#" -gt 0 ]; do
      add_ipath)
          I_FLAGS="$I_FLAGS -I\"${VAL}\""
          ;;
@@ -265,7 +265,7 @@ index aa1eb71..8ae64c2 100644
  
  false:macx { #mac install location
 diff --git a/qmake/property.cpp b/qmake/property.cpp
-index 1ee6530..b779756 100644
+index ea4842a..ac54854 100644
 --- a/qmake/property.cpp
 +++ b/qmake/property.cpp
 @@ -81,29 +81,32 @@ QMakeProperty::keyBase(bool version) const
@@ -323,10 +323,10 @@ index 1ee6530..b779756 100644
          QString version = qmake_version();
          if(slash != -1) {
 diff --git a/src/corelib/kernel/qobject.cpp b/src/corelib/kernel/qobject.cpp
-index 1260d47..5984770 100644
+index 9614e7a..58493a5 100644
 --- a/src/corelib/kernel/qobject.cpp
 +++ b/src/corelib/kernel/qobject.cpp
-@@ -1124,8 +1124,16 @@ void QObject::setObjectName(const QString &name)
+@@ -1136,8 +1136,16 @@ void QObject::setObjectName(const QString &name)
  {
      Q_D(QObject);
      d->objectName = name;
@@ -344,7 +344,7 @@ index 1260d47..5984770 100644
  #ifdef QT3_SUPPORT
  /*! \internal
 diff --git a/src/corelib/kernel/qobject_p.h b/src/corelib/kernel/qobject_p.h
-index f087407..559b7ff 100644
+index e75f24e..1294fa4 100644
 --- a/src/corelib/kernel/qobject_p.h
 +++ b/src/corelib/kernel/qobject_p.h
 @@ -83,7 +83,9 @@ void Q_CORE_EXPORT qt_register_signal_spy_callbacks(const QSignalSpyCallbackSet
@@ -369,7 +369,7 @@ index f087407..559b7ff 100644
      static Sender *setCurrentSender(QObject *receiver,
                                      Sender *sender);
 diff --git a/src/gui/kernel/qkeysequence.cpp b/src/gui/kernel/qkeysequence.cpp
-index 1a76083..69a05a8 100644
+index 528d512..edbe75b 100644
 --- a/src/gui/kernel/qkeysequence.cpp
 +++ b/src/gui/kernel/qkeysequence.cpp
 @@ -1139,10 +1139,10 @@ int QKeySequencePrivate::decodeString(const QString &str, QKeySequence::Sequence
@@ -424,10 +424,10 @@ index 1a76083..69a05a8 100644
      } else if (key) {
          int i=0;
 diff --git a/src/gui/kernel/qwidget_p.h b/src/gui/kernel/qwidget_p.h
-index df28bac..f9ba561 100644
+index 7832393..18c331a 100644
 --- a/src/gui/kernel/qwidget_p.h
 +++ b/src/gui/kernel/qwidget_p.h
-@@ -655,6 +655,7 @@ public:
+@@ -661,6 +661,7 @@ public:
      static QWidget *keyboardGrabber;
  
      void setWindowRole();
@@ -436,10 +436,10 @@ index df28bac..f9ba561 100644
      void setNetWmWindowTypes();
      void x11UpdateIsOpaque();
 diff --git a/src/gui/kernel/qwidget_x11.cpp b/src/gui/kernel/qwidget_x11.cpp
-index 7461637..59bf2ac 100644
+index 3135ece..5c997a4 100644
 --- a/src/gui/kernel/qwidget_x11.cpp
 +++ b/src/gui/kernel/qwidget_x11.cpp
-@@ -758,6 +758,11 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
+@@ -763,6 +763,11 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
          Q_ASSERT(id);
          XChangeWindowAttributes(dpy, id, CWOverrideRedirect | CWSaveUnder,
                                  &wsa);
@@ -451,7 +451,7 @@ index 7461637..59bf2ac 100644
      } else if (topLevel && !desktop) {        // top-level widget
          if (!X11->wm_client_leader)
              create_wm_client_leader();
-@@ -811,32 +816,40 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
+@@ -816,32 +821,40 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
          // set EWMH window types
          setNetWmWindowTypes();
  
@@ -504,7 +504,7 @@ index 7461637..59bf2ac 100644
      }
  
      if (initializeWindow && q->internalWinId()) {
-@@ -2914,6 +2927,17 @@ void QWidgetPrivate::setWindowRole()
+@@ -2919,6 +2932,17 @@ void QWidgetPrivate::setWindowRole()
                      (unsigned char *)windowRole.constData(), windowRole.length());
  }
  
@@ -523,7 +523,7 @@ index 7461637..59bf2ac 100644
  QPaintEngine *QWidget::paintEngine() const
  {
 diff --git a/src/gui/widgets/qtabbar.cpp b/src/gui/widgets/qtabbar.cpp
-index 3935c55..d97cf74 100644
+index 30f6144..36dfe6d 100644
 --- a/src/gui/widgets/qtabbar.cpp
 +++ b/src/gui/widgets/qtabbar.cpp
 @@ -678,8 +678,8 @@ void QTabBarPrivate::refresh()
@@ -537,7 +537,7 @@ index 3935c55..d97cf74 100644
  
  /*!
 diff --git a/src/tools/moc/main.cpp b/src/tools/moc/main.cpp
-index 2f972e3..ddcf6a6 100644
+index 8e033b7..b5b2edd 100644
 --- a/src/tools/moc/main.cpp
 +++ b/src/tools/moc/main.cpp
 @@ -94,7 +94,13 @@ static QByteArray combinePath(const char *infile, const char *outfile)

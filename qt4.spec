@@ -63,8 +63,6 @@
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
 #
-%define		state	rc1
-#
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
 %endif
@@ -84,11 +82,11 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.6.0
-Release:	0.%{state}.1
+Release:	0.1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}-%{state}.tar.gz
-# Source0-md5:	56772a3f9128f00504d2b21dbe4186b3
+Source0:	http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
+# Source0-md5:	2a7b5126f2450d8525af355fc4c12ad6
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -1352,7 +1350,7 @@ Example programs bundled with Qt version.
 Programas exemplo para o Qt versão.
 
 %prep
-%setup -q -n qt-everywhere-opensource-src-%{version}-%{state}
+%setup -q -n qt-everywhere-opensource-src-%{version}
 
 %patch100 -p1
 
