@@ -1501,14 +1501,14 @@ yes" | ./configure $COMMONOPT $OPT
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_desktopdir},%{_pixmapsdir},%{_pkgconfigdir},%{_libdir}/qt4/tools/qdoc3}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_desktopdir},%{_pixmapsdir},%{_pkgconfigdir}}
 install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
 # for qt-creator sth is messed up in the Makefile, nothing for make install
-#install tools/qdoc3/qdoc3 $RPM_BUILD_ROOT%{_libdir}/qt4/tools/qdoc3
+install bin/qdoc3 $RPM_BUILD_ROOT%{_qtdir}/bin/qdoc3
 
 # kill -L/inside/builddir from *.la and *.pc (bug #77152)
 %{__sed} -i -e "s,-L$PWD/lib,,g" $RPM_BUILD_ROOT%{_libdir}/*.{la,prl}
@@ -1532,6 +1532,7 @@ ln -sf ../%{_lib}/qt4/bin/moc moc-qt4
 ln -sf ../%{_lib}/qt4/bin/qmake qmake-qt4
 ln -sf ../%{_lib}/qt4/bin/qtconfig qtconfig-qt4
 ln -sf ../%{_lib}/qt4/bin/uic uic-qt4
+ln -sf ../%{_lib}/qt4/bin/qdoc3 .
 ln -sf ../%{_lib}/qt4/bin/qt3to4 .
 ln -sf ../%{_lib}/qt4/bin/rcc .
 ln -sf ../%{_lib}/qt4/bin/uic3 .
@@ -1807,7 +1808,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/plugins/network
 %dir %{_qtdir}/plugins/sqldrivers
 %dir %{_qtdir}/plugins/script
-%dir %{_qtdir}/tools
 %dir %{_datadir}/qt4
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
 %lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4.qm
@@ -1997,19 +1997,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %files build
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/rcc
 %attr(755,root,root) %{_bindir}/moc-qt4
+%attr(755,root,root) %{_bindir}/qdoc3
 %attr(755,root,root) %{_bindir}/qt3to4
+%attr(755,root,root) %{_bindir}/rcc
 %attr(755,root,root) %{_bindir}/uic-qt4
-%attr(755,root,root) %{_qtdir}/bin/rcc
 %attr(755,root,root) %{_qtdir}/bin/moc
+%attr(755,root,root) %{_qtdir}/bin/qdoc3
 %attr(755,root,root) %{_qtdir}/bin/qt3to4
+%attr(755,root,root) %{_qtdir}/bin/rcc
 %attr(755,root,root) %{_qtdir}/bin/uic
 #find better place?
 %attr(755,root,root) %{_bindir}/qttracereplay
 %attr(755,root,root) %{_qtdir}/bin/qttracereplay
-#%dir %{_libdir}/qt4/tools/qdoc3
-#%attr(755,root,root) %{_libdir}/qt4/tools/qdoc3/qdoc3
 %{_datadir}/qt4/q3porting.xml
 
 %files designer
