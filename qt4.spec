@@ -105,6 +105,7 @@ Patch9:		%{name}-ibase.patch
 URL:		http://www.qtsoftware.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
+BuildRequires:	alsa-lib-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
 # incompatible with bison
 %{?with_cups:BuildRequires:	cups-devel}
