@@ -90,6 +90,7 @@ Source5:	%{name}-linguist.desktop
 # git checkout -b 4.6.0-patched origin/4.6.0-patched
 # git diff v4.6.0..4.6.0-patched > qt4-kde-git.patch
 Patch100:	%{name}-kde-git.patch
+
 Patch101:	%{name}-git.patch
 
 Patch0:		%{name}-tools.patch
@@ -102,7 +103,6 @@ Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
-# svn://anonsvn.kde.org/home/kde/trunk/qt-copy/patches
 URL:		http://www.qtsoftware.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
