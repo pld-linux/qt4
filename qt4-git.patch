@@ -37,3 +37,190 @@ index a1d0496..69e4d5b 100644
          }
      }
 
+commit 8a820c790f2316052819148e344a3cd197877433
+Author: Thiago Macieira <thiago.macieira@nokia.com>
+Date:   Thu Nov 19 13:21:04 2009 +0100
+
+    Fix the detection of when this process gets names on the bus.
+    
+    Previously, we were relying on NameOwnerChanged to notify us of our
+    own names. This worked because we got all NameOwnerChanged that
+    happened on the bus.
+    
+    Now, we only get those we're interested in. Instead of watching for
+    newOwner==baseService, let's just use the NameAcquired and NameLost
+    signals, that the D-Bus server sends to us anyway.
+    
+    Task-number: QTBUG-5979
+
+diff --git a/src/dbus/qdbusconnection_p.h b/src/dbus/qdbusconnection_p.h
+index 830dac3..b65e101 100644
+--- a/src/dbus/qdbusconnection_p.h
++++ b/src/dbus/qdbusconnection_p.h
+@@ -199,9 +199,6 @@ public:
+     QDBusMetaObject *findMetaObject(const QString &service, const QString &path,
+                                     const QString &interface, QDBusError &error);
+ 
+-    void registerService(const QString &serviceName);
+-    void unregisterService(const QString &serviceName);
+-
+     void postEventToThread(int action, QObject *target, QEvent *event);
+ 
+     inline void serverConnection(const QDBusConnection &connection)
+@@ -238,6 +235,8 @@ public slots:
+     void objectDestroyed(QObject *o);
+     void relaySignal(QObject *obj, const QMetaObject *, int signalId, const QVariantList &args);
+     void _q_serviceOwnerChanged(const QString &name, const QString &oldOwner, const QString &newOwner);
++    void registerService(const QString &serviceName);
++    void unregisterService(const QString &serviceName);
+ 
+ signals:
+     void serviceOwnerChanged(const QString &name, const QString &oldOwner, const QString &newOwner);
+diff --git a/src/dbus/qdbusintegrator.cpp b/src/dbus/qdbusintegrator.cpp
+index 870ddd0..40febc4 100644
+--- a/src/dbus/qdbusintegrator.cpp
++++ b/src/dbus/qdbusintegrator.cpp
+@@ -948,9 +948,6 @@ QDBusConnectionPrivate::QDBusConnectionPrivate(QObject *p)
+ 
+     rootNode.flags = 0;
+     watchedServiceNames[QLatin1String(DBUS_SERVICE_DBUS)] = 1;
+-
+-    connect(this, SIGNAL(serviceOwnerChanged(QString,QString,QString)),
+-            this, SLOT(_q_serviceOwnerChanged(QString,QString,QString)));
+ }
+ 
+ QDBusConnectionPrivate::~QDBusConnectionPrivate()
+@@ -1180,11 +1177,7 @@ void QDBusConnectionPrivate::relaySignal(QObject *obj, const QMetaObject *mo, in
+ void QDBusConnectionPrivate::_q_serviceOwnerChanged(const QString &name,
+                                                     const QString &oldOwner, const QString &newOwner)
+ {
+-    if (oldOwner == baseService)
+-        unregisterService(name);
+-    if (newOwner == baseService)
+-        registerService(name);
+-
++    Q_UNUSED(oldOwner);
+     QDBusWriteLocker locker(UpdateSignalHookOwnerAction, this);
+     QMutableHashIterator<QString, SignalHook> it(signalHooks);
+     it.toFront();
+@@ -1655,9 +1648,16 @@ void QDBusConnectionPrivate::setConnection(DBusConnection *dbc, const QDBusError
+ 
+         baseService = QString::fromUtf8(service);
+     } else {
+-        qWarning("QDBusConnectionPrivate::SetConnection: Unable to get base service");
++        qWarning("QDBusConnectionPrivate::setConnection: Unable to get base service");
+     }
+ 
++    QString busService = QLatin1String(DBUS_SERVICE_DBUS);
++    connectSignal(busService, QString(), QString(), QString(), QLatin1String("NameAcquired"), QStringList(), QString(),
++                  this, SLOT(registerService(QString)));
++    connectSignal(busService, QString(), QString(), QString(), QLatin1String("NameLost"), QStringList(), QString(),
++                  this, SLOT(unregisterService(QString)));
++
++
+     q_dbus_connection_add_filter(connection, qDBusSignalFilter, this, 0);
+ 
+     //qDebug("base service: %s", service);
+
+
+commit f708b248aec810a1dcad1f13e1c16390244c9834
+Author: Trond Kjernåsen <trond@trolltech.com>
+Date:   Fri Dec 18 17:48:10 2009 +0100
+
+    Fixed QPixmap::load() to not modify referenced copies.
+    
+    This is a bad regression from 4.5. QPixmap::load() would modify all
+    references to the same QPixmap object.
+    
+    Task-number: QTBUG-6840
+    Reviewed-by: Kim
+
+diff --git a/src/gui/image/qpixmap.cpp b/src/gui/image/qpixmap.cpp
+index 617cfe5..7e4597e 100644
+--- a/src/gui/image/qpixmap.cpp
++++ b/src/gui/image/qpixmap.cpp
+@@ -831,14 +831,13 @@ bool QPixmap::load(const QString &fileName, const char *format, Qt::ImageConvers
+     if (QPixmapCache::find(key, *this))
+         return true;
+ 
+-    if (!data)
+-        data = QPixmapData::create(0, 0, QPixmapData::PixmapType);
+-
+-    if (data->fromFile(fileName, format, flags)) {
++    QPixmapData *tmp = QPixmapData::create(0, 0, QPixmapData::PixmapType);
++    if (tmp->fromFile(fileName, format, flags)) {
++        data = tmp;
+         QPixmapCache::insert(key, *this);
+         return true;
+     }
+-
++    delete tmp;
+     return false;
+ }
+ 
+commit 0fa878c4d2dfc25d4641a6654a9b482230559c3a
+Author: Kim Motoyoshi Kalland <kim.kalland@nokia.com>
+Date:   Mon Nov 30 13:13:11 2009 +0100
+
+    Fixed square root of negative number in drawTextItem().
+    
+    Fixed potential bug where you could end up taking the square root of a
+    negative number in drawTextItem() in the raster and OpenGL paint
+    engines.
+    
+    Task-number: QTBUG-6327
+    Reviewed-by: Trond
+
+diff --git a/src/gui/painting/qpaintengine_raster.cpp b/src/gui/painting/qpaintengine_raster.cpp
+index 3f33319..4a72434 100644
+--- a/src/gui/painting/qpaintengine_raster.cpp
++++ b/src/gui/painting/qpaintengine_raster.cpp
+@@ -3240,7 +3240,8 @@ void QRasterPaintEngine::drawTextItem(const QPointF &p, const QTextItem &textIte
+         drawCached = false;
+ 
+     // don't try to cache huge fonts
+-    if (ti.fontEngine->fontDef.pixelSize * qSqrt(s->matrix.determinant()) >= 64)
++    const qreal pixelSize = ti.fontEngine->fontDef.pixelSize;
++    if (pixelSize * pixelSize * qAbs(s->matrix.determinant()) >= 64 * 64)
+         drawCached = false;
+ 
+     // ### Remove the TestFontEngine and Box engine crap, in these
+diff --git a/src/opengl/gl2paintengineex/qpaintengineex_opengl2.cpp b/src/opengl/gl2paintengineex/qpaintengineex_opengl2.cpp
+index 07432c6..15702ba 100644
+--- a/src/opengl/gl2paintengineex/qpaintengineex_opengl2.cpp
++++ b/src/opengl/gl2paintengineex/qpaintengineex_opengl2.cpp
+@@ -1452,7 +1452,8 @@ void QGL2PaintEngineEx::drawTextItem(const QPointF &p, const QTextItem &textItem
+         drawCached = false;
+ 
+     // don't try to cache huge fonts
+-    if (ti.fontEngine->fontDef.pixelSize * qSqrt(s->matrix.determinant()) >= 64)
++    const qreal pixelSize = ti.fontEngine->fontDef.pixelSize;
++    if (pixelSize * pixelSize * qAbs(s->matrix.determinant()) >= 64 * 64)
+         drawCached = false;
+ 
+     QFontEngineGlyphCache::Type glyphType = ti.fontEngine->glyphFormat >= 0
+commit dbaea6fa5a90742d89691685baa44a1a34598f21
+Author: Trond Kjernåsen <trond@trolltech.com>
+Date:   Mon Nov 16 10:42:35 2009 +0100
+
+    Fixed a crash in QPixmap::fromImage() when passing in a null image.
+    
+    Task-number: QTBUG-5840
+    Reviewed-by: Kim
+
+diff --git a/src/gui/image/qpixmap_x11.cpp b/src/gui/image/qpixmap_x11.cpp
+index 3f297df..7008fbd 100644
+--- a/src/gui/image/qpixmap_x11.cpp
++++ b/src/gui/image/qpixmap_x11.cpp
+@@ -416,6 +416,11 @@ void QX11PixmapData::fromImage(const QImage &img,
+     d = img.depth();
+     is_null = (w <= 0 || h <= 0);
+ 
++    if (is_null) {
++        w = h = 0;
++        return;
++    }
++
+     if (defaultScreen >= 0 && defaultScreen != xinfo.screen()) {
+         QX11InfoData* xd = xinfo.getX11Data(true);
+         xd->screen = defaultScreen;
