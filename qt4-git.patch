@@ -224,3 +224,95 @@ index 3f297df..7008fbd 100644
      if (defaultScreen >= 0 && defaultScreen != xinfo.screen()) {
          QX11InfoData* xd = xinfo.getX11Data(true);
          xd->screen = defaultScreen;
+commit 05eacd9ad40f8adb5aaa12a8b90113a73b43f642
+Author: Jouni Hiltunen <jouni.hiltunen@digia.com>
+Date:   Tue Nov 3 13:50:49 2009 +0200
+
+    Long-press shortcuts for symbols on QWERTY keyboard don't work
+    
+    Qt key event was not handled properly in the case of long key press.
+    With long key press, QCoeFepInputContext::commitCurrentString gets
+    called 3 times("q", "", "1"). (Normal key press is causing one call).
+    
+    This is how aknfep works, so commitCurrentString was modified
+    to replace first character if long key press event detected.
+    E.g. "q" is replaced with "1".
+    
+    qlinecontrol modified to keep cursor position correct.
+    
+    Signed-off-by: axis <qt-info@nokia.com>
+
+diff --git a/src/gui/inputmethod/qcoefepinputcontext_p.h b/src/gui/inputmethod/qcoefepinputcontext_p.h
+index 452aa75..28c1c67 100644
+--- a/src/gui/inputmethod/qcoefepinputcontext_p.h
++++ b/src/gui/inputmethod/qcoefepinputcontext_p.h
+@@ -146,6 +146,8 @@ private:
+     int m_inlinePosition;
+     MFepInlineTextFormatRetriever *m_formatRetriever;
+     MFepPointerEventHandlerDuringInlineEdit *m_pointerHandler;
++    int m_longPress;
++    int m_cursorPos;
+ };
+ 
+ QT_END_NAMESPACE
+diff --git a/src/gui/inputmethod/qcoefepinputcontext_s60.cpp b/src/gui/inputmethod/qcoefepinputcontext_s60.cpp
+index ea5e29b..ceace4a 100644
+--- a/src/gui/inputmethod/qcoefepinputcontext_s60.cpp
++++ b/src/gui/inputmethod/qcoefepinputcontext_s60.cpp
+@@ -71,7 +71,9 @@ QCoeFepInputContext::QCoeFepInputContext(QObject *parent)
+       m_cursorVisibility(1),
+       m_inlinePosition(0),
+       m_formatRetriever(0),
+-      m_pointerHandler(0)
++      m_pointerHandler(0),
++      m_longPress(0),
++      m_cursorPos(0)
+ {
+     m_fepState->SetObjectProvider(this);
+     m_fepState->SetFlags(EAknEditorFlagDefault);
+@@ -488,6 +490,8 @@ void QCoeFepInputContext::StartFepInlineEditL(const TDesC& aInitialInlineText,
+ 
+     m_isEditing = true;
+ 
++    m_cursorPos = w->inputMethodQuery(Qt::ImCursorPosition).toInt();
++    
+     QList<QInputMethodEvent::Attribute> attributes;
+ 
+     m_cursorVisibility = aCursorVisibility ? 1 : 0;
+@@ -691,15 +695,22 @@ void QCoeFepInputContext::DoCommitFepInlineEditL()
+ void QCoeFepInputContext::commitCurrentString(bool triggeredBySymbian)
+ {
+     if (m_preeditString.size() == 0) {
++		QWidget *w = focusWidget();
++		if(triggeredBySymbian && w){
++			// We must replace the last character only if the input box has already accepted one 
++			if (w->inputMethodQuery(Qt::ImCursorPosition).toInt() != m_cursorPos)
++				m_longPress = 1;
++		}
+         return;
+     }
+ 
+     QList<QInputMethodEvent::Attribute> attributes;
+     QInputMethodEvent event(QLatin1String(""), attributes);
+-    event.setCommitString(m_preeditString, 0, 0);//m_preeditString.size());
++    event.setCommitString(m_preeditString, 0-m_longPress, m_longPress);
+     m_preeditString.clear();
+     sendEvent(event);
+ 
++    m_longPress = 0;
+     m_isEditing = false;
+ 
+     if (!triggeredBySymbian) {
+diff --git a/src/gui/widgets/qlinecontrol.cpp b/src/gui/widgets/qlinecontrol.cpp
+index 2914164..300a2ea 100644
+--- a/src/gui/widgets/qlinecontrol.cpp
++++ b/src/gui/widgets/qlinecontrol.cpp
+@@ -414,7 +414,7 @@ void QLineControl::processInputMethodEvent(QInputMethodEvent *event)
+ 
+ 
+     int c = m_cursor; // cursor position after insertion of commit string
+-    if (event->replacementStart() <= 0)
++    if (event->replacementStart() == 0)
+         c += event->commitString().length() + qMin(-event->replacementStart(), event->replacementLength());
+ 
+     m_cursor += event->replacementStart();
