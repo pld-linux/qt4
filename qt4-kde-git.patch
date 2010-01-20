@@ -1,9 +1,9 @@
 diff --git a/README.kde-qt b/README.kde-qt
 new file mode 100644
-index 0000000..db3feb6
+index 0000000..cbbd970
 --- /dev/null
 +++ b/README.kde-qt
-@@ -0,0 +1,201 @@
+@@ -0,0 +1,269 @@
 +This is a patched version of Qt.  It may include changes made by KDE
 +and Qt developers that have either not been accepted for inclusion
 +into Qt, or have been accepted for a later version of Qt than this
@@ -138,20 +138,21 @@ index 0000000..db3feb6
 +official Qt release.
 +
 +The exception to the above rule is that if the fix has been accepted
-+by Qt Software (and so will appear in the very next release of Qt),
-+then it should be simply cherry-picked from the Qt development
++by the Qt developers (and so will appear in the very next release of
++Qt), then it should be simply cherry-picked from the Qt development
 +branch. Note that you shouldn't do this for changes that have been
-+accepted into a release which is not the very next.
-+In this case, you should use the following command:
++accepted into a release which is not the very next.  In this case, you
++should use the following command:
 +
 +   git cherry-pick -x SHA1_OF_THE_FIX
 +where SHA1_OF_THE_FIX is the SHA-1 of the commit that you want to
 +introduce. Then push the change to the server.
 +
-+Before creating a patch, it is recommended to contact Qt Software
-+support via qt-bugs@trolltech.com and explain the situation. There may
-+be a solution for the problem already or a new direction that should
-+be accounted for.
++In all other cases, before creating a patch, it is recommended to
++contact the Qt developers via a new task in
++http://bugreports.qt.nokia.com and explain the situation. There may be
++a solution for the problem already or a new direction that should be
++accounted for.
 +
 +To create a patch, do the following:
 +  a) look at the listing of branches in
@@ -166,21 +167,28 @@ index 0000000..db3feb6
 +      git tag
 +
 +  c) make your changes to the Qt source code and verify that it
-+  compiles, links and works (please run the respective unit tests).
++  compiles, links and works (please run the respective unit tests from
++  tests/auto in the source tree).
 +
 +  c) commit your changes to Git, using the "git commit" command. Please
 +  see http://qt.gitorious.org/qt/pages/GitIntroductionWithQt and
 +  http://qt.gitorious.org/qt/pages/QtCodingStyle for information on
 +  how to create commits
-+  Note that you can create multiple commits.
 +
-+  e) merge the change to the main branch, for example, 4.5.1-patched:
++  Note that you are allowed to create as many commits as necessary to
++  accomplish a working change that can be easily reviewed.
++
++  e) merge the change to the patch branch, for example, 4.5.1-patched:
 +      git checkout 4.5.1-patched
 +      git merge patches/0180-window-role
 +
-+  f) push the changes you made to your branch and to the main server:
-+      git push git@gitorious.org:qt/kde-qt.git 4.5.1-patched patches/0180-window-role
-+  (Don't forget to list both branch names)
++  f) merge the patch branch to master:
++      git checkout master
++      git merge 4.5.1-patched
++
++  g) push the changes you made to your branch and to the main server:
++      git push git@gitorious.org:qt/kde-qt.git master 4.5.1-patched patches/0180-window-role
++  (Don't forget to list all 3 branch names)
 +
 +Don't forget to submit your patch to using the Qt Contribution Model,
 +along with the long description of the issue found. See
@@ -189,7 +197,7 @@ index 0000000..db3feb6
 +server.
 +
 +9. Troubleshooting: Re-configuring and re-compiling
-+==================================================
++===================================================
 +
 +For those updating the source in a directory where Qt has already
 +been compiled, you may need to run the following commands from the
@@ -205,8 +213,68 @@ index 0000000..db3feb6
 +
 +	rm -rf include
 +	bin/syncqt
++
++10. Maintenance: updating kde-qt to a newer Qt version
++======================================================
++
++When a new version of Qt is released, do the following to update the
++repository (assuming Qt 4.6.1 is the release you're updating to):
++
++ a) rebase each of the individual patches against this new version.
++      for branch in patches/*; do
++        git checkout -b $branch origin/$branch
++        git rebase v4.6.1
++        resolve conflicts
++      done   # Note: pseudo-shell, don't try to run this
++
++    If a given branch is no longer valid (it's been applied to this Qt
++    version), then delete it on the server:
++      git push origin :$branch
++
++ b) create a new "patched" branch locally, starting on the release tag:
++      git checkout -b 4.6.1-patched v4.6.1
++
++ c) merge the patch branches and the README branch, one by one. There
++    should be no conflicts at this stage; if there are, it indicates
++    one patch conflicts with another.
++      git merge patches/0997-patch1
++      git merge patches/0998-patch2
++      git merge patches/0999-patch3
++      # etc.
++      git merge README
++
++ d) overwrite the master branch's contents with the new branch. If the
++    Git merge strategy "theirs" exist (it doesn't as of Git 1.6), use
++    it:
++      git checkout master
++      git merge -s theirs 4.6.1-patched
++
++    If it doesn't exist, do the equivalent by inverting the point of
++    view:
++      git checkout -b tmp 4.6.1-patched
++      git merge -s ours master
++      git checkout master
++      git merge tmp
++      git branch -d tmp
++
++    Also possible using Git plumbing:
++      git checkout master
++      git merge -s ours --no-commit 4.6.1-patched
++      rm .git/index
++      git read-tree 4.6.1-patched
++      git commit
++
++  e) push everything to kde-qt.git, including the new Qt. Note that
++     the individiual patch branches will require force, because they
++     have been rebased (that is, the new branch tip is no longer a
++     direct descendant of the previous tip).
++
++      # Push the individual patch branches with force
++      git push -f origin patches/0997-patch1 patches/0998-patch2 patches/0999-patch3 etc
++      # Push the tag, the new patched branch and master
++      git push v4.6.1 4.6.1-patched master
 diff --git a/bin/syncqt b/bin/syncqt
-index a14a82d..ac140eb 100755
+index 620256e..e2998fd 100755
 --- a/bin/syncqt
 +++ b/bin/syncqt
 @@ -366,9 +366,13 @@ sub fixPaths {
@@ -225,10 +293,10 @@ index a14a82d..ac140eb 100755
          for(my $i = 0; $i < $count; $i++) {
              $dots .= "../";
 diff --git a/configure b/configure
-index 146ba82..7be8f7c 100755
+index 033f415..09cd81f 100755
 --- a/configure
 +++ b/configure
-@@ -1012,6 +1012,11 @@ while [ "$#" -gt 0 ]; do
+@@ -1029,6 +1029,11 @@ while [ "$#" -gt 0 ]; do
              VAL=`echo $1 | sed 's,-D,,'`
          fi
          ;;
@@ -240,7 +308,7 @@ index 146ba82..7be8f7c 100755
      -I?*|-I)
          VAR="add_ipath"
          if [ "$1" = "-I" ]; then
-@@ -2020,6 +2025,9 @@ while [ "$#" -gt 0 ]; do
+@@ -2047,6 +2052,9 @@ while [ "$#" -gt 0 ]; do
      add_ipath)
          I_FLAGS="$I_FLAGS -I\"${VAL}\""
          ;;
@@ -251,10 +319,10 @@ index 146ba82..7be8f7c 100755
          L_FLAGS="$L_FLAGS -L\"${VAL}\""
          ;;
 diff --git a/projects.pro b/projects.pro
-index aa1eb71..8ae64c2 100644
+index d405a5b..7ad3b58 100644
 --- a/projects.pro
 +++ b/projects.pro
-@@ -149,6 +149,9 @@ unix {
+@@ -154,6 +154,9 @@ unix {
     DEFAULT_QMAKESPEC ~= s,^.*mkspecs/,,g
     mkspecs.commands += $(DEL_FILE) $(INSTALL_ROOT)$$mkspecs.path/default; $(SYMLINK) $$DEFAULT_QMAKESPEC $(INSTALL_ROOT)$$mkspecs.path/default
  }
@@ -323,10 +391,10 @@ index ea4842a..ac54854 100644
          QString version = qmake_version();
          if(slash != -1) {
 diff --git a/src/corelib/kernel/qobject.cpp b/src/corelib/kernel/qobject.cpp
-index 9614e7a..58493a5 100644
+index fc6ac33..dae38b0 100644
 --- a/src/corelib/kernel/qobject.cpp
 +++ b/src/corelib/kernel/qobject.cpp
-@@ -1136,8 +1136,16 @@ void QObject::setObjectName(const QString &name)
+@@ -1124,8 +1124,16 @@ void QObject::setObjectName(const QString &name)
  {
      Q_D(QObject);
      d->objectName = name;
@@ -344,7 +412,7 @@ index 9614e7a..58493a5 100644
  #ifdef QT3_SUPPORT
  /*! \internal
 diff --git a/src/corelib/kernel/qobject_p.h b/src/corelib/kernel/qobject_p.h
-index e75f24e..1294fa4 100644
+index 7e7cbf8..5a312d1 100644
 --- a/src/corelib/kernel/qobject_p.h
 +++ b/src/corelib/kernel/qobject_p.h
 @@ -83,7 +83,9 @@ void Q_CORE_EXPORT qt_register_signal_spy_callbacks(const QSignalSpyCallbackSet
@@ -368,66 +436,11 @@ index e75f24e..1294fa4 100644
  
      static Sender *setCurrentSender(QObject *receiver,
                                      Sender *sender);
-diff --git a/src/gui/kernel/qkeysequence.cpp b/src/gui/kernel/qkeysequence.cpp
-index 528d512..edbe75b 100644
---- a/src/gui/kernel/qkeysequence.cpp
-+++ b/src/gui/kernel/qkeysequence.cpp
-@@ -1139,10 +1139,10 @@ int QKeySequencePrivate::decodeString(const QString &str, QKeySequence::Sequence
- 
-     QList<QModifKeyName> modifs;
-     if (nativeText) {
--        modifs << QModifKeyName(Qt::CTRL, QShortcut::tr("Ctrl").toLower().append(QLatin1Char('+')))
--               << QModifKeyName(Qt::SHIFT, QShortcut::tr("Shift").toLower().append(QLatin1Char('+')))
--               << QModifKeyName(Qt::ALT, QShortcut::tr("Alt").toLower().append(QLatin1Char('+')))
--               << QModifKeyName(Qt::META, QShortcut::tr("Meta").toLower().append(QLatin1Char('+')));
-+        modifs << QModifKeyName(Qt::CTRL, QShortcut::tr("Ctrl", "Ctrl key, used for shortcuts").toLower().append(QLatin1Char('+')))
-+               << QModifKeyName(Qt::SHIFT, QShortcut::tr("Shift", "Shift key, used for shortcuts").toLower().append(QLatin1Char('+')))
-+               << QModifKeyName(Qt::ALT, QShortcut::tr("Alt", "Alt key, used for shortcuts").toLower().append(QLatin1Char('+')))
-+               << QModifKeyName(Qt::META, QShortcut::tr("Meta", "Meta key, used for shortcuts").toLower().append(QLatin1Char('+')));
-     }
-     modifs += *gmodifs; // Test non-translated ones last
- 
-@@ -1232,7 +1232,7 @@ QString QKeySequence::encodeString(int key)
- static inline void addKey(QString &str, const QString &theKey, QKeySequence::SequenceFormat format)
- {
-     if (!str.isEmpty())
--        str += (format == QKeySequence::NativeText) ? QShortcut::tr("+")
-+        str += (format == QKeySequence::NativeText) ? QShortcut::tr("+", "Symbol used to concatenate keys in shortcuts")
-                                                     : QString::fromLatin1("+");
-     str += theKey;
- }
-@@ -1272,13 +1272,13 @@ QString QKeySequencePrivate::encodeString(int key, QKeySequence::SequenceFormat
-     {
-         // On other systems the order is Meta, Control, Alt, Shift
-         if ((key & Qt::META) == Qt::META)
--            s = nativeText ? QShortcut::tr("Meta") : QString::fromLatin1("Meta");
-+            s = nativeText ? QShortcut::tr("Meta", "Meta key, used for shortcuts") : QString::fromLatin1("Meta");
-         if ((key & Qt::CTRL) == Qt::CTRL)
--            addKey(s, nativeText ? QShortcut::tr("Ctrl") : QString::fromLatin1("Ctrl"), format);
-+            addKey(s, nativeText ? QShortcut::tr("Ctrl", "Ctrl key, used for shortcuts") : QString::fromLatin1("Ctrl"), format);
-         if ((key & Qt::ALT) == Qt::ALT)
--            addKey(s, nativeText ? QShortcut::tr("Alt") : QString::fromLatin1("Alt"), format);
-+            addKey(s, nativeText ? QShortcut::tr("Alt", "Alt key, used for shortcuts") : QString::fromLatin1("Alt"), format);
-         if ((key & Qt::SHIFT) == Qt::SHIFT)
--            addKey(s, nativeText ? QShortcut::tr("Shift") : QString::fromLatin1("Shift"), format);
-+            addKey(s, nativeText ? QShortcut::tr("Shift", "Shift key, used for shortcuts") : QString::fromLatin1("Shift"), format);
-     }
- 
- 
-@@ -1293,7 +1293,7 @@ QString QKeySequencePrivate::encodeString(int key, QKeySequence::SequenceFormat
-             p += QChar((key-0x10000)%400+0xdc00);
-         }
-     } else if (key >= Qt::Key_F1 && key <= Qt::Key_F35) {
--            p = nativeText ? QShortcut::tr("F%1").arg(key - Qt::Key_F1 + 1)
-+            p = nativeText ? QShortcut::tr("F%1", "Fx key, used for shortcuts").arg(key - Qt::Key_F1 + 1)
-                            : QString::fromLatin1("F%1").arg(key - Qt::Key_F1 + 1);
-     } else if (key) {
-         int i=0;
 diff --git a/src/gui/kernel/qwidget_p.h b/src/gui/kernel/qwidget_p.h
-index 7832393..18c331a 100644
+index 98d3001..d3a386b 100644
 --- a/src/gui/kernel/qwidget_p.h
 +++ b/src/gui/kernel/qwidget_p.h
-@@ -661,6 +661,7 @@ public:
+@@ -691,6 +691,7 @@ public:
      static QWidget *keyboardGrabber;
  
      void setWindowRole();
@@ -436,7 +449,7 @@ index 7832393..18c331a 100644
      void setNetWmWindowTypes();
      void x11UpdateIsOpaque();
 diff --git a/src/gui/kernel/qwidget_x11.cpp b/src/gui/kernel/qwidget_x11.cpp
-index 3135ece..5c997a4 100644
+index 87c9885..73600fc 100644
 --- a/src/gui/kernel/qwidget_x11.cpp
 +++ b/src/gui/kernel/qwidget_x11.cpp
 @@ -763,6 +763,11 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
@@ -523,7 +536,7 @@ index 3135ece..5c997a4 100644
  QPaintEngine *QWidget::paintEngine() const
  {
 diff --git a/src/gui/widgets/qtabbar.cpp b/src/gui/widgets/qtabbar.cpp
-index 30f6144..36dfe6d 100644
+index 9f03ff6..a9e4974 100644
 --- a/src/gui/widgets/qtabbar.cpp
 +++ b/src/gui/widgets/qtabbar.cpp
 @@ -678,8 +678,8 @@ void QTabBarPrivate::refresh()
