@@ -75,20 +75,20 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.6.1
-Release:	2
+Version:	4.6.2
+Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
-# Source0-md5:	0542a4be6425451ab5f668c6899cac36
+# Source0-md5:	eb651ee4b157c01696aa56777fc6e0e5
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 
 # git clone git://gitorious.org/+kde-developers/qt/kde-qt.git
-# git checkout -b 4.6.1-patched origin/4.6.1-patched
-# git diff v4.6.1..4.6.1-patched > ~/rpm/packages/qt4/qt4-kde-git.patch
+# git checkout -b 4.6.2-patched origin/4.6.2-patched
+# git diff v4.6.2..4.6.2-patched > ~/rpm/packages/qt4/qt4-kde-git.patch
 Patch100:	%{name}-kde-git.patch
 
 Patch0:		%{name}-tools.patch

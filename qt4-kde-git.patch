@@ -274,10 +274,10 @@ index 0000000..cbbd970
 +      # Push the tag, the new patched branch and master
 +      git push v4.6.1 4.6.1-patched master
 diff --git a/bin/syncqt b/bin/syncqt
-index 620256e..e2998fd 100755
+index 1fb5304..3d5acf9 100755
 --- a/bin/syncqt
 +++ b/bin/syncqt
-@@ -366,9 +366,13 @@ sub fixPaths {
+@@ -376,9 +376,13 @@ sub fixPaths {
          $match_dir = $tmp;
          $i = $slash;
      }
@@ -293,7 +293,7 @@ index 620256e..e2998fd 100755
          for(my $i = 0; $i < $count; $i++) {
              $dots .= "../";
 diff --git a/configure b/configure
-index 033f415..09cd81f 100755
+index ed5891f..6222208 100755
 --- a/configure
 +++ b/configure
 @@ -1029,6 +1029,11 @@ while [ "$#" -gt 0 ]; do
@@ -333,7 +333,7 @@ index d405a5b..7ad3b58 100644
  
  false:macx { #mac install location
 diff --git a/qmake/property.cpp b/qmake/property.cpp
-index ea4842a..ac54854 100644
+index 2a3351b..8f1de34 100644
 --- a/qmake/property.cpp
 +++ b/qmake/property.cpp
 @@ -81,29 +81,32 @@ QMakeProperty::keyBase(bool version) const
@@ -391,7 +391,7 @@ index ea4842a..ac54854 100644
          QString version = qmake_version();
          if(slash != -1) {
 diff --git a/src/corelib/kernel/qobject.cpp b/src/corelib/kernel/qobject.cpp
-index fc6ac33..dae38b0 100644
+index 6957e0b..3584496 100644
 --- a/src/corelib/kernel/qobject.cpp
 +++ b/src/corelib/kernel/qobject.cpp
 @@ -1124,8 +1124,16 @@ void QObject::setObjectName(const QString &name)
@@ -412,7 +412,7 @@ index fc6ac33..dae38b0 100644
  #ifdef QT3_SUPPORT
  /*! \internal
 diff --git a/src/corelib/kernel/qobject_p.h b/src/corelib/kernel/qobject_p.h
-index 7e7cbf8..5a312d1 100644
+index 363d24c..dd9e0e1 100644
 --- a/src/corelib/kernel/qobject_p.h
 +++ b/src/corelib/kernel/qobject_p.h
 @@ -83,7 +83,9 @@ void Q_CORE_EXPORT qt_register_signal_spy_callbacks(const QSignalSpyCallbackSet
@@ -437,10 +437,10 @@ index 7e7cbf8..5a312d1 100644
      static Sender *setCurrentSender(QObject *receiver,
                                      Sender *sender);
 diff --git a/src/gui/kernel/qwidget_p.h b/src/gui/kernel/qwidget_p.h
-index 98d3001..d3a386b 100644
+index 962d694..f4e4979 100644
 --- a/src/gui/kernel/qwidget_p.h
 +++ b/src/gui/kernel/qwidget_p.h
-@@ -691,6 +691,7 @@ public:
+@@ -693,6 +693,7 @@ public:
      static QWidget *keyboardGrabber;
  
      void setWindowRole();
@@ -449,7 +449,7 @@ index 98d3001..d3a386b 100644
      void setNetWmWindowTypes();
      void x11UpdateIsOpaque();
 diff --git a/src/gui/kernel/qwidget_x11.cpp b/src/gui/kernel/qwidget_x11.cpp
-index 87c9885..73600fc 100644
+index c832d1f..d84f925 100644
 --- a/src/gui/kernel/qwidget_x11.cpp
 +++ b/src/gui/kernel/qwidget_x11.cpp
 @@ -763,6 +763,11 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
@@ -536,7 +536,7 @@ index 87c9885..73600fc 100644
  QPaintEngine *QWidget::paintEngine() const
  {
 diff --git a/src/gui/widgets/qtabbar.cpp b/src/gui/widgets/qtabbar.cpp
-index 9f03ff6..a9e4974 100644
+index 1195f95..6c47c77 100644
 --- a/src/gui/widgets/qtabbar.cpp
 +++ b/src/gui/widgets/qtabbar.cpp
 @@ -678,8 +678,8 @@ void QTabBarPrivate::refresh()
@@ -550,7 +550,7 @@ index 9f03ff6..a9e4974 100644
  
  /*!
 diff --git a/src/tools/moc/main.cpp b/src/tools/moc/main.cpp
-index 8e033b7..b5b2edd 100644
+index df508c4..7715feb 100644
 --- a/src/tools/moc/main.cpp
 +++ b/src/tools/moc/main.cpp
 @@ -94,7 +94,13 @@ static QByteArray combinePath(const char *infile, const char *outfile)
