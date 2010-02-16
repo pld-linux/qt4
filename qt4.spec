@@ -76,7 +76,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.6.2
-Release:	1
+Release:	2
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1163,9 +1163,9 @@ Silnik zapytan XQuery QtXmlPatterns - biblioteka statyczna.
 Summary:	Qt documentation browser
 Summary(pl.UTF-8):	Przeglądarka dokumentacji Qt
 Group:		X11/Development/Tools
-Requires:	%{name}-doc = %{version}-%{release}
 Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtDBus = %{version}-%{release}
+Requires:	QtSql-sqlite3 = %{version}-%{release}
 
 %description assistant
 Qt Assistant is a tool for browsing on-line documentation with
@@ -1319,6 +1319,7 @@ Dema to latające pająki.
 Summary:	Qt Documentation in HTML format
 Summary(pl.UTF-8):	Dokumentacja Qt w formacie HTML
 Group:		X11/Development/Libraries
+Suggests:	%{name}-doc = %{version}-%{release}
 
 %description doc
 Qt documentation in HTML format.
