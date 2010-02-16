@@ -76,7 +76,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.6.2
-Release:	2
+Release:	3
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1319,7 +1319,7 @@ Dema to latające pająki.
 Summary:	Qt Documentation in HTML format
 Summary(pl.UTF-8):	Dokumentacja Qt w formacie HTML
 Group:		X11/Development/Libraries
-Suggests:	%{name}-doc = %{version}-%{release}
+Suggests:	%{name}-assistant = %{version}-%{release}
 
 %description doc
 Qt documentation in HTML format.
