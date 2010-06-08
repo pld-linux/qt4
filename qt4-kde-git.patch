@@ -390,42 +390,6 @@ index 2a3351b..8f1de34 100644
      if(!ok) {
          QString version = qmake_version();
          if(slash != -1) {
-diff --git a/src/corelib/io/qurl.cpp b/src/corelib/io/qurl.cpp
-index 88baee3..0fbab72 100644
---- a/src/corelib/io/qurl.cpp
-+++ b/src/corelib/io/qurl.cpp
-@@ -3124,10 +3124,11 @@ static void toPunycodeHelper(const QChar *s, int ucLength, QString *output)
- 
- 
- static const char * const idn_whitelist[] = {
--    "ac", "at",
--    "br",
-+    "ac", "ar", "at",
-+    "biz", "br",
-     "cat", "ch", "cl", "cn",
-     "de", "dk",
-+    "es",
-     "fi",
-     "gr",
-     "hu",
-@@ -3141,6 +3142,9 @@ static const char * const idn_whitelist[] = {
-     "se", "sh",
-     "th", "tm", "tw",
-     "vn",
-+    "xn--mgbaam7a8h",           // UAE
-+    "xn--mgberp4a5d4ar",        // Saudi Arabia
-+    "xn--wgbh1c"                // Egypt
- };
- 
- static QStringList *user_idn_whitelist = 0;
-@@ -3296,6 +3300,7 @@ static QString qt_ACE_do(const QString &domain, AceOperation op)
-             qt_nameprep(&result, prevLen);
-             labelLength = result.length() - prevLen;
-             register int toReserve = labelLength + 4 + 6; // "xn--" plus some extra bytes
-+            aceForm.resize(0);
-             if (toReserve > aceForm.capacity())
-                 aceForm.reserve(toReserve);
-             toPunycodeHelper(result.constData() + prevLen, result.size() - prevLen, &aceForm);
 diff --git a/src/corelib/kernel/qobject.cpp b/src/corelib/kernel/qobject.cpp
 index 6957e0b..3584496 100644
 --- a/src/corelib/kernel/qobject.cpp
@@ -472,21 +436,6 @@ index 363d24c..dd9e0e1 100644
  
      static Sender *setCurrentSender(QObject *receiver,
                                      Sender *sender);
-diff --git a/src/gui/kernel/qapplication.cpp b/src/gui/kernel/qapplication.cpp
-index 49713cf..af83047 100644
---- a/src/gui/kernel/qapplication.cpp
-+++ b/src/gui/kernel/qapplication.cpp
-@@ -763,6 +763,10 @@ void QApplicationPrivate::construct(
- 
-     qt_is_gui_used = (qt_appType != QApplication::Tty);
-     process_cmdline();
-+    // the environment variable has the lowest precedence of runtime graphicssystem switches
-+    if (graphics_system_name.isEmpty()) {
-+        graphics_system_name = QString::fromLocal8Bit(qgetenv("QT_GRAPHICSSYSTEM"));
-+    }
-     // Must be called before initialize()
-     qt_init(this, qt_appType
- #ifdef Q_WS_X11
 diff --git a/src/gui/kernel/qwidget_p.h b/src/gui/kernel/qwidget_p.h
 index 962d694..f4e4979 100644
 --- a/src/gui/kernel/qwidget_p.h
@@ -618,40 +567,3 @@ index df508c4..7715feb 100644
  }
  
  
-diff --git a/tests/auto/qurl/tst_qurl.cpp b/tests/auto/qurl/tst_qurl.cpp
-index 33812fe..5177f19 100644
---- a/tests/auto/qurl/tst_qurl.cpp
-+++ b/tests/auto/qurl/tst_qurl.cpp
-@@ -3191,6 +3191,32 @@ void tst_QUrl::ace_testsuite_data()
- 
-     QTest::newRow("separator-3002") << QString::fromUtf8("example\343\200\202com")
-                                     << "example.com" << "." << "example.com";
-+
-+    QString egyptianIDN =
-+        QString::fromUtf8("\331\210\330\262\330\247\330\261\330\251\055\330\247\331\204\330"
-+                          "\243\330\252\330\265\330\247\331\204\330\247\330\252.\331\205"
-+                          "\330\265\330\261");
-+    QTest::newRow("egyptian-tld-ace")
-+        << "xn----rmckbbajlc6dj7bxne2c.xn--wgbh1c"
-+        << "xn----rmckbbajlc6dj7bxne2c.xn--wgbh1c"
-+        << "."
-+        << egyptianIDN;
-+    QTest::newRow("egyptian-tld-unicode")
-+        << egyptianIDN
-+        << "xn----rmckbbajlc6dj7bxne2c.xn--wgbh1c"
-+        << "."
-+        << egyptianIDN;
-+    QTest::newRow("egyptian-tld-mix1")
-+        << QString::fromUtf8("\331\210\330\262\330\247\330\261\330\251\055\330\247\331\204\330"
-+                             "\243\330\252\330\265\330\247\331\204\330\247\330\252.xn--wgbh1c")
-+        << "xn----rmckbbajlc6dj7bxne2c.xn--wgbh1c"
-+        << "."
-+        << egyptianIDN;
-+    QTest::newRow("egyptian-tld-mix2")
-+        << QString::fromUtf8("xn----rmckbbajlc6dj7bxne2c.\331\205\330\265\330\261")
-+        << "xn----rmckbbajlc6dj7bxne2c.xn--wgbh1c"
-+        << "."
-+        << egyptianIDN;
- }
- 
- void tst_QUrl::ace_testsuite()
