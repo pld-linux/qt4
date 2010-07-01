@@ -106,7 +106,6 @@ URL:		http://www.qtsoftware.com/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	alsa-lib-devel
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
-# incompatible with bison
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	dbus-devel >= 0.62
 BuildRequires:	fontconfig-devel
