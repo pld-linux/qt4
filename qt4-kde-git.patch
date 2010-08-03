@@ -274,10 +274,10 @@ index 0000000..cbbd970
 +      # Push the tag, the new patched branch and master
 +      git push v4.6.1 4.6.1-patched master
 diff --git a/bin/syncqt b/bin/syncqt
-index 1fb5304..3d5acf9 100755
+index db6dce6..3f88525 100755
 --- a/bin/syncqt
 +++ b/bin/syncqt
-@@ -376,9 +376,13 @@ sub fixPaths {
+@@ -378,9 +378,13 @@ sub fixPaths {
          $match_dir = $tmp;
          $i = $slash;
      }
@@ -293,10 +293,10 @@ index 1fb5304..3d5acf9 100755
          for(my $i = 0; $i < $count; $i++) {
              $dots .= "../";
 diff --git a/configure b/configure
-index ed5891f..6222208 100755
+index ca14279..d70a076 100755
 --- a/configure
 +++ b/configure
-@@ -1029,6 +1029,11 @@ while [ "$#" -gt 0 ]; do
+@@ -1031,6 +1031,11 @@ while [ "$#" -gt 0 ]; do
              VAL=`echo $1 | sed 's,-D,,'`
          fi
          ;;
@@ -308,7 +308,7 @@ index ed5891f..6222208 100755
      -I?*|-I)
          VAR="add_ipath"
          if [ "$1" = "-I" ]; then
-@@ -2047,6 +2052,9 @@ while [ "$#" -gt 0 ]; do
+@@ -2049,6 +2054,9 @@ while [ "$#" -gt 0 ]; do
      add_ipath)
          I_FLAGS="$I_FLAGS -I\"${VAL}\""
          ;;
@@ -318,20 +318,6 @@ index ed5891f..6222208 100755
      add_lpath)
          L_FLAGS="$L_FLAGS -L\"${VAL}\""
          ;;
-diff --git a/projects.pro b/projects.pro
-index d405a5b..7ad3b58 100644
---- a/projects.pro
-+++ b/projects.pro
-@@ -154,6 +154,9 @@ unix {
-    DEFAULT_QMAKESPEC ~= s,^.*mkspecs/,,g
-    mkspecs.commands += $(DEL_FILE) $(INSTALL_ROOT)$$mkspecs.path/default; $(SYMLINK) $$DEFAULT_QMAKESPEC $(INSTALL_ROOT)$$mkspecs.path/default
- }
-+win32 {
-+   mkspecs.files += $$QT_BUILD_TREE/mkspecs/default
-+}
- INSTALLS += mkspecs
- 
- false:macx { #mac install location
 diff --git a/qmake/property.cpp b/qmake/property.cpp
 index 2a3351b..8f1de34 100644
 --- a/qmake/property.cpp
@@ -391,7 +377,7 @@ index 2a3351b..8f1de34 100644
          QString version = qmake_version();
          if(slash != -1) {
 diff --git a/src/corelib/kernel/qobject.cpp b/src/corelib/kernel/qobject.cpp
-index 6957e0b..3584496 100644
+index 23a78ed..88e15ef 100644
 --- a/src/corelib/kernel/qobject.cpp
 +++ b/src/corelib/kernel/qobject.cpp
 @@ -1124,8 +1124,16 @@ void QObject::setObjectName(const QString &name)
@@ -436,11 +422,26 @@ index 363d24c..dd9e0e1 100644
  
      static Sender *setCurrentSender(QObject *receiver,
                                      Sender *sender);
+diff --git a/src/gui/kernel/qapplication.cpp b/src/gui/kernel/qapplication.cpp
+index f4874b1..94df66e 100644
+--- a/src/gui/kernel/qapplication.cpp
++++ b/src/gui/kernel/qapplication.cpp
+@@ -763,6 +763,10 @@ void QApplicationPrivate::construct(
+ 
+     qt_is_gui_used = (qt_appType != QApplication::Tty);
+     process_cmdline();
++    // the environment variable has the lowest precedence of runtime graphicssystem switches
++    if (graphics_system_name.isEmpty()) {
++        graphics_system_name = QString::fromLocal8Bit(qgetenv("QT_GRAPHICSSYSTEM"));
++    }
+     // Must be called before initialize()
+     qt_init(this, qt_appType
+ #ifdef Q_WS_X11
 diff --git a/src/gui/kernel/qwidget_p.h b/src/gui/kernel/qwidget_p.h
-index 962d694..f4e4979 100644
+index 9d32a70..cdf9551 100644
 --- a/src/gui/kernel/qwidget_p.h
 +++ b/src/gui/kernel/qwidget_p.h
-@@ -693,6 +693,7 @@ public:
+@@ -696,6 +696,7 @@ public:
      static QWidget *keyboardGrabber;
  
      void setWindowRole();
@@ -449,10 +450,10 @@ index 962d694..f4e4979 100644
      void setNetWmWindowTypes();
      void x11UpdateIsOpaque();
 diff --git a/src/gui/kernel/qwidget_x11.cpp b/src/gui/kernel/qwidget_x11.cpp
-index c832d1f..d84f925 100644
+index 9c64fbc..391e489 100644
 --- a/src/gui/kernel/qwidget_x11.cpp
 +++ b/src/gui/kernel/qwidget_x11.cpp
-@@ -763,6 +763,11 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
+@@ -762,6 +762,11 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
          Q_ASSERT(id);
          XChangeWindowAttributes(dpy, id, CWOverrideRedirect | CWSaveUnder,
                                  &wsa);
@@ -464,7 +465,7 @@ index c832d1f..d84f925 100644
      } else if (topLevel && !desktop) {        // top-level widget
          if (!X11->wm_client_leader)
              create_wm_client_leader();
-@@ -816,32 +821,40 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
+@@ -815,32 +820,40 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
          // set EWMH window types
          setNetWmWindowTypes();
  
@@ -517,7 +518,7 @@ index c832d1f..d84f925 100644
      }
  
      if (initializeWindow && q->internalWinId()) {
-@@ -2919,6 +2932,17 @@ void QWidgetPrivate::setWindowRole()
+@@ -2918,6 +2931,17 @@ void QWidgetPrivate::setWindowRole()
                      (unsigned char *)windowRole.constData(), windowRole.length());
  }
  
@@ -536,10 +537,10 @@ index c832d1f..d84f925 100644
  QPaintEngine *QWidget::paintEngine() const
  {
 diff --git a/src/gui/widgets/qtabbar.cpp b/src/gui/widgets/qtabbar.cpp
-index 1195f95..6c47c77 100644
+index 7933f10..9fff46e 100644
 --- a/src/gui/widgets/qtabbar.cpp
 +++ b/src/gui/widgets/qtabbar.cpp
-@@ -678,8 +678,8 @@ void QTabBarPrivate::refresh()
+@@ -717,8 +717,8 @@ void QTabBarPrivate::refresh()
          layoutTabs();
          makeVisible(currentIndex);
          q->update();
