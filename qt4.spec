@@ -87,8 +87,8 @@ Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 
 # git clone git://gitorious.org/+kde-developers/qt/kde-qt.git
-# git checkout -b 4.6.2-patched origin/4.6.2-patched
-# git diff v4.6.2..4.6.2-patched > ~/rpm/packages/qt4/qt4-kde-git.patch
+# git checkout -b 4.6.3-patched origin/4.6.3-patched
+# git diff v4.6.3..4.6.3-patched > ~/rpm/packages/qt4/qt4-kde-git.patch
 Patch100:	%{name}-kde-git.patch
 
 Patch0:		%{name}-tools.patch
