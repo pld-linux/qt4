@@ -1,15 +1,15 @@
---- qt-copy/src/gui/text/qfontdatabase_x11.cpp.niedakh	2005-05-13 16:35:52.000000000 +0200
-+++ qt-copy/src/gui/text/qfontdatabase_x11.cpp	2005-05-13 23:30:47.000000000 +0200
-@@ -27,7 +27,7 @@
+--- qt-everywhere-opensource-src-4.7.0/src/gui/text/qfontdatabase_x11.cpp.orig	2010-09-10 11:05:25.000000000 +0200
++++ qt-everywhere-opensource-src-4.7.0/src/gui/text/qfontdatabase_x11.cpp	2010-09-21 21:46:24.295720986 +0200
+@@ -40,7 +40,7 @@
  ****************************************************************************/
  
  #include <qplatformdefs.h>
 -
 +#include <qsettings.h>
- #include <qdatetime.h>
+ #include <qdebug.h>
  #include <qpaintdevice.h>
- 
-@@ -1248,8 +1248,11 @@
+ #include <qelapsedtimer.h>
+@@ -1471,8 +1471,11 @@
      if (!stretch)
          stretch = 100;
      FcPatternAddInteger(pattern, FC_WIDTH, stretch);
