@@ -1,9 +1,9 @@
 diff --git a/README.kde-qt b/README.kde-qt
 new file mode 100644
-index 0000000..cbbd970
+index 0000000..512f034
 --- /dev/null
 +++ b/README.kde-qt
-@@ -0,0 +1,269 @@
+@@ -0,0 +1,270 @@
 +This is a patched version of Qt.  It may include changes made by KDE
 +and Qt developers that have either not been accepted for inclusion
 +into Qt, or have been accepted for a later version of Qt than this
@@ -207,6 +207,7 @@ index 0000000..cbbd970
 +
 +Sometimes ./configure will refuse to run.  You may need to:
 +	rm .qmake.cache
++	rm src/corelib/global/qconfig.*
 +
 +If you think you may have run "make install" on an install-less Qt
 +(srcdir == $QTDIR), run:
@@ -274,10 +275,10 @@ index 0000000..cbbd970
 +      # Push the tag, the new patched branch and master
 +      git push v4.6.1 4.6.1-patched master
 diff --git a/bin/syncqt b/bin/syncqt
-index db6dce6..3f88525 100755
+index ccacaa9..270f75b 100755
 --- a/bin/syncqt
 +++ b/bin/syncqt
-@@ -378,9 +378,13 @@ sub fixPaths {
+@@ -380,9 +380,13 @@ sub fixPaths {
          $match_dir = $tmp;
          $i = $slash;
      }
@@ -293,10 +294,10 @@ index db6dce6..3f88525 100755
          for(my $i = 0; $i < $count; $i++) {
              $dots .= "../";
 diff --git a/configure b/configure
-index ca14279..d70a076 100755
+index bab70d3..de795a2 100755
 --- a/configure
 +++ b/configure
-@@ -1031,6 +1031,11 @@ while [ "$#" -gt 0 ]; do
+@@ -1045,6 +1045,11 @@ while [ "$#" -gt 0 ]; do
              VAL=`echo $1 | sed 's,-D,,'`
          fi
          ;;
@@ -308,7 +309,7 @@ index ca14279..d70a076 100755
      -I?*|-I)
          VAR="add_ipath"
          if [ "$1" = "-I" ]; then
-@@ -2049,6 +2054,9 @@ while [ "$#" -gt 0 ]; do
+@@ -2119,6 +2124,9 @@ while [ "$#" -gt 0 ]; do
      add_ipath)
          I_FLAGS="$I_FLAGS -I\"${VAL}\""
          ;;
@@ -319,10 +320,10 @@ index ca14279..d70a076 100755
          L_FLAGS="$L_FLAGS -L\"${VAL}\""
          ;;
 diff --git a/qmake/property.cpp b/qmake/property.cpp
-index 2a3351b..8f1de34 100644
+index 8bfc353..6e7e159 100644
 --- a/qmake/property.cpp
 +++ b/qmake/property.cpp
-@@ -81,29 +81,32 @@ QMakeProperty::keyBase(bool version) const
+@@ -81,32 +81,35 @@ QMakeProperty::keyBase(bool version) const
  QString
  QMakeProperty::value(QString v, bool just_check)
  {
@@ -348,6 +349,9 @@ index 2a3351b..8f1de34 100644
      else if(v == "QT_INSTALL_PLUGINS")
 -        return QLibraryInfo::location(QLibraryInfo::PluginsPath);
 +        ret = QLibraryInfo::location(QLibraryInfo::PluginsPath);
+     else if(v == "QT_INSTALL_IMPORTS")
+-        return QLibraryInfo::location(QLibraryInfo::ImportsPath);
++        ret = QLibraryInfo::location(QLibraryInfo::ImportsPath);
      else if(v == "QT_INSTALL_TRANSLATIONS")
 -        return QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 +        ret = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
@@ -360,14 +364,16 @@ index 2a3351b..8f1de34 100644
      else if(v == "QT_INSTALL_DEMOS")
 -        return QLibraryInfo::location(QLibraryInfo::DemosPath);
 -    else if(v == "QMAKE_MKSPECS")
+-        return qmake_mkspec_paths().join(Option::dirlist_sep);
 +        ret = QLibraryInfo::location(QLibraryInfo::DemosPath);
 +    if(!ret.isEmpty())
 +        return QDir::toNativeSeparators(ret);
 +    if(v == "QMAKE_MKSPECS")
-         return qmake_mkspec_paths().join(Option::target_mode == Option::TARG_WIN_MODE ? ";" : ":");
++        return qmake_mkspec_paths().join(Option::target_mode == Option::TARG_WIN_MODE ? ";" : ":");
      else if(v == "QMAKE_VERSION")
          return qmake_version();
-@@ -116,7 +119,7 @@ QMakeProperty::value(QString v, bool just_check)
+ #ifdef QT_VERSION_STR
+@@ -118,7 +121,7 @@ QMakeProperty::value(QString v, bool just_check)
      int slash = v.lastIndexOf('/');
      QVariant var = settings->value(keyBase(slash == -1) + v);
      bool ok = var.isValid();
@@ -377,10 +383,10 @@ index 2a3351b..8f1de34 100644
          QString version = qmake_version();
          if(slash != -1) {
 diff --git a/src/corelib/kernel/qobject.cpp b/src/corelib/kernel/qobject.cpp
-index 23a78ed..88e15ef 100644
+index 2e2a0f4..239de2d 100644
 --- a/src/corelib/kernel/qobject.cpp
 +++ b/src/corelib/kernel/qobject.cpp
-@@ -1124,8 +1124,16 @@ void QObject::setObjectName(const QString &name)
+@@ -1095,8 +1095,16 @@ void QObject::setObjectName(const QString &name)
  {
      Q_D(QObject);
      d->objectName = name;
@@ -398,10 +404,10 @@ index 23a78ed..88e15ef 100644
  #ifdef QT3_SUPPORT
  /*! \internal
 diff --git a/src/corelib/kernel/qobject_p.h b/src/corelib/kernel/qobject_p.h
-index 363d24c..dd9e0e1 100644
+index 2574b74..9f57417 100644
 --- a/src/corelib/kernel/qobject_p.h
 +++ b/src/corelib/kernel/qobject_p.h
-@@ -83,7 +83,9 @@ void Q_CORE_EXPORT qt_register_signal_spy_callbacks(const QSignalSpyCallbackSet
+@@ -82,7 +82,9 @@ void Q_CORE_EXPORT qt_register_signal_spy_callbacks(const QSignalSpyCallbackSet
  
  extern QSignalSpyCallbackSet Q_CORE_EXPORT qt_signal_spy_callback_set;
  
@@ -410,9 +416,9 @@ index 363d24c..dd9e0e1 100644
 +// in some Q*Private class
 +enum { QObjectPrivateVersion = QT_VERSION + 0x1000000 };
  
- class Q_CORE_EXPORT QDeclarativeData
+ class Q_CORE_EXPORT QAbstractDeclarativeData
  {
-@@ -157,6 +159,9 @@ public:
+@@ -155,6 +157,9 @@ public:
      void sendPendingChildInsertedEvents();
      void removePendingChildInsertedEvents(QObject *child);
  #endif
@@ -420,28 +426,28 @@ index 363d24c..dd9e0e1 100644
 +    virtual void checkWindowRole();
 +#endif
  
-     static Sender *setCurrentSender(QObject *receiver,
+     static inline Sender *setCurrentSender(QObject *receiver,
                                      Sender *sender);
 diff --git a/src/gui/kernel/qapplication.cpp b/src/gui/kernel/qapplication.cpp
-index f4874b1..94df66e 100644
+index 2f5adaf..63df1c5 100644
 --- a/src/gui/kernel/qapplication.cpp
 +++ b/src/gui/kernel/qapplication.cpp
-@@ -763,6 +763,10 @@ void QApplicationPrivate::construct(
- 
+@@ -783,8 +783,9 @@ void QApplicationPrivate::construct(
      qt_is_gui_used = (qt_appType != QApplication::Tty);
      process_cmdline();
-+    // the environment variable has the lowest precedence of runtime graphicssystem switches
+     // the environment variable has the lowest precedence of runtime graphicssystem switches
+-    if (graphics_system_name.isEmpty())
 +    if (graphics_system_name.isEmpty()) {
-+        graphics_system_name = QString::fromLocal8Bit(qgetenv("QT_GRAPHICSSYSTEM"));
+         graphics_system_name = QString::fromLocal8Bit(qgetenv("QT_GRAPHICSSYSTEM"));
 +    }
      // Must be called before initialize()
      qt_init(this, qt_appType
  #ifdef Q_WS_X11
 diff --git a/src/gui/kernel/qwidget_p.h b/src/gui/kernel/qwidget_p.h
-index 9d32a70..cdf9551 100644
+index 9662a9e..3160911 100644
 --- a/src/gui/kernel/qwidget_p.h
 +++ b/src/gui/kernel/qwidget_p.h
-@@ -696,6 +696,7 @@ public:
+@@ -757,6 +757,7 @@ public:
      static QWidget *keyboardGrabber;
  
      void setWindowRole();
@@ -450,7 +456,7 @@ index 9d32a70..cdf9551 100644
      void setNetWmWindowTypes();
      void x11UpdateIsOpaque();
 diff --git a/src/gui/kernel/qwidget_x11.cpp b/src/gui/kernel/qwidget_x11.cpp
-index 9c64fbc..391e489 100644
+index 122e08a..5548403 100644
 --- a/src/gui/kernel/qwidget_x11.cpp
 +++ b/src/gui/kernel/qwidget_x11.cpp
 @@ -762,6 +762,11 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
@@ -518,7 +524,7 @@ index 9c64fbc..391e489 100644
      }
  
      if (initializeWindow && q->internalWinId()) {
-@@ -2918,6 +2931,17 @@ void QWidgetPrivate::setWindowRole()
+@@ -2941,6 +2954,17 @@ void QWidgetPrivate::setWindowRole()
                      (unsigned char *)windowRole.constData(), windowRole.length());
  }
  
@@ -537,10 +543,10 @@ index 9c64fbc..391e489 100644
  QPaintEngine *QWidget::paintEngine() const
  {
 diff --git a/src/gui/widgets/qtabbar.cpp b/src/gui/widgets/qtabbar.cpp
-index 7933f10..9fff46e 100644
+index 9a37f02..e2cab40 100644
 --- a/src/gui/widgets/qtabbar.cpp
 +++ b/src/gui/widgets/qtabbar.cpp
-@@ -717,8 +717,8 @@ void QTabBarPrivate::refresh()
+@@ -723,8 +723,8 @@ void QTabBarPrivate::refresh()
          layoutTabs();
          makeVisible(currentIndex);
          q->update();
@@ -551,7 +557,7 @@ index 7933f10..9fff46e 100644
  
  /*!
 diff --git a/src/tools/moc/main.cpp b/src/tools/moc/main.cpp
-index df508c4..7715feb 100644
+index 81cdd93..f8b9a50 100644
 --- a/src/tools/moc/main.cpp
 +++ b/src/tools/moc/main.cpp
 @@ -94,7 +94,13 @@ static QByteArray combinePath(const char *infile, const char *outfile)
