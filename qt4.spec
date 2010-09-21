@@ -1592,7 +1592,7 @@ done
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
 # QtCore must be the last
-for f in ../Qt{3Support,Assistant,DBus,Designer,Gui,Help,Network,OpenGL,Script,Sql,Svg,Test,UiTools,WebKit,Xml,XmlPatterns,Core}/*; do
+for f in ../Qt{3Support,DBus,Designer,Gui,Help,Network,OpenGL,Script,Sql,Svg,Test,UiTools,WebKit,Xml,XmlPatterns,Core}/*; do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
 	fi
@@ -1708,8 +1708,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/phonon_backend/libphonon_gstreamer.s
 %endif
 
 # check whether no other fixes are needed
-mv $RPM_BUILD_ROOT%{_datadir}/locale/ja_JP/LC_MESSAGES/*.* \
-	$RPM_BUILD_ROOT%{_datadir}/locale/ja/LC_MESSAGES/
+#mv $RPM_BUILD_ROOT%{_datadir}/locale/ja_JP/LC_MESSAGES/*.* \
+#	$RPM_BUILD_ROOT%{_datadir}/locale/ja/LC_MESSAGES/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -1782,10 +1782,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.?
 
-%files -n QtAssistant
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtAssistantClient.so.?
+#%files -n QtAssistant
+#%defattr(644,root,root,755)
+#%attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
+#%attr(755,root,root) %ghost %{_libdir}/libQtAssistantClient.so.?
 
 %files -n QtCLucene
 %defattr(644,root,root,755)
@@ -1985,7 +1985,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/pixeltool
 %attr(755,root,root) %{_qtdir}/bin/qcollectiongenerator
 %attr(755,root,root) %{_qtdir}/bin/assistant
-%attr(755,root,root) %{_qtdir}/bin/assistant_adp
+#%attr(755,root,root) %{_qtdir}/bin/assistant_adp
 %lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-assistant*.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant*.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-assistant*.qm
@@ -2228,9 +2228,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libQtUiTools.a
 
-%files -n QtWebKit-static
-%defattr(644,root,root,755)
-%{_libdir}/libQtWebKit.a
+#%files -n QtWebKit-static
+#%defattr(644,root,root,755)
+#%{_libdir}/libQtWebKit.a
 
 %files -n QtXml-static
 %defattr(644,root,root,755)
