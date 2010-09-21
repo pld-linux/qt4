@@ -396,6 +396,40 @@ Classes for D-BUS support - static libraries.
 %description -n QtDBus-static -l pl.UTF-8
 Klasy do obsługi D-BUS - biblioteki statyczne.
 
+%package -n QtDeclarative
+Summary:	Classes for Qt Declarative
+Summary(pl.UTF-8):	Klasy do Qt Declarative
+Group:		X11/Libraries
+Requires:	QtGui = %{version}-%{release}
+
+%description -n QtDeclarative
+
+%description -n QtDeclarative -l pl.UTF-8
+
+%package -n QtDeclarative-devel
+Summary:	Classes for Qt Declarative - development files
+Summary(pl.UTF-8):	Klasy do Qt Declarative - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	QtGui-devel = %{version}-%{release}
+
+%description -n QtDeclarative-devel
+Classes for Qt Declarative - development files.
+
+%description -n QtDeclarative-devel -l pl.UTF-8
+Klasy do Qt Declarative - pliki programistyczne.
+
+%package -n QtDeclarative-static
+Summary:	Classes for Qt Declarative - static libraries
+Summary(pl.UTF-8):	Klasy do Qt Declarative - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtDeclarative-devel = %{version}-%{release}
+
+%description -n QtDeclarative-static
+Classes for Qt Declarative - static libraries.
+
+%description -n QtDeclarative-static -l pl.UTF-8
+Klasy do Qt Declarative - biblioteki statyczne.
+
 %package -n QtDesigner
 Summary:	Classes for extending Qt Designer
 Summary(pl.UTF-8):	Klasy do rozbudowy Qt Designera
@@ -1592,7 +1626,7 @@ done
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
 # QtCore must be the last
-for f in ../Qt{3Support,DBus,Designer,Gui,Help,Network,OpenGL,Script,Sql,Svg,Test,UiTools,WebKit,Xml,XmlPatterns,Core}/*; do
+for f in ../Qt{3Support,DBus,Declarative,Designer,Gui,Help,Network,OpenGL,Script,Sql,Svg,Test,UiTools,WebKit,Xml,XmlPatterns,Core}/*; do
 	if [ ! -d $f ]; then
 		ln -sf $f `basename $f`
 	fi
@@ -1660,6 +1694,7 @@ mkdevfl() {
 
 mkdevfl QtCore %{_includedir}/qt4 %{_includedir}/qt4/Qt
 mkdevfl QtDBus %{_qtdir}/bin/qdbuscpp2xml %{_qtdir}/bin/qdbusxml2cpp %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
+mkdevfl	QtDeclarative
 mkdevfl QtGui
 mkdevfl QtMultimedia
 mkdevfl QtNetwork
@@ -1728,6 +1763,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n QtDBus	-p /sbin/ldconfig
 %postun	-n QtDBus	-p /sbin/ldconfig
+
+%post	-n QtDeclarative	-p /sbin/ldconfig
+%postun	-n QtDeclarative	-p /sbin/ldconfig
 
 %post	-n QtDesigner	-p /sbin/ldconfig
 %postun	-n QtDesigner	-p /sbin/ldconfig
@@ -1837,6 +1875,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/qdbusviewer
 # ?? is this the proper place?
 %attr(755,root,root) %{_qtdir}/plugins/script/libqtscriptdbus.so
+
+%files -n QtDeclarative
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtDeclarative.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtDeclarative.so.?
 
 %files -n QtDesigner
 %defattr(644,root,root,755)
@@ -2108,6 +2151,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtDBus-devel -f QtDBus-devel.files
 %defattr(644,root,root,755)
 
+%files -n QtDeclarative-devel -f QtDeclarative-devel.files
+%defattr(644,root,root,755)
+
 %files -n QtDesigner-devel -f QtDesigner-devel.files
 %defattr(644,root,root,755)
 
@@ -2231,6 +2277,10 @@ rm -rf $RPM_BUILD_ROOT
 #%files -n QtWebKit-static
 #%defattr(644,root,root,755)
 #%{_libdir}/libQtWebKit.a
+
+%files -n QtDeclarative-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtDeclarative.a
 
 %files -n QtXml-static
 %defattr(644,root,root,755)
