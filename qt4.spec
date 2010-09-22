@@ -1578,6 +1578,7 @@ ln -sf ../%{_lib}/qt4/bin/qdbusxml2cpp .
 ln -sf ../%{_lib}/qt4/bin/qdbusviewer .
 ln -sf ../%{_lib}/qt4/bin/qhelpconverter .
 ln -sf ../%{_lib}/qt4/bin/qhelpgenerator .
+ln -sf ../%{_lib}/qt4/bin/qmlviewer .
 ln -sf ../%{_lib}/qt4/bin/qttracereplay .
 ln -sf ../%{_lib}/qt4/bin/qvfb .
 ln -sf ../%{_lib}/qt4/bin/xmlpatternsvalidator .
@@ -1880,6 +1881,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtDeclarative
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qmlviewer
+%attr(755,root,root) %{_qtdir}/bin/qmlviewer
 %attr(755,root,root) %{_libdir}/libQtDeclarative.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtDeclarative.so.?
 %dir %{_qtdir}/imports
