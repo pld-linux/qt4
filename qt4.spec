@@ -232,46 +232,6 @@ Qt3 compatibility library - static libraries.
 %description -n Qt3Support-static -l pl.UTF-8
 Biblioteka kompatybilności z Qt3 - biblioteki statyczne.
 
-%package -n QtAssistant
-Summary:	Qt Assistant client library
-Summary(pl.UTF-8):	Biblioteka kliencka Qt Assistant
-Group:		X11/Development/Libraries
-Requires:	QtGui = %{version}-%{release}
-Requires:	QtNetwork = %{version}-%{release}
-
-%description -n QtAssistant
-This library allows to use Qt Assistant as an application's help tool.
-
-%description -n QtAssistant -l pl.UTF-8
-Ta biblioteka umożliwia wykorzystanie Qt Assistanta jako narzędzie
-pomocy w aplikacjach.
-
-%package -n QtAssistant-devel
-Summary:	Qt Assistant client library - development files
-Summary(pl.UTF-8):	Biblioteka kliencka Qt Assistant - pliki programistyczne
-Group:		X11/Development/Libraries
-Requires:	QtAssistant = %{version}-%{release}
-Requires:	QtGui-devel = %{version}-%{release}
-Requires:	QtNetwork-devel = %{version}-%{release}
-
-%description -n QtAssistant-devel
-Development files for Qt Assistant client library.
-
-%description -n QtAssistant-devel -l pl.UTF-8
-Pliki programistyczne biblioteki klienckiej Qt Assistant.
-
-%package -n QtAssistant-static
-Summary:	Static Qt Assistant client library
-Summary(pl.UTF-8):	Statyczna biblioteka kliencka Qt Assistant
-Group:		X11/Development/Libraries
-Requires:	QtAssistant-devel = %{version}-%{release}
-
-%description -n QtAssistant-static
-Static Qt Assistant client library.
-
-%description -n QtAssistant-static -l pl.UTF-8
-Statyczna biblioteka kliencka Qt Assistant.
-
 %package -n QtCLucene
 Summary:	QtCLucene full text search library wrapper
 Summary(pl.UTF-8):	Interfejs QtCLucene do biblioteki wyszukiwania pełnotekstowego
@@ -316,6 +276,7 @@ Summary:	Core classes used by other modules
 Summary(pl.UTF-8):	Podstawowe klasy używane przez inne moduły
 Group:		X11/Libraries
 Requires(post):	/sbin/ldconfig
+Obsoletes:	QtAssistant
 
 %description -n QtCore
 Core classes used by other modules.
@@ -331,6 +292,7 @@ Requires:	QtCore = %{version}-%{release}
 Requires:	glib2-devel
 Requires:	libstdc++-devel
 Requires:	zlib-devel
+Obsoletes:	QtAssistant-devel
 
 %description -n QtCore-devel
 Core classes used by other modules - development files.
@@ -343,6 +305,7 @@ Summary:	Core classes used by other modules - static libraries
 Summary(pl.UTF-8):	Podstawowe klasy używane przez inne moduły - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
+Obsoletes:	QtAssistant-static
 
 %description -n QtCore-static
 Core classes used by other modules - static libraries.
@@ -1196,7 +1159,6 @@ Silnik zapytan XQuery QtXmlPatterns - biblioteka statyczna.
 Summary:	Qt documentation browser
 Summary(pl.UTF-8):	Przeglądarka dokumentacji Qt
 Group:		X11/Development/Tools
-Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtDBus = %{version}-%{release}
 Requires:	QtSql-sqlite3 = %{version}-%{release}
 
@@ -1229,7 +1191,6 @@ konwerter nazw plików nagłówkowych qt3to4.
 Summary:	IDE used for GUI designing with Qt library
 Summary(pl.UTF-8):	IDE służące do projektowania GUI za pomocą biblioteki Qt
 Group:		X11/Applications
-Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtDesigner = %{version}-%{release}
 
 %description designer
@@ -1243,7 +1204,6 @@ za pomocą biblioteki Qt.
 Summary:	Translation helper for Qt
 Summary(pl.UTF-8):	Aplikacja ułatwiająca tłumaczenie aplikacji oparty o Qt
 Group:		X11/Development/Tools
-Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtUiTools = %{version}-%{release}
 
 %description linguist
@@ -1339,7 +1299,6 @@ okienku X.
 Summary:	Demos of new Qt4 features
 Summary(pl.UTF-8):	Programy demonstrujące nowe możliwości Qt4
 Group:		X11/Development/Libraries
-Requires:	QtAssistant = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
 
 %description demos
@@ -1714,7 +1673,6 @@ mkdevfl Qt3Support
 mkdevfl phonon
 
 # without *.la *.pc etc.
-mkdevfl QtAssistant || /bin/true
 mkdevfl QtDesigner || /bin/true
 mkdevfl QtUiTools || /bin/true
 
@@ -1752,9 +1710,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n Qt3Support	-p /sbin/ldconfig
 %postun	-n Qt3Support	-p /sbin/ldconfig
-
-%post	-n QtAssistant	-p /sbin/ldconfig
-%postun	-n QtAssistant	-p /sbin/ldconfig
 
 %post	-n QtCLucene	-p /sbin/ldconfig
 %postun	-n QtCLucene	-p /sbin/ldconfig
@@ -1820,11 +1775,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.?
-
-#%files -n QtAssistant
-#%defattr(644,root,root,755)
-#%attr(755,root,root) %{_libdir}/libQtAssistantClient.so.*.*
-#%attr(755,root,root) %ghost %{_libdir}/libQtAssistantClient.so.?
 
 %files -n QtCLucene
 %defattr(644,root,root,755)
@@ -2158,9 +2108,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/uic3
 %attr(755,root,root) %{_qtdir}/bin/uic3
 
-%files -n QtAssistant-devel -f QtAssistant-devel.files
-%defattr(644,root,root,755)
-
 %files -n QtCore-devel -f QtCore-devel.files
 %defattr(644,root,root,755)
 
@@ -2224,10 +2171,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n Qt3Support-static
 %defattr(644,root,root,755)
 %{_libdir}/libQt3Support.a
-
-#%files -n QtAssistant-static
-#%defattr(644,root,root,755)
-#%{_libdir}/libQtAssistantClient.a
 
 #%files -n QtCLucene-static
 #%defattr(644,root,root,755)
