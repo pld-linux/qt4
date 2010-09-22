@@ -397,6 +397,7 @@ Klasy do Qt Declarative - biblioteki statyczne.
 Summary:	Classes for extending Qt Designer
 Summary(pl.UTF-8):	Klasy do rozbudowy Qt Designera
 Group:		X11/Libraries
+Requires:	QtDeclarative = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
 Requires:	QtNetwork = %{version}-%{release}
 Requires:	QtScript = %{version}-%{release}
