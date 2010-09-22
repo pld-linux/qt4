@@ -1892,6 +1892,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/imports/Qt/labs/particles
 %attr(755,root,root) %{_qtdir}/imports/Qt/labs/*/*.so
 %{_qtdir}/imports/Qt/labs/*/qmldir
+%dir %{_qtdir}/imports/QtWebKit
+%attr(755,root,root) %{_qtdir}/imports/QtWebKit/*.so
+%{_qtdir}/imports/QtWebKit/qmldir
 
 %files -n QtDesigner
 %defattr(644,root,root,755)
