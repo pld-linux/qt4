@@ -1838,6 +1838,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/bin
 %dir %{_qtdir}/plugins
 %dir %{_qtdir}/plugins/accessible
+%dir %{_qtdir}/plugins/bearer
 %dir %{_qtdir}/plugins/codecs
 %dir %{_qtdir}/plugins/crypto
 %dir %{_qtdir}/plugins/graphicssystems
@@ -1927,6 +1928,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtNetwork.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.?
+%attr(755,root,root) %{_qtdir}/plugins/bearer/*.so
 
 %files -n QtOpenGL
 %defattr(644,root,root,755)
