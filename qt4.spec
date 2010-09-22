@@ -1879,8 +1879,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtDeclarative
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/qmlviewer
 %attr(755,root,root) %{_libdir}/libQtDeclarative.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtDeclarative.so.?
+%dir %{_qtdir}/imports
+%dir %{_qtdir}/imports/Qt
+%dir %{_qtdir}/imports/Qt/labs
+%dir %{_qtdir}/imports/Qt/labs/folderlistmodel
+%dir %{_qtdir}/imports/Qt/labs/gestures
+%dir %{_qtdir}/imports/Qt/labs/particles
+%attr(755,root,root) %{_qtdir}/imports/Qt/labs/*/*.so
+%{_qtdir}/imports/Qt/labs/*/qmldir
 
 %files -n QtDesigner
 %defattr(644,root,root,755)
