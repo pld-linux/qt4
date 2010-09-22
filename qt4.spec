@@ -119,6 +119,7 @@ BuildRequires:	gstreamer-plugins-base-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
+BuildRequires:	pulseaudio-devel >= 0.9.10
 BuildRequires:	libstdc++-devel
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_nas:BuildRequires:	nas-devel}
@@ -139,6 +140,7 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
+BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	zlib-devel
 # when building it tries to link with system qt instead of buit one
 BuildConflicts:	QtCore-devel <= %{version}
