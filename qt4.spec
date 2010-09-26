@@ -214,7 +214,6 @@ Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
 Requires:	QtSql-devel = %{version}-%{release}
-Requires:	QtXml-devel = %{version}-%{release}
 
 %description -n Qt3Support-devel
 Qt3 compatibility library - development files.
@@ -318,6 +317,9 @@ Podstawowe klasy Qt używane przez inne moduły - biblioteki statyczne.
 Summary:	Qt classes for D-BUS support
 Summary(pl.UTF-8):	Klasy Qt do obsługi D-BUS
 Group:		X11/Libraries
+Requires:	QtCore = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtScript = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
 
 %description -n QtDBus
@@ -339,8 +341,6 @@ Summary(pl.UTF-8):	Klasy Qt do obsługi D-BUS - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtDBus = %{version}-%{release}
 Requires:	QtXml-devel = %{version}-%{release}
-Requires:	dbus-devel
-Requires:	glib2-devel >= 2.0.0
 
 %description -n QtDBus-devel
 Qt classes for D-BUS support - development files.
@@ -364,7 +364,16 @@ Klasy Qt do obsługi D-BUS - biblioteki statyczne.
 Summary:	QtDeclarative - QML language engine library
 Summary(pl.UTF-8):	QtDeclarative - biblioteka języka QML
 Group:		X11/Libraries
+Requires:	QtCore = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
+Requires:	QtOpenGL = %{version}-%{release}
+Requires:	QtScript = %{version}-%{release}
+Requires:	QtSql = %{version}-%{release}
+Requires:	QtSvg = %{version}-%{release}
+Requires:	QtXmlPatterns = %{version}-%{release}
+# for qmlwebkitplugin plugin
+Requires:	QtWebKit = %{version}-%{release}
 
 %description -n QtDeclarative
 QtDeclarative is the QML language engine library. QML is a declarative
@@ -379,6 +388,8 @@ Summary:	Development files for QtDeclarative - QML language engine library
 Summary(pl.UTF-8):	Pliki programistyczne QtDeclarative - biblioteki języka QML
 Group:		X11/Development/Libraries
 Requires:	QtGui-devel = %{version}-%{release}
+Requires:	QtNetwork-devel = %{version}-%{release}
+Requires:	QtScript-devel = %{version}-%{release}
 
 %description -n QtDeclarative-devel
 Development files for QtDeclarative - QML language engine library.
@@ -402,11 +413,19 @@ Statycza wersja QtDeclarative - biblioteki języka QML.
 Summary:	Classes for extending Qt Designer
 Summary(pl.UTF-8):	Klasy do rozbudowy Qt Designera
 Group:		X11/Libraries
-Requires:	QtDeclarative = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
 Requires:	QtNetwork = %{version}-%{release}
 Requires:	QtScript = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
+# for plugins
+Requires:	Qt3Support = %{version}-%{release}
+Requires:	QtDBus = %{version}-%{release}
+Requires:	QtDeclarative = %{version}-%{release}
+Requires:	QtOpenGL = %{version}-%{release}
+Requires:	QtSql = %{version}-%{release}
+Requires:	QtSvg = %{version}-%{release}
+Requires:	QtWebKit = %{version}-%{release}
+Requires:	QtXmlPatterns = %{version}-%{release}
 Obsoletes:	qt4-designer-libs
 
 %description -n QtDesigner
@@ -450,9 +469,19 @@ Summary:	Qt Graphical User Interface components
 Summary(pl.UTF-8):	Komponenty graficznego interfejsu użytkownika Qt
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
-# two following because of some plugins
+# for plugins:
+# qtaccessiblecompatwidgets
 Requires:	Qt3Support = %{version}-%{release}
+# qtaccessiblecompatwidgets, qtracegraphicssystem
+Requires:	QtNetwork = %{version}-%{release}
+# qglgraphicssystem
+Requires:	QtOpenGL = %{version}-%{release}
+# qtaccessiblecompatwidgets
 Requires:	QtSql = %{version}-%{release}
+# qsvgicon, qsvg
+Requires:	QtSvl = %{version}-%{release}
+# qtaccessiblecompatwidgets, qsvgicon, qsvg
+Requires:	QtXml = %{version}-%{release}
 
 %description -n QtGui
 Qt Graphical User Interface components.
@@ -502,7 +531,11 @@ statyczne.
 Summary:	Qt classes for integrating online documentation in applications
 Summary(pl.UTF-8):	Klasy Qt do integracji dokumentacji w aplikacjach
 Group:		X11/Libraries
+Requires:	QtCLucene = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
+Requires:	QtSql = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
 
 %description -n QtHelp
 QtHelp module includes tools for generating and viewing Qt help files.
@@ -553,6 +586,7 @@ Summary:	Qt classes for multimedia programming
 Summary(pl.UTF-8):	Klasy Qt do programowania multimediów
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
 
 %description -n QtMultimedia
 Qt classes for multimedia programming.
@@ -565,6 +599,7 @@ Summary:	Qt classes for multimedia programming - development files
 Summary(pl.UTF-8):	Klasy Qt do programowania multimediów - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtMultimedia = %{version}-%{release}
 
 %description -n QtMultimedia-devel
 Qt classes for multimedia programming - development files.
@@ -576,7 +611,7 @@ Klasy Qt do programowania multimediów - pliki programistyczne.
 Summary:	Qt classes for multimedia programming - static libraries
 Summary(pl.UTF-8):	Klasy Qt do programowania multimediów - biblioteki statyczne
 Group:		X11/Development/Libraries
-Requires:	QtNetwork-devel = %{version}-%{release}
+Requires:	QtMultimedia-devel = %{version}-%{release}
 
 %description -n QtMultimedia-static
 Qt classes for multimedia programming - static libraries.
@@ -589,6 +624,9 @@ Summary:	Qt classes for network programming
 Summary(pl.UTF-8):	Klasy Qt do programowania sieciowego
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
+# the rest for qnmbearer plugin
+Requires:	QtDBus = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
 
 %description -n QtNetwork
 Qt classes for network programming.
@@ -626,6 +664,7 @@ Summary:	Qt OpenGL support classes
 Summary(pl.UTF-8):	Klasy Qt wspomagające OpenGL
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
 
 %description -n QtOpenGL
 Qt OpenGL support classes.
@@ -664,6 +703,7 @@ Klasy Qt wspomagające OpenGL - biblioteki statyczne.
 Summary:	Qt classes for scripting applications
 Summary(pl.UTF-8):	Klasy Qt pozwalające dodać obsługę skryptów w aplikacjach
 Group:		X11/Development/Libraries
+Requires:	QtCore = %{version}-%{release}
 
 %description -n QtScript
 The QtScript module provides Qt classes to handle scripts inside
@@ -703,6 +743,9 @@ statyczna.
 Summary:	Qt classes for scripting applications
 Summary(pl.UTF-8):	Klasy Qt pozwalające dodać obsługę skryptów w aplikacjach
 Group:		X11/Development/Libraries
+Requires:	QtCore = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtScript = %{version}-%{release}
 
 %description -n QtScriptTools
 The QtScriptTools module provides Qt classes to handle scripts inside
@@ -717,6 +760,7 @@ Summary:	Qt classes for scripting applications - development files
 Summary(pl.UTF-8):	Klasy Qt do obsługi skryptów wewnątrz aplikacji - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtScript-devel = %{version}-%{release}
 Requires:	QtScriptTools = %{version}-%{release}
 
@@ -916,7 +960,8 @@ Plugin de suporte a TDS para Qt.
 Summary:	Qt SVG support
 Summary(pl.UTF-8):	Wsparcie Qt dla SVG
 Group:		X11/Libraries
-Requires:	QtXml = %{version}-%{release}
+Requires:	QtCore = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
 
 %description -n QtSvg
 Qt SVG support.
@@ -1035,7 +1080,10 @@ statyczna.
 Summary:	Qt classes for rendering HTML, XHTML and SVG documents
 Summary(pl.UTF-8):	Klasy Qt do renderowania dokumentów HTML, XHTML i SVG
 Group:		X11/Libraries
+Requires:	QtDBus = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
 
 %description -n QtWebKit
 QtWebKit provides a Web browser engine that makes it easy to embed
@@ -1062,7 +1110,6 @@ Group:		X11/Development/Libraries
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
 Requires:	QtScript-devel = %{version}-%{release}
-Requires:	QtXmlPatterns-devel = %{version}-%{release}
 Requires:	QtWebKit = %{version}-%{release}
 %if %{with system_phonon}
 Requires:	phonon-devel
@@ -1133,6 +1180,7 @@ Summary:	QtXmlPatterns XQuery engine
 Summary(pl.UTF-8):	Silnik zapytań XQuery QtXmlPatterns
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
 
 %description -n QtXmlPatterns
 QtXmlPatterns XQuery engine.
@@ -1169,8 +1217,13 @@ Silnik zapytań XQuery QtXmlPatterns - biblioteka statyczna.
 Summary:	Qt documentation browser
 Summary(pl.UTF-8):	Przeglądarka dokumentacji Qt
 Group:		X11/Development/Tools
-Requires:	QtDBus = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtHelp = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
+Requires:	QtSql = %{version}-%{release}
 Requires:	QtSql-sqlite3 = %{version}-%{release}
+Requires:	QtWebKit = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
 
 %description assistant
 Qt Assistant is a tool for browsing on-line documentation with
@@ -1185,6 +1238,7 @@ Summary:	Build tools for Qt4
 Summary(pl.UTF-8):	Narzędzia do budowania dla Qt4
 Group:		X11/Development/Tools
 Requires:	QtCore = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
 
 %description build
@@ -1279,6 +1333,7 @@ Summary:	Qt widgets configuration tool
 Summary(pl.UTF-8):	Narzędzie do konfigurowania widgetów Qt
 Group:		X11/Applications
 Requires:	Qt3Support = %{version}-%{release}
+Requires:	QtDBus = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
 Requires:	QtNetwork = %{version}-%{release}
 Requires:	QtSql = %{version}-%{release}
@@ -1309,7 +1364,16 @@ okienku X.
 Summary:	Demos of new Qt4 features
 Summary(pl.UTF-8):	Programy demonstrujące nowe możliwości Qt4
 Group:		X11/Development/Libraries
+Requires:	QtDeclarative = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
+Requires:	QtHelp = %{version}-%{release}
+Requires:	QtNetwork = %{version}-%{release}
+Requires:	QtOpenGL = %{version}-%{release}
+Requires:	QtScript = %{version}-%{release}
+Requires:	QtSql = %{version}-%{release}
+Requires:	QtSvg = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
+Requires:	QtXmlPatterns = %{version}-%{release}
 
 %description demos
 Demos are spiders that fly.
