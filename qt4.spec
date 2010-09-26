@@ -101,7 +101,6 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	pkgconfig
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
-%{?with_pgsql:BuildRequires:	postgresql-static}
 BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
@@ -1738,8 +1737,10 @@ done
 for a in $(sed -e '/%defattr/d;s/\(%dir\|%attr[^ ]\+\) //;' < phonon-devel.files); do
 	rm -rf $RPM_BUILD_ROOT$a
 done
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libphonon.so.*
+%if %{with static_libs}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libphonon.a
+%endif
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libphonon.so.*
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/phonon_backend/libphonon_gstreamer.so
 %endif
 
