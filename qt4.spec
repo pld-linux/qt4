@@ -294,9 +294,10 @@ Summary:	Qt classes for D-BUS support
 Summary(pl.UTF-8):	Klasy Qt do obsługi D-BUS
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
+Requires:	QtXml = %{version}-%{release}
+# only for libqtscriptdbus plugin
 Requires:	QtGui = %{version}-%{release}
 Requires:	QtScript = %{version}-%{release}
-Requires:	QtXml = %{version}-%{release}
 
 %description -n QtDBus
 This module provides Qt classes for D-BUS support. D-BUS is an
@@ -1825,16 +1826,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}
 %dir %{_qtdir}/bin
 %dir %{_qtdir}/plugins
-%dir %{_qtdir}/plugins/bearer
 %dir %{_qtdir}/plugins/codecs
+%attr(755,root,root) %{_qtdir}/plugins/codecs/*.so
+# two following are used only by foreign packages, not QtCore
 %dir %{_qtdir}/plugins/crypto
-%dir %{_qtdir}/plugins/graphicssystems
-%dir %{_qtdir}/plugins/iconengines
-%dir %{_qtdir}/plugins/imageformats
-%dir %{_qtdir}/plugins/inputmethods
 %dir %{_qtdir}/plugins/network
-%dir %{_qtdir}/plugins/sqldrivers
-%dir %{_qtdir}/plugins/script
 %dir %{_datadir}/qt4
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
 %lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4.qm
@@ -1897,14 +1893,18 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtGui.so.4
+%dir %{_qtdir}/plugins/accessible
 %attr(755,root,root) %{_qtdir}/plugins/accessible/libqtaccessiblewidgets.so
-%attr(755,root,root) %{_qtdir}/plugins/codecs/*.so
+%dir %{_qtdir}/plugins/graphicssystems
 %attr(755,root,root) %{_qtdir}/plugins/graphicssystems/libqtracegraphicssystem.so
+%dir %{_qtdir}/plugins/iconengines
+%dir %{_qtdir}/plugins/imageformats
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/libqgif.so
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/libqico.so
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/libqjpeg.so
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/libqmng.so
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/libqtiff.so
+%dir %{_qtdir}/plugins/inputmethods
 %attr(755,root,root) %{_qtdir}/plugins/inputmethods/*.so
 
 %files -n QtHelp
@@ -1935,6 +1935,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtNetwork.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.4
+%dir %{_qtdir}/plugins/bearer
 %attr(755,root,root) %{_qtdir}/plugins/bearer/*.so
 
 %files -n QtOpenGL
@@ -1947,6 +1948,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtScript.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtScript.so.4
+%dir %{_qtdir}/plugins/script
 
 %files -n QtScriptTools
 %defattr(644,root,root,755)
@@ -1957,6 +1959,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSql.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtSql.so.4
+%dir %{_qtdir}/plugins/sqldrivers
 
 %if %{with mysql}
 %files -n QtSql-mysql
