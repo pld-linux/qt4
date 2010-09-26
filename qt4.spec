@@ -1736,13 +1736,10 @@ done
 for a in $(sed -e '/%defattr/d;s/\(%dir\|%attr[^ ]\+\) //;' < phonon-devel.files); do
 	rm -rf $RPM_BUILD_ROOT$a
 done
-rm -f $RPM_BUILD_ROOT%{_libdir}/libphonon.so.*
-rm -f $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/phonon_backend/libphonon_gstreamer.so
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libphonon.so.*
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libphonon.a
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/phonon_backend/libphonon_gstreamer.so
 %endif
-
-# check whether no other fixes are needed
-#mv $RPM_BUILD_ROOT%{_datadir}/locale/ja_JP/LC_MESSAGES/*.* \
-#	$RPM_BUILD_ROOT%{_datadir}/locale/ja/LC_MESSAGES/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -1840,11 +1837,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/plugins/script
 %dir %{_datadir}/qt4
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
+%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4.qm
 %lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
 %lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
+%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4.qm
 %lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/qt4.qm
@@ -1916,9 +1915,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
 %attr(755,root,root) %{_qtdir}/bin/qhelpconverter
 %attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
+%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4-qt_help.qm
 %lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-qt_help.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-qt_help.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-qt_help.qm
+%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-qt_help.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-qt_help.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qt_help.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qt_help.qm
@@ -2039,14 +2040,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/pixeltool
 %attr(755,root,root) %{_qtdir}/bin/qcollectiongenerator
 %attr(755,root,root) %{_qtdir}/bin/assistant
-#%attr(755,root,root) %{_qtdir}/bin/assistant_adp
-%lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-assistant*.qm
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant*.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-assistant*.qm
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant*.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant*.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-assistant*.qm
-%lang(zh_CN) %{_datadir}/locale/zh_*/LC_MESSAGES/qt4-assistant*.qm
+%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4-assistant.qm
+%lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-assistant.qm
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant.qm
+%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-assistant.qm
+%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-assistant.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant.qm
+%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-assistant.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-assistant.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-assistant.qm
 %{_desktopdir}/assistant-qt4.desktop
 #%{_pixmapsdir}/assistant-qt4.png
 
@@ -2071,8 +2074,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/designer-qt4
 %attr(755,root,root) %{_qtdir}/bin/designer
+%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4-designer.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-designer.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-designer.qm
+%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-designer.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-designer.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-designer.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-designer.qm
@@ -2093,8 +2098,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/lconvert
 %attr(755,root,root) %{_qtdir}/bin/lrelease
 %attr(755,root,root) %{_qtdir}/bin/lupdate
+%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4-linguist.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-linguist.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-linguist.qm
+%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-linguist.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-linguist.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-linguist.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-linguist.qm
@@ -2124,6 +2131,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qtconfig-qt4
 %attr(755,root,root) %{_qtdir}/bin/qtconfig
+%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-qtconfig.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qtconfig.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qtconfig.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qtconfig.qm
@@ -2135,6 +2143,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qvfb
 %attr(755,root,root) %{_qtdir}/bin/qvfb
+%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-qvfb.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qvfb.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qvfb.qm
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qvfb.qm
