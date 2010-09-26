@@ -88,7 +88,6 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	freetds-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
 %{?with_pch:BuildRequires:	gcc >= 5:4.0}
-BuildRequires:	giflib-devel
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	gstreamer-plugins-base-devel
 %{?with_gtk:BuildRequires:	gtk+2-devel}
