@@ -16,30 +16,6 @@
 #   /usr/bin/qdbusviewer: symbolic link to `../lib/qt4/bin/qdbusviewer'
 #   MORAL: it would be ok if the files were marked as multilib (colors 1 or 2), not symlinks (color 0)
 #   I personally would moved binaries to %{_bindir}
-# - solve dep loops:
-#error: LOOP:
-#error: removing QtGui-4.4.3-1.athlon "Requires(auto): libQtSvg.so.4" from tsort relations.
-#error:     QtGui-4.4.3-1.athlon                     Requires(auto): libQtSvg.so.4
-#error: removing QtSvg-4.4.3-1.athlon "Requires(auto): libQtGui.so.4" from tsort relations.
-#error:     QtSvg-4.4.3-1.athlon                     Requires(auto): libQtGui.so.4
-#
-#error: LOOP:
-#error: removing QtGui-4.3.4-2.athlon "Requires(auto): libQtGui.so.4" from tsort relations.
-#error:     QtGui-4.3.4-2.athlon                     Requires(auto): libQtGui.so.4
-#error: removing QtSvg-4.3.4-2.athlon "Requires(auto): libQtSvg.so.4" from tsort relations.
-#error:     QtSvg-4.3.4-2.athlon                     Requires(auto): libQtSvg.so.4
-#
-#error: LOOP:
-#error: removing Qt3Support-4.4.3-1.athlon "Requires: QtGui = 4.4.3-1" from tsort relations.
-#error:     Qt3Support-4.4.3-1.athlon                Requires: QtGui = 4.4.3-1
-#error: removing QtGui-4.4.3-1.athlon "Requires: Qt3Support = 4.4.3-1" from tsort relations.
-#error:     QtGui-4.4.3-1.athlon                     Requires: Qt3Support = 4.4.3-1
-#
-#error: LOOP:
-#error: removing QtGui-4.3.4-2.athlon "Requires: QtGui = 4.3.4-2" from tsort relations.
-#error:     QtGui-4.3.4-2.athlon                     Requires: QtGui = 4.3.4-2
-#error: removing Qt3Support-4.3.4-2.athlon "Requires: Qt3Support = 4.3.4-2" from tsort relations.
-#error:     Qt3Support-4.3.4-2.athlon                Requires: Qt3Support = 4.3.4-2
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -469,19 +445,8 @@ Summary:	Qt Graphical User Interface components
 Summary(pl.UTF-8):	Komponenty graficznego interfejsu użytkownika Qt
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
-# for plugins:
-# qtaccessiblecompatwidgets
-Requires:	Qt3Support = %{version}-%{release}
-# qtaccessiblecompatwidgets, qtracegraphicssystem
+# for qtracegraphicssystem plugin
 Requires:	QtNetwork = %{version}-%{release}
-# qglgraphicssystem
-Requires:	QtOpenGL = %{version}-%{release}
-# qtaccessiblecompatwidgets
-Requires:	QtSql = %{version}-%{release}
-# qsvgicon, qsvg
-Requires:	QtSvl = %{version}-%{release}
-# qtaccessiblecompatwidgets, qsvgicon, qsvg
-Requires:	QtXml = %{version}-%{release}
 
 %description -n QtGui
 Qt Graphical User Interface components.
@@ -962,6 +927,8 @@ Summary(pl.UTF-8):	Wsparcie Qt dla SVG
 Group:		X11/Libraries
 Requires:	QtCore = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
+# for svg plugins
+Requires:	QtXml = %{version}-%{release}
 
 %description -n QtSvg
 Qt SVG support.
@@ -1846,21 +1813,21 @@ rm -rf $RPM_BUILD_ROOT
 %files -n Qt3Support
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.4
+%attr(755,root,root) %{_qtdir}/plugins/accessible/libqtaccessiblecompatwidgets.so
 
 %files -n QtCLucene
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCLucene.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtCLucene.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtCLucene.so.4
 
 %files -n QtCore
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCore.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtCore.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtCore.so.4
 %dir %{_qtdir}
 %dir %{_qtdir}/bin
 %dir %{_qtdir}/plugins
-%dir %{_qtdir}/plugins/accessible
 %dir %{_qtdir}/plugins/bearer
 %dir %{_qtdir}/plugins/codecs
 %dir %{_qtdir}/plugins/crypto
@@ -1894,7 +1861,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qdbus
 %attr(755,root,root) %{_bindir}/qdbusviewer
 %attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDBus.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtDBus.so.4
 %attr(755,root,root) %{_qtdir}/bin/qdbus
 %attr(755,root,root) %{_qtdir}/bin/qdbusviewer
 # ?? is this the proper place?
@@ -1905,7 +1872,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qmlviewer
 %attr(755,root,root) %{_qtdir}/bin/qmlviewer
 %attr(755,root,root) %{_libdir}/libQtDeclarative.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDeclarative.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtDeclarative.so.4
 %dir %{_qtdir}/imports
 %dir %{_qtdir}/imports/Qt
 %dir %{_qtdir}/imports/Qt/labs
@@ -1921,21 +1888,24 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtDesigner
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtDesigner.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDesigner.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtDesigner.so.4
 %attr(755,root,root) %{_libdir}/libQtDesignerComponents.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDesignerComponents.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtDesignerComponents.so.4
 %dir %{_qtdir}/plugins/designer
 %attr(755,root,root) %{_qtdir}/plugins/designer/*.so
 
 %files -n QtGui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtGui.so.?
-%attr(755,root,root) %{_qtdir}/plugins/accessible/*.so
+%attr(755,root,root) %ghost %{_libdir}/libQtGui.so.4
+%attr(755,root,root) %{_qtdir}/plugins/accessible/libqtaccessiblewidgets.so
 %attr(755,root,root) %{_qtdir}/plugins/codecs/*.so
-%attr(755,root,root) %{_qtdir}/plugins/graphicssystems/*.so
-%attr(755,root,root) %{_qtdir}/plugins/iconengines/*.so
-%attr(755,root,root) %{_qtdir}/plugins/imageformats/*.so
+%attr(755,root,root) %{_qtdir}/plugins/graphicssystems/libqtracegraphicssystem.so
+%attr(755,root,root) %{_qtdir}/plugins/imageformats/libqgif.so
+%attr(755,root,root) %{_qtdir}/plugins/imageformats/libqico.so
+%attr(755,root,root) %{_qtdir}/plugins/imageformats/libqjpeg.so
+%attr(755,root,root) %{_qtdir}/plugins/imageformats/libqmng.so
+%attr(755,root,root) %{_qtdir}/plugins/imageformats/libqtiff.so
 %attr(755,root,root) %{_qtdir}/plugins/inputmethods/*.so
 
 %files -n QtHelp
@@ -1943,7 +1913,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qhelpconverter
 %attr(755,root,root) %{_bindir}/qhelpgenerator
 %attr(755,root,root) %{_libdir}/libQtHelp.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
 %attr(755,root,root) %{_qtdir}/bin/qhelpconverter
 %attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
 %lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-qt_help.qm
@@ -1958,33 +1928,34 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtMultimedia
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtMultimedia.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtMultimedia.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtMultimedia.so.4
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtNetwork.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.4
 %attr(755,root,root) %{_qtdir}/plugins/bearer/*.so
 
 %files -n QtOpenGL
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtOpenGL.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtOpenGL.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtOpenGL.so.4
+%attr(755,root,root) %{_qtdir}/plugins/graphicssystems/libqglgraphicssystem.so
 
 %files -n QtScript
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtScript.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtScript.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtScript.so.4
 
 %files -n QtScriptTools
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtScriptTools.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtScriptTools.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtScriptTools.so.4
 
 %files -n QtSql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSql.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtSql.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtSql.so.4
 
 %if %{with mysql}
 %files -n QtSql-mysql
@@ -2029,27 +2000,29 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtSvg
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtSvg.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtSvg.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtSvg.so.4
+%attr(755,root,root) %{_qtdir}/plugins/iconengines/libqsvgicon.so
+%attr(755,root,root) %{_qtdir}/plugins/imageformats/libqsvg.so
 
 %files -n QtTest
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtTest.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtTest.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtTest.so.4
 
 %files -n QtUiTools
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.4
 
 %files -n QtWebKit
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtWebKit.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtWebKit.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtWebKit.so.4
 
 %files -n QtXml
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtXml.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtXml.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtXml.so.4
 
 %files -n QtXmlPatterns
 %defattr(644,root,root,755)
@@ -2057,7 +2030,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/xmlpatternsvalidator
 %attr(755,root,root) %{_bindir}/xmlpatternsvalidator
 %attr(755,root,root) %{_libdir}/libQtXmlPatterns.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.?
+%attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.4
 
 %files assistant
 %defattr(644,root,root,755)
@@ -2135,7 +2108,7 @@ rm -rf $RPM_BUILD_ROOT
 %files phonon
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libphonon.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libphonon.so.?
+%attr(755,root,root) %ghost %{_libdir}/libphonon.so.4
 %dir %{_qtdir}/plugins/phonon_backend
 %attr(755,root,root) %{_qtdir}/plugins/phonon_backend/libphonon_gstreamer.so
 %endif
