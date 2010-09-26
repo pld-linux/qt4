@@ -52,7 +52,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.7.0
-Release:	2
+Release:	3
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -77,6 +77,7 @@ Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
+Patch10:	%{name}-qtbug-13567.patch
 URL:		http://www.qtsoftware.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
@@ -1392,6 +1393,7 @@ Programas exemplo para o Qt versão.
 %patch7 -p1
 #%patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
