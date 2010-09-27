@@ -1734,14 +1734,14 @@ for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`; do
 done
 
 %if %{with system_phonon}
-for a in $(sed -e '/%defattr/d;s/\(%dir\|%attr[^ ]\+\) //;' < phonon-devel.files); do
-	rm -rf $RPM_BUILD_ROOT$a
-done
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libphonon.so* \
+	$RPM_BUILD_ROOT%{_libdir}/libphonon.{la,prl} \
+	$RPM_BUILD_ROOT%{_libdir}/qt4/plugins/phonon_backend/libphonon_gstreamer.so \
+	$RPM_BUILD_ROOT%{_pkgconfigdir}/phonon.pc
+%{__rm} -r $RPM_BUILD_ROOT%{_includedir}/qt4/phonon
 %if %{with static_libs}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libphonon.a
 %endif
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libphonon.so.*
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/qt4/plugins/phonon_backend/libphonon_gstreamer.so
 %endif
 
 %clean
