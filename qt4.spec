@@ -51,20 +51,20 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.7.0
-Release:	4
+Version:	4.7.1
+Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
-# Source0-md5:	3a2f25b9b115037277f4fb759194a7a5
+# Source0-md5:	6f88d96507c84e9fea5bf3a71ebeb6d7
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
 Source5:	%{name}-linguist.desktop
 
 # git clone git://gitorious.org/+kde-developers/qt/kde-qt.git
-# git checkout -b 4.7.0-patched origin/4.7.0-patched
-# git diff v4.7.0..4.7.0-patched > ~/rpm/packages/qt4/qt4-kde-git.patch
+# git checkout -b 4.7.1-patched origin/4.7.1-patched
+# git diff v4.7.1..4.7.1-patched > ~/rpm/packages/qt4/qt4-kde-git.patch
 Patch100:	%{name}-kde-git.patch
 
 Patch0:		%{name}-tools.patch
@@ -77,7 +77,6 @@ Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
-Patch10:	%{name}-qtbug-13567.patch
 URL:		http://www.qtsoftware.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
@@ -1391,7 +1390,6 @@ Programas exemplo para o Qt versão.
 %patch7 -p1
 #%patch8 -p1
 %patch9 -p1
-%patch10 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf

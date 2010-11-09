@@ -428,21 +428,6 @@ index 2574b74..9f57417 100644
  
      static inline Sender *setCurrentSender(QObject *receiver,
                                      Sender *sender);
-diff --git a/src/gui/kernel/qapplication.cpp b/src/gui/kernel/qapplication.cpp
-index 2f5adaf..63df1c5 100644
---- a/src/gui/kernel/qapplication.cpp
-+++ b/src/gui/kernel/qapplication.cpp
-@@ -783,8 +783,9 @@ void QApplicationPrivate::construct(
-     qt_is_gui_used = (qt_appType != QApplication::Tty);
-     process_cmdline();
-     // the environment variable has the lowest precedence of runtime graphicssystem switches
--    if (graphics_system_name.isEmpty())
-+    if (graphics_system_name.isEmpty()) {
-         graphics_system_name = QString::fromLocal8Bit(qgetenv("QT_GRAPHICSSYSTEM"));
-+    }
-     // Must be called before initialize()
-     qt_init(this, qt_appType
- #ifdef Q_WS_X11
 diff --git a/src/gui/kernel/qwidget_p.h b/src/gui/kernel/qwidget_p.h
 index 9662a9e..3160911 100644
 --- a/src/gui/kernel/qwidget_p.h
