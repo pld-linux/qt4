@@ -1477,8 +1477,8 @@ COMMONOPT=" \
 	%{!?with_sse2:-no-sse2} \
 	%{!?with_sse3:-no-sse3} \
 	%{!?with_ssse3:-no-ssse3} \
-	%{!?with_sse41:-no-sse41} \
-	%{!?with_sse42:-no-sse42} \
+	%{!?with_sse41:-no-sse4.1} \
+	%{!?with_sse42:-no-sse4.2} \
 	%{!?with_avx:-no-avx} \
 	-qdbus \
 	-qt-gif \
