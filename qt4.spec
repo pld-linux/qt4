@@ -30,17 +30,38 @@
 %bcond_without	pch		# disable pch in qmake
 %bcond_without	gtk		# don't build GTK theme integration
 %bcond_without	system_phonon	# don't build phonon libraries
+%bcond_with	mmx
+%bcond_with	3dnow
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
+%bcond_with	sse3
+%bcond_with	ssse3
+%bcond_with	sse41
+%bcond_with	sse42
+%bcond_with	avx
 #
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
 %endif
+%ifarch	i686
+%define		with_mmx	1
+%endif
 %ifarch pentium3 pentium4 %{x8664}
+%define		with_mmx	1
 %define		with_sse	1
 %endif
 %ifarch pentium4 %{x8664}
+%define		with_mmx	1
 %define		with_sse2	1
+%endif
+%ifarch %{x8664}
+%define		with_mmx	1
+%define		with_sse	1
+%define		with_sse2	1
+%define		with_sse3	1
+%define		with_ssse3	1
+%define		with_sse41	1
+%define		with_sse42	1
 %endif
 # any SQL
 %define		_withsql	1
@@ -1450,8 +1471,15 @@ COMMONOPT=" \
 	%{!?with_gtk:-no-gtkstyle} \
 	-%{!?with_pch:no-}pch \
 	-no-rpath \
+	%{!?with_mmx:-no-mmx} \
+	%{!?with_3dnow:-no-3dnow} \
 	%{!?with_sse:-no-sse} \
 	%{!?with_sse2:-no-sse2} \
+	%{!?with_sse3:-no-sse3} \
+	%{!?with_ssse3:-no-ssse3} \
+	%{!?with_sse41:-no-sse41} \
+	%{!?with_sse42:-no-sse42} \
+	%{!?with_avx:-no-avx} \
 	-qdbus \
 	-qt-gif \
 	-reduce-relocations \
