@@ -34,11 +34,11 @@
 %bcond_with	3dnow		# use 3Dnow instructions
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
-%bcond_with	sse3		# use SSE3 instructions
-%bcond_with	ssse3		# use SSSE3 instructions
-%bcond_with	sse41		# use SSE4.1 instructions
-%bcond_with	sse42		# use SSE4.2 instructions
-%bcond_with	avx		# use AVX instructions (future x86 CPUs only)
+%bcond_with	sse3		# use SSE3 instructions (since: Intel middle Pentium4, AMD Athlon64)
+%bcond_with	ssse3		# use SSSE3 instructions (Intel since Core2, Via Nano)
+%bcond_with	sse41		# use SSE4.1 instructions (Intel since middle Core2)
+%bcond_with	sse42		# use SSE4.2 instructions (the same)
+%bcond_with	avx		# use AVX instructions (future Intel x86 CPUs only)
 #
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
@@ -54,12 +54,6 @@
 %endif
 %ifarch pentium4 %{x8664}
 %define		with_sse2	1
-%endif
-%ifarch %{x8664}
-%define		with_sse3	1
-%define		with_ssse3	1
-%define		with_sse41	1
-%define		with_sse42	1
 %endif
 # any SQL
 %define		_withsql	1
