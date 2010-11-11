@@ -30,34 +30,32 @@
 %bcond_without	pch		# disable pch in qmake
 %bcond_without	gtk		# don't build GTK theme integration
 %bcond_without	system_phonon	# don't build phonon libraries
-%bcond_with	mmx
-%bcond_with	3dnow
+%bcond_with	mmx		# use MMX instructions
+%bcond_with	3dnow		# use 3Dnow instructions
 %bcond_with	sse		# use SSE instructions in gui/painting module
 %bcond_with	sse2		# use SSE2 instructions
-%bcond_with	sse3
-%bcond_with	ssse3
-%bcond_with	sse41
-%bcond_with	sse42
-%bcond_with	avx
+%bcond_with	sse3		# use SSE3 instructions
+%bcond_with	ssse3		# use SSSE3 instructions
+%bcond_with	sse41		# use SSE4.1 instructions
+%bcond_with	sse42		# use SSE4.2 instructions
+%bcond_with	avx		# use AVX instructions (future x86 CPUs only)
 #
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_ibase
 %endif
-%ifarch	i686
+%ifarch	athlon
+%define		with_3dnow	1
+%endif
+%ifarch athlon pentium3 pentium4 %{x8664}
 %define		with_mmx	1
 %endif
 %ifarch pentium3 pentium4 %{x8664}
-%define		with_mmx	1
 %define		with_sse	1
 %endif
 %ifarch pentium4 %{x8664}
-%define		with_mmx	1
 %define		with_sse2	1
 %endif
 %ifarch %{x8664}
-%define		with_mmx	1
-%define		with_sse	1
-%define		with_sse2	1
 %define		with_sse3	1
 %define		with_ssse3	1
 %define		with_sse41	1
