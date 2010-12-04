@@ -5,6 +5,8 @@
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
+#	- QtWebKit-devel is broken: libQtWebKit.*la contains '-ljscore', it comes
+#	  from src/3rdparty/webkit/JavaScriptCore, but jscore lib isn't installed
 # - QtDBus (and maybe others) not multilib compatible (split pkgs or drop symlinks)
 #   file /usr/bin/qdbus from install of QtDBus-4.5.0-7.i686 conflicts with file from package QtDBus-4.5.0-7.x86_64
 #   file /usr/bin/qdbusviewer from install of QtDBus-4.5.0-7.i686 conflicts with file from package QtDBus-4.5.0-7.x86_64
