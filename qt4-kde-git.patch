@@ -275,10 +275,10 @@ index 0000000..512f034
 +      # Push the tag, the new patched branch and master
 +      git push v4.6.1 4.6.1-patched master
 diff --git a/bin/syncqt b/bin/syncqt
-index ccacaa9..270f75b 100755
+index c73d119..9e10576 100755
 --- a/bin/syncqt
 +++ b/bin/syncqt
-@@ -380,9 +380,13 @@ sub fixPaths {
+@@ -382,9 +382,13 @@ sub fixPaths {
          $match_dir = $tmp;
          $i = $slash;
      }
@@ -294,10 +294,10 @@ index ccacaa9..270f75b 100755
          for(my $i = 0; $i < $count; $i++) {
              $dots .= "../";
 diff --git a/configure b/configure
-index bab70d3..de795a2 100755
+index 0d9df16..b88fc3e 100755
 --- a/configure
 +++ b/configure
-@@ -1045,6 +1045,11 @@ while [ "$#" -gt 0 ]; do
+@@ -1058,6 +1058,11 @@ while [ "$#" -gt 0 ]; do
              VAL=`echo $1 | sed 's,-D,,'`
          fi
          ;;
@@ -309,7 +309,7 @@ index bab70d3..de795a2 100755
      -I?*|-I)
          VAR="add_ipath"
          if [ "$1" = "-I" ]; then
-@@ -2119,6 +2124,9 @@ while [ "$#" -gt 0 ]; do
+@@ -2182,6 +2187,9 @@ while [ "$#" -gt 0 ]; do
      add_ipath)
          I_FLAGS="$I_FLAGS -I\"${VAL}\""
          ;;
@@ -320,10 +320,10 @@ index bab70d3..de795a2 100755
          L_FLAGS="$L_FLAGS -L\"${VAL}\""
          ;;
 diff --git a/qmake/property.cpp b/qmake/property.cpp
-index 8bfc353..6e7e159 100644
+index 8bfc353..22a847a 100644
 --- a/qmake/property.cpp
 +++ b/qmake/property.cpp
-@@ -81,32 +81,35 @@ QMakeProperty::keyBase(bool version) const
+@@ -81,31 +81,34 @@ QMakeProperty::keyBase(bool version) const
  QString
  QMakeProperty::value(QString v, bool just_check)
  {
@@ -364,15 +364,13 @@ index 8bfc353..6e7e159 100644
      else if(v == "QT_INSTALL_DEMOS")
 -        return QLibraryInfo::location(QLibraryInfo::DemosPath);
 -    else if(v == "QMAKE_MKSPECS")
--        return qmake_mkspec_paths().join(Option::dirlist_sep);
 +        ret = QLibraryInfo::location(QLibraryInfo::DemosPath);
 +    if(!ret.isEmpty())
 +        return QDir::toNativeSeparators(ret);
 +    if(v == "QMAKE_MKSPECS")
-+        return qmake_mkspec_paths().join(Option::target_mode == Option::TARG_WIN_MODE ? ";" : ":");
+         return qmake_mkspec_paths().join(Option::dirlist_sep);
      else if(v == "QMAKE_VERSION")
          return qmake_version();
- #ifdef QT_VERSION_STR
 @@ -118,7 +121,7 @@ QMakeProperty::value(QString v, bool just_check)
      int slash = v.lastIndexOf('/');
      QVariant var = settings->value(keyBase(slash == -1) + v);
@@ -441,7 +439,7 @@ index 9662a9e..3160911 100644
      void setNetWmWindowTypes();
      void x11UpdateIsOpaque();
 diff --git a/src/gui/kernel/qwidget_x11.cpp b/src/gui/kernel/qwidget_x11.cpp
-index 122e08a..5548403 100644
+index 09abb7b..5f43fee 100644
 --- a/src/gui/kernel/qwidget_x11.cpp
 +++ b/src/gui/kernel/qwidget_x11.cpp
 @@ -762,6 +762,11 @@ void QWidgetPrivate::create_sys(WId window, bool initializeWindow, bool destroyO
@@ -509,7 +507,7 @@ index 122e08a..5548403 100644
      }
  
      if (initializeWindow && q->internalWinId()) {
-@@ -2941,6 +2954,17 @@ void QWidgetPrivate::setWindowRole()
+@@ -2943,6 +2956,17 @@ void QWidgetPrivate::setWindowRole()
                      (unsigned char *)windowRole.constData(), windowRole.length());
  }
  
@@ -528,7 +526,7 @@ index 122e08a..5548403 100644
  QPaintEngine *QWidget::paintEngine() const
  {
 diff --git a/src/gui/widgets/qtabbar.cpp b/src/gui/widgets/qtabbar.cpp
-index 9a37f02..e2cab40 100644
+index 954478d..7c9099d 100644
 --- a/src/gui/widgets/qtabbar.cpp
 +++ b/src/gui/widgets/qtabbar.cpp
 @@ -723,8 +723,8 @@ void QTabBarPrivate::refresh()
