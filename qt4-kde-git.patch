@@ -384,13 +384,15 @@ diff --git a/src/corelib/kernel/qobject.cpp b/src/corelib/kernel/qobject.cpp
 index 2e2a0f4..239de2d 100644
 --- a/src/corelib/kernel/qobject.cpp
 +++ b/src/corelib/kernel/qobject.cpp
-@@ -1095,8 +1095,16 @@ void QObject::setObjectName(const QString &name)
- {
-     Q_D(QObject);
-     d->objectName = name;
+@@ -1101,8 +1101,18 @@
+ 
+     if (objectNameChanged) 
+         d->declarativeData->objectNameChanged(d->declarativeData, this);
++
 +#if defined(Q_WS_X11)
 +    d->checkWindowRole();
 +#endif
++
  }
  
 +#if defined(Q_WS_X11)
