@@ -1904,6 +1904,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/imports/QtWebKit
 %attr(755,root,root) %{_qtdir}/imports/QtWebKit/*.so
 %{_qtdir}/imports/QtWebKit/qmldir
+%dir %{_qtdir}/plugins/qmltooling
+%attr(755,root,root) %{_qtdir}/plugins/qmltooling/libtcpserver.so
 
 %files -n QtDesigner
 %defattr(644,root,root,755)
