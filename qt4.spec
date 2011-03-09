@@ -1630,7 +1630,7 @@ for f in translations/*.ts ; do
 	LD_LIBRARY_PATH=lib bin/lrelease $f -qm translations/$(basename $f .ts).qm
 done
 
-rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
 for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm; do
 	[ ! -f $file ] && continue
 	case "$file" in
@@ -1862,6 +1862,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
+%lang(gl) %{_datadir}/locale/gl/LC_MESSAGES/qt4.qm
 %lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
 %lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4.qm
