@@ -93,7 +93,7 @@ Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-pl-update.patch
 Patch9:		%{name}-ibase.patch
 Patch11:	qt-x11-opensource-src-4.5.1-enable_ft_lcdfilter.patch
-URL:		http://www.qtsoftware.com/
+URL:		http://qt.nokia.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	alsa-lib-devel
