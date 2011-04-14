@@ -116,7 +116,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	pkgconfig
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
-BuildRequires:	rpmbuild(macros) >= 1.213
+BuildRequires:	rpmbuild(macros) >= 1.602
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
@@ -1206,6 +1206,7 @@ Requires:	QtSql = %{version}-%{release}
 Requires:	QtSql-sqlite3 = %{version}-%{release}
 Requires:	QtWebKit = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
+Requires:	hicolor-icon-theme
 
 %description assistant
 Qt Assistant is a tool for browsing on-line documentation with
@@ -1251,6 +1252,7 @@ Summary:	Translation helper for Qt
 Summary(pl.UTF-8):	Aplikacja ułatwiająca tłumaczenie aplikacji opartych o Qt
 Group:		X11/Development/Tools
 Requires:	QtUiTools = %{version}-%{release}
+Requires:	hicolor-icon-theme
 
 %description linguist
 This program provides an interface that shortens and helps systematize
@@ -1610,10 +1612,16 @@ install tools/qtconfig/images/appicon.png \
 	$RPM_BUILD_ROOT%{_pixmapsdir}/qtconfig-qt4.png
 
 install %{SOURCE5} $RPM_BUILD_ROOT%{_desktopdir}/linguist-qt4.desktop
-install tools/linguist/linguist/images/appicon.png \
-	$RPM_BUILD_ROOT%{_pixmapsdir}/linguist-qt4.png
+for f in tools/linguist/linguist/images/icons/linguist-*-32.png; do
+	size=$(echo $(basename ${f}) | cut -d- -f2)
+	install -D $f $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${size}x${size}/apps/linguist-qt4.png
+done
 
 install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/assistant-qt4.desktop
+install -D tools/assistant/tools/assistant/images/assistant.png \
+	$RPM_BUILD_ROOT%{_iconsdir}/hicolor/32x32/apps/assistant-qt4.png
+install -D tools/assistant/tools/assistant/images/assistant-128.png \
+	$RPM_BUILD_ROOT%{_iconsdir}/hicolor/128x128/apps/assistant-qt4.png
 
 install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/designer-qt4.desktop
 install tools/designer/src/designer/images/designer.png \
@@ -1828,6 +1836,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %post   -n QtXmlPatterns	-p /sbin/ldconfig
 %postun -n QtXmlPatterns	-p /sbin/ldconfig
+
+%post assistant
+%update_icon_cache hicolor
+
+%postun assistant
+%update_icon_cache hicolor
+
+%post linguist
+%update_icon_cache hicolor
+
+%postun linguist
+%update_icon_cache hicolor
 
 %post	phonon		-p /sbin/ldconfig
 %postun	phonon		-p /sbin/ldconfig
@@ -2085,7 +2105,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-assistant.qm
 %lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-assistant.qm
 %{_desktopdir}/assistant-qt4.desktop
-#%{_pixmapsdir}/assistant-qt4.png
+%{_iconsdir}/hicolor/*/apps/assistant-qt4.png
 
 %files build
 %defattr(644,root,root,755)
@@ -2146,7 +2166,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-linguist.qm
 %{_datadir}/qt4/phrasebooks
 %{_desktopdir}/linguist-qt4.desktop
-%{_pixmapsdir}/linguist-qt4.png
+%{_iconsdir}/hicolor/*/apps/linguist-qt4.png
 
 %if %{without system_phonon}
 %files phonon
