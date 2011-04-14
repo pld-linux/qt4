@@ -1,5 +1,4 @@
 [Desktop Entry]
-Encoding=UTF-8
 Exec=linguist-qt4
 Name=Qt4 Linguist
 Name[ar]=مترجم كيوتي
@@ -103,7 +102,7 @@ GenericName[zh_TW]=翻譯工具
 GenericName[zu]=Ithuluzi Lokuguqulela
 Categories=Qt;Development;Translation;
 X-KDE-StartupNotify=true
-MimeType=application/x-linguist;
+MimeType=application/x-linguist;text/vnd.trolltech.linguist;
 Terminal=false
 Type=Application
 Icon=linguist-qt4
