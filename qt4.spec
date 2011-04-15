@@ -7,17 +7,6 @@
 #	- check Qt ui tool
 #	- QtWebKit-devel is broken: libQtWebKit.*la contains '-ljscore', it comes
 #	  from src/3rdparty/webkit/JavaScriptCore, but jscore lib isn't installed
-# - QtDBus (and maybe others) not multilib compatible (split pkgs or drop symlinks)
-#   file /usr/bin/qdbus from install of QtDBus-4.5.0-7.i686 conflicts with file from package QtDBus-4.5.0-7.x86_64
-#   file /usr/bin/qdbusviewer from install of QtDBus-4.5.0-7.i686 conflicts with file from package QtDBus-4.5.0-7.x86_64
-#   $ rpm -q QtDBus --filecolor|less
-#   /usr/bin/qdbus  0
-#   /usr/bin/qdbusviewer    0
-#   $ file /usr/bin/qdbus /usr/bin/qdbusviewer
-#   /usr/bin/qdbus:       symbolic link to `../lib/qt4/bin/qdbus'
-#   /usr/bin/qdbusviewer: symbolic link to `../lib/qt4/bin/qdbusviewer'
-#   MORAL: it would be ok if the files were marked as multilib (colors 1 or 2), not symlinks (color 0)
-#   I personally would moved binaries to %{_bindir}
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -67,7 +56,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.7.2
-Release:	2
+Release:	3
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1595,10 +1584,8 @@ ln -sf ../%{_lib}/qt4/bin/qt3to4 .
 ln -sf ../%{_lib}/qt4/bin/rcc .
 ln -sf ../%{_lib}/qt4/bin/uic3 .
 ln -sf ../%{_lib}/qt4/bin/pixeltool .
-ln -sf ../%{_lib}/qt4/bin/qdbus .
 ln -sf ../%{_lib}/qt4/bin/qdbuscpp2xml .
 ln -sf ../%{_lib}/qt4/bin/qdbusxml2cpp .
-ln -sf ../%{_lib}/qt4/bin/qdbusviewer .
 ln -sf ../%{_lib}/qt4/bin/qhelpconverter .
 ln -sf ../%{_lib}/qt4/bin/qhelpgenerator .
 ln -sf ../%{_lib}/qt4/bin/qmlviewer .
@@ -1606,6 +1593,11 @@ ln -sf ../%{_lib}/qt4/bin/qttracereplay .
 ln -sf ../%{_lib}/qt4/bin/qvfb .
 ln -sf ../%{_lib}/qt4/bin/xmlpatternsvalidator .
 cd -
+
+# multilib
+mv $RPM_BUILD_ROOT%{_qtdir}/bin/{qdbus,qdbusviewer} $RPM_BUILD_ROOT%{_bindir}
+ln -sf %{_bindir}/qdbus $RPM_BUILD_ROOT%{_qtdir}/bin/qdbus
+ln -sf %{_bindir}/qdbusviewer $RPM_BUILD_ROOT%{_qtdir}/bin/qdbusviewer
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}/qtconfig-qt4.desktop
 install tools/qtconfig/images/appicon.png \
