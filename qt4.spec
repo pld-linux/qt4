@@ -1584,6 +1584,7 @@ ln -sf ../%{_lib}/qt4/bin/qt3to4 .
 ln -sf ../%{_lib}/qt4/bin/rcc .
 ln -sf ../%{_lib}/qt4/bin/uic3 .
 ln -sf ../%{_lib}/qt4/bin/pixeltool .
+ln -sf ../%{_lib}/qt4/bin/qcollectiongenerator .
 ln -sf ../%{_lib}/qt4/bin/qdbuscpp2xml .
 ln -sf ../%{_lib}/qt4/bin/qdbusxml2cpp .
 ln -sf ../%{_lib}/qt4/bin/qhelpconverter .
@@ -2079,11 +2080,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files assistant
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/pixeltool
 %attr(755,root,root) %{_bindir}/assistant-qt4
+%attr(755,root,root) %{_bindir}/pixeltool
+%attr(755,root,root) %{_bindir}/qcollectiongenerator
+%attr(755,root,root) %{_qtdir}/bin/assistant
 %attr(755,root,root) %{_qtdir}/bin/pixeltool
 %attr(755,root,root) %{_qtdir}/bin/qcollectiongenerator
-%attr(755,root,root) %{_qtdir}/bin/assistant
 %lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4-assistant.qm
 %lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-assistant.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant.qm
