@@ -56,7 +56,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.7.4
-Release:	2
+Release:	3
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1311,6 +1311,7 @@ Requires:	QtGui = %{version}-%{release}
 Requires:	QtNetwork = %{version}-%{release}
 Requires:	QtSql = %{version}-%{release}
 Requires:	QtXml = %{version}-%{release}
+Requires:	desktop-file-utils
 
 %description qtconfig
 A tool for configuring look and behavior of Qt widgets.
@@ -1844,6 +1845,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	phonon		-p /sbin/ldconfig
 %postun	phonon		-p /sbin/ldconfig
+
+%post qtconfig
+%update_desktop_database
 
 %files -n Qt3Support
 %defattr(644,root,root,755)
