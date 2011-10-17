@@ -75,12 +75,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.6.3
+Version:	4.6.4
 Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
-# Source0-md5:	5c69f16d452b0bb3d44bc3c10556c072
+# Source0-md5:	8ac880cc07a130c39607b65efd5e1421
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
