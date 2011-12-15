@@ -1,14 +1,14 @@
---- qt-copy/configure.orig	2005-05-13 16:45:03.000000000 +0200
-+++ qt-copy/configure	2005-05-13 20:19:54.084025408 +0200
-@@ -2694,6 +2694,11 @@
-             EXTRA_CFLAGS="$EXTRA_CFLAGS \$(QMAKE_CFLAGS_DEBUG)"
-             EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS \$(QMAKE_CXXFLAGS_DEBUG)"
+--- qt-everywhere-opensource-src-4.8.0/configure~	2011-12-15 15:34:08.000000000 +0100
++++ qt-everywhere-opensource-src-4.8.0/configure	2011-12-15 15:35:49.522563474 +0100
+@@ -4916,6 +4916,11 @@
+                 EXTRA_LFLAGS="\$(QMAKE_LFLAGS_RPATH)\"$rpath\" $EXTRA_LFLAGS"
+             done
          fi
 +
 +	if [ -n "$OPTFLAGS" ]; then
-+	         EXTRA_CFLAGS="$EXTRA_CFLAGS $OPTFLAGS"
++		EXTRA_CFLAGS="$EXTRA_CFLAGS $OPTFLAGS"
 +	fi
 +
-         if [ "$PLATFORM_MAC" = "yes" ]; then
-             echo "export MACOSX_DEPLOYMENT_TARGET = 10.2" >>$mkfile
-             echo "CARBON_LFLAGS +=-framework CoreServices -framework CoreFoundation" >>$mkfile
+         if [ "$BUILD_ON_MAC" = "yes" ]; then
+             echo "export MACOSX_DEPLOYMENT_TARGET = 10.5" >> "$mkfile"
+             echo "CARBON_LFLAGS =-framework ApplicationServices" >>"$mkfile"

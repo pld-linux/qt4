@@ -33,19 +33,99 @@ diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/linguist/linguist/main.cpp qt-x
 --- qt-everywhere-opensource-src-4.7.0/src/corelib/kernel/qtranslator.cpp.orig	2010-09-10 11:05:25.000000000 +0200
 +++ qt-everywhere-opensource-src-4.7.0/src/corelib/kernel/qtranslator.cpp	2010-09-21 21:36:42.645202096 +0200
 @@ -55,6 +55,7 @@
- #include "qalgorithms.h"
  #include "qhash.h"
  #include "qtranslator_p.h"
+ #include "qlocale.h"
 +#include <qlibraryinfo.h>
  
  #if defined(Q_OS_UNIX) && !defined(Q_OS_SYMBIAN)
  #define QT_USE_MMAP
-@@ -407,31 +408,71 @@
+@@ -445,49 +445,71 @@
      QString delims;
      delims = search_delimiters.isNull() ? QString::fromLatin1("_.") : search_delimiters;
  
 -    for (;;) {
 -        QFileInfo fi;
++    if (directory == QLibraryInfo::location(QLibraryInfo::TranslationsPath)) {
++	    QString locale;
++	    int idelim = 0, leftmost;
++
++	    for (;;) {
++		    leftmost = filename.size();
++		    for (int i = 0; i < (int)delims.length(); i++) {
++			    int k = filename.indexOf(delims[i], idelim);
++			    if ((k > 0)&&(k < leftmost))
++				    leftmost = k;
++		    }
++
++		    if (leftmost == filename.size())
++			    return false;
++
++		    idelim = leftmost + 1;
++		    fname = filename.left(leftmost);
++		    locale = filename.mid(leftmost+1);
++
++		    while (!locale.isEmpty()) {
++			    QFileInfo fi;
++			    realname = prefix + locale + QString::fromLatin1("/LC_MESSAGES/") +  fname + QString::fromLatin1(".qm");
++
++			    fi.setFile(realname);
++			    if (fi.isReadable())
++				    break;
++
++			    int rightmost = 0;
++			    for (int i = 0; i < (int)delims.length(); i++) {
++				    int k = locale.lastIndexOf(delims[i]);
++				    if (k > rightmost)
++					    rightmost = k;
++			    }
++			    locale.truncate(rightmost);
++		    }
++		    if (!locale.isEmpty())
++			    break;
++	    }
++    } else {
++	    for (;;) {
++		    QFileInfo fi;
++
++		    realname = prefix + fname + (suffix.isNull() ? QString::fromLatin1(".qm") : suffix);
++		    fi.setFile(realname);
++		    if (fi.isReadable())
++			    break;
++
++		    realname = prefix + fname;
++		    fi.setFile(realname);
++		    if (fi.isReadable())
++			    break;
++
++		    int rightmost = 0;
++		    for (int i = 0; i < (int)delims.length(); i++) {
++			    int k = fname.lastIndexOf(delims[i]);
++			    if (k > rightmost)
++				    rightmost = k;
++		    }
++
++		    // no truncations? fail
++		    if (rightmost == 0)
++			    return false;
+ 
+-#ifdef Q_OS_SYMBIAN
+-        //search for translations on other drives, e.g. Qt may be in Z, while app is in C
+-        //note this uses symbian search rules, i.e. y:->a:, followed by z:
+-        TFindFile finder(qt_s60GetRFs());
+-        QString fname2 = fname + (suffix.isNull() ? QString::fromLatin1(".qm") : suffix);
+-        TInt err = finder.FindByDir(
+-            qt_QString2TPtrC(fname2),
+-            qt_QString2TPtrC(nativePrefix));
+-        if (err != KErrNone)
+-            err = finder.FindByDir(qt_QString2TPtrC(fname), qt_QString2TPtrC(nativePrefix));
+-        if (err == KErrNone) {
+-            fi.setFile(qt_TDesC2QString(finder.File()));
+-            realname = fi.canonicalFilePath();
+-            if (fi.isReadable() && fi.isFile())
+-                break;
+-        }
+-#endif
 -
 -        realname = prefix + fname + (suffix.isNull() ? QString::fromLatin1(".qm") : suffix);
 -        fi.setFile(realname);
@@ -69,71 +149,9 @@ diff -Nur qt-x11-opensource-src-4.2.1.orig/tools/linguist/linguist/main.cpp qt-x
 -            return false;
 -
 -        fname.truncate(rightmost);
-+     if (directory == QLibraryInfo::location(QLibraryInfo::TranslationsPath)) {
-+ 	QString locale;
-+         int idelim = 0, leftmost;
-+                     
-+         for (;;) {
-+     	    leftmost = filename.size();
-+             for (int i = 0; i < (int)delims.length(); i++) {
-+         	int k = filename.indexOf(delims[i], idelim);
-+                 if ((k > 0)&&(k < leftmost))
-+                 leftmost = k;
-+             }
-+             
-+             if (leftmost == filename.size())
-+         	return false;
-+                                                                                                                                                 
-+             idelim = leftmost + 1;
-+             fname = filename.left(leftmost);
-+             locale = filename.mid(leftmost+1);
-+             
-+             while (!locale.isEmpty()) {
-+         	QFileInfo fi;
-+                 realname = prefix + locale + QString::fromLatin1("/LC_MESSAGES/") +  fname + QString::fromLatin1(".qm");
-+                 
-+                 fi.setFile(realname);
-+                 if (fi.isReadable())
-+             	    break;
-+                                                                                                                                                                                                                                                                                     
-+                 int rightmost = 0;
-+                 for (int i = 0; i < (int)delims.length(); i++) {
-+             	    int k = locale.lastIndexOf(delims[i]);
-+                     if (k > rightmost)
-+                 	rightmost = k;
-+                 }
-+                 locale.truncate(rightmost);
-+             }
-+             if (!locale.isEmpty())
-+         	break;
-+ 	}
-+     } else {
-+ 	for (;;) {
-+     	    QFileInfo fi;
-+ 
-+     	    realname = prefix + fname + (suffix.isNull() ? QString::fromLatin1(".qm") : suffix);
-+     	    fi.setFile(realname);
-+     	    if (fi.isReadable())
-+         	break;
-+ 
-+     	    realname = prefix + fname;
-+     	    fi.setFile(realname);
-+     	    if (fi.isReadable())
-+         	break;
-+ 
-+     	    int rightmost = 0;
-+     	    for (int i = 0; i < (int)delims.length(); i++) {
-+         	int k = fname.lastIndexOf(delims[i]);
-+         	if (k > rightmost)
-+             	    rightmost = k;
-+     	    }
-+ 
-+             // no truncations? fail
-+     	    if (rightmost == 0)
-+     	    return false;
-+  
-+ 	    fname.truncate(rightmost);
-+	}
++		    fname.truncate(rightmost);
++	    }
      }
  
      // realname is now the fully qualified name of a readable file.
+

@@ -55,12 +55,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.7.4
-Release:	3
+Version:	4.8.0
+Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
-# Source0-md5:	ddf7d83f912cf1283aa066368464fa22
+# Source0-md5:	e8a5fdbeba2927c948d9f477a6abe904
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -75,7 +75,7 @@ Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
-Patch4:		%{name}-antialias.patch
+Patch4:		%{name}-qvfb.patch
 Patch5:		%{name}-support-cflags-with-commas.patch
 Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
@@ -1429,6 +1429,9 @@ Programas exemplo para o Qt versão.
 	s|^QMAKE_STRIP.*=.*|QMAKE_STRIP             =|;
 	' mkspecs/common/linux.conf
 
+# disable webkit tests, broken build
+rm -r src/3rdparty/webkit/Source/WebKit/qt/tests
+
 %build
 # pass OPTFLAGS to build qmake itself with optimization
 export OPTFLAGS="%{rpmcflags}"
@@ -1439,7 +1442,6 @@ export PATH=$PWD/bin:$PATH
 ##################################
 
 COMMONOPT=" \
-	-DQT_CLEAN_NAMESPACE \
 	-buildkey pld \
 	-verbose \
 	-prefix %{_qtdir} \
@@ -1454,6 +1456,8 @@ COMMONOPT=" \
 	-sysconfdir %{_sysconfdir}/qt4 \
 	-examplesdir %{_examplesdir}/qt4 \
 	-demosdir %{_examplesdir}/qt4-demos \
+	-opensource \
+	-optimized-qmake \
 	-fast \
 	-glib \
 	%{!?with_gtk:-no-gtkstyle} \
@@ -1469,13 +1473,16 @@ COMMONOPT=" \
 	%{!?with_sse42:-no-sse4.2} \
 	%{!?with_avx:-no-avx} \
 	-qdbus \
-	-qt-gif \
+	-dbus-linked \
 	-reduce-relocations \
 	-system-libjpeg \
 	-system-libmng \
 	-system-libpng \
+	-system-libtiff \
 	-system-zlib \
+	-openssl-linked \
 	-exceptions \
+	-graphicssystem raster \
 	-largefile \
 	-I/usr/include/postgresql/server \
 	-I/usr/include/mysql \
@@ -1485,13 +1492,17 @@ COMMONOPT=" \
 	%{!?debug:-release} \
 	-qt3support \
 	-fontconfig \
+	-largefile \
 	-iconv \
+	-icu \
 	-no-separate-debug-info \
 	-xfixes \
 	-nis \
 	-sm \
 	-xcursor \
 	-xinput \
+	-xinerama \
+	-xrandr \
 	-xkb \
 	-xrender \
 	-xshape \
@@ -1591,6 +1602,7 @@ ln -sf ../%{_lib}/qt4/bin/qdbusxml2cpp .
 ln -sf ../%{_lib}/qt4/bin/qhelpconverter .
 ln -sf ../%{_lib}/qt4/bin/qhelpgenerator .
 ln -sf ../%{_lib}/qt4/bin/qmlviewer .
+ln -sf ../%{_lib}/qt4/bin/qmlplugindump .
 ln -sf ../%{_lib}/qt4/bin/qttracereplay .
 ln -sf ../%{_lib}/qt4/bin/qvfb .
 ln -sf ../%{_lib}/qt4/bin/xmlpatternsvalidator .
@@ -1907,7 +1919,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtDeclarative
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qmlviewer
+%attr(755,root,root) %{_bindir}/qmlplugindump
 %attr(755,root,root) %{_qtdir}/bin/qmlviewer
+%attr(755,root,root) %{_qtdir}/bin/qmlplugindump
 %attr(755,root,root) %{_libdir}/libQtDeclarative.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtDeclarative.so.4
 %dir %{_qtdir}/imports
@@ -1924,6 +1938,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_qtdir}/imports/QtWebKit/qmldir
 %dir %{_qtdir}/plugins/qmltooling
 %attr(755,root,root) %{_qtdir}/plugins/qmltooling/libqmldbg_tcp.so
+%attr(755,root,root) %{_qtdir}/plugins/qmltooling/libqmldbg_inspector.so
 
 %files -n QtDesigner
 %defattr(644,root,root,755)
@@ -1948,6 +1963,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/libqico.so
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/libqjpeg.so
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/libqmng.so
+%attr(755,root,root) %{_qtdir}/plugins/imageformats/libqtga.so
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/libqtiff.so
 %dir %{_qtdir}/plugins/inputmethods
 %attr(755,root,root) %{_qtdir}/plugins/inputmethods/*.so
