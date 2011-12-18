@@ -1890,11 +1890,14 @@ rm -rf $RPM_BUILD_ROOT
 %lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
+%lang(fa) %{_datadir}/locale/fa/LC_MESSAGES/qt4.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
 %lang(gl) %{_datadir}/locale/gl/LC_MESSAGES/qt4.qm
 %lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
 %lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4.qm
+%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4.qm
+%lang(lt) %{_datadir}/locale/lt/LC_MESSAGES/qt4.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4.qm
 %lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/qt4.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
@@ -1980,8 +1983,10 @@ rm -rf $RPM_BUILD_ROOT
 %lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-qt_help.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-qt_help.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-qt_help.qm
+%lang(gl) %{_datadir}/locale/gl/LC_MESSAGES/qt4-qt_help.qm
 %lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-qt_help.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-qt_help.qm
+%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-qt_help.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qt_help.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qt_help.qm
 %lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-qt_help.qm
@@ -2113,6 +2118,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-assistant.qm
 %lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-assistant.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant.qm
+%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-assistant.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-assistant.qm
 %lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-assistant.qm
@@ -2148,6 +2154,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-designer.qm
 %lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-designer.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-designer.qm
+%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-designer.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-designer.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-designer.qm
 %lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-designer.qm
@@ -2173,6 +2180,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-linguist.qm
 %lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-linguist.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-linguist.qm
+%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-linguist.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-linguist.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-linguist.qm
 %lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-linguist.qm
@@ -2205,6 +2213,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/qtconfig
 %lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-qtconfig.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-qtconfig.qm
+%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-qtconfig.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qtconfig.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qtconfig.qm
 %lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-qtconfig.qm
@@ -2220,6 +2229,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/qvfb
 %lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-qvfb.qm
 %lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-qvfb.qm
+%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-qvfb.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qvfb.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qvfb.qm
 %lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-qvfb.qm
@@ -2365,9 +2375,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libQtUiTools.a
 
-#%files -n QtWebKit-static
-#%defattr(644,root,root,755)
-#%{_libdir}/libQtWebKit.a
+%files -n QtWebKit-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtWebKit.a
 
 %files -n QtDeclarative-static
 %defattr(644,root,root,755)
