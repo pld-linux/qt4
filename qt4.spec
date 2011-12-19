@@ -95,16 +95,17 @@ BuildRequires:	freetype-devel >= 1:2.0.0
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	gstreamer-plugins-base-devel
 %{?with_gtk:BuildRequires:	gtk+2-devel}
+BuildRequires:	libicu-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
-BuildRequires:	pulseaudio-devel >= 0.9.10
 BuildRequires:	libstdc++-devel
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_nas:BuildRequires:	nas-devel}
 BuildRequires:	pkgconfig
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
+BuildRequires:	pulseaudio-devel >= 0.9.10
 BuildRequires:	rpmbuild(macros) >= 1.602
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
