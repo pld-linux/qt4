@@ -256,6 +256,7 @@ biblioteka statyczna.
 Summary:	Qt core classes used by other modules
 Summary(pl.UTF-8):	Podstawowe klasy Qt używane przez inne moduły
 Group:		X11/Libraries
+%requires_eq	libicu
 Obsoletes:	QtAssistant
 
 %description -n QtCore
