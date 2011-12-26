@@ -87,14 +87,14 @@ URL:		http://qt.nokia.com/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	alsa-lib-devel
 %{?with_cups:BuildRequires:	cups-devel}
-BuildRequires:	dbus-devel >= 0.62
+BuildRequires:	dbus-devel >= 0.93
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetds-devel
 BuildRequires:	freetype-devel >= 1:2.0.0
 %{?with_pch:BuildRequires:	gcc >= 5:4.0}
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	gstreamer-plugins-base-devel
-%{?with_gtk:BuildRequires:	gtk+2-devel}
+%{?with_gtk:BuildRequires:	gtk+2-devel >= 2:2.10}
 BuildRequires:	libicu-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
