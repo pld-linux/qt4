@@ -369,6 +369,7 @@ językiem zorientowanym na JavaScript.
 Summary:	Development files for QtDeclarative - QML language engine library
 Summary(pl.UTF-8):	Pliki programistyczne QtDeclarative - biblioteki języka QML
 Group:		X11/Development/Libraries
+Requires:	QtDeclarative = %{version}-%{release}
 Requires:	QtGui-devel = %{version}-%{release}
 Requires:	QtNetwork-devel = %{version}-%{release}
 Requires:	QtScript-devel = %{version}-%{release}
