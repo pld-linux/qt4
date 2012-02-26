@@ -1,0 +1,398 @@
+commit 1095252559a937efcaaf012d8dfbb4e13c4fd6b5
+Author: John Stanley <jpsinthemix@verizon.net>
+Date:   Tue Jan 17 20:04:59 2012 -0500
+
+    Pass events to installed event dispatcher event filters before passing them to x11ProcessEvent()
+    
+    Change-Id: If551c732b520b0105a3d4578db1b039c1b5d49fd
+    
+    Pass events to eventFilter first
+    
+    Change-Id: If551c732b520b0105a3d4578db1b039c1b5d49fd
+    Reviewed-by: Bradley T. Hughes <bradley.hughes@nokia.com>
+
+diff --git a/src/gui/kernel/qclipboard_x11.cpp b/src/gui/kernel/qclipboard_x11.cpp
+index 803b1ba..72110ed 100644
+--- a/src/gui/kernel/qclipboard_x11.cpp
++++ b/src/gui/kernel/qclipboard_x11.cpp
+@@ -579,7 +579,10 @@ bool QX11Data::clipboardWaitForEvent(Window win, int type, XEvent *event, int ti
+ 
+             // process other clipboard events, since someone is probably requesting data from us
+             XEvent e;
+-            if (XCheckIfEvent(X11->display, &e, checkForClipboardEvents, 0))
++            // Pass the event through the event dispatcher filter so that applications
++            // which install an event filter on the dispatcher get to handle it first.
++            if (XCheckIfEvent(X11->display, &e, checkForClipboardEvents, 0) &&
++                !QAbstractEventDispatcher::instance()->filterEvent(&e))
+                 qApp->x11ProcessEvent(&e);
+ 
+             now.start();
+diff --git a/src/gui/kernel/qdnd_x11.cpp b/src/gui/kernel/qdnd_x11.cpp
+index 2b14743..d2050d1 100644
+--- a/src/gui/kernel/qdnd_x11.cpp
++++ b/src/gui/kernel/qdnd_x11.cpp
+@@ -42,6 +42,7 @@
+ #include "qplatformdefs.h"
+ 
+ #include "qapplication.h"
++#include "qabstracteventdispatcher.h"
+ 
+ #ifndef QT_NO_DRAGANDDROP
+ 
+@@ -1967,7 +1968,10 @@ Qt::DropAction QDragManager::drag(QDrag * o)
+         timer.start();
+         do {
+             XEvent event;
+-            if (XCheckTypedEvent(X11->display, ClientMessage, &event))
++            // Pass the event through the event dispatcher filter so that applications
++            // which install an event filter on the dispatcher get to handle it first.
++            if (XCheckTypedEvent(X11->display, ClientMessage, &event) &&
++                !QAbstractEventDispatcher::instance()->filterEvent(&event))
+                 qApp->x11ProcessEvent(&event);
+ 
+             // sleep 50 ms, so we don't use up CPU cycles all the time.
+diff --git a/src/gui/kernel/qwidget_x11.cpp b/src/gui/kernel/qwidget_x11.cpp
+index 4cdd6e7..3cff3ee 100644
+--- a/src/gui/kernel/qwidget_x11.cpp
++++ b/src/gui/kernel/qwidget_x11.cpp
+@@ -44,6 +44,7 @@
+ #include "qdesktopwidget.h"
+ #include "qapplication.h"
+ #include "qapplication_p.h"
++#include "qabstracteventdispatcher.h"
+ #include "qnamespace.h"
+ #include "qpainter.h"
+ #include "qbitmap.h"
+@@ -376,17 +377,21 @@ void qt_x11_wait_for_window_manager(QWidget *w, bool sendPostedEvents)
+     do {
+         if (XEventsQueued(X11->display, QueuedAlready)) {
+             XNextEvent(X11->display, &ev);
+-            qApp->x11ProcessEvent(&ev);
+-
+-            switch (state) {
+-            case Initial:
+-                if (ev.type == MapNotify && ev.xany.window == winid)
+-                    state = Mapped;
+-                break;
+-            case Mapped:
+-                if (ev.type == Expose && ev.xany.window == winid)
+-                    return;
+-                break;
++            // Pass the event through the event dispatcher filter so that applications
++            // which install an event filter on the dispatcher get to handle it first.
++            if (!QAbstractEventDispatcher::instance()->filterEvent(&ev)) {
++                qApp->x11ProcessEvent(&ev);
++
++                switch (state) {
++                case Initial:
++                    if (ev.type == MapNotify && ev.xany.window == winid)
++                        state = Mapped;
++                    break;
++                case Mapped:
++                    if (ev.type == Expose && ev.xany.window == winid)
++                        return;
++                    break;
++                }
+             }
+         } else {
+             if (!XEventsQueued(X11->display, QueuedAfterFlush))
+commit 69ada23a75bb51b4efc90c6128cce22d5ee6a779
+Author: John Stanley <jpsinthemix@verizon.net>
+Date:   Tue Jan 17 20:04:55 2012 -0500
+
+    When doing mouse move compression, pass non-MotionNotify events to installed event dispatcher event filters
+    
+    Change-Id: Ia71f23458b9a6bc728f3e05592f530e317ae453c
+    Reviewed-by: Bradley T. Hughes <bradley.hughes@nokia.com>
+
+diff --git a/src/gui/kernel/qapplication_x11.cpp b/src/gui/kernel/qapplication_x11.cpp
+index 256db7d..4d642a9 100644
+--- a/src/gui/kernel/qapplication_x11.cpp
++++ b/src/gui/kernel/qapplication_x11.cpp
+@@ -4234,7 +4234,10 @@ bool QETWidget::translateMouseEvent(const XEvent *event)
+                     && (nextEvent.xclient.message_type == ATOM(_QT_SCROLL_DONE) ||
+                     (nextEvent.xclient.message_type == ATOM(WM_PROTOCOLS) &&
+                      (Atom)nextEvent.xclient.data.l[0] == ATOM(_NET_WM_SYNC_REQUEST))))) {
+-                qApp->x11ProcessEvent(&nextEvent);
++                // Pass the event through the event dispatcher filter so that applications
++                // which install an event filter on the dispatcher get to handle it first.
++                if (!QAbstractEventDispatcher::instance()->filterEvent(&nextEvent))
++                    qApp->x11ProcessEvent(&nextEvent);
+                 continue;
+             } else if (nextEvent.type != MotionNotify ||
+                        nextEvent.xmotion.window != event->xmotion.window ||
+commit 6bab6fccd2d8ee8e83e968864d729c1bbee39a66
+Author: John Stanley <jpsinthemix@verizon.net>
+Date:   Mon Jan 30 07:27:49 2012 -0500
+
+    Raise loopLevel for deleteLater in event filters
+    
+    Change-Id: I163f510f6e99d86a35cc78965fa383e7f4618f42
+    Reviewed-by: Bradley T. Hughes <bradley.hughes@nokia.com>
+
+diff --git a/src/corelib/kernel/qabstracteventdispatcher.cpp b/src/corelib/kernel/qabstracteventdispatcher.cpp
+index 3f73e61..3b0a258 100644
+--- a/src/corelib/kernel/qabstracteventdispatcher.cpp
++++ b/src/corelib/kernel/qabstracteventdispatcher.cpp
+@@ -532,8 +532,12 @@ QAbstractEventDispatcher::EventFilter QAbstractEventDispatcher::setEventFilter(E
+ bool QAbstractEventDispatcher::filterEvent(void *message)
+ {
+     Q_D(QAbstractEventDispatcher);
+-    if (d->event_filter)
++    if (d->event_filter) {
++        // Raise the loopLevel so that deleteLater() calls in or triggered
++        // by event_filter() will be processed from the main event loop.
++        QScopedLoopLevelCounter loopLevelCounter(d->threadData);
+         return d->event_filter(message);
++    }
+     return false;
+ }
+ 
+diff --git a/src/corelib/thread/qthread_p.h b/src/corelib/thread/qthread_p.h
+index 9b71d02..bb90de7 100644
+--- a/src/corelib/thread/qthread_p.h
++++ b/src/corelib/thread/qthread_p.h
+@@ -238,6 +238,17 @@ public:
+ # endif
+ };
+ 
++class QScopedLoopLevelCounter
++{
++    QThreadData *threadData;
++public:
++    inline QScopedLoopLevelCounter(QThreadData *threadData)
++        : threadData(threadData)
++    { ++threadData->loopLevel; }
++    inline ~QScopedLoopLevelCounter()
++    { --threadData->loopLevel; }
++};
++
+ // thread wrapper for the main() thread
+ class QAdoptedThread : public QThread
+ {
+diff --git a/src/gui/kernel/qapplication_p.h b/src/gui/kernel/qapplication_p.h
+index 9acf2c8..31d0b75 100644
+--- a/src/gui/kernel/qapplication_p.h
++++ b/src/gui/kernel/qapplication_p.h
+@@ -277,17 +277,6 @@ typedef struct tagGESTURECONFIG
+ 
+ #endif // Q_WS_WIN
+ 
+-class QScopedLoopLevelCounter
+-{
+-    QThreadData *threadData;
+-public:
+-    QScopedLoopLevelCounter(QThreadData *threadData)
+-        : threadData(threadData)
+-    { ++threadData->loopLevel; }
+-    ~QScopedLoopLevelCounter()
+-    { --threadData->loopLevel; }
+-};
+-
+ typedef QHash<QByteArray, QFont> FontHash;
+ FontHash *qt_app_fonts_hash();
+ 
+commit 26f1ca8681db995e82c0f4c0fa9363c842520700
+Author: Shane Kearns <shane.kearns@accenture.com>
+Date:   Mon Dec 19 15:10:45 2011 +0000
+
+    Handle plain socket write errors in SSL
+    
+    When an ssl socket is closed during connecting, and it is using a proxy
+    then it is possible for the plain socket to be in pending close state
+    when transmit() is called.
+    As errors were not handled, this caused the socket (and https request)
+    to "hang".
+    It now propagates the error from plain socket.
+    
+    Change-Id: I6fb86815a2a63e197cea582f4b153e487543477c
+    Reviewed-by: Peter Hartmann <peter.hartmann@nokia.com>
+    Reviewed-by: Richard J. Moore <rich@kde.org>
+    Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
+    (cherry picked from commit 2cc78885b0b7d08f965998d156945a077e56c1d8)
+
+diff --git a/src/network/ssl/qsslsocket_openssl.cpp b/src/network/ssl/qsslsocket_openssl.cpp
+index 872b19c..900bfdb 100644
+--- a/src/network/ssl/qsslsocket_openssl.cpp
++++ b/src/network/ssl/qsslsocket_openssl.cpp
+@@ -1044,10 +1044,17 @@ void QSslSocketBackendPrivate::transmit()
+             int encryptedBytesRead = q_BIO_read(writeBio, data.data(), pendingBytes);
+ 
+             // Write encrypted data from the buffer to the socket.
+-            plainSocket->write(data.constData(), encryptedBytesRead);
++            qint64 actualWritten = plainSocket->write(data.constData(), encryptedBytesRead);
+ #ifdef QSSLSOCKET_DEBUG
+-            qDebug() << "QSslSocketBackendPrivate::transmit: wrote" << encryptedBytesRead << "encrypted bytes to the socket";
++            qDebug() << "QSslSocketBackendPrivate::transmit: wrote" << encryptedBytesRead << "encrypted bytes to the socket" << actualWritten << "actual.";
+ #endif
++            if (actualWritten < 0) {
++                //plain socket write fails if it was in the pending close state.
++                q->setErrorString(plainSocket->errorString());
++                q->setSocketError(plainSocket->error());
++                emit q->error(plainSocket->error());
++                return;
++            }
+             transmitting = true;
+         }
+ 
+commit 33179842341fcf7d42e74f62a600470aed6b08a1
+Author: Shane Kearns <ext-shane.2.kearns@nokia.com>
+Date:   Mon Jan 30 15:52:27 2012 +0000
+
+    Prevent data loss when an ssl socket is closed by remote
+    
+    SSL context was destroyed on disconnect. This makes it impossible to
+    decrypt buffered encrypted data. So if there is encrypted data in the
+    receive buffers, then don't destroy the ssl context until the socket is
+    destroyed.
+    
+    Task-Number: QTBUG-23607
+    Change-Id: I16a7b4fa006647ec73049c90cdbc72686696850f
+    Reviewed-by: Jonas Gastal <jgastal@profusion.mobi>
+    Reviewed-by: Richard J. Moore <rich@kde.org>
+    (cherry picked from commit c5aba0ac17ae6ed8f3847bd30325acdbd1ecaa80)
+
+diff --git a/src/network/ssl/qsslsocket_openssl.cpp b/src/network/ssl/qsslsocket_openssl.cpp
+index 25d1d9e..5b1cd1b 100644
+--- a/src/network/ssl/qsslsocket_openssl.cpp
++++ b/src/network/ssl/qsslsocket_openssl.cpp
+@@ -183,6 +183,7 @@ QSslSocketBackendPrivate::QSslSocketBackendPrivate()
+ 
+ QSslSocketBackendPrivate::~QSslSocketBackendPrivate()
+ {
++    destroySslContext();
+ }
+ 
+ QSslCipher QSslSocketBackendPrivate::QSslCipher_from_SSL_CIPHER(SSL_CIPHER *cipher)
+@@ -483,6 +484,22 @@ init_context:
+     return true;
+ }
+ 
++void QSslSocketBackendPrivate::destroySslContext()
++{
++    if (ssl) {
++        q_SSL_free(ssl);
++        ssl = 0;
++    }
++    if (ctx) {
++        q_SSL_CTX_free(ctx);
++        ctx = 0;
++    }
++    if (pkey) {
++        q_EVP_PKEY_free(pkey);
++        pkey = 0;
++    }
++}
++
+ /*!
+     \internal
+ */
+@@ -1403,19 +1420,10 @@ void QSslSocketBackendPrivate::disconnectFromHost()
+ 
+ void QSslSocketBackendPrivate::disconnected()
+ {
+-    if (ssl) {
+-        q_SSL_free(ssl);
+-        ssl = 0;
+-    }
+-    if (ctx) {
+-        q_SSL_CTX_free(ctx);
+-        ctx = 0;
+-    }
+-    if (pkey) {
+-        q_EVP_PKEY_free(pkey);
+-        pkey = 0;
+-    }
+-
++    if (plainSocket->bytesAvailable() <= 0)
++        destroySslContext();
++    //if there is still buffered data in the plain socket, don't destroy the ssl context yet.
++    //it will be destroyed when the socket is deleted.
+ }
+ 
+ QSslCipher QSslSocketBackendPrivate::sessionCipher() const
+diff --git a/src/network/ssl/qsslsocket_openssl_p.h b/src/network/ssl/qsslsocket_openssl_p.h
+index bad2c9c..2940480 100644
+--- a/src/network/ssl/qsslsocket_openssl_p.h
++++ b/src/network/ssl/qsslsocket_openssl_p.h
+@@ -99,6 +99,7 @@ public:
+ 
+     // SSL context
+     bool initSslContext();
++    void destroySslContext();
+     SSL *ssl;
+     SSL_CTX *ctx;
+     EVP_PKEY *pkey;
+commit 6a91b3bcdf1b5e491aa8531579c4e62fcc794d6e
+Author: Albert Astals Cid <aacid@kde.org>
+Date:   Tue Jan 10 16:00:48 2012 +0100
+
+    Check for the clipboard manager when looping due to app quiting
+    
+    One can be extremely unlucky and on session logout get this:
+     * All apps are going down
+     * A Qt app checks if the clipboard manager is there to yield its clipboard contents
+     * The clipboard manager is still there
+     * Then just after that check, the clipboard manager finishes because of the session end
+     * This means the Qt app will loop for 5 seconds trying to yield its clipboard contents
+       to a clipboard manager that is not there anymore
+    This is a backport of 689c4009fb9be348f9137a9092b068e056a3d8b3 in the qtbase (Qt 5.0) repo
+    
+    Change-Id: I8ab1f460aa5936c03f1afc1b6ff18824f1d6cbc1
+    Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
+
+diff --git a/src/gui/kernel/qclipboard_x11.cpp b/src/gui/kernel/qclipboard_x11.cpp
+index 7990f5d..803b1ba 100644
+--- a/src/gui/kernel/qclipboard_x11.cpp
++++ b/src/gui/kernel/qclipboard_x11.cpp
+@@ -515,7 +515,7 @@ static Bool checkForClipboardEvents(Display *, XEvent *e, XPointer)
+                                               || e->xselectionclear.selection == ATOM(CLIPBOARD))));
+ }
+ 
+-bool QX11Data::clipboardWaitForEvent(Window win, int type, XEvent *event, int timeout)
++bool QX11Data::clipboardWaitForEvent(Window win, int type, XEvent *event, int timeout, bool checkManager)
+ {
+     QElapsedTimer started;
+     started.start();
+@@ -544,6 +544,9 @@ bool QX11Data::clipboardWaitForEvent(Window win, int type, XEvent *event, int ti
+                 return true;
+             }
+ 
++            if (checkManager && XGetSelectionOwner(X11->display, ATOM(CLIPBOARD_MANAGER)) == XNone)
++                return false;
++
+             XSync(X11->display, false);
+             usleep(50000);
+ 
+@@ -571,6 +574,9 @@ bool QX11Data::clipboardWaitForEvent(Window win, int type, XEvent *event, int ti
+             if (XCheckTypedWindowEvent(X11->display,win,type,event))
+                 return true;
+ 
++            if (checkManager && XGetSelectionOwner(X11->display, ATOM(CLIPBOARD_MANAGER)) == XNone)
++                return false;
++
+             // process other clipboard events, since someone is probably requesting data from us
+             XEvent e;
+             if (XCheckIfEvent(X11->display, &e, checkForClipboardEvents, 0))
+@@ -933,7 +939,7 @@ bool QClipboard::event(QEvent *e)
+ 
+         XEvent event;
+         // waiting until the clipboard manager fetches the content.
+-        if (!X11->clipboardWaitForEvent(ownerId, SelectionNotify, &event, 10000)) {
++        if (!X11->clipboardWaitForEvent(ownerId, SelectionNotify, &event, 10000, true)) {
+             qWarning("QClipboard: Unable to receive an event from the "
+                      "clipboard manager in a reasonable time");
+         }
+diff --git a/src/gui/kernel/qt_x11_p.h b/src/gui/kernel/qt_x11_p.h
+index bdca019..ed7c146 100644
+--- a/src/gui/kernel/qt_x11_p.h
++++ b/src/gui/kernel/qt_x11_p.h
+@@ -350,7 +350,7 @@ struct QX11Data
+     Window findClientWindow(Window, Atom, bool);
+ 
+     // from qclipboard_x11.cpp
+-    bool clipboardWaitForEvent(Window win, int type, XEvent *event, int timeout);
++    bool clipboardWaitForEvent(Window win, int type, XEvent *event, int timeout, bool checkManager = false);
+     bool clipboardReadProperty(Window win, Atom property, bool deleteProperty,
+                             QByteArray *buffer, int *size, Atom *type, int *format);
+     QByteArray clipboardReadIncrementalProperty(Window win, Atom property, int nbytes, bool nullterm);
