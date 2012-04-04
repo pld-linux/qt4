@@ -1,7 +1,6 @@
 #
 # TODO:
 #	- figure out why it tries to link with system qt (fix and drop BuildConflicts Qt)
-#	- better descriptions (QtScript=QtScriptTools???)
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
@@ -79,7 +78,7 @@ Patch4:		%{name}-qvfb.patch
 Patch5:		%{name}-support-cflags-with-commas.patch
 Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
-Patch8:		%{name}-pl-update.patch
+Patch8:		%{name}-glib.patch
 Patch9:		%{name}-ibase.patch
 Patch10:	%{name}-git.patch
 Patch11:	qt-x11-opensource-src-4.5.1-enable_ft_lcdfilter.patch
@@ -713,24 +712,24 @@ Klasy Qt pozwalające dodać obsługę skryptów w aplikacjach - biblioteka
 statyczna.
 
 %package -n QtScriptTools
-Summary:	Qt classes for scripting applications
-Summary(pl.UTF-8):	Klasy Qt pozwalające dodać obsługę skryptów w aplikacjach
+Summary:	QtScriptTools - additional components for applications that use QtScript
+Summary(pl.UTF-8):	QtScriptTools - dodatkowe komponenty dla aplikacji wykorzystujących QtScript
 Group:		X11/Development/Libraries
 Requires:	QtCore = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
 Requires:	QtScript = %{version}-%{release}
 
 %description -n QtScriptTools
-The QtScriptTools module provides Qt classes to handle scripts inside
-applications.
+The QtScriptTools module provides additional components for
+applications that use QtScript.
 
 %description -n QtScriptTools -l pl.UTF-8
-Ten moduł dostarcza klasy Qt obsługujące języki skryptowe wewnątrz
-aplikacji.
+Moduł QtScriptTools dostarcza dodatkowe komponenty dla aplikacji
+wykorzystujących QtScript.
 
 %package -n QtScriptTools-devel
-Summary:	Qt classes for scripting applications - development files
-Summary(pl.UTF-8):	Klasy Qt do obsługi skryptów wewnątrz aplikacji - pliki programistyczne
+Summary:	Development files for QtScriptTools components
+Summary(pl.UTF-8):	Pliki programistyczne komponentów QtScriptTools
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtGui-devel = %{version}-%{release}
@@ -738,24 +737,24 @@ Requires:	QtScript-devel = %{version}-%{release}
 Requires:	QtScriptTools = %{version}-%{release}
 
 %description -n QtScriptTools-devel
-Qt classes for scripting applications - development files.
+Development files for QtScriptTools components.
 
 %description -n QtScriptTools-devel -l pl.UTF-8
-Klasy Qt do obsługi skryptów wewnątrz aplikacji - pliki
-programistyczne.
+Pliki programistyczne komponentów QtScriptTools.
 
 %package -n QtScriptTools-static
-Summary:	Qt classes for scripting applications - static library
-Summary(pl.UTF-8):	Klasy Qt pozwalające dodać obsługę skryptów w aplikacjach - biblioteka statyczna
+Summary:	QtScriptTools components - static library
+Summary(pl.UTF-8):	Komponenty QtScriptTools - biblioteka statyczna
 Group:		X11/Development/Libraries
 Requires:	QtScriptTools-devel = %{version}-%{release}
 
 %description -n QtScriptTools-static
-Qt classes for scripting applications - static library.
+Static version of QtScriptTools library, providing additional
+components for applications that use QtScript.
 
 %description -n QtScriptTools-static -l pl.UTF-8
-Klasy Qt pozwalające dodać obsługę skryptów w aplikacjach - biblioteka
-statyczna.
+Statyczna biblioteka QtScriptTools, dostarczająca dodatkowe komponenty
+dla aplikacji wykorzystujących QtScript.
 
 %package -n QtSql
 Summary:	Qt classes for database integration using SQL
@@ -1400,7 +1399,7 @@ Programas exemplo para o Qt versão.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-#%patch8 -p1
+%patch8 -p1
 %patch9 -p1
 #%patch10 -p1
 %patch11 -p1
