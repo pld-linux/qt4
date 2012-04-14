@@ -55,7 +55,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.1
-Release:	2
+Release:	3
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -257,6 +257,13 @@ Summary:	Qt core classes used by other modules
 Summary(pl.UTF-8):	Podstawowe klasy Qt używane przez inne moduły
 Group:		X11/Libraries
 %requires_eq	libicu
+# be sure to depend on proper arch.
+%ifarch %{ix86}
+Requires:	libicui18n.so.48
+%endif
+%ifarch %{x8664}
+Requires:	libicui18n.so.48()(64bit)
+%endif
 Obsoletes:	QtAssistant
 
 %description -n QtCore
@@ -696,7 +703,8 @@ Requires:	QtScript = %{version}-%{release}
 Qt classes for scriptin applications - development files.
 
 %description -n QtScript-devel -l pl.UTF-8
-Klasy Qt do obsługi skryptów wewnątrz aplikacji - pliki programistyczne.
+Klasy Qt do obsługi skryptów wewnątrz aplikacji - pliki
+programistyczne.
 
 %package -n QtScript-static
 Summary:	Qt classes for scripting applications - static library
@@ -1106,7 +1114,8 @@ Group:		X11/Development/Libraries
 Requires:	QtWebKit-devel = %{version}-%{release}
 
 %description -n QtWebKit-static
-Qt classes for rendering HTML, XHTML and SVG documents - static library.
+Qt classes for rendering HTML, XHTML and SVG documents - static
+library.
 
 %description -n QtWebKit-static -l pl.UTF-8
 Klasy Qt do renderowania dokumentów HTML, XHTML i SVG - biblioteka
