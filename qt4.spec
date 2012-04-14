@@ -1465,7 +1465,7 @@ COMMONOPT=" \
 	-L%{_libdir} \
 	-plugindir %{_qtdir}/plugins \
 	-datadir %{_datadir}/qt4 \
-	-translationdir %{_datadir}/locale/ \
+	-translationdir %{_localedir}/ \
 	-sysconfdir %{_sysconfdir}/qt4 \
 	-examplesdir %{_examplesdir}/qt4 \
 	-demosdir %{_examplesdir}/qt4-demos \
@@ -1657,7 +1657,7 @@ for f in translations/*.ts ; do
 	LD_LIBRARY_PATH=lib bin/lrelease $f -qm translations/$(basename $f .ts).qm
 done
 
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/locale/*.qm
+%{__rm} $RPM_BUILD_ROOT%{_localedir}/*.qm
 for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm tools/linguist/linguist/*.qm; do
 	[ ! -f $file ] && continue
 	case "$file" in
@@ -1669,8 +1669,8 @@ for file in translations/*.qm tools/assistant/*.qm tools/designer/designer/*.qm 
 	[ "$lang" == "iw" ] && lang=he
 	MOD=qt4-$MOD
 	[ "$MOD" == "qt4-qt" ] && MOD=qt4
-	install	-d $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
-	cp $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/$MOD.qm
+	install	-d $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES
+	cp $file $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/$MOD.qm
 done
 
 cd $RPM_BUILD_ROOT%{_includedir}/qt4/Qt
@@ -1898,28 +1898,28 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_qtdir}/plugins/crypto
 %dir %{_qtdir}/plugins/network
 %dir %{_datadir}/qt4
-%lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/qt4.qm
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4.qm
-%lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4.qm
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4.qm
-%lang(es) %{_datadir}/locale/es/LC_MESSAGES/qt4.qm
-%lang(fa) %{_datadir}/locale/fa/LC_MESSAGES/qt4.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4.qm
-%lang(gl) %{_datadir}/locale/gl/LC_MESSAGES/qt4.qm
-%lang(he) %{_datadir}/locale/he/LC_MESSAGES/qt4.qm
-%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4.qm
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4.qm
-%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4.qm
-%lang(lt) %{_datadir}/locale/lt/LC_MESSAGES/qt4.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4.qm
-%lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/qt4.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4.qm
-%lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/qt4.qm
-%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4.qm
-%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/qt4.qm
-%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4.qm
-%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4.qm
+%lang(ar) %{_localedir}/ar/LC_MESSAGES/qt4.qm
+%lang(cs) %{_localedir}/cs/LC_MESSAGES/qt4.qm
+%lang(da) %{_localedir}/da/LC_MESSAGES/qt4.qm
+%lang(de) %{_localedir}/de/LC_MESSAGES/qt4.qm
+%lang(es) %{_localedir}/es/LC_MESSAGES/qt4.qm
+%lang(fa) %{_localedir}/fa/LC_MESSAGES/qt4.qm
+%lang(fr) %{_localedir}/fr/LC_MESSAGES/qt4.qm
+%lang(gl) %{_localedir}/gl/LC_MESSAGES/qt4.qm
+%lang(he) %{_localedir}/he/LC_MESSAGES/qt4.qm
+%lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4.qm
+%lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4.qm
+%lang(ko) %{_localedir}/ko/LC_MESSAGES/qt4.qm
+%lang(lt) %{_localedir}/lt/LC_MESSAGES/qt4.qm
+%lang(pl) %{_localedir}/pl/LC_MESSAGES/qt4.qm
+%lang(pt) %{_localedir}/pt/LC_MESSAGES/qt4.qm
+%lang(ru) %{_localedir}/ru/LC_MESSAGES/qt4.qm
+%lang(sk) %{_localedir}/sk/LC_MESSAGES/qt4.qm
+%lang(sl) %{_localedir}/sl/LC_MESSAGES/qt4.qm
+%lang(sv) %{_localedir}/sv/LC_MESSAGES/qt4.qm
+%lang(uk) %{_localedir}/uk/LC_MESSAGES/qt4.qm
+%lang(zh_CN) %{_localedir}/zh_CN/LC_MESSAGES/qt4.qm
+%lang(zh_TW) %{_localedir}/zh_TW/LC_MESSAGES/qt4.qm
 
 %files -n QtDBus
 %defattr(644,root,root,755)
@@ -1992,20 +1992,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
 %attr(755,root,root) %{_qtdir}/bin/qhelpconverter
 %attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4-qt_help.qm
-%lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-qt_help.qm
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-qt_help.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-qt_help.qm
-%lang(gl) %{_datadir}/locale/gl/LC_MESSAGES/qt4-qt_help.qm
-%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-qt_help.qm
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-qt_help.qm
-%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-qt_help.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qt_help.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qt_help.qm
-%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-qt_help.qm
-%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4-qt_help.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qt_help.qm
-%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qt_help.qm
+%lang(cs) %{_localedir}/cs/LC_MESSAGES/qt4-qt_help.qm
+%lang(da) %{_localedir}/da/LC_MESSAGES/qt4-qt_help.qm
+%lang(de) %{_localedir}/de/LC_MESSAGES/qt4-qt_help.qm
+%lang(fr) %{_localedir}/fr/LC_MESSAGES/qt4-qt_help.qm
+%lang(gl) %{_localedir}/gl/LC_MESSAGES/qt4-qt_help.qm
+%lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-qt_help.qm
+%lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4-qt_help.qm
+%lang(ko) %{_localedir}/ko/LC_MESSAGES/qt4-qt_help.qm
+%lang(pl) %{_localedir}/pl/LC_MESSAGES/qt4-qt_help.qm
+%lang(ru) %{_localedir}/ru/LC_MESSAGES/qt4-qt_help.qm
+%lang(sl) %{_localedir}/sl/LC_MESSAGES/qt4-qt_help.qm
+%lang(uk) %{_localedir}/uk/LC_MESSAGES/qt4-qt_help.qm
+%lang(zh_CN) %{_localedir}/zh_CN/LC_MESSAGES/qt4-qt_help.qm
+%lang(zh_TW) %{_localedir}/zh_TW/LC_MESSAGES/qt4-qt_help.qm
 
 %files -n QtMultimedia
 %defattr(644,root,root,755)
@@ -2125,19 +2125,19 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/assistant
 %attr(755,root,root) %{_qtdir}/bin/pixeltool
 %attr(755,root,root) %{_qtdir}/bin/qcollectiongenerator
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4-assistant.qm
-%lang(da) %{_datadir}/locale/da/LC_MESSAGES/qt4-assistant.qm
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-assistant.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-assistant.qm
-%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-assistant.qm
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-assistant.qm
-%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-assistant.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-assistant.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-assistant.qm
-%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-assistant.qm
-%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4-assistant.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-assistant.qm
-%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-assistant.qm
+%lang(cs) %{_localedir}/cs/LC_MESSAGES/qt4-assistant.qm
+%lang(da) %{_localedir}/da/LC_MESSAGES/qt4-assistant.qm
+%lang(de) %{_localedir}/de/LC_MESSAGES/qt4-assistant.qm
+%lang(fr) %{_localedir}/fr/LC_MESSAGES/qt4-assistant.qm
+%lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-assistant.qm
+%lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4-assistant.qm
+%lang(ko) %{_localedir}/ko/LC_MESSAGES/qt4-assistant.qm
+%lang(pl) %{_localedir}/pl/LC_MESSAGES/qt4-assistant.qm
+%lang(ru) %{_localedir}/ru/LC_MESSAGES/qt4-assistant.qm
+%lang(sl) %{_localedir}/sl/LC_MESSAGES/qt4-assistant.qm
+%lang(uk) %{_localedir}/uk/LC_MESSAGES/qt4-assistant.qm
+%lang(zh_CN) %{_localedir}/zh_CN/LC_MESSAGES/qt4-assistant.qm
+%lang(zh_TW) %{_localedir}/zh_TW/LC_MESSAGES/qt4-assistant.qm
 %{_desktopdir}/assistant-qt4.desktop
 %{_iconsdir}/hicolor/*/apps/assistant-qt4.png
 
@@ -2162,18 +2162,18 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/designer-qt4
 %attr(755,root,root) %{_qtdir}/bin/designer
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4-designer.qm
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-designer.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-designer.qm
-%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-designer.qm
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-designer.qm
-%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-designer.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-designer.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-designer.qm
-%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-designer.qm
-%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4-designer.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-designer.qm
-%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-designer.qm
+%lang(cs) %{_localedir}/cs/LC_MESSAGES/qt4-designer.qm
+%lang(de) %{_localedir}/de/LC_MESSAGES/qt4-designer.qm
+%lang(fr) %{_localedir}/fr/LC_MESSAGES/qt4-designer.qm
+%lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-designer.qm
+%lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4-designer.qm
+%lang(ko) %{_localedir}/ko/LC_MESSAGES/qt4-designer.qm
+%lang(pl) %{_localedir}/pl/LC_MESSAGES/qt4-designer.qm
+%lang(ru) %{_localedir}/ru/LC_MESSAGES/qt4-designer.qm
+%lang(sl) %{_localedir}/sl/LC_MESSAGES/qt4-designer.qm
+%lang(uk) %{_localedir}/uk/LC_MESSAGES/qt4-designer.qm
+%lang(zh_CN) %{_localedir}/zh_CN/LC_MESSAGES/qt4-designer.qm
+%lang(zh_TW) %{_localedir}/zh_TW/LC_MESSAGES/qt4-designer.qm
 %{_desktopdir}/designer-qt4.desktop
 %{_pixmapsdir}/designer-qt4.png
 
@@ -2188,18 +2188,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/lconvert
 %attr(755,root,root) %{_qtdir}/bin/lrelease
 %attr(755,root,root) %{_qtdir}/bin/lupdate
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/qt4-linguist.qm
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/qt4-linguist.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/qt4-linguist.qm
-%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-linguist.qm
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-linguist.qm
-%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-linguist.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-linguist.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-linguist.qm
-%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-linguist.qm
-%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4-linguist.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-linguist.qm
-%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-linguist.qm
+%lang(cs) %{_localedir}/cs/LC_MESSAGES/qt4-linguist.qm
+%lang(de) %{_localedir}/de/LC_MESSAGES/qt4-linguist.qm
+%lang(fr) %{_localedir}/fr/LC_MESSAGES/qt4-linguist.qm
+%lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-linguist.qm
+%lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4-linguist.qm
+%lang(ko) %{_localedir}/ko/LC_MESSAGES/qt4-linguist.qm
+%lang(pl) %{_localedir}/pl/LC_MESSAGES/qt4-linguist.qm
+%lang(ru) %{_localedir}/ru/LC_MESSAGES/qt4-linguist.qm
+%lang(sl) %{_localedir}/sl/LC_MESSAGES/qt4-linguist.qm
+%lang(uk) %{_localedir}/uk/LC_MESSAGES/qt4-linguist.qm
+%lang(zh_CN) %{_localedir}/zh_CN/LC_MESSAGES/qt4-linguist.qm
+%lang(zh_TW) %{_localedir}/zh_TW/LC_MESSAGES/qt4-linguist.qm
 %{_datadir}/qt4/phrasebooks
 %{_desktopdir}/linguist-qt4.desktop
 %{_iconsdir}/hicolor/*/apps/linguist-qt4.png
@@ -2224,15 +2224,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qtconfig-qt4
 %attr(755,root,root) %{_qtdir}/bin/qtconfig
-%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-qtconfig.qm
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-qtconfig.qm
-%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-qtconfig.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qtconfig.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qtconfig.qm
-%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-qtconfig.qm
-%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4-qtconfig.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qtconfig.qm
-%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qtconfig.qm
+%lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-qtconfig.qm
+%lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4-qtconfig.qm
+%lang(ko) %{_localedir}/ko/LC_MESSAGES/qt4-qtconfig.qm
+%lang(pl) %{_localedir}/pl/LC_MESSAGES/qt4-qtconfig.qm
+%lang(ru) %{_localedir}/ru/LC_MESSAGES/qt4-qtconfig.qm
+%lang(sl) %{_localedir}/sl/LC_MESSAGES/qt4-qtconfig.qm
+%lang(uk) %{_localedir}/uk/LC_MESSAGES/qt4-qtconfig.qm
+%lang(zh_CN) %{_localedir}/zh_CN/LC_MESSAGES/qt4-qtconfig.qm
+%lang(zh_TW) %{_localedir}/zh_TW/LC_MESSAGES/qt4-qtconfig.qm
 %{_desktopdir}/qtconfig-qt4.desktop
 %{_pixmapsdir}/qtconfig-qt4.png
 
@@ -2240,15 +2240,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qvfb
 %attr(755,root,root) %{_qtdir}/bin/qvfb
-%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/qt4-qvfb.qm
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/qt4-qvfb.qm
-%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/qt4-qvfb.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/qt4-qvfb.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/qt4-qvfb.qm
-%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/qt4-qvfb.qm
-%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/qt4-qvfb.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/qt4-qvfb.qm
-%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/qt4-qvfb.qm
+%lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-qvfb.qm
+%lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4-qvfb.qm
+%lang(ko) %{_localedir}/ko/LC_MESSAGES/qt4-qvfb.qm
+%lang(pl) %{_localedir}/pl/LC_MESSAGES/qt4-qvfb.qm
+%lang(ru) %{_localedir}/ru/LC_MESSAGES/qt4-qvfb.qm
+%lang(sl) %{_localedir}/sl/LC_MESSAGES/qt4-qvfb.qm
+%lang(uk) %{_localedir}/uk/LC_MESSAGES/qt4-qvfb.qm
+%lang(zh_CN) %{_localedir}/zh_CN/LC_MESSAGES/qt4-qvfb.qm
+%lang(zh_TW) %{_localedir}/zh_TW/LC_MESSAGES/qt4-qvfb.qm
 
 %files doc
 %defattr(644,root,root,755)
