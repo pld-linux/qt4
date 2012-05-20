@@ -55,7 +55,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.1
-Release:	3
+Release:	4
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1495,7 +1495,6 @@ COMMONOPT=" \
 	-system-zlib \
 	-openssl-linked \
 	-exceptions \
-	-graphicssystem raster \
 	-largefile \
 	-I/usr/include/postgresql/server \
 	-I/usr/include/mysql \
@@ -1573,8 +1572,10 @@ yes" | ./configure $COMMONOPT $OPT
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_desktopdir},%{_pixmapsdir},%{_pkgconfigdir}}
+install -d $RPM_BUILD_ROOT{/etc/env.d,%{_bindir},%{_desktopdir},%{_pixmapsdir},%{_pkgconfigdir}}
 install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
+
+echo '#QT_GRAPHICSSYSTEM=raster' > $RPM_BUILD_ROOT/etc/env.d/QT_GRAPHICSSYSTEM
 
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
@@ -1967,6 +1968,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtGui
 %defattr(644,root,root,755)
+%config(noreplace,missingok) %verify(not md5 mtime size) /etc/env.d/QT_GRAPHICSSYSTEM
 %attr(755,root,root) %{_libdir}/libQtGui.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtGui.so.4
 %dir %{_qtdir}/plugins/accessible
