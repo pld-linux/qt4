@@ -54,12 +54,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.8.1
-Release:	5
+Version:	4.8.2
+Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-%{version}.tar.gz
-# Source0-md5:	7960ba8e18ca31f0c6e4895a312f92ff
+Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
+# Source0-md5:	3c1146ddf56247e16782f96910a8423b
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -74,7 +74,6 @@ Patch0:		%{name}-tools.patch
 Patch1:		%{name}-qt_copy.patch
 Patch2:		%{name}-buildsystem.patch
 Patch3:		%{name}-locale.patch
-Patch4:		%{name}-qvfb.patch
 Patch5:		%{name}-support-cflags-with-commas.patch
 Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
@@ -1404,7 +1403,6 @@ Programas exemplo para o Qt versão.
 %patch1 -p0
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
