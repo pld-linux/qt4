@@ -1453,6 +1453,7 @@ export PATH=$PWD/bin:$PATH
 ##################################
 
 COMMONOPT=" \
+	-confirm-license -opensource \
 	-buildkey pld \
 	-verbose \
 	-prefix %{_qtdir} \
@@ -1533,8 +1534,7 @@ OPT=" \
 	-%{!?with_ibase:no}%{?with_ibase:qt}-sql-ibase \
 	-static"
 
-echo "o
-yes" | ./configure $COMMONOPT $OPT
+./configure $COMMONOPT $OPT
 
 %{__make} -C src
 %{__make} -C tools/assistant/lib
