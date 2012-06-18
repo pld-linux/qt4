@@ -81,8 +81,11 @@ Patch8:		%{name}-glib.patch
 Patch9:		%{name}-ibase.patch
 Patch10:	%{name}-git.patch
 Patch11:	qt-x11-opensource-src-4.5.1-enable_ft_lcdfilter.patch
+Patch12:	gcc-4.7.patch
 URL:		http://qt.nokia.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
+BuildRequires:	Mesa-libOpenVG-devel
+BuildRequires:	OpenGL-devel
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	alsa-lib-devel
 %{?with_cups:BuildRequires:	cups-devel}
@@ -1410,6 +1413,7 @@ Programas exemplo para o Qt versão.
 %patch9 -p1
 #%patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1453,7 +1457,8 @@ export PATH=$PWD/bin:$PATH
 ##################################
 
 COMMONOPT=" \
-	-confirm-license -opensource \
+	-confirm-license \
+	-opensource \
 	-buildkey pld \
 	-verbose \
 	-prefix %{_qtdir} \
@@ -1468,7 +1473,6 @@ COMMONOPT=" \
 	-sysconfdir %{_sysconfdir}/qt4 \
 	-examplesdir %{_examplesdir}/qt4 \
 	-demosdir %{_examplesdir}/qt4-demos \
-	-opensource \
 	-optimized-qmake \
 	-fast \
 	-glib \
@@ -1510,6 +1514,7 @@ COMMONOPT=" \
 	-xfixes \
 	-nis \
 	-sm \
+	-stl \
 	-xcursor \
 	-xinput \
 	-xinerama \
@@ -1559,8 +1564,7 @@ OPT=" \
 	-%{!?with_ibase:no}%{?with_ibase:plugin}-sql-ibase \
 	-shared"
 
-echo "o
-yes" | ./configure $COMMONOPT $OPT
+./configure $COMMONOPT $OPT
 
 %{__make}
 %{__make} \
