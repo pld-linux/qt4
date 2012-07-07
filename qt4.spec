@@ -55,7 +55,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.2
-Release:	5
+Release:	6
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -99,7 +99,7 @@ BuildRequires:	freetype-devel >= 1:2.0.0
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	gstreamer-plugins-base-devel
 %{?with_gtk:BuildRequires:	gtk+2-devel >= 2:2.10}
-BuildRequires:	libicu-devel
+BuildRequires:	libicu-devel >= 4.8
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
