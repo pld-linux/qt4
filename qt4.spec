@@ -53,7 +53,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.2
-Release:	9
+Release:	10
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -679,6 +679,45 @@ Qt OpenGL support classes - static libraries.
 
 %description -n QtOpenGL-static -l pl.UTF-8
 Klasy Qt wspomagające OpenGL - biblioteki statyczne.
+
+%package -n QtOpenVG
+Summary:	Qt OpenVG support classes
+Summary(pl.UTF-8):	Klasy Qt wspomagające OpenVG
+Group:		X11/Libraries
+Requires:	QtCore = %{version}-%{release}
+Requires:	QtGui = %{version}-%{release}
+
+%description -n QtOpenVG
+Qt OpenVG support classes.
+
+%description -n QtOpenVG -l pl.UTF-8
+Klasy Qt wspomagające OpenVG.
+
+%package -n QtOpenVG-devel
+Summary:	Qt OpenVG support classes - development files
+Summary(pl.UTF-8):	Klasy Qt wspomagające OpenVG - pliki programistyczne
+Group:		X11/Development/Libraries
+Requires:	Mesa-libOpenVG-devel
+Requires:	QtCore-devel = %{version}-%{release}
+Requires:	QtGui-devel = %{version}-%{release}
+
+%description -n QtOpenVG-devel
+Qt OpenVG support classes - development files.
+
+%description -n QtOpenVG-devel -l pl.UTF-8
+Klasy Qt wspomagające OpenVG - pliki programistyczne.
+
+%package -n QtOpenVG-static
+Summary:	Qt OpenVG support classes - static libraries
+Summary(pl.UTF-8):	Klasy Qt wspomagające OpenVG - biblioteki statyczne
+Group:		X11/Development/Libraries
+Requires:	QtOpenVGLdevel = %{version}-%{release}
+
+%description -n QtOpenVG-static
+Qt OpenVG support classes - static libraries.
+
+%description -n QtOpenVG-static -l pl.UTF-8
+Klasy Qt wspomagające OpenVG - biblioteki statyczne.
 
 %package -n QtScript
 Summary:	Qt classes for scripting applications
@@ -1757,6 +1796,7 @@ mkdevfl QtGui
 mkdevfl QtMultimedia
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
+mkdevfl QtOpenVG
 mkdevfl QtScript
 mkdevfl QtScriptTools
 mkdevfl QtSql
@@ -1837,6 +1877,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n QtOpenGL	-p /sbin/ldconfig
 %postun	-n QtOpenGL	-p /sbin/ldconfig
+
+%post	-n QtOpenVG	-p /sbin/ldconfig
+%postun	-n QtOpenVG	-p /sbin/ldconfig
 
 %post   -n QtScript	-p /sbin/ldconfig
 %postun -n QtScript	-p /sbin/ldconfig
@@ -2034,6 +2077,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libQtOpenGL.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtOpenGL.so.4
 %attr(755,root,root) %{_qtdir}/plugins/graphicssystems/libqglgraphicssystem.so
+
+%files -n QtOpenVG
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQtOpenVG.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtOpenVG.so.4
 
 %files -n QtScript
 %defattr(644,root,root,755)
@@ -2300,6 +2348,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
 %defattr(644,root,root,755)
 
+%files -n QtOpenVG-devel -f QtOpenVG-devel.files
+%defattr(644,root,root,755)
+
 %files -n QtScript-devel -f QtScript-devel.files
 %defattr(644,root,root,755)
 
@@ -2373,6 +2424,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtOpenGL-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtOpenGL.a
+
+%files -n QtOpenVG-static
+%defattr(644,root,root,755)
+%{_libdir}/libQtOpenVG.a
 
 %files -n QtScript-static
 %defattr(644,root,root,755)
