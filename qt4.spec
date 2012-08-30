@@ -53,7 +53,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.2
-Release:	10
+Release:	11
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -711,7 +711,7 @@ Klasy Qt wspomagające OpenVG - pliki programistyczne.
 Summary:	Qt OpenVG support classes - static libraries
 Summary(pl.UTF-8):	Klasy Qt wspomagające OpenVG - biblioteki statyczne
 Group:		X11/Development/Libraries
-Requires:	QtOpenVGLdevel = %{version}-%{release}
+Requires:	QtOpenVG-devel = %{version}-%{release}
 
 %description -n QtOpenVG-static
 Qt OpenVG support classes - static libraries.
