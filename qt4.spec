@@ -4,8 +4,6 @@
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
-#	- QtWebKit-devel is broken: libQtWebKit.*la contains '-ljscore', it comes
-#	  from src/3rdparty/webkit/JavaScriptCore, but jscore lib isn't installed
 #
 # Conditional build:
 %bcond_with	nas		# enable NAS audio support
@@ -55,7 +53,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.2
-Release:	8
+Release:	9
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1596,6 +1594,10 @@ install bin/qdoc3 $RPM_BUILD_ROOT%{_qtdir}/bin/qdoc3
 	s|moc_location=.*|moc_location=%{_bindir}/moc-qt4|;
 	s|uic_location=.*|uic_location=%{_bindir}/uic-qt4|;
 	' $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
+
+# libQtWebKit.la contains '-ljscore' and '-lwebcore', they come
+# from src/3rdparty/webkit/{JavaScriptCore,WebCore}} but those libs aren't installed
+%{__sed} -i -e "s,-lwebcore,,g;s,-ljscore,,g;" $RPM_BUILD_ROOT%{_libdir}/libQtWebKit.la
 
 # install tools
 install bin/findtr	$RPM_BUILD_ROOT%{_qtdir}/bin
