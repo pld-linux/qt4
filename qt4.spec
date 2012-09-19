@@ -52,12 +52,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.8.2
-Release:	11
+Version:	4.8.3
+Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
-# Source0-md5:	3c1146ddf56247e16782f96910a8423b
+# Source0-md5:	a663b6c875f8d7caa8ac9c30e4a4ec3b
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -75,13 +75,10 @@ Patch3:		%{name}-locale.patch
 Patch5:		%{name}-support-cflags-with-commas.patch
 Patch6:		%{name}-build-lib-static.patch
 Patch7:		%{name}-x11_fonts.patch
-Patch8:		%{name}-glib.patch
-Patch9:		%{name}-ibase.patch
-Patch10:	%{name}-git.patch
-Patch11:	qt-x11-opensource-src-4.5.1-enable_ft_lcdfilter.patch
-Patch12:	gcc-4.7.patch
-Patch13:	webkit-no_Werror.patch
-Patch14:	moc-boost148.patch
+Patch8:		%{name}-ibase.patch
+Patch9:		qt-x11-opensource-src-4.5.1-enable_ft_lcdfilter.patch
+Patch10:	webkit-no_Werror.patch
+Patch11:	moc-boost148.patch
 URL:		http://qt.nokia.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	Mesa-libOpenVG-devel
@@ -97,7 +94,9 @@ BuildRequires:	freetype-devel >= 1:2.0.0
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	gstreamer-plugins-base-devel
 %{?with_gtk:BuildRequires:	gtk+2-devel >= 2:2.10}
-BuildRequires:	libicu-devel >= 4.8
+# see dependency on libicu version below
+BuildRequires:	libicu-devel >= 49
+BuildRequires:	libicu-devel < 50
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
@@ -261,10 +260,10 @@ Group:		X11/Libraries
 %requires_eq	libicu
 # be sure to depend on proper arch.
 %ifarch %{ix86}
-Requires:	libicui18n.so.48
+Requires:	libicui18n.so.49
 %endif
 %ifarch %{x8664}
-Requires:	libicui18n.so.48()(64bit)
+Requires:	libicui18n.so.49()(64bit)
 %endif
 Obsoletes:	QtAssistant
 
@@ -1452,9 +1451,6 @@ Programas exemplo para o Qt versão.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
