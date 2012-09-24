@@ -53,7 +53,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.3
-Release:	3
+Release:	4
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1820,7 +1820,7 @@ mkdevfl QtUiTools || /bin/true
 %{__sed} -i 's,QtScript\*,QtScript,g' QtScript-devel.files
 %{__sed} -i 's,QtXml\*,QtXml,g' QtXml-devel.files
 # no duplication between QtCore-devel and QtXml-devel
-%{__sed} -i 'd,%{_includedir}/qt4/Qt/QXmlStream.*,,g' QtCore-devel.files
+%{__sed} -i 's,%{_includedir}/qt4/Qt/QXmlStream.*,,g' QtCore-devel.files
 
 echo "%defattr(644,root,root,755)" > examples.files
 ifecho examples %{_examplesdir}/qt4
