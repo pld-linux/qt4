@@ -52,12 +52,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.8.3
-Release:	9
+Version:	4.8.4
+Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
-# Source0-md5:	a663b6c875f8d7caa8ac9c30e4a4ec3b
+# Source0-md5:	89c5ecba180cae74c66260ac732dc5cb
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -81,8 +81,7 @@ Patch10:	webkit-no_Werror.patch
 Patch11:	moc-boost148.patch
 Patch12:	fix-crash-in-assistant.patch
 Patch13:	improve-cups-support.patch
-Patch14:	qt4-git.patch
-Patch15:	qt-everywhere-opensource-src-4.8.3-QTBUG-27322.patch
+
 Patch16:	qt-everywhere-opensource-src-4.8.3-QTBUG-4862.patch
 URL:		http://qt.nokia.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -1458,8 +1457,7 @@ Programas exemplo para o Qt versão.
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
-%patch14 -p1
-%patch15 -p1
+
 %patch16 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
