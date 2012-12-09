@@ -1,6 +1,5 @@
 #
 # TODO:
-#	- figure out why it tries to link with system qt (fix and drop BuildConflicts Qt)
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
@@ -127,9 +126,6 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	zlib-devel
-# when building it tries to link with system qt instead of built one
-BuildConflicts:	QtCore-devel <= %{version}
-BuildConflicts:	QtScript-devel <= %{version}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
@@ -1511,7 +1507,6 @@ COMMONOPT=" \
 	-docdir %{_docdir}/%{name}-doc \
 	-headerdir %{_includedir}/qt4 \
 	-libdir %{_libdir} \
-	-L%{_libdir} \
 	-plugindir %{_qtdir}/plugins \
 	-datadir %{_datadir}/qt4 \
 	-translationdir %{_localedir}/ \
