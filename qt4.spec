@@ -85,8 +85,8 @@ Patch16:	qt-everywhere-opensource-src-4.8.3-QTBUG-4862.patch
 URL:		http://qt.nokia.com/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	Mesa-libOpenVG-devel
-BuildRequires:	OpenGL-devel
 BuildRequires:	OpenGL-GLU-devel
+BuildRequires:	OpenGL-devel
 BuildRequires:	alsa-lib-devel
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	dbus-devel >= 0.93
@@ -98,8 +98,8 @@ BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	gstreamer0.10-plugins-base-devel
 %{?with_gtk:BuildRequires:	gtk+2-devel >= 2:2.10}
 # see dependency on libicu version below
-BuildRequires:	libicu-devel >= 49
 BuildRequires:	libicu-devel < 50
+BuildRequires:	libicu-devel >= 49
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
@@ -110,7 +110,7 @@ BuildRequires:	pkgconfig
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	pulseaudio-devel >= 0.9.10
-BuildRequires:	rpmbuild(macros) >= 1.602
+BuildRequires:	rpmbuild(macros) >= 1.654
 BuildRequires:	sed >= 4.0
 %{?with_sqlite:BuildRequires:	sqlite-devel}
 %{?with_sqlite3:BuildRequires:	sqlite3-devel}
