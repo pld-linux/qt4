@@ -264,7 +264,7 @@ biblioteka statyczna.
 Summary:	Qt core classes used by other modules
 Summary(pl.UTF-8):	Podstawowe klasy Qt używane przez inne moduły
 Group:		X11/Libraries
-%requires_eq	libicu
+%requires_eq_to	libicu libicu-devel
 # be sure to depend on proper arch.
 %ifarch %{x8664} ppc64 sparc64 s390x
 Requires:	libicui18n.so.%{icu_abi}()(64bit)
