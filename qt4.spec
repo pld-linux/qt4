@@ -46,6 +46,9 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
+%define		icu_abi		49
+%define		next_icu_abi	%(echo $((%{icu_abi} + 1)))
+
 Summary:	The Qt GUI application framework
 Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
@@ -102,8 +105,8 @@ BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	gstreamer0.10-plugins-base-devel
 %{?with_gtk:BuildRequires:	gtk+2-devel >= 2:2.10}
 # see dependency on libicu version below
-BuildRequires:	libicu-devel < 50
-BuildRequires:	libicu-devel >= 49
+BuildRequires:	libicu-devel >= %{icu_abi}
+BuildRequires:	libicu-devel < %{next_icu_abi}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
@@ -263,11 +266,10 @@ Summary(pl.UTF-8):	Podstawowe klasy Qt używane przez inne moduły
 Group:		X11/Libraries
 %requires_eq	libicu
 # be sure to depend on proper arch.
-%ifarch %{ix86}
-Requires:	libicui18n.so.49
-%endif
-%ifarch %{x8664}
-Requires:	libicui18n.so.49()(64bit)
+%ifarch %{x8664} ppc64 sparc64 s390x
+Requires:	libicui18n.so.%{icu_abi}()(64bit)
+%else
+Requires:	libicui18n.so.%{icu_abi}
 %endif
 Obsoletes:	QtAssistant
 
