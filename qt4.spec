@@ -1418,6 +1418,9 @@ Summary:	Qt Documentation in HTML format
 Summary(pl.UTF-8):	Dokumentacja Qt w formacie HTML
 Group:		X11/Development/Libraries
 Suggests:	%{name}-assistant = %{version}-%{release}
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description doc
 Qt documentation in HTML format.
