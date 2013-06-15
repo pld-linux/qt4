@@ -55,7 +55,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.4
-Release:	6
+Release:	7
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1776,12 +1776,12 @@ rsync -aR include/QtCore/private \
 	  include/QtDeclarative/private \
 	  include/QtGui/private \
 	  include/QtScript/private \
-	  $RPM_BUILD_ROOT%{_includedir}
+	  $RPM_BUILD_ROOT%{_includedir}/qt4/private
 rsync -aR src/corelib/*/*_p.h \
           src/declarative/*/*_p.h \
           src/gui/*/*_p.h \
           src/script/*/*_p.h \
-	  $RPM_BUILD_ROOT%{_includedir}
+	  $RPM_BUILD_ROOT%{_includedir}/qt4/private
 
 
 # Prepare some files list
