@@ -55,7 +55,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.4
-Release:	5
+Release:	6
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1752,7 +1752,6 @@ done
 cd -
 
 # Ship doc & qmake stuff
-ln -s %{_docdir}/%{name}-doc $RPM_BUILD_ROOT%{_qtdir}/doc
 ln -s %{_datadir}/qt4/mkspecs $RPM_BUILD_ROOT%{_qtdir}/mkspecs
 
 for f in $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc; do
@@ -1777,12 +1776,12 @@ rsync -aR include/QtCore/private \
 	  include/QtDeclarative/private \
 	  include/QtGui/private \
 	  include/QtScript/private \
-	  $RPM_BUILD_ROOT%{_includedir}/qt4/private
+	  $RPM_BUILD_ROOT%{_includedir}
 rsync -aR src/corelib/*/*_p.h \
           src/declarative/*/*_p.h \
           src/gui/*/*_p.h \
           src/script/*/*_p.h \
-	  $RPM_BUILD_ROOT%{_includedir}/qt4/private
+	  $RPM_BUILD_ROOT%{_includedir}
 
 
 # Prepare some files list
@@ -2353,7 +2352,6 @@ rm -rf $RPM_BUILD_ROOT
 %files doc
 %defattr(644,root,root,755)
 %{_docdir}/%{name}-doc
-%{_qtdir}/doc
 
 %files -n QtCLucene-devel -f QtCLucene-devel.files
 %defattr(644,root,root,755)
