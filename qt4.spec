@@ -54,12 +54,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.8.4
-Release:	7
+Version:	4.8.5
+Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-%{version}.tar.gz
-# Source0-md5:	89c5ecba180cae74c66260ac732dc5cb
+Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
+# Source0-md5:	1864987bdbb2f58f8ae8b350dfdbe133
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -80,16 +80,15 @@ Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-ibase.patch
 Patch9:		qt-x11-opensource-src-4.5.1-enable_ft_lcdfilter.patch
 Patch10:	webkit-no_Werror.patch
-Patch11:	moc-boost148.patch
+
 Patch12:	fix-crash-in-assistant.patch
 Patch13:	improve-cups-support.patch
-Patch14:	qt4-CVE-2013-0254.patch
 # backported from Qt5 (essentially)
 # http://bugzilla.redhat.com/702493
 # https://bugreports.qt-project.org/browse/QTBUG-5545
 Patch15:	qt-everywhere-opensource-src-4.8.4-qgtkstyle_disable_gtk_theme_check.patch
 Patch16:	qt-everywhere-opensource-src-4.8.3-QTBUG-4862.patch
-URL:		http://qt.nokia.com/
+URL:		http://qt-project.org/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	Mesa-libOpenVG-devel
 BuildRequires:	OpenGL-GLU-devel
@@ -1471,10 +1470,10 @@ Programas exemplo para o Qt versão.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
-%patch11 -p1
+
 %patch12 -p1
 %patch13 -p1
-%patch14 -p1
+
 %patch15 -p1
 %patch16 -p1
 
