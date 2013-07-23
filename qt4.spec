@@ -55,7 +55,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.5
-Release:	1
+Release:	2
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1635,7 +1635,7 @@ OPT=" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/env.d,%{_bindir},%{_desktopdir},%{_pixmapsdir},%{_pkgconfigdir}}
+install -d $RPM_BUILD_ROOT{/etc/{env.d,qt4},%{_bindir},%{_desktopdir},%{_pixmapsdir},%{_pkgconfigdir}}
 install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 
 echo '#QT_GRAPHICSSYSTEM=raster' > $RPM_BUILD_ROOT/etc/env.d/QT_GRAPHICSSYSTEM
@@ -1977,6 +1977,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtCore.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtCore.so.4
+%dir /etc/qt4
 %dir %{_qtdir}
 %dir %{_qtdir}/bin
 %dir %{_qtdir}/plugins
