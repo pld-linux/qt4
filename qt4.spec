@@ -5,18 +5,22 @@
 #	- check Qt ui tool
 #
 # Conditional build:
-%bcond_with	nas		# enable NAS audio support
 %bcond_without	static_libs	# don't build static libraries
-%bcond_without	cups		# disable CUPS support
-%bcond_without	mysql		# don't build MySQL plugin
-%bcond_without	odbc		# don't build unixODBC plugin
-%bcond_without	pgsql		# don't build PostgreSQL plugin
-%bcond_without	sqlite3		# don't build SQLite3 plugin
-%bcond_without	sqlite		# don't build SQLite2 plugin
-%bcond_without	ibase		# don't build ibase (InterBase/Firebird) plugin
-%bcond_without	pch		# disable pch in qmake
-%bcond_without	gtk		# don't build GTK theme integration
-%bcond_without	system_phonon	# don't build phonon libraries
+# -- features
+%bcond_without	cups		# CUPS printing support
+%bcond_with	nas		# NAS audio support
+%bcond_without	gtk		# GTK+ theme integration
+%bcond_without	pch		# pch (pre-compiled headers) in qmake
+%bcond_without	system_phonon	# phonon libraries from phonon.spec intead of qt4.spec
+%bcond_with	wkhtml		# WKHTMLTOPDF patch (affects QtGui ABI)
+# -- databases
+%bcond_without	mysql		# MySQL plugin
+%bcond_without	odbc		# unixODBC plugin
+%bcond_without	pgsql		# PostgreSQL plugin
+%bcond_without	sqlite3		# SQLite3 plugin
+%bcond_without	sqlite		# SQLite2 plugin
+%bcond_without	ibase		# ibase (InterBase/Firebird) plugin
+# -- SIMD CPU instructions
 %bcond_with	mmx		# use MMX instructions
 %bcond_with	3dnow		# use 3Dnow instructions
 %bcond_with	sse		# use SSE instructions in gui/painting module
@@ -46,7 +50,7 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
 
-%define		icu_abi		49
+%define		icu_abi		52
 %define		next_icu_abi	%(echo $((%{icu_abi} + 1)))
 
 Summary:	The Qt GUI application framework
@@ -80,7 +84,7 @@ Patch7:		%{name}-x11_fonts.patch
 Patch8:		%{name}-ibase.patch
 Patch9:		qt-x11-opensource-src-4.5.1-enable_ft_lcdfilter.patch
 Patch10:	webkit-no_Werror.patch
-
+Patch11:	%{name}-wkhtml.patch
 Patch12:	fix-crash-in-assistant.patch
 Patch13:	improve-cups-support.patch
 # backported from Qt5 (essentially)
@@ -1470,7 +1474,7 @@ Programas exemplo para o Qt versão.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
-
+%{?with_wkhtml:%patch11 -p1}
 %patch12 -p1
 %patch13 -p1
 
