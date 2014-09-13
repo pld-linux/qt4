@@ -102,7 +102,7 @@ BuildRequires:	alsa-lib-devel
 BuildRequires:	dbus-devel >= 0.93
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetds-devel
-BuildRequires:	freetype-devel >= 1:2.0.0
+BuildRequires:	freetype-devel >= 2.1.3
 %{?with_pch:BuildRequires:	gcc >= 5:4.0}
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	gstreamer0.10-plugins-base-devel
@@ -486,7 +486,7 @@ Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
 Requires:	QtGui = %{version}-%{release}
 Requires:	fontconfig-devel
-Requires:	freetype-devel >= 1:2.0.0
+Requires:	freetype-devel >= 2.1.3
 Requires:	libpng-devel >= 2:1.0.8
 Requires:	xorg-lib-libSM-devel
 Requires:	xorg-lib-libXcursor-devel
