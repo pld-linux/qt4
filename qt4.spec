@@ -59,7 +59,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.6
-Release:	4
+Release:	5
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -92,6 +92,9 @@ Patch13:	improve-cups-support.patch
 # https://bugreports.qt-project.org/browse/QTBUG-5545
 Patch15:	qt-everywhere-opensource-src-4.8.4-qgtkstyle_disable_gtk_theme_check.patch
 Patch16:	qt-everywhere-opensource-src-4.8.3-QTBUG-4862.patch
+Patch17:	l-qclipboard_delay.patch
+Patch18:	l-qclipboard_fix_recursive.patch
+Patch19:	qtcore-4.8.5-honor-ExcludeSocketNotifiers-in-glib-event-loop.patch
 URL:		http://qt-project.org/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 BuildRequires:	Mesa-libOpenVG-devel
@@ -1480,6 +1483,10 @@ Programas exemplo para o Qt versão.
 
 %patch15 -p1
 %patch16 -p1
+
+%patch17 -p0
+%patch18 -p0
+%patch19 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
