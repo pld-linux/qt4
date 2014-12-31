@@ -1,0 +1,63 @@
+--- a/src/3rdparty/javascriptcore/JavaScriptCore/wtf/Platform.h
++++ b/src/3rdparty/javascriptcore/JavaScriptCore/wtf/Platform.h
+@@ -213,8 +213,12 @@
+ /* CPU(X86_64) - AMD64 / Intel64 / x86_64 64-bit */
+ #if   defined(__x86_64__) \
+     || defined(_M_X64)
++#ifdef __ILP32__
++#define WTF_CPU_X86_64_32 1
++#else
+ #define WTF_CPU_X86_64 1
+ #endif
++#endif
+ 
+ /* 64-bit mode on AIX */
+ #ifdef __64BIT__
+--- a/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
++++ b/src/3rdparty/webkit/Source/JavaScriptCore/wtf/Platform.h
+@@ -213,8 +213,12 @@
+ /* CPU(X86_64) - AMD64 / Intel64 / x86_64 64-bit */
+ #if   defined(__x86_64__) \
+     || defined(_M_X64)
++#ifdef __ILP32__
++#define WTF_CPU_X86_64_32 1
++#else
+ #define WTF_CPU_X86_64 1
+ #endif
++#endif
+ 
+ /* 64-bit mode on AIX */
+ #ifdef __64BIT__
+--- a/configure
++++ b/configure
+@@ -3329,6 +3329,12 @@ if [ -z "${CFG_HOST_ARCH}" ]; then
+         fi
+         CFG_HOST_ARCH=sh
+         ;;
++    *:*:x32)
++        if [ "$OPT_VERBOSE" = "yes" ]; then
++            echo "    32-bit AMD 80x86 (x32)"
++        fi
++        CFG_HOST_ARCH=x32
++        ;;
+     *:*:*)
+         if [ "$OPT_VERBOSE" = "yes" ]; then
+             echo "    Trying '$UNAME_MACHINE'..."
+--- a/src/corelib/arch/qatomic_arch.h
++++ b/src/corelib/arch/qatomic_arch.h
+@@ -92,6 +92,8 @@ QT_BEGIN_HEADER
+ #  include "QtCore/qatomic_sh.h"
+ #elif defined(QT_ARCH_SH4A)
+ #  include "QtCore/qatomic_sh4a.h"
++#elif defined(QT_ARCH_X32)
++#  include "QtCore/qatomic_i386.h"
+ #elif defined(QT_ARCH_NACL)
+ #  include "QtCore/qatomic_generic.h"
+ #elif defined(QT_ARCH_AARCH64)
+--- /dev/null
++++ b/src/corelib/arch/x32/arch.pri
+@@ -0,0 +1,4 @@
++#
++# X32 architecture
++#
++# nothing special needed here

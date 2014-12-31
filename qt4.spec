@@ -13,6 +13,7 @@
 %bcond_without	pch		# pch (pre-compiled headers) in qmake
 %bcond_without	system_phonon	# phonon libraries from phonon.spec intead of qt4.spec
 %bcond_with	wkhtml		# WKHTMLTOPDF patch (affects QtGui ABI)
+%bcond_with	openvg		# OpenVG support
 # -- databases
 %bcond_without	mysql		# MySQL plugin
 %bcond_without	odbc		# unixODBC plugin
@@ -87,6 +88,7 @@ Patch10:	webkit-no_Werror.patch
 Patch11:	%{name}-wkhtml.patch
 Patch12:	fix-crash-in-assistant.patch
 Patch13:	improve-cups-support.patch
+Patch14:	x32.patch
 # backported from Qt5 (essentially)
 # http://bugzilla.redhat.com/702493
 # https://bugreports.qt-project.org/browse/QTBUG-5545
@@ -104,7 +106,7 @@ Patch25:	0065-Fix-QPainter-drawPolyline-painting-errors-with-cosme.patch
 Patch26:	0072-Fix-font-cache-check-in-QFontEngineFT-recalcAdvances.patch
 URL:		http://qt-project.org/
 %{?with_ibase:BuildRequires:	Firebird-devel}
-BuildRequires:	Mesa-libOpenVG-devel
+%{?with_openvg:BuildRequires:	Mesa-libOpenVG-devel}
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	OpenGL-devel
 BuildRequires:	alsa-lib-devel
@@ -1487,7 +1489,7 @@ Programas exemplo para o Qt versão.
 %{?with_wkhtml:%patch11 -p1}
 %patch12 -p1
 %patch13 -p1
-
+%patch14 -p1
 %patch15 -p1
 %patch16 -p1
 
@@ -1855,7 +1857,7 @@ mkdevfl QtGui
 mkdevfl QtMultimedia
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
-mkdevfl QtOpenVG
+%{?with_openvg:mkdevfl QtOpenVG}
 mkdevfl QtScript
 mkdevfl QtScriptTools
 mkdevfl QtSql
@@ -2142,10 +2144,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQtOpenGL.so.4
 %attr(755,root,root) %{_qtdir}/plugins/graphicssystems/libqglgraphicssystem.so
 
+%if %{with openvg}
 %files -n QtOpenVG
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtOpenVG.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtOpenVG.so.4
+%endif
 
 %files -n QtScript
 %defattr(644,root,root,755)
@@ -2415,8 +2419,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
 %defattr(644,root,root,755)
 
+%if %{with openvg}
 %files -n QtOpenVG-devel -f QtOpenVG-devel.files
 %defattr(644,root,root,755)
+%endif
 
 %files -n QtScript-devel -f QtScript-devel.files
 %defattr(644,root,root,755)
@@ -2492,9 +2498,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libQtOpenGL.a
 
+%if %{with openvg}
 %files -n QtOpenVG-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtOpenVG.a
+%endif
 
 %files -n QtScript-static
 %defattr(644,root,root,755)
