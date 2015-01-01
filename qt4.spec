@@ -285,7 +285,11 @@ Group:		X11/Libraries
 %ifarch %{x8664} ppc64 sparc64 s390x
 Requires:	libicui18n.so.%{icu_abi}()(64bit)
 %else
+%ifarch x32
+Requires:	libicui18n.so.%{icu_abi}()(x32bit)
+%else
 Requires:	libicui18n.so.%{icu_abi}
+%endif
 %endif
 Obsoletes:	QtAssistant
 
