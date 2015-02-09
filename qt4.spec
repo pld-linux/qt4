@@ -1597,6 +1597,7 @@ COMMONOPT=" \
 	%{?with_nas:-system-nas-sound} \
 	%{?debug:-debug} \
 	%{!?debug:-release} \
+	-%{!?with_openvg:no-}openvg \
 	-qt3support \
 	-fontconfig \
 	-largefile \
