@@ -60,7 +60,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.6
-Release:	9
+Release:	10
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1671,6 +1671,9 @@ install -d $RPM_BUILD_ROOT{/etc/{env.d,qt4},%{_bindir},%{_desktopdir},%{_pixmaps
 install -d $RPM_BUILD_ROOT%{_qtdir}/plugins/{crypto,network}
 install -d $RPM_BUILD_ROOT%{_qtdir}/imports/org
 
+# for QtSolutions (qtlockedfile, qtsingleapplication, etc)
+install -d $RPM_BUILD_ROOT%{_includedir}/qt4/QtSolutions
+
 echo '#QT_GRAPHICSSYSTEM=raster' > $RPM_BUILD_ROOT/etc/env.d/QT_GRAPHICSSYSTEM
 
 %{__make} install \
@@ -2399,6 +2402,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtCore-devel -f QtCore-devel.files
 %defattr(644,root,root,755)
+%dir %{_includedir}/qt4/QtSolutions
 
 %files -n QtDBus-devel -f QtDBus-devel.files
 %defattr(644,root,root,755)
