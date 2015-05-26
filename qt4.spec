@@ -59,12 +59,12 @@ Summary(es.UTF-8):	Biblioteca para ejecutar aplicaciones GUI Qt
 Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
-Version:	4.8.6
-Release:	12
+Version:	4.8.7
+Release:	1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
-# Source0-md5:	2edbe4d6c2eff33ef91732602f3518eb
+# Source0-md5:	d990ee66bf7ab0c785589776f35ba6ad
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
 Source4:	%{name}-assistant.desktop
@@ -97,13 +97,7 @@ Patch16:	qt-everywhere-opensource-src-4.8.3-QTBUG-4862.patch
 Patch17:	l-qclipboard_delay.patch
 Patch18:	l-qclipboard_fix_recursive.patch
 Patch19:	qtcore-4.8.5-honor-ExcludeSocketNotifiers-in-glib-event-loop.patch
-Patch20:	0010-QDbus-Fix-a-b-comparison.patch
-Patch21:	0023-Don-t-crash-on-broken-GIF-images.patch
-Patch22:	0025-Fix-visual-index-lookup-in-QTreeViewPrivate-adjustVi.patch
-Patch23:	0030-Memory-and-file-descriptor-leak-in-QFontCache.patch
-Patch24:	0034-Fix-raster-graphics-on-X11-RGB30.patch
-Patch25:	0065-Fix-QPainter-drawPolyline-painting-errors-with-cosme.patch
-Patch26:	0072-Fix-font-cache-check-in-QFontEngineFT-recalcAdvances.patch
+
 Patch27:	moc-boost-workaround.patch
 URL:		http://qt-project.org/
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -1500,13 +1494,7 @@ Programas exemplo para o Qt versão.
 %patch17 -p0
 %patch18 -p0
 %patch19 -p1
-%patch20 -p1
-%patch21 -p1
-%patch22 -p1
-%patch23 -p1
-%patch24 -p1
-%patch25 -p1
-%patch26 -p1
+
 %patch27 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
