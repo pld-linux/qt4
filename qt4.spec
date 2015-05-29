@@ -15,12 +15,13 @@
 %bcond_with	wkhtml		# WKHTMLTOPDF patch (affects QtGui ABI)
 %bcond_with	openvg		# OpenVG support
 # -- databases
+%bcond_without	ibase		# ibase (InterBase/Firebird) plugin
 %bcond_without	mysql		# MySQL plugin
+%bcond_with	oci		# OCI (Oracle) support
 %bcond_without	odbc		# unixODBC plugin
 %bcond_without	pgsql		# PostgreSQL plugin
 %bcond_without	sqlite3		# SQLite3 plugin
 %bcond_without	sqlite		# SQLite2 plugin
-%bcond_without	ibase		# ibase (InterBase/Firebird) plugin
 # -- SIMD CPU instructions
 %bcond_with	mmx		# use MMX instructions
 %bcond_with	3dnow		# use 3Dnow instructions
@@ -49,7 +50,7 @@
 %endif
 # any SQL
 %define		_withsql	1
-%{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%undefine _withsql}}}}}}
+%{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%{!?with_oci:%undefine _withsql}}}}}}}
 
 %define		icu_abi		54
 %define		next_icu_abi	%(echo $((%{icu_abi} + 1)))
@@ -97,7 +98,7 @@ Patch16:	qt-everywhere-opensource-src-4.8.3-QTBUG-4862.patch
 Patch17:	l-qclipboard_delay.patch
 Patch18:	l-qclipboard_fix_recursive.patch
 Patch19:	qtcore-4.8.5-honor-ExcludeSocketNotifiers-in-glib-event-loop.patch
-
+Patch20:	%{name}-oracle-instantclient.patch
 Patch27:	moc-boost-workaround.patch
 URL:		http://qt-project.org/
 %{?with_ibase:BuildRequires:	Firebird-devel}
@@ -123,6 +124,7 @@ BuildRequires:	libpng-devel >= 2:1.0.8
 BuildRequires:	libstdc++-devel
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_nas:BuildRequires:	nas-devel}
+%{?with_oci:BuildRequires:	oracle-instantclient-devel}
 BuildRequires:	pkgconfig
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
@@ -902,6 +904,20 @@ danych MySQL poprzez klasy QSql.
 %description -n QtSql-mysql -l pt_BR.UTF-8
 Plugin de suporte a MySQL para Qt.
 
+%package -n QtSql-oci
+Summary:	Qt Sql driver for Oracle database (using OCI interface)
+Summary(pl.UTF-8):	Sterownik Qt Sql dla bazy danych Oracle (wykorzystujący interfejs OCI)
+Group:		Libraries
+Requires:	QtSql = %{version}-%{release}
+Provides:	QtSql-backend = %{version}-%{release}
+
+%description -n QtSql-oci
+Qt Sql driver for Oracle database (using OCI interface).
+
+%description -n QtSql-oci -l pl.UTF-8
+Sterownik Qt Sql dla bazy danych Oracle (wykorzystujący interfejs
+OCI).
+
 %package -n QtSql-odbc
 Summary:	Database plugin for ODBC Qt support
 Summary(pl.UTF-8):	Wtyczka ODBC do Qt
@@ -1494,6 +1510,7 @@ Programas exemplo para o Qt versão.
 %patch17 -p0
 %patch18 -p0
 %patch19 -p1
+%patch20 -p1
 
 %patch27 -p1
 
@@ -1613,12 +1630,13 @@ COMMONOPT=" \
 
 %if %{with static_libs}
 OPT=" \
+	-%{!?with_ibase:no}%{?with_ibase:qt}-sql-ibase \
 	-%{!?with_mysql:no}%{?with_mysql:qt}-sql-mysql \
 	-%{!?with_odbc:no}%{?with_odbc:qt}-sql-odbc \
+	-%{!?with_oci:no}%{?with_oci:qt}-sql-oci \
 	-%{!?with_pgsql:no}%{?with_pgsql:qt}-sql-psql \
 	-%{!?with_sqlite3:no}%{?with_sqlite3:qt}-sql-sqlite \
 	-%{!?with_sqlite:no}%{?with_sqlite:qt}-sql-sqlite2 \
-	-%{!?with_ibase:no}%{?with_ibase:qt}-sql-ibase \
 	-static"
 
 ./configure $COMMONOPT $OPT
@@ -1638,12 +1656,13 @@ fi
 ##################################
 
 OPT=" \
+	-%{!?with_ibase:no}%{?with_ibase:plugin}-sql-ibase \
 	-%{!?with_mysql:no}%{?with_mysql:plugin}-sql-mysql \
 	-%{!?with_odbc:no}%{?with_odbc:plugin}-sql-odbc \
+	-%{!?with_oci:no}%{?with_oci:plugin}-sql-oci \
 	-%{!?with_pgsql:no}%{?with_pgsql:plugin}-sql-psql \
 	-%{!?with_sqlite3:no}%{?with_sqlite3:plugin}-sql-sqlite \
 	-%{!?with_sqlite:no}%{?with_sqlite:plugin}-sql-sqlite2 \
-	-%{!?with_ibase:no}%{?with_ibase:plugin}-sql-ibase \
 	-shared"
 
 ./configure $COMMONOPT $OPT
@@ -2017,6 +2036,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(da) %{_localedir}/da/LC_MESSAGES/qt4.qm
 %lang(de) %{_localedir}/de/LC_MESSAGES/qt4.qm
 %lang(es) %{_localedir}/es/LC_MESSAGES/qt4.qm
+%lang(eu) %{_localedir}/eu/LC_MESSAGES/qt4.qm
 %lang(fa) %{_localedir}/fa/LC_MESSAGES/qt4.qm
 %lang(fr) %{_localedir}/fr/LC_MESSAGES/qt4.qm
 %lang(gl) %{_localedir}/gl/LC_MESSAGES/qt4.qm
@@ -2111,6 +2131,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(cs) %{_localedir}/cs/LC_MESSAGES/qt4-qt_help.qm
 %lang(da) %{_localedir}/da/LC_MESSAGES/qt4-qt_help.qm
 %lang(de) %{_localedir}/de/LC_MESSAGES/qt4-qt_help.qm
+%lang(eu) %{_localedir}/eu/LC_MESSAGES/qt4-qt_help.qm
 %lang(fr) %{_localedir}/fr/LC_MESSAGES/qt4-qt_help.qm
 %lang(gl) %{_localedir}/gl/LC_MESSAGES/qt4-qt_help.qm
 %lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-qt_help.qm
@@ -2153,6 +2174,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libQtScript.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtScript.so.4
 %dir %{_qtdir}/plugins/script
+%lang(eu) %{_localedir}/eu/LC_MESSAGES/qt4-qtscript.qm
 
 %files -n QtScriptTools
 %defattr(644,root,root,755)
@@ -2165,10 +2187,28 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQtSql.so.4
 %dir %{_qtdir}/plugins/sqldrivers
 
+%if %{with ibase}
+%files -n QtSql-ibase
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlibase.so
+%endif
+
 %if %{with mysql}
 %files -n QtSql-mysql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlmysql.so
+%endif
+
+%if %{with oci}
+%files -n QtSql-oci
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqloci.so
+%endif
+
+%if %{with odbc}
+%files -n QtSql-odbc
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlodbc.so
 %endif
 
 %if %{with pgsql}
@@ -2187,18 +2227,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtSql-sqlite3
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlite.so
-%endif
-
-%if %{with ibase}
-%files -n QtSql-ibase
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlibase.so
-%endif
-
-%if %{with odbc}
-%files -n QtSql-odbc
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlodbc.so
 %endif
 
 %files -n QtSql-tds
@@ -2251,6 +2279,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(cs) %{_localedir}/cs/LC_MESSAGES/qt4-assistant.qm
 %lang(da) %{_localedir}/da/LC_MESSAGES/qt4-assistant.qm
 %lang(de) %{_localedir}/de/LC_MESSAGES/qt4-assistant.qm
+%lang(eu) %{_localedir}/eu/LC_MESSAGES/qt4-assistant.qm
 %lang(fr) %{_localedir}/fr/LC_MESSAGES/qt4-assistant.qm
 %lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-assistant.qm
 %lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4-assistant.qm
@@ -2317,7 +2346,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_qtdir}/bin/lupdate
 %lang(cs) %{_localedir}/cs/LC_MESSAGES/qt4-linguist.qm
 %lang(de) %{_localedir}/de/LC_MESSAGES/qt4-linguist.qm
+%lang(eu) %{_localedir}/eu/LC_MESSAGES/qt4-linguist.qm
 %lang(fr) %{_localedir}/fr/LC_MESSAGES/qt4-linguist.qm
+%lang(he) %{_localedir}/he/LC_MESSAGES/qt4-linguist.qm
 %lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-linguist.qm
 %lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4-linguist.qm
 %lang(ko) %{_localedir}/ko/LC_MESSAGES/qt4-linguist.qm
@@ -2351,6 +2382,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qtconfig-qt4
 %attr(755,root,root) %{_qtdir}/bin/qtconfig
+%lang(eu) %{_localedir}/eu/LC_MESSAGES/qt4-qtconfig.qm
+%lang(he) %{_localedir}/he/LC_MESSAGES/qt4-qtconfig.qm
 %lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-qtconfig.qm
 %lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4-qtconfig.qm
 %lang(ko) %{_localedir}/ko/LC_MESSAGES/qt4-qtconfig.qm
@@ -2367,6 +2400,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qvfb
 %attr(755,root,root) %{_qtdir}/bin/qvfb
+%lang(eu) %{_localedir}/eu/LC_MESSAGES/qt4-qvfb.qm
 %lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-qvfb.qm
 %lang(ja) %{_localedir}/ja/LC_MESSAGES/qt4-qvfb.qm
 %lang(ko) %{_localedir}/ko/LC_MESSAGES/qt4-qvfb.qm
