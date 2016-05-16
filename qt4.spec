@@ -52,7 +52,7 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%{!?with_oci:%undefine _withsql}}}}}}}
 
-%define		icu_abi		56
+%define		icu_abi		57
 %define		next_icu_abi	%(echo $((%{icu_abi} + 1)))
 
 Summary:	The Qt GUI application framework
@@ -61,7 +61,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	8
+Release:	9
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
