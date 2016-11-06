@@ -61,7 +61,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	9
+Release:	10
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -87,8 +87,7 @@ Patch8:		%{name}-ibase.patch
 Patch9:		qt-x11-opensource-src-4.5.1-enable_ft_lcdfilter.patch
 Patch10:	webkit-no_Werror.patch
 Patch11:	%{name}-wkhtml.patch
-Patch12:	fix-crash-in-assistant.patch
-Patch13:	improve-cups-support.patch
+
 Patch14:	x32.patch
 # backported from Qt5 (essentially)
 # http://bugzilla.redhat.com/702493
@@ -97,7 +96,6 @@ Patch15:	qt-everywhere-opensource-src-4.8.4-qgtkstyle_disable_gtk_theme_check.pa
 Patch16:	qt-everywhere-opensource-src-4.8.3-QTBUG-4862.patch
 
 Patch20:	%{name}-oracle-instantclient.patch
-Patch27:	moc-boost-workaround.patch
 # from FC
 Patch28:	qt-x11-opensource-src-4.5.0-fix-qatomic-inline-asm.patch
 Patch29:	qt-everywhere-opensource-src-4.8.6-QTBUG-38585.patch
@@ -106,6 +104,20 @@ Patch31:	qt-everywhere-opensource-src-4.8.6-QTBUG-34614.patch
 Patch32:	qt-everywhere-opensource-src-4.8.5-QTBUG-35459.patch
 Patch33:	qt-everywhere-opensource-src-4.8.5-QTBUG-4862.patch
 Patch34:	qt-everywhere-opensource-src-4.8.5-QTBUG-21900.patch
+Patch35:	qt-4.8-poll.patch
+Patch36:	qt-cupsEnumDests.patch
+Patch37:	qt-everywhere-opensource-src-4.8.4-qmake_pkgconfig_requires_private.patch
+Patch38:	qt-everywhere-opensource-src-4.8.5-QTBUG-14467.patch
+Patch39:	qt-everywhere-opensource-src-4.8.5-tds_no_strict_aliasing.patch
+Patch40:	qt-everywhere-opensource-src-4.8.6-QTBUG-22829.patch
+Patch41:	qt-everywhere-opensource-src-4.8.7-alsa-1.1.patch
+Patch42:	qt-everywhere-opensource-src-4.8.7-gcc6.patch
+Patch43:	qt-everywhere-opensource-src-4.6.2-cups.patch
+Patch44:	qt-everywhere-opensource-src-4.8.0-tp-qtreeview-kpackagekit-crash.patch
+Patch45:	qt-everywhere-opensource-src-4.6.3-glib_eventloop_nullcheck.patch
+Patch46:	qt-everywhere-opensource-src-4.8.3-qdbusconnection_no_debug.patch
+Patch47:	qt-everywhere-opensource-src-4.8.2--assistant-crash.patch
+Patch48:	qt-everywhere-opensource-src-4.8.0-QTBUG-22037.patch
 URL:		http://qt-project.org/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 %{?with_openvg:BuildRequires:	Mesa-libOpenVG-devel}
@@ -1509,15 +1521,12 @@ Programas exemplo para o Qt versão.
 %patch9 -p1
 %patch10 -p1
 %{?with_wkhtml:%patch11 -p1}
-%patch12 -p1
-%patch13 -p1
+
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
 
 %patch20 -p1
-
-%patch27 -p1
 
 %patch28 -p1
 %patch29 -p0
@@ -1526,6 +1535,20 @@ Programas exemplo para o Qt versão.
 %patch32 -p1
 %patch33 -p1
 %patch34 -p1
+%patch35 -p1
+%patch36 -p1
+%patch37 -p1
+%patch38 -p1
+%patch39 -p1
+%patch40 -p1
+%patch41 -p1
+%patch42 -p1
+%patch43 -p1
+%patch44 -p1
+%patch45 -p1
+%patch46 -p1
+%patch47 -p1
+%patch48 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
