@@ -61,7 +61,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	10
+Release:	11
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -94,8 +94,14 @@ Patch14:	x32.patch
 # https://bugreports.qt-project.org/browse/QTBUG-5545
 Patch15:	qt-everywhere-opensource-src-4.8.4-qgtkstyle_disable_gtk_theme_check.patch
 Patch16:	qt-everywhere-opensource-src-4.8.3-QTBUG-4862.patch
+Patch17:	%{name}-oracle-instantclient.patch
+# from Debian
+Patch18:	add-lxde-support.patch
+Patch19:	Better-handling-of-invalid-font-tables.patch
+Patch20:	xmlpatterns_stack_overflow_fix.diff
+Patch21:	no_libicu_message.diff
+Patch22:	add-mate-support.patch
 
-Patch20:	%{name}-oracle-instantclient.patch
 # from FC
 Patch28:	qt-x11-opensource-src-4.5.0-fix-qatomic-inline-asm.patch
 Patch29:	qt-everywhere-opensource-src-4.8.6-QTBUG-38585.patch
@@ -1525,8 +1531,13 @@ Programas exemplo para o Qt versão.
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
+%patch17 -p1
 
+%patch18 -p1
+%patch19 -p1
 %patch20 -p1
+%patch21 -p1
+%patch22 -p1
 
 %patch28 -p1
 %patch29 -p0

@@ -1,0 +1,26 @@
+Description: Add support for LXDE desktop
+ This patch checks for an environment variable set by LXDE desktop, in order to
+ make Qt4 applications natively use the GTK+ style when run on this desktop
+Author: Raphaël Halimi <raphael.halimi@gmail.com>
+Origin: other
+Last-Update: 2016-09-06
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ src/gui/kernel/qapplication_x11.cpp |    5 +++++
+ 1 file changed, 5 insertions(+)
+
+--- a/src/gui/kernel/qapplication_x11.cpp
++++ b/src/gui/kernel/qapplication_x11.cpp
+@@ -2355,6 +2355,11 @@ void qt_init(QApplicationPrivate *priv,
+                 break;
+             }
+ 
++            if (qgetenv("DESKTOP_SESSION") == "LXDE") {
++                X11->desktopEnvironment = DE_GNOME;
++                break;
++            }
++
+             // GNOME_DESKTOP_SESSION_ID is deprecated for some reason, but still check it
+             if (!qgetenv("GNOME_DESKTOP_SESSION_ID").isEmpty()) {
+                 X11->desktopEnvironment = DE_GNOME;

@@ -1,0 +1,27 @@
+Description: Add support for MATE desktop
+ This patch checks for an environment variable set by MATE desktop, in order to
+ make Qt4 applications natively use the GTK+ style when run on this desktop
+Author: Raphaël Halimi <raphael.halimi@gmail.com>
+Origin: other
+Last-Update: 2016-05-29
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ src/gui/kernel/qapplication_x11.cpp |    6 ++++++
+ 1 file changed, 6 insertions(+)
+
+--- a/src/gui/kernel/qapplication_x11.cpp
++++ b/src/gui/kernel/qapplication_x11.cpp
+@@ -2361,6 +2361,12 @@ void qt_init(QApplicationPrivate *priv,
+                 break;
+             }
+ 
++            // Check the equivalent environment variable set by MATE
++            if (!qgetenv("MATE_DESKTOP_SESSION_ID").isEmpty()) {
++                X11->desktopEnvironment = DE_GNOME;
++                break;
++            }
++
+             rc = XGetWindowProperty(X11->display, QX11Info::appRootWindow(), ATOM(_DT_SAVE_MODE),
+                                     0, 2, False, XA_STRING, &type, &format, &length,
+                                     &after, &data);
