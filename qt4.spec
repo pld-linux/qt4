@@ -1,7 +1,7 @@
 #
 # TODO:
 #	- fix moc failures, see e.g. https://bugzilla.redhat.com/show_bug.cgi?id=1396755
-#	  at least add some macros (BOOST_PREDEF_VERSION_NUMBER_H, _SYS_SYSMACROS_H_OUTER...)
+#	  at least add some macros to QTBUG-22829 patch (BOOST_PREDEF_VERSION_NUMBER_H, _SYS_SYSMACROS_H_OUTER...)
 #	- more cleanups
 #	- check if translations are available
 #	- check Qt ui tool
