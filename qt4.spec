@@ -63,7 +63,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	15
+Release:	16
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1748,6 +1748,9 @@ install bin/qdoc3 $RPM_BUILD_ROOT%{_qtdir}/bin/qdoc3
 	s|moc_location=.*|moc_location=%{_bindir}/moc-qt4|;
 	s|uic_location=.*|uic_location=%{_bindir}/uic-qt4|;
 	' $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
+
+# kill -std=XYZ, so qmake won't pass it over to other projects
+%{__sed} -i -e 's#^\(.*\) -std=[a-z0-9\+]\+ \(.*\)#\1 \2#g' $RPM_BUILD_ROOT%{_datadir}/qt4/mkspecs/common/g++-base.conf
 
 # libQtWebKit.la contains '-ljscore' and '-lwebcore', they come
 # from src/3rdparty/webkit/{JavaScriptCore,WebCore}} but those libs aren't installed
