@@ -63,7 +63,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	19
+Release:	20
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -89,6 +89,7 @@ Patch8:		%{name}-ibase.patch
 Patch9:		qt-x11-opensource-src-4.5.1-enable_ft_lcdfilter.patch
 Patch10:	webkit-no_Werror.patch
 Patch11:	%{name}-wkhtml.patch
+Patch12:	openssl.patch
 
 Patch14:	x32.patch
 # backported from Qt5 (essentially)
@@ -1530,6 +1531,7 @@ Programas exemplo para o Qt versão.
 %patch9 -p1
 %patch10 -p1
 %{?with_wkhtml:%patch11 -p1}
+%patch12 -p1
 
 %patch14 -p1
 %patch15 -p1
