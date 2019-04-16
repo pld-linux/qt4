@@ -54,7 +54,7 @@
 %define		_withsql	1
 %{!?with_sqlite3:%{!?with_sqlite:%{!?with_ibase:%{!?with_mysql:%{!?with_pgsql:%{!?with_odbc:%{!?with_oci:%undefine _withsql}}}}}}}
 
-%define		icu_abi		59
+%define		icu_abi		64
 %define		next_icu_abi	%(echo $((%{icu_abi} + 1)))
 
 Summary:	The Qt GUI application framework
