@@ -1,11 +1,28 @@
---- qt-everywhere-opensource-src-4.8.7/src/corelib/tools/qlocale_icu.cpp~	2017-04-25 07:42:22.000000000 +0000
-+++ qt-everywhere-opensource-src-4.8.7/src/corelib/tools/qlocale_icu.cpp	2017-04-25 07:44:34.675363008 +0000
-@@ -43,6 +43,8 @@
- #include "qlibrary.h"
- #include "qdebug.h"
+From: Fabian Vogt <fabian@ritter-vogt.de>
+Subject: Fix build with ICU >= 59
+
+ICU >= 59 requires C++11 for its header files.
+Qt can't be compiled with -std=c++11 as a whole, so only enable
+it for qlocale_icu.cpp.
+
+Index: qt-everywhere-opensource-src-4.8.7/src/corelib/tools/tools.pri
+===================================================================
+--- qt-everywhere-opensource-src-4.8.7.orig/src/corelib/tools/tools.pri
++++ qt-everywhere-opensource-src-4.8.7/src/corelib/tools/tools.pri
+@@ -102,7 +102,15 @@ contains(QT_CONFIG, zlib):include($$PWD/
+ else:include($$PWD/../../3rdparty/zlib_dependency.pri)
  
-+#define UCHAR_TYPE unsigned short
+ contains(QT_CONFIG,icu) {
+-    SOURCES += tools/qlocale_icu.cpp
++    cpp11.name = cpp11
++    cpp11.input = SOURCES_CPP11
++    cpp11.dependency_type = TYPE_C
++    cpp11.variable_out = OBJECTS
++    cpp11.output = ${QMAKE_VAR_OBJECTS_DIR}${QMAKE_FILE_IN_BASE}$${first(QMAKE_EXT_OBJ)}
++    cpp11.commands = $${QMAKE_CXX} $(CXXFLAGS) -std=c++11 $(INCPATH) -c ${QMAKE_FILE_IN} -o ${QMAKE_FILE_OUT}
++    QMAKE_EXTRA_COMPILERS += cpp11
 +
- #include "unicode/uversion.h"
- #include "unicode/ucol.h"
++    SOURCES_CPP11 += tools/qlocale_icu.cpp
+     DEFINES += QT_USE_ICU
+ }
  

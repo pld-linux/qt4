@@ -63,7 +63,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	20
+Release:	21
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -182,7 +182,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		_noautostrip	'.*_debug\\.so*'
 
-%define		specflags	-fno-strict-aliasing -std=gnu++98
+%define		specflags	-fno-strict-aliasing
 
 %define		_qtdir		%{_libdir}/qt4
 
@@ -1577,9 +1577,9 @@ Programas exemplo para o Qt versão.
 	s|QMAKE_LINK.*=.*g++|QMAKE_LINK\t\t= %{__cxx}|;
 	s|QMAKE_LINK_SHLIB.*=.*g++|QMAKE_LINK_SHLIB\t= %{__cxx}|;
 	s|QMAKE_CFLAGS_RELEASE.*|QMAKE_CFLAGS_RELEASE\t+= %{rpmcppflags} %{rpmcflags}|;
-	s|QMAKE_CXXFLAGS_RELEASE.*|QMAKE_CXXFLAGS_RELEASE\t+= %{rpmcppflags} %{rpmcxxflags}|;
+	s|QMAKE_CXXFLAGS_RELEASE.*|QMAKE_CXXFLAGS_RELEASE\t+= %{rpmcppflags} %{rpmcxxflags} -std=gnu++98|;
 	s|QMAKE_CFLAGS_DEBUG.*|QMAKE_CFLAGS_DEBUG\t+= %{debugcflags}|;
-	s|QMAKE_CXXFLAGS_DEBUG.*|QMAKE_CXXFLAGS_DEBUG\t+= %{debugcflags}|;
+	s|QMAKE_CXXFLAGS_DEBUG.*|QMAKE_CXXFLAGS_DEBUG\t+= %{debugcflags} -std=gnu++98|;
 	' mkspecs/common/g++-base.conf
 
 %{__sed} -i -e '
@@ -1597,7 +1597,7 @@ Programas exemplo para o Qt versão.
 	' mkspecs/common/linux.conf
 
 # disable webkit tests, broken build
-rm -r src/3rdparty/webkit/Source/WebKit/qt/tests
+%{__rm} -r src/3rdparty/webkit/Source/WebKit/qt/tests
 
 %build
 # pass OPTFLAGS to build qmake itself with optimization
@@ -1790,7 +1790,7 @@ ln -sf ../%{_lib}/qt4/bin/xmlpatternsvalidator .
 cd -
 
 # multilib
-mv $RPM_BUILD_ROOT%{_qtdir}/bin/{qdbus,qdbusviewer} $RPM_BUILD_ROOT%{_bindir}
+%{__mv} $RPM_BUILD_ROOT%{_qtdir}/bin/{qdbus,qdbusviewer} $RPM_BUILD_ROOT%{_bindir}
 ln -sf %{_bindir}/qdbus $RPM_BUILD_ROOT%{_qtdir}/bin/qdbus
 ln -sf %{_bindir}/qdbusviewer $RPM_BUILD_ROOT%{_qtdir}/bin/qdbusviewer
 
