@@ -90,7 +90,7 @@ Patch9:		qt-x11-opensource-src-4.5.1-enable_ft_lcdfilter.patch
 Patch10:	webkit-no_Werror.patch
 Patch11:	%{name}-wkhtml.patch
 Patch12:	openssl.patch
-
+Patch13:	qt-asm-volatile.patch
 Patch14:	x32.patch
 # backported from Qt5 (essentially)
 # http://bugzilla.redhat.com/702493
@@ -1532,7 +1532,7 @@ Programas exemplo para o Qt versão.
 %patch10 -p1
 %{?with_wkhtml:%patch11 -p1}
 %patch12 -p1
-
+%patch13 -p1
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
