@@ -1,0 +1,11 @@
+--- qt-everywhere-opensource-src-4.8.7/src/sql/drivers/mysql/qsql_mysql.pri~	2015-05-07 16:14:48.000000000 +0200
++++ qt-everywhere-opensource-src-4.8.7/src/sql/drivers/mysql/qsql_mysql.pri	2019-09-14 15:53:51.542585322 +0200
+@@ -4,7 +4,7 @@
+ unix {
+     isEmpty(QT_LFLAGS_MYSQL) {
+         !contains(LIBS, .*mysqlclient.*):!contains(LIBS, .*mysqld.*) {
+-            use_libmysqlclient_r:LIBS += -lmysqlclient_r
++            use_libmysqlclient_r:LIBS += -lmysqlclient
+             else:LIBS += -lmysqlclient
+         }
+     } else {
