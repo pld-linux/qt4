@@ -63,7 +63,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	23.1
+Release:	24
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1747,6 +1747,9 @@ echo '#QT_GRAPHICSSYSTEM=raster' > $RPM_BUILD_ROOT/etc/env.d/QT_GRAPHICSSYSTEM
 
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
+
+# this is only needed to build the library itself and breaks other build that use it
+%{__sed} -i -e 's|-std=gnu++98||g' $RPM_BUILD_ROOT%{_datadir}/qt4/mkspecs/common/g++-base.conf
 
 # for qt-creator sth is messed up in the Makefile, nothing for make install
 install bin/qdoc3 $RPM_BUILD_ROOT%{_qtdir}/bin/qdoc3
