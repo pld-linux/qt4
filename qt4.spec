@@ -63,7 +63,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	23
+Release:	23.1
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1573,7 +1573,7 @@ Programas exemplo para o Qt versão.
 %patch50 -p1
 %patch51 -p1
 %patch52 -p1
-%patch53 -p1
+#%patch53 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1585,9 +1585,9 @@ Programas exemplo para o Qt versão.
 	s|QMAKE_LINK.*=.*g++|QMAKE_LINK\t\t= %{__cxx}|;
 	s|QMAKE_LINK_SHLIB.*=.*g++|QMAKE_LINK_SHLIB\t= %{__cxx}|;
 	s|QMAKE_CFLAGS_RELEASE.*|QMAKE_CFLAGS_RELEASE\t+= %{rpmcppflags} %{rpmcflags}|;
-	s|QMAKE_CXXFLAGS_RELEASE.*|QMAKE_CXXFLAGS_RELEASE\t+= %{rpmcppflags} %{rpmcxxflags}|;
+	s|QMAKE_CXXFLAGS_RELEASE.*|QMAKE_CXXFLAGS_RELEASE\t+= %{rpmcppflags} %{rpmcxxflags} -std=gnu++98|;
 	s|QMAKE_CFLAGS_DEBUG.*|QMAKE_CFLAGS_DEBUG\t+= %{debugcflags}|;
-	s|QMAKE_CXXFLAGS_DEBUG.*|QMAKE_CXXFLAGS_DEBUG\t+= %{debugcflags}|;
+	s|QMAKE_CXXFLAGS_DEBUG.*|QMAKE_CXXFLAGS_DEBUG\t+= %{debugcflags} -std=gnu++98|;
 	' mkspecs/common/g++-base.conf
 
 %{__sed} -i -e '
