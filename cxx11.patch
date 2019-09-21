@@ -60,7 +60,7 @@
      constructor.setupOffsets();
  
 -    return false;
-+    return nullptr;
++    return NULL;
  };
  
  
