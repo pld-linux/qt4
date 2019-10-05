@@ -63,7 +63,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	25
+Release:	26
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -1585,9 +1585,9 @@ Programas exemplo para o Qt versão.
 	s|QMAKE_LINK.*=.*g++|QMAKE_LINK\t\t= %{__cxx}|;
 	s|QMAKE_LINK_SHLIB.*=.*g++|QMAKE_LINK_SHLIB\t= %{__cxx}|;
 	s|QMAKE_CFLAGS_RELEASE.*|QMAKE_CFLAGS_RELEASE\t+= %{rpmcppflags} %{rpmcflags}|;
-	s|QMAKE_CXXFLAGS_RELEASE.*|QMAKE_CXXFLAGS_RELEASE\t+= %{rpmcppflags} %{rpmcxxflags} -std=gnu++98 -O1|;
+	s|QMAKE_CXXFLAGS_RELEASE.*|QMAKE_CXXFLAGS_RELEASE\t+= %{rpmcppflags} %{rpmcxxflags}|;
 	s|QMAKE_CFLAGS_DEBUG.*|QMAKE_CFLAGS_DEBUG\t+= %{debugcflags}|;
-	s|QMAKE_CXXFLAGS_DEBUG.*|QMAKE_CXXFLAGS_DEBUG\t+= %{debugcflags} -std=gnu++98 -O1|;
+	s|QMAKE_CXXFLAGS_DEBUG.*|QMAKE_CXXFLAGS_DEBUG\t+= %{debugcflags}|;
 	' mkspecs/common/g++-base.conf
 
 %{__sed} -i -e '
@@ -1748,9 +1748,6 @@ echo '#QT_GRAPHICSSYSTEM=raster' > $RPM_BUILD_ROOT/etc/env.d/QT_GRAPHICSSYSTEM
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
-# this is only needed to build the library itself and breaks other builds that use it
-%{__sed} -i -e 's|-std=gnu++98||g' $RPM_BUILD_ROOT%{_datadir}/qt4/mkspecs/common/g++-base.conf
-
 # for qt-creator sth is messed up in the Makefile, nothing for make install
 install bin/qdoc3 $RPM_BUILD_ROOT%{_qtdir}/bin/qdoc3
 
@@ -1763,7 +1760,7 @@ install bin/qdoc3 $RPM_BUILD_ROOT%{_qtdir}/bin/qdoc3
 	' $RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
 
 # kill -std=XYZ, so qmake won't pass it over to other projects
-%{__sed} -i -e 's#^\(.*\) -std=[a-z0-9\+]\+ \(.*\)#\1 \2#g' $RPM_BUILD_ROOT%{_datadir}/qt4/mkspecs/common/g++-base.conf
+#%{__sed} -i -e s#^\(.*\) -std=[a-z0-9+]\+\( .*\|$\)#\1 \2#g' $RPM_BUILD_ROOT%{_datadir}/qt4/mkspecs/common/g++-base.conf
 
 # libQtWebKit.la contains '-ljscore' and '-lwebcore', they come
 # from src/3rdparty/webkit/{JavaScriptCore,WebCore}} but those libs aren't installed
