@@ -298,7 +298,7 @@ index 0d9df16..b88fc3e 100755
 --- a/configure
 +++ b/configure
 @@ -1058,6 +1058,11 @@ while [ "$#" -gt 0 ]; do
-             VAL=`echo $1 | sed 's,-D,,'`
+             VAL=$1
          fi
          ;;
 +    -isystem)
@@ -419,8 +419,8 @@ index 2574b74..9f57417 100644
  class Q_CORE_EXPORT QAbstractDeclarativeData
  {
 @@ -155,6 +157,9 @@ public:
+ #ifdef QT3_SUPPORT
      void sendPendingChildInsertedEvents();
-     void removePendingChildInsertedEvents(QObject *child);
  #endif
 +#if defined(Q_WS_X11)
 +    virtual void checkWindowRole();

@@ -26,13 +26,13 @@
  #endif
 +#endif
  
- /* 64-bit mode on AIX */
- #ifdef __64BIT__
+ /* CPU(ARM) - ARM, any version*/
+ #if   defined(arm) \
 --- a/configure
 +++ b/configure
 @@ -3329,6 +3329,12 @@ if [ -z "${CFG_HOST_ARCH}" ]; then
-         fi
-         CFG_HOST_ARCH=sh
+             ;;
+         esac
          ;;
 +    *:*:x32)
 +        if [ "$OPT_VERBOSE" = "yes" ]; then
@@ -53,7 +53,7 @@
 +#  include "QtCore/qatomic_i386.h"
  #elif defined(QT_ARCH_NACL)
  #  include "QtCore/qatomic_generic.h"
- #elif defined(QT_ARCH_AARCH64)
+ #else
 --- /dev/null
 +++ b/src/corelib/arch/x32/arch.pri
 @@ -0,0 +1,4 @@

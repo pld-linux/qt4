@@ -19,7 +19,7 @@ diff -ur qt-everywhere-opensource-src-4.6.0-beta1/tools/designer/src/uitools/uit
 +++ qt-everywhere-opensource-src-4.6.0-beta1.new/tools/designer/src/uitools/uitools.pro	2009-10-18 10:40:38.624930212 +0200
 @@ -1,7 +1,7 @@
  TEMPLATE = lib
- TARGET = $$qtLibraryTarget(QtUiTools)
+ TARGET = QtUiTools
  QT += xml
 -CONFIG += qt staticlib
 +CONFIG += qt

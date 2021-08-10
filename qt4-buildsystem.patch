@@ -10,5 +10,5 @@
 +	fi
 +
          if [ "$BUILD_ON_MAC" = "yes" ]; then
-             echo "export MACOSX_DEPLOYMENT_TARGET = 10.5" >> "$mkfile"
-             echo "CARBON_LFLAGS =-framework ApplicationServices" >>"$mkfile"
+             case "$PLATFORM" in
+             *macx-clang-libc++)
