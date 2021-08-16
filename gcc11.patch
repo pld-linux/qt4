@@ -1,0 +1,11 @@
+--- qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebCore/html/HTMLImageElement.cpp~	2015-05-07 16:14:47.000000000 +0200
++++ qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebCore/html/HTMLImageElement.cpp	2021-08-16 18:44:52.721008091 +0200
+@@ -74,7 +74,7 @@
+     RefPtr<HTMLImageElement> image = adoptRef(new HTMLImageElement(imgTag, document));
+     if (optionalWidth)
+         image->setWidth(*optionalWidth);
+-    if (optionalHeight > 0)
++    if (optionalHeight)
+         image->setHeight(*optionalHeight);
+     return image.release();
+ }

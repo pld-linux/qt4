@@ -132,6 +132,7 @@ Patch50:	mysql-link.patch
 Patch51:	gcc9.patch
 Patch52:	gcc9-qforeach.patch
 Patch53:	cxx11.patch
+Patch54:	gcc11.patch
 URL:		http://qt-project.org/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 %{?with_openvg:BuildRequires:	Mesa-libOpenVG-devel}
@@ -145,7 +146,7 @@ BuildRequires:	freetds-devel
 BuildRequires:	freetype-devel >= 2.1.3
 %{?with_pch:BuildRequires:	gcc >= 5:4.0}
 BuildRequires:	glib2-devel >= 2.0.0
-BuildRequires:	gstreamer0.10-plugins-base-devel
+%{!?with_system_phonon:BuildRequires:	gstreamer0.10-plugins-base-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel >= 2:2.10}
 # see dependency on libicu version below
 BuildRequires:	libicu-devel >= %{icu_abi}
@@ -178,6 +179,7 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	zlib-devel
+%{?with_system_phonon:BuildConflicts:	gstreamer0.10-devel}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
@@ -1572,6 +1574,7 @@ Programas exemplo para o Qt versão.
 %patch51 -p1
 %patch52 -p1
 %patch53 -p1
+%patch54 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1645,6 +1648,7 @@ COMMONOPT=" \
 	%{!?with_sse41:-no-sse4.1} \
 	%{!?with_sse42:-no-sse4.2} \
 	%{!?with_avx:-no-avx} \
+	%{?with_system_phonon:-no-phonon} \
 	-qdbus \
 	-dbus-linked \
 	-reduce-relocations \
