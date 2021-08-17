@@ -9,3 +9,14 @@
          image->setHeight(*optionalHeight);
      return image.release();
  }
+--- qt-everywhere-opensource-src-4.8.7/tools/linguist/linguist/messagemodel.cpp~	2015-05-07 16:14:39.000000000 +0200
++++ qt-everywhere-opensource-src-4.8.7/tools/linguist/linguist/messagemodel.cpp	2021-08-17 10:08:13.701417706 +0200
+@@ -183,7 +183,7 @@
+         if (ContextItem *c = one->findContext(oc->context())) {
+             for (int j = 0; j < oc->messageCount(); ++j) {
+                 MessageItem *m = oc->messageItem(j);
+-                if (c->findMessage(m->text(), m->comment()) >= 0)
++                if (c->findMessage(m->text(), m->comment()))
+                     ++inBoth;
+             }
+         }
