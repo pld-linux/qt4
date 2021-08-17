@@ -1951,7 +1951,7 @@ mkdevfl QtCLucene
 mkdevfl QtXml
 mkdevfl QtXmlPatterns
 mkdevfl Qt3Support
-mkdevfl phonon
+%{!?with_system_phonon:mkdevfl phonon}
 
 # without *.la *.pc etc.
 mkdevfl QtDesigner || /bin/true
@@ -1976,17 +1976,6 @@ ifecho demos "%{_qtdir}/bin/qtdemo"
 for f in `find $RPM_BUILD_ROOT%{_examplesdir}/qt4-demos -printf "%%P "`; do
 	ifecho demos %{_examplesdir}/qt4-demos/$f
 done
-
-%if %{with system_phonon}
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libphonon.so* \
-	$RPM_BUILD_ROOT%{_libdir}/libphonon.{la,prl} \
-	$RPM_BUILD_ROOT%{_libdir}/qt4/plugins/phonon_backend/libphonon_gstreamer.so \
-	$RPM_BUILD_ROOT%{_pkgconfigdir}/phonon.pc
-%{__rm} -r $RPM_BUILD_ROOT%{_includedir}/qt4/phonon
-%if %{with static_libs}
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libphonon.a
-%endif
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
