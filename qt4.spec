@@ -35,19 +35,19 @@
 %bcond_with	sse42		# use SSE4.2 instructions (the same)
 %bcond_with	avx		# use AVX instructions (future Intel x86 CPUs only)
 
-%ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
+%ifnarch %{ix86} %{x8664} x32 sparc sparcv9 alpha ppc
 %undefine	with_ibase
 %endif
 %ifarch	athlon
 %define		with_3dnow	1
 %endif
-%ifarch athlon pentium3 pentium4 %{x8664}
+%ifarch athlon pentium3 pentium4 %{x8664} x32
 %define		with_mmx	1
 %endif
-%ifarch pentium3 pentium4 %{x8664}
+%ifarch pentium3 pentium4 %{x8664} x32
 %define		with_sse	1
 %endif
-%ifarch pentium4 %{x8664}
+%ifarch pentium4 %{x8664} x32
 %define		with_sse2	1
 %endif
 # any SQL
@@ -63,7 +63,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	31
+Release:	32
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -188,7 +188,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		_noautostrip	'.*_debug\\.so*'
 
-%define		specflags	-fno-strict-aliasing -O1
+%ifarch %{ix86}
+%define		specflags	-fno-strict-aliasing -O0
+%else
+%define		specflags	-fno-strict-aliasing
+%endif
 
 %define		_qtdir		%{_libdir}/qt4
 
