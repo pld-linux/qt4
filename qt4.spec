@@ -179,7 +179,6 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	zlib-devel
-%{?with_system_phonon:BuildConflicts:	gstreamer0.10-devel}
 Obsoletes:	qt-extensions
 Obsoletes:	qt-utils
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
@@ -1604,6 +1603,9 @@ Programas exemplo para o Qt versão.
 %{__sed} -i -e '
 	s|^QMAKE_STRIP.*=.*|QMAKE_STRIP             =|;
 	' mkspecs/common/linux.conf
+
+# disable gstreamer-0.10 based multimedia
+%{__sed} -i -e 's/gstreamer-0.10/&-disabled/' src/3rdparty/webkit/Source/WebCore/features.pri
 
 # disable webkit tests, broken build
 %{__rm} -r src/3rdparty/webkit/Source/WebKit/qt/tests
