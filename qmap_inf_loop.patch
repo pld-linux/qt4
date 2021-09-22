@@ -1,0 +1,11 @@
+--- qt-everywhere-opensource-src-4.8.7.orig/src/corelib/tools/qmap.h	2015-05-07 14:14:48.000000000 +0000
++++ qt-everywhere-opensource-src-4.8.7/src/corelib/tools/qmap.h	2021-09-22 13:03:35.852354885 +0000
+@@ -179,7 +179,7 @@
+     }
+ 
+ public:
+-    inline QMap() : d(&QMapData::shared_null) { d->ref.ref(); }
++    inline QMap() : d(QMapData::shared_null.backward) { d->ref.ref(); }
+     inline QMap(const QMap<Key, T> &other) : d(other.d)
+     { d->ref.ref(); if (!d->sharable) detach(); }
+     inline ~QMap() { if (!d) return; if (!d->ref.deref()) freeData(d); }

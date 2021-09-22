@@ -133,6 +133,7 @@ Patch51:	gcc9.patch
 Patch52:	gcc9-qforeach.patch
 Patch53:	cxx11.patch
 Patch54:	gcc11.patch
+Patch55:	qmap_inf_loop.patch
 URL:		http://qt-project.org/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 %{?with_openvg:BuildRequires:	Mesa-libOpenVG-devel}
@@ -1574,6 +1575,7 @@ Programas exemplo para o Qt versão.
 %patch52 -p1
 %patch53 -p1
 %patch54 -p1
+%patch55 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
