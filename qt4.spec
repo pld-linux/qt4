@@ -63,7 +63,7 @@ Summary(pl.UTF-8):	Biblioteka Qt do tworzenia GUI
 Summary(pt_BR.UTF-8):	Estrutura para rodar aplicações GUI Qt
 Name:		qt4
 Version:	4.8.7
-Release:	34
+Release:	35
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
@@ -2619,9 +2619,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libQtUiTools.a
 
+%if 0
 %files -n QtWebKit-static
 %defattr(644,root,root,755)
 %{_libdir}/libQtWebKit.a
+%endif
 
 %files -n QtDeclarative-static
 %defattr(644,root,root,755)
