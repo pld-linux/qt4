@@ -180,8 +180,8 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	zlib-devel
-Obsoletes:	qt-extensions
-Obsoletes:	qt-utils
+Obsoletes:	qt-extensions < 2.2
+Obsoletes:	qt-utils < 6:3.3.3
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -322,7 +322,7 @@ Requires:	libicui18n.so.%{icu_abi}()(x32bit)
 Requires:	libicui18n.so.%{icu_abi}
 %endif
 %endif
-Obsoletes:	QtAssistant
+Obsoletes:	QtAssistant < 4.7
 
 %description -n QtCore
 Qt core classes used by other modules.
@@ -338,7 +338,7 @@ Requires:	QtCore = %{version}-%{release}
 Requires:	glib2-devel
 Requires:	libstdc++-devel
 Requires:	zlib-devel
-Obsoletes:	QtAssistant-devel
+Obsoletes:	QtAssistant-devel < 4.7
 
 %description -n QtCore-devel
 Qt core classes used by other modules - development files.
@@ -351,7 +351,7 @@ Summary:	Qt core classes used by other modules - static libraries
 Summary(pl.UTF-8):	Podstawowe klasy Qt używane przez inne moduły - biblioteki statyczne
 Group:		X11/Development/Libraries
 Requires:	QtCore-devel = %{version}-%{release}
-Obsoletes:	QtAssistant-static
+Obsoletes:	QtAssistant-static < 4.7
 
 %description -n QtCore-static
 Qt core classes used by other modules - static libraries.
@@ -474,7 +474,7 @@ Requires:	QtSql = %{version}-%{release}
 Requires:	QtSvg = %{version}-%{release}
 Requires:	QtWebKit = %{version}-%{release}
 Requires:	QtXmlPatterns = %{version}-%{release}
-Obsoletes:	qt4-designer-libs
+Obsoletes:	qt4-designer-libs < 4.1.1-1
 
 %description -n QtDesigner
 This module provides classes that allow you to create your own custom
