@@ -1,0 +1,47 @@
+--- qt-everywhere-opensource-src-4.8.7/src/sql/drivers/mysql/qsql_mysql.cpp.orig	2015-05-07 16:14:48.000000000 +0200
++++ qt-everywhere-opensource-src-4.8.7/src/sql/drivers/mysql/qsql_mysql.cpp	2025-03-12 18:10:42.615633569 +0100
+@@ -194,7 +194,7 @@ public:
+               myField(0), type(QVariant::Invalid)
+         {}
+         char *outField;
+-        my_bool nullIndicator;
++        bool nullIndicator;
+         ulong bufLength;
+         MYSQL_FIELD *myField;
+         QVariant::Type type;
+@@ -930,7 +930,7 @@ bool QMYSQLResult::exec()
+     MYSQL_BIND* currBind;
+     QVector<MYSQL_TIME *> timeVector;
+     QVector<QByteArray> stringVector;
+-    QVector<my_bool> nullVector;
++    QVector<bool> nullVector;
+ 
+     const QVector<QVariant> values = boundValues();
+ 
+@@ -951,7 +951,7 @@ bool QMYSQLResult::exec()
+ 
+             currBind = &d->outBinds[i];
+ 
+-            nullVector[i] = static_cast<my_bool>(val.isNull());
++            nullVector[i] = static_cast<bool>(val.isNull());
+             currBind->is_null = &nullVector[i];
+             currBind->length = 0;
+             currBind->is_unsigned = 0;
+@@ -1048,7 +1048,7 @@ bool QMYSQLResult::exec()
+     d->rowsAffected = mysql_stmt_affected_rows(d->stmt);
+ 
+     if (isSelect()) {
+-        my_bool update_max_length = true;
++        bool update_max_length = true;
+ 
+         r = mysql_stmt_bind_result(d->stmt, d->inBinds);
+         if (r != 0) {
+@@ -1245,7 +1245,7 @@ bool QMYSQLDriver::open(const QString& d
+     const QStringList opts(connOpts.split(QLatin1Char(';'), QString::SkipEmptyParts));
+     QString unixSocket;
+ #if MYSQL_VERSION_ID >= 50000
+-    my_bool reconnect=false;
++    bool reconnect=false;
+ #endif
+ 
+     // extract the real options from the string

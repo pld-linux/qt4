@@ -1,0 +1,11 @@
+--- qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebKit.pri.orig	2025-03-12 18:19:00.352919887 +0100
++++ qt-everywhere-opensource-src-4.8.7/src/3rdparty/webkit/Source/WebKit.pri	2025-03-12 19:22:04.319087049 +0100
+@@ -98,7 +98,7 @@ win32-g++* {
+ }
+ 
+ CONFIG -= warn_on
+-*-g++*:QMAKE_CXXFLAGS += -Wall -Wextra -Wreturn-type -fno-strict-aliasing -Wcast-align -Wchar-subscripts -Wformat-security -Wreturn-type -Wno-unused-parameter -Wno-sign-compare -Wno-switch -Wno-switch-enum -Wundef -Wmissing-noreturn -Winit-self
++*-g++*:QMAKE_CXXFLAGS += -Wall -Wextra -Wreturn-type -fno-strict-aliasing -Wcast-align -Wchar-subscripts -Wformat-security -Wreturn-type -Wno-unused-parameter -Wno-sign-compare -Wno-switch -Wno-switch-enum -Wundef -Wmissing-noreturn -Winit-self -Wno-expansion-to-defined
+ 
+ # Treat warnings as errors on x86/Linux/GCC
+ linux-g++* {

@@ -7,7 +7,7 @@
 #	- check Qt ui tool
 #
 # Conditional build:
-%bcond_without	static_libs	# don't build static libraries
+%bcond_without	static_libs	# static libraries
 # -- features
 %bcond_without	cups		# CUPS printing support
 %bcond_with	nas		# NAS audio support
@@ -18,6 +18,7 @@
 %bcond_with	openvg		# OpenVG support
 # -- databases
 %bcond_without	ibase		# ibase (InterBase/Firebird) plugin
+%bcond_with	ibmdb2		# IBM DB2 plugin
 %bcond_without	mysql		# MySQL plugin
 %bcond_with	oci		# OCI (Oracle) support
 %bcond_without	odbc		# unixODBC plugin
@@ -105,6 +106,9 @@ Patch20:	xmlpatterns_stack_overflow_fix.diff
 Patch21:	no_libicu_message.diff
 Patch22:	add-mate-support.patch
 
+Patch23:	qt-mysql8.patch
+Patch24:	qt-less-warnings.patch
+
 # from FC
 Patch28:	qt-x11-opensource-src-4.5.0-fix-qatomic-inline-asm.patch
 Patch29:	qt-everywhere-opensource-src-4.8.6-QTBUG-38585.patch
@@ -149,6 +153,7 @@ BuildRequires:	freetype-devel >= 2.1.3
 BuildRequires:	glib2-devel >= 2.0.0
 %{!?with_system_phonon:BuildRequires:	gstreamer0.10-plugins-base-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel >= 2:2.10}
+%{?with_ibmdb2:BuildRequires:	ibm-db2-clidriver-devel}
 # see dependency on libicu version below
 BuildRequires:	libicu-devel >= %{icu_abi}
 BuildRequires:	libicu-devel < %{next_icu_abi}
@@ -156,6 +161,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
 BuildRequires:	libpng-devel >= 2:1.0.8
 BuildRequires:	libstdc++-devel
+BuildRequires:	libtirpc-devel
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_nas:BuildRequires:	nas-devel}
 %{?with_oci:BuildRequires:	oracle-instantclient-devel}
@@ -901,6 +907,19 @@ Qt classes for database integration using SQL - static libraries.
 Klasy Qt do integracji z bazami danych przy użyciu SQL - biblioteki
 statyczne. programistyczne.
 
+%package -n QtSql-db2
+Summary:	Qt Sql driver for IBM DB2 database
+Summary(pl.UTF-8):	Sterownik Qt Sql dla bazy danych IBM DB2
+Group:		Libraries
+Requires:	QtSql = %{version}-%{release}
+Provides:	QtSql-backend = %{version}-%{release}
+
+%description -n QtSql-db2
+Qt Sql driver for IBM DB2 database.
+
+%description -n QtSql-db2 -l pl.UTF-8
+Sterownik Qt Sql dla bazy danych IBM DB2.
+
 %package -n QtSql-ibase
 Summary:	Database plugin for InterBase/Firebird Qt support
 Summary(pl.UTF-8):	Wtyczka InterBase/Firebird do Qt
@@ -1522,60 +1541,61 @@ Programas exemplo para o Qt versão.
 %prep
 %setup -q -n qt-everywhere-opensource-src-%{version}
 
-%patch100 -p1
+%patch -P100 -p1
 
-%patch0 -p1
-%patch1 -p0
-%patch2 -p1
-%patch3 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%{?with_wkhtml:%patch11 -p1}
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
+%patch -P0 -p1
+%patch -P1 -p0
+%patch -P2 -p1
+%patch -P3 -p1
+%patch -P5 -p1
+%patch -P6 -p1
+%patch -P7 -p1
+%patch -P8 -p1
+%patch -P9 -p1
+%patch -P10 -p1
+%{?with_wkhtml:%patch -P11 -p1}
+%patch -P12 -p1
+%patch -P13 -p1
+%patch -P14 -p1
+%patch -P15 -p1
+%patch -P16 -p1
+%patch -P17 -p1
+%patch -P18 -p1
+%patch -P19 -p1
+%patch -P20 -p1
+%patch -P21 -p1
+%patch -P22 -p1
+%patch -P23 -p1
+%patch -P24 -p1
 
-%patch18 -p1
-%patch19 -p1
-%patch20 -p1
-%patch21 -p1
-%patch22 -p1
-
-%patch28 -p1
-%patch29 -p0
-%patch30 -p1
-%patch31 -p0
-%patch32 -p1
-%patch33 -p1
-%patch34 -p1
-%patch35 -p1
-%patch36 -p1
-%patch37 -p1
-%patch38 -p1
-%patch39 -p1
-%patch40 -p1
-%patch41 -p1
-%patch42 -p1
-%patch43 -p1
-%patch44 -p1
-%patch45 -p1
-%patch46 -p1
-%patch47 -p1
-%patch48 -p1
-%patch49 -p1
-%patch50 -p1
-%patch51 -p1
-%patch52 -p1
-%patch53 -p1
-%patch54 -p1
-%patch55 -p1
+%patch -P28 -p1
+%patch -P29 -p0
+%patch -P30 -p1
+%patch -P31 -p0
+%patch -P32 -p1
+%patch -P33 -p1
+%patch -P34 -p1
+%patch -P35 -p1
+%patch -P36 -p1
+%patch -P37 -p1
+%patch -P38 -p1
+%patch -P39 -p1
+%patch -P40 -p1
+%patch -P41 -p1
+%patch -P42 -p1
+%patch -P43 -p1
+%patch -P44 -p1
+%patch -P45 -p1
+%patch -P46 -p1
+%patch -P47 -p1
+%patch -P48 -p1
+%patch -P49 -p1
+%patch -P50 -p1
+%patch -P51 -p1
+%patch -P52 -p1
+%patch -P53 -p1
+%patch -P54 -p1
+%patch -P55 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1611,6 +1631,15 @@ Programas exemplo para o Qt versão.
 
 # disable webkit tests, broken build
 %{__rm} -r src/3rdparty/webkit/Source/WebKit/qt/tests
+
+%if %{with ibmdb2}
+cat >> config.tests/unix/db2/db2.pro <<EOF
+INCLUDEPATH += %{_libdir}/clidriver/include
+EOF
+cat >> src/sql/drivers/db2/qsql_db2.pri <<EOF
+INCLUDEPATH += %{_libdir}/clidriver/include
+EOF
+%endif
 
 %build
 # pass OPTFLAGS to build qmake itself with optimization
@@ -1666,6 +1695,7 @@ COMMONOPT=" \
 	-largefile \
 	-I/usr/include/postgresql/server \
 	-I/usr/include/mysql \
+	-I/usr/include/tirpc \
 	%{?with_cups:-cups} \
 	%{?with_nas:-system-nas-sound} \
 	%{?debug:-debug} \
@@ -1697,6 +1727,7 @@ COMMONOPT=" \
 
 %if %{with static_libs}
 OPT=" \
+	-no-sql-db2 \
 	-%{!?with_ibase:no}%{?with_ibase:qt}-sql-ibase \
 	-%{!?with_mysql:no}%{?with_mysql:qt}-sql-mysql \
 	-%{!?with_odbc:no}%{?with_odbc:qt}-sql-odbc \
@@ -1723,6 +1754,7 @@ fi
 ##################################
 
 OPT=" \
+	-%{!?with_ibmdb2:no}%{?with_ibmdb2:plugin}-sql-db2 \
 	-%{!?with_ibase:no}%{?with_ibase:plugin}-sql-ibase \
 	-%{!?with_mysql:no}%{?with_mysql:plugin}-sql-mysql \
 	-%{!?with_odbc:no}%{?with_odbc:plugin}-sql-odbc \
@@ -2250,6 +2282,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n QtSql-ibase
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqlibase.so
+%endif
+
+%if %{with ibmdb2}
+%files -n QtSql-db2
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_qtdir}/plugins/sqldrivers/libqsqldb2.so
 %endif
 
 %if %{with mysql}
