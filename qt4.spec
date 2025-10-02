@@ -1970,8 +1970,8 @@ mkdevfl() {
 	for f in $@; do ifecho $MODULE-devel $f; done
 }
 
-mkdevfl QtCore %{_includedir}/qt4 %{_includedir}/qt4/Qt
-mkdevfl QtDBus %{_qtdir}/bin/qdbuscpp2xml %{_qtdir}/bin/qdbusxml2cpp %{_bindir}/qdbuscpp2xml %{_bindir}/qdbusxml2cpp
+mkdevfl QtCore
+mkdevfl QtDBus
 mkdevfl	QtDeclarative
 mkdevfl QtGui
 mkdevfl QtMultimedia
@@ -2018,68 +2018,68 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-n Qt3Support	-p /sbin/ldconfig
-%postun	-n Qt3Support	-p /sbin/ldconfig
+%post	-n Qt3Support -p /sbin/ldconfig
+%postun	-n Qt3Support -p /sbin/ldconfig
 
-%post	-n QtCLucene	-p /sbin/ldconfig
-%postun	-n QtCLucene	-p /sbin/ldconfig
+%post	-n QtCLucene  -p /sbin/ldconfig
+%postun	-n QtCLucene  -p /sbin/ldconfig
 
-%post	-n QtCore	-p /sbin/ldconfig
-%postun	-n QtCore	-p /sbin/ldconfig
+%post	-n QtCore -p /sbin/ldconfig
+%postun	-n QtCore -p /sbin/ldconfig
 
-%post	-n QtDBus	-p /sbin/ldconfig
-%postun	-n QtDBus	-p /sbin/ldconfig
+%post	-n QtDBus -p /sbin/ldconfig
+%postun	-n QtDBus -p /sbin/ldconfig
 
-%post	-n QtDeclarative	-p /sbin/ldconfig
-%postun	-n QtDeclarative	-p /sbin/ldconfig
+%post	-n QtDeclarative -p /sbin/ldconfig
+%postun	-n QtDeclarative -p /sbin/ldconfig
 
-%post	-n QtDesigner	-p /sbin/ldconfig
-%postun	-n QtDesigner	-p /sbin/ldconfig
+%post	-n QtDesigner -p /sbin/ldconfig
+%postun	-n QtDesigner -p /sbin/ldconfig
 
-%post	-n QtGui	-p /sbin/ldconfig
-%postun	-n QtGui	-p /sbin/ldconfig
+%post	-n QtGui -p /sbin/ldconfig
+%postun	-n QtGui -p /sbin/ldconfig
 
-%post	-n QtHelp	-p /sbin/ldconfig
-%postun	-n QtHelp	-p /sbin/ldconfig
+%post	-n QtHelp -p /sbin/ldconfig
+%postun	-n QtHelp -p /sbin/ldconfig
 
-%post	-n QtMultimedia	-p /sbin/ldconfig
-%postun	-n QtMultimedia	-p /sbin/ldconfig
+%post	-n QtMultimedia -p /sbin/ldconfig
+%postun	-n QtMultimedia -p /sbin/ldconfig
 
-%post	-n QtNetwork	-p /sbin/ldconfig
-%postun	-n QtNetwork	-p /sbin/ldconfig
+%post	-n QtNetwork -p /sbin/ldconfig
+%postun	-n QtNetwork -p /sbin/ldconfig
 
-%post	-n QtOpenGL	-p /sbin/ldconfig
-%postun	-n QtOpenGL	-p /sbin/ldconfig
+%post	-n QtOpenGL -p /sbin/ldconfig
+%postun	-n QtOpenGL -p /sbin/ldconfig
 
-%post	-n QtOpenVG	-p /sbin/ldconfig
-%postun	-n QtOpenVG	-p /sbin/ldconfig
+%post	-n QtOpenVG -p /sbin/ldconfig
+%postun	-n QtOpenVG -p /sbin/ldconfig
 
-%post   -n QtScript	-p /sbin/ldconfig
-%postun -n QtScript	-p /sbin/ldconfig
+%post   -n QtScript -p /sbin/ldconfig
+%postun -n QtScript -p /sbin/ldconfig
 
-%post   -n QtScriptTools	-p /sbin/ldconfig
-%postun -n QtScriptTools	-p /sbin/ldconfig
+%post   -n QtScriptTools -p /sbin/ldconfig
+%postun -n QtScriptTools -p /sbin/ldconfig
 
-%post	-n QtSql	-p /sbin/ldconfig
-%postun	-n QtSql	-p /sbin/ldconfig
+%post	-n QtSql -p /sbin/ldconfig
+%postun	-n QtSql -p /sbin/ldconfig
 
-%post	-n QtSvg	-p /sbin/ldconfig
-%postun	-n QtSvg	-p /sbin/ldconfig
+%post	-n QtSvg -p /sbin/ldconfig
+%postun	-n QtSvg -p /sbin/ldconfig
 
-%post	-n QtTest	-p /sbin/ldconfig
-%postun	-n QtTest	-p /sbin/ldconfig
+%post	-n QtTest -p /sbin/ldconfig
+%postun	-n QtTest -p /sbin/ldconfig
 
-%post	-n QtUiTools	-p /sbin/ldconfig
-%postun	-n QtUiTools	-p /sbin/ldconfig
+%post	-n QtUiTools -p /sbin/ldconfig
+%postun	-n QtUiTools -p /sbin/ldconfig
 
-%post	-n QtWebKit	-p /sbin/ldconfig
-%postun	-n QtWebKit	-p /sbin/ldconfig
+%post	-n QtWebKit -p /sbin/ldconfig
+%postun	-n QtWebKit -p /sbin/ldconfig
 
-%post	-n QtXml	-p /sbin/ldconfig
-%postun	-n QtXml	-p /sbin/ldconfig
+%post	-n QtXml -p /sbin/ldconfig
+%postun	-n QtXml -p /sbin/ldconfig
 
-%post   -n QtXmlPatterns	-p /sbin/ldconfig
-%postun -n QtXmlPatterns	-p /sbin/ldconfig
+%post   -n QtXmlPatterns -p /sbin/ldconfig
+%postun -n QtXmlPatterns -p /sbin/ldconfig
 
 %post assistant
 %update_icon_cache hicolor
@@ -2101,19 +2101,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n Qt3Support
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQt3Support.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt3Support.so.4
+%{_libdir}/libQt3Support.so.*.*
+%ghost %{_libdir}/libQt3Support.so.4
 %attr(755,root,root) %{_qtdir}/plugins/accessible/libqtaccessiblecompatwidgets.so
 
 %files -n QtCLucene
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtCLucene.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtCLucene.so.4
+%{_libdir}/libQtCLucene.so.*.*
+%ghost %{_libdir}/libQtCLucene.so.4
 
 %files -n QtCore
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtCore.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtCore.so.4
+%{_libdir}/libQtCore.so.*.*
+%ghost %{_libdir}/libQtCore.so.4
 %dir /etc/qt4
 %dir %{_qtdir}
 %dir %{_qtdir}/bin
@@ -2152,21 +2152,21 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qdbus
 %attr(755,root,root) %{_bindir}/qdbusviewer
-%attr(755,root,root) %{_libdir}/libQtDBus.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDBus.so.4
-%attr(755,root,root) %{_qtdir}/bin/qdbus
-%attr(755,root,root) %{_qtdir}/bin/qdbusviewer
+%{_libdir}/libQtDBus.so.*.*
+%ghost %{_libdir}/libQtDBus.so.4
+%{_qtdir}/bin/qdbus
+%{_qtdir}/bin/qdbusviewer
 # ?? is this the proper place?
 %attr(755,root,root) %{_qtdir}/plugins/script/libqtscriptdbus.so
 
 %files -n QtDeclarative
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qmlviewer
-%attr(755,root,root) %{_bindir}/qmlplugindump
+%{_bindir}/qmlviewer
+%{_bindir}/qmlplugindump
 %attr(755,root,root) %{_qtdir}/bin/qmlviewer
 %attr(755,root,root) %{_qtdir}/bin/qmlplugindump
-%attr(755,root,root) %{_libdir}/libQtDeclarative.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDeclarative.so.4
+%{_libdir}/libQtDeclarative.so.*.*
+%ghost %{_libdir}/libQtDeclarative.so.4
 %dir %{_qtdir}/imports
 %dir %{_qtdir}/imports/Qt
 %dir %{_qtdir}/imports/Qt/labs
@@ -2186,18 +2186,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtDesigner
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtDesigner.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDesigner.so.4
-%attr(755,root,root) %{_libdir}/libQtDesignerComponents.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtDesignerComponents.so.4
+%{_libdir}/libQtDesigner.so.*.*
+%ghost %{_libdir}/libQtDesigner.so.4
+%{_libdir}/libQtDesignerComponents.so.*.*
+%ghost %{_libdir}/libQtDesignerComponents.so.4
 %dir %{_qtdir}/plugins/designer
 %attr(755,root,root) %{_qtdir}/plugins/designer/*.so
 
 %files -n QtGui
 %defattr(644,root,root,755)
 %config(noreplace,missingok) %verify(not md5 mtime size) /etc/env.d/QT_GRAPHICSSYSTEM
-%attr(755,root,root) %{_libdir}/libQtGui.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtGui.so.4
+%{_libdir}/libQtGui.so.*.*
+%ghost %{_libdir}/libQtGui.so.4
 %dir %{_qtdir}/plugins/accessible
 %attr(755,root,root) %{_qtdir}/plugins/accessible/libqtaccessiblewidgets.so
 %dir %{_qtdir}/plugins/graphicssystems
@@ -2215,10 +2215,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtHelp
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qhelpconverter
-%attr(755,root,root) %{_bindir}/qhelpgenerator
-%attr(755,root,root) %{_libdir}/libQtHelp.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtHelp.so.4
+%{_bindir}/qhelpconverter
+%{_bindir}/qhelpgenerator
+%{_libdir}/libQtHelp.so.*.*
+%ghost %{_libdir}/libQtHelp.so.4
 %attr(755,root,root) %{_qtdir}/bin/qhelpconverter
 %attr(755,root,root) %{_qtdir}/bin/qhelpgenerator
 %lang(cs) %{_localedir}/cs/LC_MESSAGES/qt4-qt_help.qm
@@ -2239,45 +2239,45 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtMultimedia
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtMultimedia.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtMultimedia.so.4
+%{_libdir}/libQtMultimedia.so.*.*
+%ghost %{_libdir}/libQtMultimedia.so.4
 
 %files -n QtNetwork
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtNetwork.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtNetwork.so.4
+%{_libdir}/libQtNetwork.so.*.*
+%ghost %{_libdir}/libQtNetwork.so.4
 %dir %{_qtdir}/plugins/bearer
 %attr(755,root,root) %{_qtdir}/plugins/bearer/*.so
 
 %files -n QtOpenGL
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtOpenGL.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtOpenGL.so.4
+%{_libdir}/libQtOpenGL.so.*.*
+%ghost %{_libdir}/libQtOpenGL.so.4
 %attr(755,root,root) %{_qtdir}/plugins/graphicssystems/libqglgraphicssystem.so
 
 %if %{with openvg}
 %files -n QtOpenVG
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtOpenVG.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtOpenVG.so.4
+%{_libdir}/libQtOpenVG.so.*.*
+%ghost %{_libdir}/libQtOpenVG.so.4
 %endif
 
 %files -n QtScript
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtScript.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtScript.so.4
+%{_libdir}/libQtScript.so.*.*
+%ghost %{_libdir}/libQtScript.so.4
 %dir %{_qtdir}/plugins/script
 %lang(eu) %{_localedir}/eu/LC_MESSAGES/qt4-qtscript.qm
 
 %files -n QtScriptTools
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtScriptTools.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtScriptTools.so.4
+%{_libdir}/libQtScriptTools.so.*.*
+%ghost %{_libdir}/libQtScriptTools.so.4
 
 %files -n QtSql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtSql.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtSql.so.4
+%{_libdir}/libQtSql.so.*.*
+%ghost %{_libdir}/libQtSql.so.4
 %dir %{_qtdir}/plugins/sqldrivers
 
 %if %{with ibase}
@@ -2334,44 +2334,44 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtSvg
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtSvg.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtSvg.so.4
+%{_libdir}/libQtSvg.so.*.*
+%ghost %{_libdir}/libQtSvg.so.4
 %attr(755,root,root) %{_qtdir}/plugins/iconengines/libqsvgicon.so
 %attr(755,root,root) %{_qtdir}/plugins/imageformats/libqsvg.so
 
 %files -n QtTest
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtTest.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtTest.so.4
+%{_libdir}/libQtTest.so.*.*
+%ghost %{_libdir}/libQtTest.so.4
 
 %files -n QtUiTools
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtUiTools.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtUiTools.so.4
+%{_libdir}/libQtUiTools.so.*.*
+%ghost %{_libdir}/libQtUiTools.so.4
 
 %files -n QtWebKit
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtWebKit.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtWebKit.so.4
+%{_libdir}/libQtWebKit.so.*.*
+%ghost %{_libdir}/libQtWebKit.so.4
 
 %files -n QtXml
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQtXml.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtXml.so.4
+%{_libdir}/libQtXml.so.*.*
+%ghost %{_libdir}/libQtXml.so.4
 
 %files -n QtXmlPatterns
 %defattr(644,root,root,755)
+%{_bindir}/xmlpatternsvalidator
+%{_libdir}/libQtXmlPatterns.so.*.*
+%ghost %{_libdir}/libQtXmlPatterns.so.4
 %attr(755,root,root) %{_qtdir}/bin/xmlpatterns
 %attr(755,root,root) %{_qtdir}/bin/xmlpatternsvalidator
-%attr(755,root,root) %{_bindir}/xmlpatternsvalidator
-%attr(755,root,root) %{_libdir}/libQtXmlPatterns.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtXmlPatterns.so.4
 
 %files assistant
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/assistant-qt4
-%attr(755,root,root) %{_bindir}/pixeltool
-%attr(755,root,root) %{_bindir}/qcollectiongenerator
+%{_bindir}/assistant-qt4
+%{_bindir}/pixeltool
+%{_bindir}/qcollectiongenerator
 %attr(755,root,root) %{_qtdir}/bin/assistant
 %attr(755,root,root) %{_qtdir}/bin/pixeltool
 %attr(755,root,root) %{_qtdir}/bin/qcollectiongenerator
@@ -2394,24 +2394,24 @@ rm -rf $RPM_BUILD_ROOT
 
 %files build
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/moc-qt4
-%attr(755,root,root) %{_bindir}/qdoc3
-%attr(755,root,root) %{_bindir}/qt3to4
-%attr(755,root,root) %{_bindir}/rcc
-%attr(755,root,root) %{_bindir}/uic-qt4
+%{_bindir}/moc-qt4
+%{_bindir}/qdoc3
+%{_bindir}/qt3to4
+%{_bindir}/rcc
+%{_bindir}/uic-qt4
 %attr(755,root,root) %{_qtdir}/bin/moc
 %attr(755,root,root) %{_qtdir}/bin/qdoc3
 %attr(755,root,root) %{_qtdir}/bin/qt3to4
 %attr(755,root,root) %{_qtdir}/bin/rcc
 %attr(755,root,root) %{_qtdir}/bin/uic
 #find better place?
-%attr(755,root,root) %{_bindir}/qttracereplay
+%{_bindir}/qttracereplay
 %attr(755,root,root) %{_qtdir}/bin/qttracereplay
 %{_datadir}/qt4/q3porting.xml
 
 %files designer
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/designer-qt4
+%{_bindir}/designer-qt4
 %attr(755,root,root) %{_qtdir}/bin/designer
 %lang(cs) %{_localedir}/cs/LC_MESSAGES/qt4-designer.qm
 %lang(de) %{_localedir}/de/LC_MESSAGES/qt4-designer.qm
@@ -2434,10 +2434,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files linguist
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/findtr-qt4
-%attr(755,root,root) %{_bindir}/linguist-qt4
-%attr(755,root,root) %{_bindir}/lrelease-qt4
-%attr(755,root,root) %{_bindir}/lupdate-qt4
+%{_bindir}/findtr-qt4
+%{_bindir}/linguist-qt4
+%{_bindir}/lrelease-qt4
+%{_bindir}/lupdate-qt4
 %attr(755,root,root) %{_qtdir}/bin/findtr
 %attr(755,root,root) %{_qtdir}/bin/linguist
 %attr(755,root,root) %{_qtdir}/bin/lconvert
@@ -2464,8 +2464,8 @@ rm -rf $RPM_BUILD_ROOT
 %if %{without system_phonon}
 %files phonon
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libphonon.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libphonon.so.4
+%{_libdir}/libphonon.so.*.*
+%ghost %{_libdir}/libphonon.so.4
 %dir %{_qtdir}/plugins/phonon_backend
 %attr(755,root,root) %{_qtdir}/plugins/phonon_backend/libphonon_gstreamer.so
 %endif
@@ -2479,7 +2479,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files qtconfig
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qtconfig-qt4
+%{_bindir}/qtconfig-qt4
 %attr(755,root,root) %{_qtdir}/bin/qtconfig
 %lang(eu) %{_localedir}/eu/LC_MESSAGES/qt4-qtconfig.qm
 %lang(he) %{_localedir}/he/LC_MESSAGES/qt4-qtconfig.qm
@@ -2497,7 +2497,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n qvfb
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qvfb
+%{_bindir}/qvfb
 %attr(755,root,root) %{_qtdir}/bin/qvfb
 %lang(eu) %{_localedir}/eu/LC_MESSAGES/qt4-qvfb.qm
 %lang(hu) %{_localedir}/hu/LC_MESSAGES/qt4-qvfb.qm
@@ -2519,15 +2519,21 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n Qt3Support-devel -f Qt3Support-devel.files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/uic3
+%{_bindir}/uic3
 %attr(755,root,root) %{_qtdir}/bin/uic3
 
 %files -n QtCore-devel -f QtCore-devel.files
 %defattr(644,root,root,755)
+%dir %{_includedir}/qt4
+%dir %{_includedir}/qt4/Qt
 %dir %{_includedir}/qt4/QtSolutions
 
 %files -n QtDBus-devel -f QtDBus-devel.files
 %defattr(644,root,root,755)
+%{_bindir}/qdbuscpp2xml
+%{_bindir}/qdbusxml2cpp
+%attr(755,root,root) %{_qtdir}/bin/qdbuscpp2xml
+%attr(755,root,root) %{_qtdir}/bin/qdbusxml2cpp
 
 %files -n QtDeclarative-devel -f QtDeclarative-devel.files
 %defattr(644,root,root,755)
