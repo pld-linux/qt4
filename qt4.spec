@@ -159,6 +159,7 @@ BuildRequires:	libicu-devel >= %{icu_abi}
 BuildRequires:	libicu-devel < %{next_icu_abi}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmng-devel >= 1.0.0
+BuildRequires:	libnsl-devel
 BuildRequires:	libpng-devel >= 2:1.0.8
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtirpc-devel
@@ -191,10 +192,11 @@ Obsoletes:	qt-utils < 6:3.3.3
 Conflicts:	kdelibs <= 8:3.2-0.030602.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_noautoreqdep	libGL.so.1 libGLU.so.1
 %define		_noautostrip	'.*_debug\\.so*'
 
 %define		specflags	-fno-strict-aliasing -Wno-deprecated
+# at least qmake is broken without asserts enabled (two cases with "Q_ASSERT(function_blocks.pop() == defined);")
+%define		filterout_cpp	-DNDEBUG -DQT_NO_DEBUG
 
 %define		_qtdir		%{_libdir}/qt4
 
