@@ -67,7 +67,7 @@ Version:	4.8.7
 Release:	42
 License:	LGPL v2.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://download.qt-project.org/official_releases/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
+Source0:	https://download.qt.io/archive/qt/4.8/%{version}/qt-everywhere-opensource-src-%{version}.tar.gz
 # Source0-md5:	d990ee66bf7ab0c785589776f35ba6ad
 Source2:	%{name}-qtconfig.desktop
 Source3:	%{name}-designer.desktop
@@ -138,7 +138,7 @@ Patch52:	gcc9-qforeach.patch
 Patch53:	cxx11.patch
 Patch54:	gcc11.patch
 Patch55:	qmap_inf_loop.patch
-URL:		http://qt-project.org/
+URL:		https://www.qt.io/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 %{?with_openvg:BuildRequires:	Mesa-libOpenVG-devel}
 BuildRequires:	OpenGL-GLU-devel
