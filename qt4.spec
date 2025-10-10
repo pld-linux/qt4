@@ -1954,26 +1954,19 @@ mkdevfl() {
 	set -x
 	MODULE=$1; shift
 	echo "%%defattr(644,root,root,755)" > $MODULE-devel.files
-	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.so"
-	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.la"
-	ifecho $MODULE-devel "%{_libdir}/lib$MODULE*.prl"
-	ifecho $MODULE-devel "%{_pkgconfigdir}/$MODULE*.pc"
-	if [ -d "$RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE" ]; then
-		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE
-	fi
 	for f in `find $RPM_BUILD_ROOT%{_includedir}/qt4/$MODULE -printf "%%P "`; do
-		ifecho $MODULE-devel %{_includedir}/qt4/$MODULE/$f
 		if [ -a "$RPM_BUILD_ROOT%{_includedir}/qt4/Qt/$f" ]; then
 			ifecho $MODULE-devel %{_includedir}/qt4/Qt/$f
 		fi
 	done
-	for f in $@; do ifecho $MODULE-devel $f; done
 }
 
 mkdevfl QtCore
 mkdevfl QtDBus
 mkdevfl	QtDeclarative
+mkdevfl QtDesigner
 mkdevfl QtGui
+mkdevfl QtHelp
 mkdevfl QtMultimedia
 mkdevfl QtNetwork
 mkdevfl QtOpenGL
@@ -1983,24 +1976,16 @@ mkdevfl QtScriptTools
 mkdevfl QtSql
 mkdevfl QtSvg
 mkdevfl QtTest
-mkdevfl QtHelp
+mkdevfl QtUiTools
 mkdevfl QtWebKit
-mkdevfl QtCLucene
 mkdevfl QtXml
 mkdevfl QtXmlPatterns
 mkdevfl Qt3Support
 %{!?with_system_phonon:mkdevfl phonon}
 
-# without *.la *.pc etc.
-mkdevfl QtDesigner || /bin/true
-mkdevfl QtUiTools || /bin/true
-
-# without glob (exclude QtScriptTools* QtXmlPatterns*)
-%{__sed} -i 's,QtScript\*,QtScript,g' QtScript-devel.files
-%{__sed} -i 's,QtXml\*,QtXml,g' QtXml-devel.files
-# no duplication between QtCore-devel and QtXml-devel
-%{__sed} -i 's,%{_includedir}/qt4/Qt/QXmlStream.*,,g' QtCore-devel.files
-%{__sed} -i 's,%{_includedir}/qt4/Qt/qxmlstream\.h,,g' QtCore-devel.files
+# no duplication between QtCore-devel and QtXml-devel; QXmlStream* symbols present in libQtCore
+%{__sed} -i 's,%{_includedir}/qt4/Qt/QXmlStream.*,,g' QtXml-devel.files
+%{__sed} -i 's,%{_includedir}/qt4/Qt/qxmlstream\.h,,g' QtXml-devel.files
 
 echo "%defattr(644,root,root,755)" > examples.files
 ifecho examples %{_examplesdir}/qt4
@@ -2514,19 +2499,33 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_docdir}/%{name}-doc
 
-%files -n QtCLucene-devel -f QtCLucene-devel.files
+%files -n QtCLucene-devel
 %defattr(644,root,root,755)
+%{_libdir}/libQtCLucene.la
+%{_libdir}/libQtCLucene.prl
+%{_libdir}/libQtCLucene.so
+%{_pkgconfigdir}/QtCLucene.pc
 
 %files -n Qt3Support-devel -f Qt3Support-devel.files
 %defattr(644,root,root,755)
 %{_bindir}/uic3
 %attr(755,root,root) %{_qtdir}/bin/uic3
+%{_libdir}/libQt3Support.la
+%{_libdir}/libQt3Support.prl
+%{_libdir}/libQt3Support.so
+%{_includedir}/qt4/Qt3Support
+%{_pkgconfigdir}/Qt3Support.pc
 
 %files -n QtCore-devel -f QtCore-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtCore.so
+%{_libdir}/libQtCore.la
+%{_libdir}/libQtCore.prl
 %dir %{_includedir}/qt4
 %dir %{_includedir}/qt4/Qt
 %dir %{_includedir}/qt4/QtSolutions
+%{_includedir}/qt4/QtCore
+%{_pkgconfigdir}/QtCore.pc
 
 %files -n QtDBus-devel -f QtDBus-devel.files
 %defattr(644,root,root,755)
@@ -2534,63 +2533,159 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/qdbusxml2cpp
 %attr(755,root,root) %{_qtdir}/bin/qdbuscpp2xml
 %attr(755,root,root) %{_qtdir}/bin/qdbusxml2cpp
+%{_libdir}/libQtDBus.so
+%{_libdir}/libQtDBus.la
+%{_libdir}/libQtDBus.prl
+%{_includedir}/qt4/QtDBus
+%{_pkgconfigdir}/QtDBus.pc
 
 %files -n QtDeclarative-devel -f QtDeclarative-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtDeclarative.so
+%{_libdir}/libQtDeclarative.la
+%{_libdir}/libQtDeclarative.prl
+%{_includedir}/qt4/QtDeclarative
+%{_pkgconfigdir}/QtDeclarative.pc
 
 %files -n QtDesigner-devel -f QtDesigner-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtDesigner.so
+%{_libdir}/libQtDesigner.prl
+%{_libdir}/libQtDesignerComponents.so
+%{_libdir}/libQtDesignerComponents.prl
+%{_includedir}/qt4/QtDesigner
+%{_pkgconfigdir}/QtDesigner.pc
+%{_pkgconfigdir}/QtDesignerComponents.pc
 
 %files -n QtGui-devel -f QtGui-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtGui.so
+%{_libdir}/libQtGui.la
+%{_libdir}/libQtGui.prl
+%{_includedir}/qt4/QtGui
+%{_pkgconfigdir}/QtGui.pc
 
 %files -n QtHelp-devel -f QtHelp-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtHelp.so
+%{_libdir}/libQtHelp.la
+%{_libdir}/libQtHelp.prl
+%{_includedir}/qt4/QtHelp
+%{_pkgconfigdir}/QtHelp.pc
 
 %files -n QtMultimedia-devel -f QtMultimedia-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtMultimedia.so
+%{_libdir}/libQtMultimedia.la
+%{_libdir}/libQtMultimedia.prl
+%{_includedir}/qt4/QtMultimedia
+%{_pkgconfigdir}/QtMultimedia.pc
 
 %files -n QtNetwork-devel -f QtNetwork-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtNetwork.so
+%{_libdir}/libQtNetwork.la
+%{_libdir}/libQtNetwork.prl
+%{_includedir}/qt4/QtNetwork
+%{_pkgconfigdir}/QtNetwork.pc
 
 %files -n QtOpenGL-devel -f QtOpenGL-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtOpenGL.so
+%{_libdir}/libQtOpenGL.la
+%{_libdir}/libQtOpenGL.prl
+%{_includedir}/qt4/QtOpenGL
+%{_pkgconfigdir}/QtOpenGL.pc
 
 %if %{with openvg}
 %files -n QtOpenVG-devel -f QtOpenVG-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtOpenVG.so
+%{_libdir}/libQtOpenVG.la
+%{_libdir}/libQtOpenVG.prl
+%{_includedir}/qt4/QtOpenVG
+%{_pkgconfigdir}/QtOpenVG.pc
 %endif
 
 %files -n QtScript-devel -f QtScript-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtScript.so
+%{_libdir}/libQtScript.la
+%{_libdir}/libQtScript.prl
+%{_includedir}/qt4/QtScript
+%{_pkgconfigdir}/QtScript.pc
 
 %files -n QtScriptTools-devel -f QtScriptTools-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtScriptTools.so
+%{_libdir}/libQtScriptTools.la
+%{_libdir}/libQtScriptTools.prl
+%{_includedir}/qt4/QtScriptTools
+%{_pkgconfigdir}/QtScriptTools.pc
 
 %files -n QtSql-devel -f QtSql-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtSql.so
+%{_libdir}/libQtSql.la
+%{_libdir}/libQtSql.prl
+%{_includedir}/qt4/QtSql
+%{_pkgconfigdir}/QtSql.pc
 
 %files -n QtSvg-devel -f QtSvg-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtSvg.so
+%{_libdir}/libQtSvg.la
+%{_libdir}/libQtSvg.prl
+%{_includedir}/qt4/QtSvg
+%{_pkgconfigdir}/QtSvg.pc
 
 %files -n QtTest-devel -f QtTest-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtTest.so
+%{_libdir}/libQtTest.la
+%{_libdir}/libQtTest.prl
+%{_includedir}/qt4/QtTest
+%{_pkgconfigdir}/QtTest.pc
 
 %files -n QtUiTools-devel -f QtUiTools-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtUiTools.so
+%{_libdir}/libQtUiTools.prl
+%{_includedir}/qt4/QtUiTools
+%{_pkgconfigdir}/QtUiTools.pc
 
 %files -n QtWebKit-devel -f QtWebKit-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtWebKit.so
+%{_libdir}/libQtWebKit.la
+%{_libdir}/libQtWebKit.prl
+%{_includedir}/qt4/QtWebKit
+%{_pkgconfigdir}/QtWebKit.pc
 
 %files -n QtXml-devel -f QtXml-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtXml.so
+%{_libdir}/libQtXml.la
+%{_libdir}/libQtXml.prl
+%{_includedir}/qt4/QtXml
+%{_pkgconfigdir}/QtXml.pc
 
 %files -n QtXmlPatterns-devel -f QtXmlPatterns-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libQtXmlPatterns.so
+%{_libdir}/libQtXmlPatterns.la
+%{_libdir}/libQtXmlPatterns.prl
+%{_includedir}/qt4/QtXmlPatterns
+%{_pkgconfigdir}/QtXmlPatterns.pc
 
 %if %{without system_phonon}
 %files phonon-devel -f phonon-devel.files
 %defattr(644,root,root,755)
+%{_libdir}/libphonon.so
+%{_libdir}/libphonon.la
+%{_libdir}/libphonon.prl
+%{_includedir}/qt4/phonon
+%{_pkgconfigdir}/phonon.pc
 %endif
 
 %if %{with static_libs}
