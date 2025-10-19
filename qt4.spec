@@ -2457,7 +2457,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files qmake
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qmake-qt4
+%{_bindir}/qmake-qt4
 %attr(755,root,root) %{_qtdir}/bin/qmake
 %{_datadir}/qt4/mkspecs
 %{_qtdir}/mkspecs
