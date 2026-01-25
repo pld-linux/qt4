@@ -1,0 +1,52 @@
+--- qt-everywhere-opensource-src-4.8.7/src/sql/drivers/mysql/qsql_mysql.cpp.orig	2026-01-25 02:55:34.079467275 +0100
++++ qt-everywhere-opensource-src-4.8.7/src/sql/drivers/mysql/qsql_mysql.cpp	2026-01-25 13:43:29.753117002 +0100
+@@ -190,11 +190,11 @@
+     struct QMyField
+     {
+         QMyField()
+-            : outField(0), nullIndicator(false), bufLength(0ul),
++            : outField(0), nullIndicator(FALSE), bufLength(0ul),
+               myField(0), type(QVariant::Invalid)
+         {}
+         char *outField;
+-        bool nullIndicator;
++        my_bool nullIndicator;
+         ulong bufLength;
+         MYSQL_FIELD *myField;
+         QVariant::Type type;
+@@ -601,7 +601,7 @@
+     const QMYSQLResultPrivate::QMyField &f = d->fields.at(field);
+     QString val;
+     if (d->preparedQuery) {
+-        if (f.nullIndicator)
++        if (f.nullIndicator == TRUE)
+             return QVariant(f.type);
+ 
+         if (f.type != QVariant::ByteArray)
+@@ -678,7 +678,7 @@
+ bool QMYSQLResult::isNull(int field)
+ {
+    if (d->preparedQuery)
+-       return d->fields.at(field).nullIndicator;
++       return d->fields.at(field).nullIndicator == TRUE ? true : false;
+    else
+        return d->row[field] == NULL;
+ }
+@@ -930,7 +930,7 @@
+     MYSQL_BIND* currBind;
+     QVector<MYSQL_TIME *> timeVector;
+     QVector<QByteArray> stringVector;
+-    QVector<bool> nullVector;
++    QVector<my_bool> nullVector;
+ 
+     const QVector<QVariant> values = boundValues();
+ 
+@@ -951,7 +951,7 @@
+ 
+             currBind = &d->outBinds[i];
+ 
+-            nullVector[i] = static_cast<bool>(val.isNull());
++            nullVector[i] = static_cast<bool>(val.isNull()) ? TRUE : FALSE;
+             currBind->is_null = &nullVector[i];
+             currBind->length = 0;
+             currBind->is_unsigned = 0;

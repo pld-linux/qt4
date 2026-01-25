@@ -138,6 +138,7 @@ Patch52:	gcc9-qforeach.patch
 Patch53:	cxx11.patch
 Patch54:	gcc11.patch
 Patch55:	qmap_inf_loop.patch
+Patch56:	types.patch
 URL:		https://www.qt.io/
 %{?with_ibase:BuildRequires:	Firebird-devel}
 %{?with_openvg:BuildRequires:	Mesa-libOpenVG-devel}
@@ -1598,6 +1599,7 @@ Programas exemplo para o Qt versão.
 %patch -P53 -p1
 %patch -P54 -p1
 %patch -P55 -p1
+%patch -P56 -p1
 
 %{__sed} -i -e 's,usr/X11R6/,usr/g,' mkspecs/linux-g++-64/qmake.conf \
 	mkspecs/common/linux.conf
@@ -1645,7 +1647,7 @@ EOF
 
 %build
 # pass OPTFLAGS to build qmake itself with optimization
-export OPTFLAGS="%{rpmcflags}"
+export OPTFLAGS="%{rpmcflags} -std=gnu17"
 export PATH=$PWD/bin:$PATH
 
 ##################################
